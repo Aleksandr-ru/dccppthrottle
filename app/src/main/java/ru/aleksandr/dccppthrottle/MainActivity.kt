@@ -1,44 +1,109 @@
 package ru.aleksandr.dccppthrottle
 
-//import android.R
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.ToggleButton
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import android.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.navigation.findNavController
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.math.ceil
+import androidx.navigation.ui.*
+import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding as ActivityMenuBinding
 
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-class MainActivity : AppCompatActivity() {
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivityMenuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val MAX_BUTTONS = 10
-        val BUTTONS_PER_ROW = 4
-        val rows = ceil(MAX_BUTTONS.toDouble() / BUTTONS_PER_ROW.toDouble()).toInt()
-        val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-        var i = 0
-        for (r in 0 until rows) {
-            var tableRow = TableRow(this)
-            for (b in 0 until BUTTONS_PER_ROW) {
-                var button = ToggleButton(this)
-                button.text = "F$i"
-                tableRow.addView(button, b)
-                i++
-                if (i >= MAX_BUTTONS) break
+        binding = ActivityMenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.appBarMenu.toolbar)
+
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_content_menu)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_locomotives, R.id.nav_accessories, R.id.nav_routes
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        navView.setNavigationItemSelectedListener(this)
+
+        setSupportActionBar(findViewById(R.id.toolbar))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_menu)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        drawerLayout.closeDrawers()
+        return when (item.itemId) {
+            R.id.nav_programming -> {
+                Toast.makeText(this,"Programming", Toast.LENGTH_SHORT).show()
+                false
             }
-            tableLayout.addView(tableRow, r)
+            R.id.nav_console -> {
+                Toast.makeText(this,"Console", Toast.LENGTH_SHORT).show()
+                false
+            }
+            R.id.nav_settings -> {
+                val myIntent = Intent(this, SettingsActivity::class.java)
+                startActivity(myIntent)
+                false
+            }
+            R.id.nav_disconnect -> {
+                Toast.makeText(this,"Disconnect", Toast.LENGTH_SHORT).show()
+                false
+            }
+            else -> {
+                val navController = findNavController(R.id.nav_host_fragment_content_menu)
+                item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+            }
         }
+    }
 
-        val btn = findViewById<Button>(R.id.button1);
-        btn.setOnClickListener {
-            val myIntent = Intent(this, MenuActivity::class.java)
-            startActivity(myIntent)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.action_stop -> {
+                Toast.makeText(this,"STOP", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_add_loco -> {
+                Toast.makeText(this,"Add loco", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_add_acc -> {
+                Toast.makeText(this,"Add accessory", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_add_route -> {
+                Toast.makeText(this,"Add route", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 }

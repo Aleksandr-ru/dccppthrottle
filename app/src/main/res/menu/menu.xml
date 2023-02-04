@@ -2,8 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_stop"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_stop"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add_loco"
+        android:orderInCategory="400"
+        android:title="@string/action_add_loco"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_acc"
+        android:orderInCategory="500"
+        android:title="@string/action_add_acc"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_route"
+        android:orderInCategory="600"
+        android:title="@string/action_add_route"
         app:showAsAction="never" />
 </menu>

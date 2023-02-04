@@ -19,9 +19,9 @@ object PlaceholderContent {
     /**
      * A map of sample (placeholder) items, by ID.
      */
-    val ITEM_MAP: MutableMap<String, PlaceholderItem> = HashMap()
+    val ITEM_MAP: MutableMap<Number, PlaceholderItem> = HashMap()
 
-    private val COUNT = 25
+    private val COUNT = 10
 
     init {
         // Add some sample items.
@@ -32,26 +32,19 @@ object PlaceholderContent {
 
     private fun addItem(item: PlaceholderItem) {
         ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
+        ITEM_MAP.put(item.slot, item)
     }
 
     private fun createPlaceholderItem(position: Int): PlaceholderItem {
-        return PlaceholderItem(position.toString(), "Item " + position, makeDetails(position))
-    }
-
-    private fun makeDetails(position: Int): String {
-        val builder = StringBuilder()
-        builder.append("Details about Item: ").append(position)
-        for (i in 0..position - 1) {
-            builder.append("\nMore details information here.")
-        }
-        return builder.toString()
+        val addr = (1..255).random()
+        val speed = (-100..100).random()
+        return PlaceholderItem(position, addr, speed)
     }
 
     /**
      * A placeholder item representing a piece of content.
      */
-    data class PlaceholderItem(val id: String, val content: String, val details: String) {
-        override fun toString(): String = content
+    data class PlaceholderItem(val slot: Number, val addr: Number, val speed: Number = 0, val name: String? = null) {
+        override fun toString(): String = name ?: ("DCC:$addr (default)")
     }
 }

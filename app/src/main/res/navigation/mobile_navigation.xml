@@ -8,19 +8,23 @@
 
     <fragment
         android:id="@+id/nav_locomotives"
-        android:name="ru.aleksandr.dccppthrottle.ui.locomotives.LocomotivesFragment"
+        android:name="ru.aleksandr.dccppthrottle.ui.locomotives.LocoListFragment"
         android:label="@string/menu_locomotives"
-        tools:layout="@layout/fragment_locomotives" />
+        tools:layout="@layout/fragment_loco_list" />
 
     <fragment
         android:id="@+id/nav_accessories"
         android:name="ru.aleksandr.dccppthrottle.ui.accessories.AccessoriesFragment"
         android:label="@string/menu_accessories"
-        tools:layout="@layout/fragment_accessories" />
+        tools:layout="@layout/fragment_accessories" >
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_routes"
         android:name="ru.aleksandr.dccppthrottle.ui.routes.RoutesFragment"
         android:label="@string/menu_routes"
-        tools:layout="@layout/fragment_routes" />
+        tools:layout="@layout/fragment_routes" >
+
+    </fragment>
 </navigation>

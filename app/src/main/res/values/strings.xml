@@ -1,12 +1,19 @@
 <resources>
-    <string name="app_name">DCCpp Throttle</string>
+    <string name="app_name">DCC++Throttle</string>
+    <string name="app_subtitle">aleksandr.ru</string>
+    <string name="app_version">1.0.0</string>
+
     <string name="title_activity_menu">MenuActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_add_loco">Add locomotive</string>
+    <string name="action_add_acc">Add accessory</string>
+    <string name="action_add_route">Add route</string>
+    <string name="action_context_edit">Edit</string>
+    <string name="action_context_delete">Delete</string>
 
     <string name="menu_power">Track power</string>
     <string name="menu_locomotives">Locomotives</string>
@@ -17,6 +24,9 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_disconnect">Disconnect</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="button_connect">Connect</string>
+    <string name="chk_connect_at_start">Connect at startup</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -29,7 +39,7 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
 </resources>
