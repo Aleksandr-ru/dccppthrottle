@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListBinding as FragmentLocomotivesBinding
-import ru.aleksandr.dccppthrottle.placeholder.PlaceholderContent
+import ru.aleksandr.dccppthrottle.store.LocomotivesState
 
 class LocoListFragment : Fragment() {
 
@@ -31,7 +31,7 @@ class LocoListFragment : Fragment() {
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = LocoRecyclerViewAdapter(PlaceholderContent.ITEMS)
+                adapter = LocoRecyclerViewAdapter(LocomotivesState.SLOTS)
             }
         }
 

@@ -32,23 +32,6 @@ class ConnectActivity : AppCompatActivity() {
 //            // Apply the adapter to the spinner
 //            spinner.adapter = adapter
 //        }
-//
-//        val MAX_BUTTONS = 10
-//        val BUTTONS_PER_ROW = 4
-//        val rows = ceil(MAX_BUTTONS.toDouble() / BUTTONS_PER_ROW.toDouble()).toInt()
-//        val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-//        var i = 0
-//        for (r in 0 until rows) {
-//            var tableRow = TableRow(this)
-//            for (b in 0 until BUTTONS_PER_ROW) {
-//                var button = ToggleButton(this)
-//                button.text = "F$i"
-//                tableRow.addView(button, b)
-//                i++
-//                if (i >= MAX_BUTTONS) break
-//            }
-//            tableLayout.addView(tableRow, r)
-//        }
 
         val btn = findViewById<Button>(R.id.btnConnect);
         btn.setOnClickListener {

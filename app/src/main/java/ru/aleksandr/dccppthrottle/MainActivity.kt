@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding as ActivityMenuBinding
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -95,6 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_add_acc -> {
                 Toast.makeText(this,"Add accessory", Toast.LENGTH_SHORT).show()
+                AccessoriesStore.add(AccessoriesStore.AccessoryState((1..100).random()))
                 true
             }
             R.id.action_add_route -> {

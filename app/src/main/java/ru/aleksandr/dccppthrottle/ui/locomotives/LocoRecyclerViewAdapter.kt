@@ -1,6 +1,5 @@
 package ru.aleksandr.dccppthrottle.ui.locomotives
 
-import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,16 +9,16 @@ import android.widget.TextView
 import android.widget.Toast
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.placeholder.PlaceholderContent.PlaceholderItem
+import ru.aleksandr.dccppthrottle.store.LocomotivesState.LocomotiveSlot
 import kotlin.math.abs
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 
 /**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
+ * [RecyclerView.Adapter] that can display a [LocomotiveSlot].
  * TODO: Replace the implementation with code for your data type.
  */
 class LocoRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>/*,
+    private val values: Array<LocomotiveSlot>/*,
     private val listener: (PlaceholderItem) -> Unit*/
 ) : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
 
@@ -37,13 +36,25 @@ class LocoRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.idView.text = item.slot.toString()
-        holder.contentView.text = item.toString()
-        holder.progress.progress = abs(item.speed.toInt())
-        holder.address.text = item.addr.toString()
-        if (item.speed.toInt() < 0) {
-            holder.direction.text = "R " + abs(item.speed.toInt()).toString()
+        if (item.address > 0) {
+            if (item.title.isNullOrBlank()) {
+                val format = holder.contentView.context.getString(R.string.label_loco_untitled)
+                holder.contentView.text = String.format(format, item.address)
+            }
+            else {
+                holder.contentView.text = item.toString()
+            }
         }
-        else if (item.speed.toInt() > 0) {
+        else {
+            holder.contentView.text = holder.contentView.context.getString(R.string.label_loco_empty)
+            holder.itemView.alpha = 0.5F
+        }
+        holder.progress.progress = abs(item.speed)
+        holder.address.text = item.address.toString()
+        if (item.speed < 0) {
+            holder.direction.text = "R " + abs(item.speed).toString()
+        }
+        else if (item.speed > 0) {
             holder.direction.text = "F ${item.speed}"
         }
         else
@@ -54,7 +65,9 @@ class LocoRecyclerViewAdapter(
 //            val myIntent = Intent(it.context, LocoCabActivity::class.java)
 //            myIntent.putExtra("slot", item.slot)
 //            it.context.startActivity(myIntent)
-            LocoCabActivity.start(it.context, item.slot.toInt())
+            if (item.address > 0) {
+                LocoCabActivity.start(it.context, item.slot)
+            }
         }
 
         val popup = PopupMenu(holder.itemView.context, holder.itemView)

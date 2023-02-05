@@ -1,13 +1,17 @@
 package ru.aleksandr.dccppthrottle.ui.accessories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoriesBinding
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
 class AccessoriesFragment : Fragment() {
 
@@ -22,15 +26,23 @@ class AccessoriesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val galleryViewModel =
-            ViewModelProvider(this).get(AccessoriesViewModel::class.java)
-
         _binding = FragmentAccessoriesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val view = binding.listAccessories
 
-        val textView: TextView = binding.textGallery
-        galleryViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        if (view is RecyclerView) {
+            val myAdapter = AccessoriesRecyclerViewAdapter()
+            AccessoriesStore.data.observe(viewLifecycleOwner) {
+                myAdapter.replaceValues(it)
+                if (!view.isComputingLayout) {
+                    myAdapter.notifyDataSetChanged()
+                }
+            }
+            with(view) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = myAdapter
+            }
+
         }
         return root
     }

@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import ru.aleksandr.dccppthrottle.R
-
-private const val ARG_SLOT = "slot"
+import ru.aleksandr.dccppthrottle.store.LocomotivesState
+import kotlin.math.abs
+import kotlin.math.ceil
 
 /**
  * A simple [Fragment] subclass.
@@ -16,6 +17,8 @@ private const val ARG_SLOT = "slot"
  * create an instance of this fragment.
  */
 class LocoCabFragment : Fragment() {
+    private val F_PER_ROW = 4
+
     private var slot: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +37,54 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val textView = view.findViewById<TextView>(R.id.textView)
-        textView.text = slot.toString()
+        val item = LocomotivesState.SLOTS.find {
+            it.slot == slot
+        } ?: throw Exception("Slot not found")
+
+        val addrView = view.findViewById<TextView>(R.id.textViewAddr)
+        addrView.text = item.address.toString()
+
+        val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
+        val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
+        speedView.text = item.speed.toString() + "%"
+        revToggle.isChecked = item.reverse
+
+
+        val rows = ceil(LocomotivesState.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
+        val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
+        var i = 0
+        for (r in 0 until rows) {
+            val tableRow = TableRow(view.context)
+            for (b in 0 until F_PER_ROW) {
+                val k = i
+                val button = ToggleButton(view.context)
+                button.apply {
+                    text = "F$i"
+                    textOn = "F$i"
+                    textOff = "F$i"
+                    isChecked = item.f[i]
+                    tag = i
+                }.setOnCheckedChangeListener { button, isChecked ->
+//                    if (isChecked) button.setTypeface(Typeface.DEFAULT_BOLD)
+//                    else button.setTypeface(Typeface.DEFAULT)
+                    Toast.makeText(
+                        button.context,
+                        "Function ${button.tag} ($k) is $isChecked",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                tableRow.addView(button, b)
+                i++
+                if (i >= LocomotivesState.FUNCTIONS_COUNT) break
+            }
+            tableLayout.addView(tableRow, r)
+        }
     }
 
     companion object {
+
+        const val ARG_SLOT = "slot"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
