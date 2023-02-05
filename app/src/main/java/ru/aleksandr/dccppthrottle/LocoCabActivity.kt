@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
-import ru.aleksandr.dccppthrottle.store.LocomotivesState
+import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
 class LocoCabActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class LocoCabActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loco_cab)
 
-        val slots = LocomotivesState.SLOTS.filter {
+        val slots = LocomotivesStore.SLOTS.filter {
             it.address > 0
         }
         val adapter = LocoCabViewPagerAdapter(this, slots)

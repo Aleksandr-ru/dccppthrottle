@@ -7,6 +7,7 @@ import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoryListItemBinding
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.MockStore
 
 class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerViewAdapter.ViewHolder>() {
     private var values: List<AccessoriesStore.AccessoryState> = listOf()
@@ -43,7 +44,7 @@ class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerV
                         p,
                         AccessoriesStore.AccessoryState(
                             it.address,
-                            List(20) { ('a'..'z').random() }.joinToString("")
+                            MockStore.randomAccessory()
                         )
                     )
                     // AccessoriesStore.setStateByAddress(it.address, isChecked)

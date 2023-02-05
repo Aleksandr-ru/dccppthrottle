@@ -7,14 +7,26 @@ android {
     namespace 'ru.aleksandr.dccppthrottle'
     compileSdk 32
 
-    defaultConfig {
-        applicationId "ru.aleksandr.dccppthrottle"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+        versionProps['VERSION_CODE']=code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        defaultConfig {
+            applicationId "ru.aleksandr.dccppthrottle"
+            minSdk 21
+            targetSdk 32
+            versionCode code
+            versionName "1.0"
+
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
     }
 
     buildTypes {

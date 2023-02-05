@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.store.LocomotivesState.LocomotiveSlot
+import ru.aleksandr.dccppthrottle.store.LocomotivesStore.LocomotiveSlot
 import kotlin.math.abs
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 

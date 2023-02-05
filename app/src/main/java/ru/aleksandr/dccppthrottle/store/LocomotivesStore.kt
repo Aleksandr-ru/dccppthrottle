@@ -8,7 +8,7 @@ import kotlin.random.Random
  *
  * TODO: Replace all uses of this class before publishing your app.
  */
-object LocomotivesState {
+object LocomotivesStore {
 
     /**
      * An array of sample (placeholder) items.
@@ -34,11 +34,15 @@ object LocomotivesState {
 //        }
         for (i in 0 until SLOTS_COUNT) {
             if (Random.nextBoolean()) {
-                val item = SLOTS[i]
-                item.address = (1..255).random()
-                item.speed = (0..100).random()
-                for (k in 0 until FUNCTIONS_COUNT) {
-                    item.f[k] = Random.nextBoolean()
+                with(SLOTS[i]) {
+                    address = MockStore.randomAddress()
+                    speed = MockStore.randomSpeed()
+                    if (Random.nextBoolean()) {
+                        title = MockStore.randomLocomotive()
+                    }
+                    for (k in 0 until FUNCTIONS_COUNT) {
+                        f[k] = Random.nextBoolean()
+                    }
                 }
             }
         }

@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.store.LocomotivesState
-import kotlin.math.abs
+import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
 
 /**
@@ -37,10 +36,12 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = LocomotivesState.SLOTS.find {
+        val item = LocomotivesStore.SLOTS.find {
             it.slot == slot
         } ?: throw Exception("Slot not found")
 
+        val titleView = view.findViewById<TextView>(R.id.textViewTitle)
+        titleView.text = item.toString()
         val addrView = view.findViewById<TextView>(R.id.textViewAddr)
         addrView.text = item.address.toString()
 
@@ -50,7 +51,7 @@ class LocoCabFragment : Fragment() {
         revToggle.isChecked = item.reverse
 
 
-        val rows = ceil(LocomotivesState.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
+        val rows = ceil(LocomotivesStore.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
         var i = 0
         for (r in 0 until rows) {
@@ -75,7 +76,7 @@ class LocoCabFragment : Fragment() {
                 }
                 tableRow.addView(button, b)
                 i++
-                if (i >= LocomotivesState.FUNCTIONS_COUNT) break
+                if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
             }
             tableLayout.addView(tableRow, r)
         }
