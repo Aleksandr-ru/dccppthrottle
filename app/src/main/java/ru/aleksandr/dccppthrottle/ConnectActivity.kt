@@ -9,7 +9,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-
 class ConnectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +36,7 @@ class ConnectActivity : AppCompatActivity() {
 //            spinner.adapter = adapter
 //        }
 
-        val btn = findViewById<Button>(R.id.btnConnect);
+        val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
             val myIntent = Intent(this, MainActivity::class.java)
             startActivity(myIntent)
