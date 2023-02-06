@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
@@ -13,24 +16,27 @@ class LocoCabActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loco_cab)
 
-        val slots = LocomotivesStore.SLOTS.filter {
-            it.address > 0
+        val adapter = LocoCabViewPagerAdapter(this)
+        LocomotivesStore.data.observe(this) {
+            adapter.replaceValues(it.filter { item -> item.address > 0 })
+            adapter.notifyDataSetChanged()
         }
-        val adapter = LocoCabViewPagerAdapter(this, slots)
+
         val viewPager = findViewById<ViewPager2>(R.id.pager)
         viewPager.adapter = adapter
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                title = getString(R.string.title_activity_cab) + slots[position].slot
+                val slots = LocomotivesStore.getTakenSlots()
+                title = getString(R.string.title_activity_cab) + slots[position]?.slot
             }
         })
 
         val slot = intent.getIntExtra(ARG_SLOT, 0)
         if (slot > 0) {
             viewPager.currentItem =
-                slots.withIndex().find { it.value.slot == slot }?.index
+                LocomotivesStore.getTakenSlots().withIndex().find { it.value.slot == slot }?.index
                     ?: throw Exception("Index not found")
         }
     }

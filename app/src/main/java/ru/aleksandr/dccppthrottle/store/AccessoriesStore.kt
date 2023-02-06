@@ -15,7 +15,7 @@ object AccessoriesStore {
 
     fun removeByIndex(index: Int) {
         _data.value = _data.value?.also {
-            it.filterIndexed { i, item -> i != index }
+            it.removeAt(index)
         }
     }
 

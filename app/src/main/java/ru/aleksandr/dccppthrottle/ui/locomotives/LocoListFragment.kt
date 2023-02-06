@@ -29,9 +29,17 @@ class LocoListFragment : Fragment() {
         val view = binding.listLocos
         // Set the adapter
         if (view is RecyclerView) {
+            val rvAdapter = LocoRecyclerViewAdapter()
+            LocomotivesStore.data.observe(viewLifecycleOwner) {
+                rvAdapter.replaceValues(it)
+                if (!view.isComputingLayout) {
+                    rvAdapter.notifyDataSetChanged()
+                }
+            }
+
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = LocoRecyclerViewAdapter(LocomotivesStore.SLOTS)
+                adapter = rvAdapter
             }
         }
 

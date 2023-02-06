@@ -15,4 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/fragment_accessory_list_item"/>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/label_accessories_empty"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

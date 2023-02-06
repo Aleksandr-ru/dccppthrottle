@@ -13,14 +13,14 @@ import ru.aleksandr.dccppthrottle.store.LocomotivesStore.LocomotiveSlot
 import kotlin.math.abs
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 
-/**
- * [RecyclerView.Adapter] that can display a [LocomotiveSlot].
- * TODO: Replace the implementation with code for your data type.
- */
-class LocoRecyclerViewAdapter(
-    private val values: Array<LocomotiveSlot>/*,
-    private val listener: (PlaceholderItem) -> Unit*/
-) : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
+class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
+    private var values: Array<LocomotiveSlot> = arrayOf()
+
+    fun replaceValues(newValues: Array<LocomotiveSlot>) {
+        values = newValues
+        // notifyDataSetChanged()
+        // Cannot call this method while RecyclerView is computing a layout or scrolling
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -51,20 +51,19 @@ class LocoRecyclerViewAdapter(
         }
         holder.progress.progress = abs(item.speed)
         holder.address.text = item.address.toString()
-        if (item.speed < 0) {
-            holder.direction.text = "R " + abs(item.speed).toString()
+        if (item.speed != 0) {
+            if (item.reverse) {
+                holder.direction.text = "R " + item.speed.toString()
+            }
+            else {
+                holder.direction.text = "F ${item.speed}"
+            }
         }
-        else if (item.speed > 0) {
-            holder.direction.text = "F ${item.speed}"
-        }
-        else
+        else {
             holder.direction.text = "STOP"
+        }
 
-        //holder.itemView.setOnClickListener { listener(item) }
         holder.itemView.setOnClickListener {
-//            val myIntent = Intent(it.context, LocoCabActivity::class.java)
-//            myIntent.putExtra("slot", item.slot)
-//            it.context.startActivity(myIntent)
             if (item.address > 0) {
                 LocoCabActivity.start(it.context, item.slot)
             }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.switchMap
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
@@ -36,7 +37,7 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = LocomotivesStore.SLOTS.find {
+        val item = LocomotivesStore.data.value?.find {
             it.slot == slot
         } ?: throw Exception("Slot not found")
 
@@ -49,7 +50,6 @@ class LocoCabFragment : Fragment() {
         val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
         speedView.text = item.speed.toString() + "%"
         revToggle.isChecked = item.reverse
-
 
         val rows = ceil(LocomotivesStore.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)

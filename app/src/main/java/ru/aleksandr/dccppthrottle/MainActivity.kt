@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import android.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
@@ -96,7 +95,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_acc -> {
-                AccessoriesStore.add(AccessoriesStore.AccessoryState(MockStore.randomAddress()))
+                AccessoriesStore.add(MockStore.randomAccessory())
                 true
             }
             R.id.action_add_route -> {

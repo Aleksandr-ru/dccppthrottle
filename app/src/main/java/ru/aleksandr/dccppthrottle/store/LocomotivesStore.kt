@@ -1,69 +1,32 @@
 package ru.aleksandr.dccppthrottle.store
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlin.random.Random
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- *
- * TODO: Replace all uses of this class before publishing your app.
- */
 object LocomotivesStore {
-
-    /**
-     * An array of sample (placeholder) items.
-     */
-//    val ITEMS: MutableList<LocomotiveSlot> = ArrayList()
-
-    /**
-     * A map of sample (placeholder) items, by ID.
-     */
-//    val ITEM_MAP: MutableMap<Number, LocomotiveSlot> = HashMap()
-
-    const val SLOTS_COUNT = 10
+    private const val SLOTS_COUNT = 10
     const val FUNCTIONS_COUNT = 12
 
-    val SLOTS = Array(SLOTS_COUNT) {
+    private val _data = MutableLiveData<Array<LocomotiveSlot>>(Array(SLOTS_COUNT) {
         LocomotiveSlot(it + 1, 0)
-    }
+    })
+    val data : LiveData<Array<LocomotiveSlot>> = _data
 
     init {
-//        // Add some sample items.
-//        for (i in 1..SLOTS_COUNT) {
-//            addItem(createPlaceholderItem(i))
-//        }
-        for (i in 0 until SLOTS_COUNT) {
-            if (Random.nextBoolean()) {
-                with(SLOTS[i]) {
-                    address = MockStore.randomAddress()
-                    speed = MockStore.randomSpeed()
-                    if (Random.nextBoolean()) {
-                        title = MockStore.randomLocomotive()
-                    }
-                    for (k in 0 until FUNCTIONS_COUNT) {
-                        f[k] = Random.nextBoolean()
-                    }
-                }
+        _data.value = _data.value?.also {
+            it.map { item ->
+//                when (Random.nextBoolean()) {
+//                    true -> MockStore.randomLocomotive(item.slot)
+//                    else -> item
+//                }
+                MockStore.randomLocomotive(item.slot)
             }
         }
     }
 
-//    private fun addItem(item: LocomotiveSlot) {
-//        ITEMS.add(item)
-//        ITEM_MAP.put(item.slot, item)
-//    }
-//
-//    private fun createPlaceholderItem(position: Int): LocomotiveSlot {
-//        val addr = (1..255).random()
-//        val speed = (-100..100).random()
-//        val item = LocomotiveSlot(position, addr, speed)
-//        item.functions[1] = true
-//        return LocomotiveSlot(position, addr, speed)
-//    }
+    fun getTakenSlots() = data.value?.filter { it.address > 0 } ?: listOf<LocomotiveSlot>()
 
-    /**
-     * A placeholder item representing a piece of content.
-     */
     data class LocomotiveSlot(
         val slot: Int,
         var address: Int,

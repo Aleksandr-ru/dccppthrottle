@@ -7,12 +7,16 @@ import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
 class LocoCabViewPagerAdapter(
     fragment: FragmentActivity,
-    private val values: List<LocomotivesStore.LocomotiveSlot>
 ) : FragmentStateAdapter(fragment) {
+    private var values: List<LocomotivesStore.LocomotiveSlot> = listOf()
 
-    override fun getItemCount(): Int {
-        return values.size
+    fun replaceValues(newValues: List<LocomotivesStore.LocomotiveSlot>) {
+        values = newValues
+        // notifyDataSetChanged()
+        // Cannot call this method while RecyclerView is computing a layout or scrolling
     }
+
+    override fun getItemCount(): Int = values.size
 
     override fun createFragment(position: Int): Fragment {
         return LocoCabFragment.newInstance(values[position].slot)

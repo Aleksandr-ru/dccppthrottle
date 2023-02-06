@@ -1,6 +1,17 @@
 package ru.aleksandr.dccppthrottle.store
 
+import kotlin.random.Random
+
 object MockStore {
+    private val btDevices = listOf<String>(
+        "HC-06-115200",
+        "HC-05",
+        "Breezer 4S",
+        "Mac-book-Air",
+        "Realme 8 Pro",
+        "SPS 705"
+    )
+
     private val locomotives = listOf<String>(
         "BR-80 (Piko)",
         "BR120 (Piko)",
@@ -17,8 +28,27 @@ object MockStore {
         "Signal"
     )
 
-    fun randomLocomotive() : String { return locomotives.random() }
-    fun randomAccessory() : String { return accessories.random() + " " + randomAddress() }
-    fun randomAddress() : Int { return (1..255).random() }
-    fun randomSpeed() : Int { return (0..100).random() }
+    fun ramdomBluetoothList() : List<String> = btDevices.shuffled()
+
+    fun randomLocomotive(slot: Int) : LocomotivesStore.LocomotiveSlot {
+        val addr = (1..255).random()
+        return LocomotivesStore.LocomotiveSlot(slot, addr).apply {
+            speed = (0..100).random()
+            if (Random.nextBoolean()) {
+                title = locomotives.random()
+            }
+            for (k in 0 until LocomotivesStore.FUNCTIONS_COUNT) {
+                f[k] = Random.nextBoolean()
+            }
+        }
+    }
+
+    fun randomAccessory() : AccessoriesStore.AccessoryState {
+        val addr = (1..255).random()
+        return AccessoriesStore.AccessoryState(addr).apply {
+            if (Random.nextBoolean()) {
+                title = accessories.random() + " " + (1..99).random()
+            }
+        }
+    }
 }

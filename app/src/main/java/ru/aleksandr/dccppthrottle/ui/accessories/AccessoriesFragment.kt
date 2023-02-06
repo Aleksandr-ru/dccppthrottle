@@ -1,17 +1,15 @@
 package ru.aleksandr.dccppthrottle.ui.accessories
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoriesBinding
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.MockStore
 
 class AccessoriesFragment : Fragment() {
 
@@ -29,18 +27,32 @@ class AccessoriesFragment : Fragment() {
         _binding = FragmentAccessoriesBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val view = binding.listAccessories
+        val placeholder = binding.emptyView
+
+        placeholder.setOnClickListener {
+            AccessoriesStore.add(MockStore.randomAccessory())
+        }
 
         if (view is RecyclerView) {
-            val myAdapter = AccessoriesRecyclerViewAdapter()
+            val rvAdapter = AccessoriesRecyclerViewAdapter()
             AccessoriesStore.data.observe(viewLifecycleOwner) {
-                myAdapter.replaceValues(it)
+                rvAdapter.replaceValues(it)
                 if (!view.isComputingLayout) {
-                    myAdapter.notifyDataSetChanged()
+                    rvAdapter.notifyDataSetChanged()
+                }
+
+                if (it.isEmpty()) {
+                    view.visibility = View.GONE
+                    placeholder.visibility = View.VISIBLE
+                }
+                else {
+                    view.visibility = View.VISIBLE
+                    placeholder.visibility = View.GONE
                 }
             }
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = myAdapter
+                adapter = rvAdapter
             }
 
         }
