@@ -9,51 +9,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/swAssigned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/text_margin">
-        <TextView
-            android:id="@+id/item_slot_pre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="#"
-            android:gravity="center"/>
         <TextView
             android:id="@+id/item_slot"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1"
+            android:text="#1"
             android:gravity="center"/>
-        </LinearLayout>
     </LinearLayout>
-
-<!--    <TextView-->
-<!--        android:id="@+id/item_number_pre"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="@dimen/text_margin"-->
-<!--        android:layout_marginEnd="0dp"-->
-<!--        android:layout_marginBottom="@dimen/text_margin"-->
-<!--        android:text="#"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/item_number"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="0dp"-->
-<!--        android:layout_marginTop="@dimen/text_margin"-->
-<!--        android:layout_marginEnd="@dimen/text_margin"-->
-<!--        android:layout_marginBottom="@dimen/text_margin"-->
-<!--        android:text="1"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +27,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/item_title"
             android:layout_marginBottom="-16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

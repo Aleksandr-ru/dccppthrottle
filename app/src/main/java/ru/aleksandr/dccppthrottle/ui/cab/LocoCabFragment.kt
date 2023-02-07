@@ -37,19 +37,46 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val item = LocomotivesStore.data.value?.find {
-            it.slot == slot
-        } ?: throw Exception("Slot not found")
+        val fButtons = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
+            ToggleButton(view.context).apply {
+                text = "F$i"
+                textOn = "F$i"
+                textOff = "F$i"
+                tag = i
+//                val k = i
+//                setOnCheckedChangeListener { button, isChecked ->
+//                    Toast.makeText(
+//                        button.context,
+//                        "Function ${button.tag} ($k) is $isChecked",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+            }
+        }
 
-        val titleView = view.findViewById<TextView>(R.id.textViewTitle)
-        titleView.text = item.toString()
-        val addrView = view.findViewById<TextView>(R.id.textViewAddr)
-        addrView.text = item.address.toString()
+        LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
+            val titleView = view.findViewById<TextView>(R.id.textViewTitle)
+            titleView.text = item.toString()
+            val addrView = view.findViewById<TextView>(R.id.textViewAddr)
+            addrView.text = item.address.toString()
 
-        val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
-        val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
-        speedView.text = item.speed.toString() + "%"
-        revToggle.isChecked = item.reverse
+            val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
+            val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
+            speedView.text = item.speed.toString() + "%"
+            revToggle.isChecked = item.reverse
+
+            for ((i, b) in fButtons.withIndex()) {
+                b.setOnCheckedChangeListener(null)
+                b.isChecked = item.f[i]
+                b.setOnCheckedChangeListener { button, isChecked ->
+                    Toast.makeText(
+                        button.context,
+                        "Function ${button.tag} ($i) is $isChecked",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
 
         val rows = ceil(LocomotivesStore.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
@@ -57,24 +84,23 @@ class LocoCabFragment : Fragment() {
         for (r in 0 until rows) {
             val tableRow = TableRow(view.context)
             for (b in 0 until F_PER_ROW) {
-                val k = i
-                val button = ToggleButton(view.context)
-                button.apply {
-                    text = "F$i"
-                    textOn = "F$i"
-                    textOff = "F$i"
-                    isChecked = item.f[i]
-                    tag = i
-                }.setOnCheckedChangeListener { button, isChecked ->
-//                    if (isChecked) button.setTypeface(Typeface.DEFAULT_BOLD)
-//                    else button.setTypeface(Typeface.DEFAULT)
-                    Toast.makeText(
-                        button.context,
-                        "Function ${button.tag} ($k) is $isChecked",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                tableRow.addView(button, b)
+                tableRow.addView(fButtons[i], b)
+//                val k = i
+//                val button = ToggleButton(view.context)
+//                button.apply {
+//                    text = "F$i"
+//                    textOn = "F$i"
+//                    textOff = "F$i"
+//                    isChecked = item.f[i]
+//                    tag = i
+//                }.setOnCheckedChangeListener { button, isChecked ->
+//                    Toast.makeText(
+//                        button.context,
+//                        "Function ${button.tag} ($k) is $isChecked",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//                tableRow.addView(button, b)
                 i++
                 if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
             }

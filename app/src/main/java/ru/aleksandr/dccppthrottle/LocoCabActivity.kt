@@ -16,28 +16,22 @@ class LocoCabActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loco_cab)
 
-        val adapter = LocoCabViewPagerAdapter(this)
-        LocomotivesStore.data.observe(this) {
-            adapter.replaceValues(it.filter { item -> item.address > 0 })
-            adapter.notifyDataSetChanged()
-        }
+        val slots = LocomotivesStore.getSlots()
 
+        val adapter = LocoCabViewPagerAdapter(this, slots)
         val viewPager = findViewById<ViewPager2>(R.id.pager)
         viewPager.adapter = adapter
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                val slots = LocomotivesStore.getTakenSlots()
-                title = getString(R.string.title_activity_cab) + slots[position]?.slot
+                title = getString(R.string.title_activity_cab) + slots[position]
             }
         })
 
         val slot = intent.getIntExtra(ARG_SLOT, 0)
         if (slot > 0) {
-            viewPager.currentItem =
-                LocomotivesStore.getTakenSlots().withIndex().find { it.value.slot == slot }?.index
-                    ?: throw Exception("Index not found")
+            viewPager.currentItem = slots.indexOf(slot)
         }
     }
 

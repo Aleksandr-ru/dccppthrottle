@@ -33,9 +33,8 @@
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward &gt;</string>
     <string name="label_reverse">&lt; Reverse</string>
-    <string name="label_loco_untitled">DCC:%d (untitled)</string>
-    <string name="label_loco_empty">Empty, click to assign</string>
-    <string name="label_accessories_empty">No accessories available, click to add</string>
+    <string name="label_locomotives_empty">Empty, tap to assign</string>
+    <string name="label_accessories_empty">No accessories, tap to add</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

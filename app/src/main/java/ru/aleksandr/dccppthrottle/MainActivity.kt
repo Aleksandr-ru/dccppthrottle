@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding as ActivityMenuBinding
 
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_loco -> {
-                Toast.makeText(this,"Add loco", Toast.LENGTH_SHORT).show()
+                LocomotivesStore.add(MockStore.randomLocomotive())
                 true
             }
             R.id.action_add_acc -> {
