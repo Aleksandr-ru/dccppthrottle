@@ -1,7 +1,5 @@
 package ru.aleksandr.dccppthrottle.ui.locomotives
 
-import android.content.Intent
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,7 +31,6 @@ class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.V
                 false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -107,12 +104,20 @@ class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.V
             switch.setOnCheckedChangeListener { sw, isChecked ->
                 if (sw.isPressed) {
                     if (isChecked) {
-                        val slot = LocomotivesStore.getAvailableSlot()
-                        if (slot > 0) LocomotivesStore.assignToSlot(bindingAdapterPosition, slot)
-                        else Toast.makeText(sw.context, "No slots available", Toast.LENGTH_SHORT).show()
+                        try {
+                            LocomotivesStore.assignToSlotByIndex(bindingAdapterPosition)
+                        }
+                        catch (ex : LocomotivesStore.LocomotiveNoSlotsAvailableException) {
+                            Toast.makeText(sw.context, "No slots available", Toast.LENGTH_SHORT).show()
+                            sw.isChecked = false
+                        }
+                        catch (ex : LocomotivesStore.LocomotiveAddressInUseException) {
+                            Toast.makeText(sw.context, "Address already in use", Toast.LENGTH_SHORT).show()
+                            sw.isChecked = false
+                        }
                     }
                     else {
-                        LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                        LocomotivesStore.assignToSlotByIndex(bindingAdapterPosition, 0)
                     }
                 }
             }

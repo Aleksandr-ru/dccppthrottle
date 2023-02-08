@@ -8,6 +8,9 @@ object AccessoriesStore {
     val data: LiveData<MutableList<AccessoryState>> = _data
 
     fun add(item: AccessoryState) {
+        if (_data.value?.any { it.address == item.address } == true) {
+            throw AccessoryAddressInUseException()
+        }
         _data.value = _data.value?.also {
             it.add(item)
         }
@@ -20,8 +23,11 @@ object AccessoriesStore {
     }
 
     fun replaceByIndex(index: Int, newItem: AccessoryState) {
+        if (_data.value?.withIndex()?.filter { it.index != index }?.any { it.value.address == newItem.address } == true) {
+            throw AccessoryAddressInUseException()
+        }
         _data.value = _data.value?.also {
-            it.set(index, newItem)
+            it[index] = newItem
         }
     }
 
@@ -29,7 +35,7 @@ object AccessoriesStore {
         _data.value = _data.value?.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
-                    state = newState
+                    isOn = newState
                 }
             }
         }
@@ -39,7 +45,7 @@ object AccessoriesStore {
         _data.value = _data.value?.also {
             it.map { item ->
                 item.takeIf { it.address == address }?.apply {
-                    state = newState
+                    isOn = newState
                 }
             }
         }
@@ -49,8 +55,11 @@ object AccessoriesStore {
         var address: Int,
         var title: String? = null
     ) {
-        var state: Boolean = false
+        var isOn: Boolean = false
 
         override fun toString(): String = title ?: ("Untitled accessory $address")
     }
+
+    open class AccessoriesStoreException() : Exception() {}
+    class AccessoryAddressInUseException() : AccessoriesStoreException() {}
 }

@@ -38,7 +38,7 @@ object MockStore {
                 title = locomotives.random()
             }
             for (k in 0 until LocomotivesStore.FUNCTIONS_COUNT) {
-                f[k] = Random.nextBoolean()
+                functions[k] = Random.nextBoolean()
             }
         }
     }

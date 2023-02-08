@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoryListItemBinding
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
-import ru.aleksandr.dccppthrottle.store.MockStore
 
 class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerViewAdapter.ViewHolder>() {
     private var values: List<AccessoriesStore.AccessoryState> = listOf()
@@ -38,34 +37,7 @@ class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerV
         with(values[position]) {
             holder.title.text = toString()
             holder.address.text = address.toString()
-            holder.button.isChecked = state
-
-            val p = position
-
-            holder.button.setOnCheckedChangeListener { _, isChecked ->
-                AccessoriesStore.setStateByIndex(p, isChecked)
-            }
-
-            val popup = PopupMenu(holder.itemView.context, holder.itemView)
-            popup.inflate(R.menu.context_menu)
-            popup.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.action_context_edit -> {
-                        Toast.makeText(holder.itemView.context, "Edit $p", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    R.id.action_context_delete -> {
-                        AccessoriesStore.removeByIndex(p)
-                        true
-                    }
-                    else -> false
-                }
-            }
-
-            holder.itemView.setOnLongClickListener {
-                popup.show()
-                true
-            }
+            holder.button.isChecked = isOn
         }
     }
 
@@ -75,6 +47,33 @@ class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerV
         val title: TextView = binding.itemTitle
         val address: TextView = binding.itemAddr
         val button: ToggleButton = binding.toggleButton
+
+        init {
+            button.setOnCheckedChangeListener { _, isChecked ->
+                AccessoriesStore.setStateByIndex(bindingAdapterPosition, isChecked)
+            }
+
+            val popup = PopupMenu(itemView.context, itemView)
+            popup.inflate(R.menu.context_menu)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_context_edit -> {
+                        Toast.makeText(itemView.context, "Edit $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    R.id.action_context_delete -> {
+                        AccessoriesStore.removeByIndex(bindingAdapterPosition)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            itemView.setOnLongClickListener {
+                popup.show()
+                true
+            }
+        }
 
         override fun toString(): String {
             return super.toString() + " '" + title.text + "'"
