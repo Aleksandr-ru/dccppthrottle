@@ -68,12 +68,15 @@
                     android:textOn="@string/label_reverse" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_weight="1"
-                android:id="@+id/imageView2"
+            <SeekBar
+                android:id="@+id/seekBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:src="@tools:sample/avatars" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:rotation="270"
+                android:progress="50"
+                android:progressDrawable="@drawable/seekbar_style"
+                android:thumb="@drawable/seekbar_thumb"/>
         </LinearLayout>
 
         <ScrollView
