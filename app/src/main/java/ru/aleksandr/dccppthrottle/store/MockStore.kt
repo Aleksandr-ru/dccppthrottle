@@ -34,6 +34,7 @@ object MockStore {
         val addr = (1..255).random()
         return LocomotivesStore.LocomotiveState(addr).apply {
             speed = (0..100).random()
+            reverse = Random.nextBoolean()
             if (Random.nextBoolean()) {
                 title = locomotives.random()
             }

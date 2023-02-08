@@ -6,7 +6,7 @@ import androidx.lifecycle.map
 
 object LocomotivesStore {
     private const val SLOTS_COUNT = 10
-    const val FUNCTIONS_COUNT = 24
+    const val FUNCTIONS_COUNT = 12
 
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
@@ -24,9 +24,9 @@ object LocomotivesStore {
     }
 
     fun hasFreeSlots() : Boolean = getSlots().size < SLOTS_COUNT
-    fun getSlotByIndex(index : Int) : Int = data.value?.get(index)?.slot ?: throw IndexOutOfBoundsException()
-    fun getAddressByIndex(index: Int) : Int = data.value?.get(index)?.address ?: throw IndexOutOfBoundsException()
-    fun getSlotByAddress(addr : Int) : Int = data.value?.first { it.address == addr }?.slot ?: 0
+    fun getSlotByIndex(index : Int) : Int = data.value!![index].slot
+    fun getAddressByIndex(index: Int) : Int = data.value!![index].address
+    fun getSlotByAddress(addr : Int) : Int = data.value!!.firstOrNull { it.address == addr }?.slot ?: 0
 
     fun add(item: LocomotiveState) {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
@@ -45,7 +45,12 @@ object LocomotivesStore {
 
     fun replaceByIndex(index: Int, newItem: LocomotiveState) {
         if (newItem.slot > 0) {
-
+            if (newItem.address == 0) throw LocomotiveNoSlotAddressException()
+            val slots : Map<Int, Int> = data.value!!.filterIndexed { i, item -> i != index && item.slot > 0 }
+                .map { it.slot to it.address }
+                .toMap()
+            if (slots.keys.any { it == newItem.slot }) throw LocomotiveSlotInUseException()
+            if (slots.values.any { it == newItem.address }) throw LocomotiveAddressInUseException()
         }
         _data.value = _data.value?.also {
             it[index] = newItem
@@ -99,6 +104,7 @@ object LocomotivesStore {
 
     open class LocomotiveStoreException() : Exception() {}
     class LocomotiveNoSlotsAvailableException() : LocomotiveStoreException() {}
+    class LocomotiveNoSlotAddressException() : LocomotiveStoreException() {}
     class LocomotiveAddressInUseException() : LocomotiveStoreException() {}
     class LocomotiveSlotInUseException() : LocomotiveStoreException() {}
 }
