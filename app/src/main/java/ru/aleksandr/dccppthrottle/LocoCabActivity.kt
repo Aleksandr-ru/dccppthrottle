@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
@@ -25,14 +26,19 @@ class LocoCabActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                title = getString(R.string.title_activity_cab) + slots[position]
+                setTitleForSlot(slots[position])
             }
         })
 
         val slot = intent.getIntExtra(ARG_SLOT, 0)
         if (slot > 0) {
             viewPager.currentItem = slots.indexOf(slot)
+            if (viewPager.currentItem == 0) setTitleForSlot(slot)
         }
+    }
+
+    fun setTitleForSlot(slot: Int) {
+        title = getString(R.string.title_activity_cab) + slot
     }
 
     companion object {

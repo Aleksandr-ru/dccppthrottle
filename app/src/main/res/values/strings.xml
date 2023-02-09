@@ -36,6 +36,10 @@
     <string name="label_locomotives_empty">Empty, tap to assign</string>
     <string name="label_accessories_empty">No accessories, tap to add</string>
 
+    <string name="speed_stop">STOP</string>
+    <string name="speed_fwd">F %d</string>
+    <string name="speed_rev">R %d</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

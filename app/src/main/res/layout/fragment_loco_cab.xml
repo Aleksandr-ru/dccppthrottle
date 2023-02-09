@@ -42,6 +42,7 @@
                     android:id="@+id/textViewAddr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
                     android:text="5"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
@@ -56,6 +57,7 @@
                     android:id="@+id/textViewSpeed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
                     android:text="5%"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
@@ -64,21 +66,30 @@
                     android:id="@+id/toggleReverse"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
                     android:drawableStart="@drawable/check_reverse"
                     android:drawableEnd="@drawable/check_forward"
                     android:textOff="@string/label_forward"
-                    android:textOn="@string/label_reverse" />
+                    android:textOn="@string/label_reverse"/>
             </LinearLayout>
 
-            <SeekBar
-                android:id="@+id/seekBar"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:rotation="270"
-                android:progress="50"
-                android:progressDrawable="@drawable/seekbar_style"
-                android:thumb="@drawable/seekbar_thumb"/>
+                android:layout_weight="1">
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minWidth="96dp"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:thumbOffset="16dp"
+                    android:rotation="270"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5" />
+            </RelativeLayout>
         </LinearLayout>
 
         <ScrollView

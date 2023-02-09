@@ -5,8 +5,8 @@
             <corners android:radius="10dp"/>
             <solid android:color="@color/design_default_color_secondary_variant"/>
             <size
-                android:width="48dp"
-                android:height="96dp"/>
+                android:width="32dp"
+                android:height="80dp"/>
         </shape>
     </item>
 </layer-list>

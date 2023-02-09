@@ -63,15 +63,38 @@ class LocoCabFragment : Fragment() {
             tableLayout.addView(tableRow, r)
         }
 
-        LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
-            val titleView = view.findViewById<TextView>(R.id.textViewTitle)
-            titleView.text = item.toString()
-            val addrView = view.findViewById<TextView>(R.id.textViewAddr)
-            addrView.text = item.address.toString()
+        val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
+        val progressView = view.findViewById<SeekBar>(R.id.seekBar)
+        val strStop = getString(R.string.speed_stop)
+        progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(bar: SeekBar?, value: Int, fromUser: Boolean) {
+                if (value > 0) speedView.text = "$value%"
+                else speedView.text = strStop
+            }
 
-            val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
-            val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
-            speedView.text = item.speed.toString() + "%"
+            override fun onStartTrackingTouch(bar: SeekBar?) {
+                // "Required but not yet implemented"
+            }
+
+            override fun onStopTrackingTouch(bar: SeekBar?) {
+                // "Required but not yet implemented"
+            }
+        })
+
+        val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
+        revToggle.setOnCheckedChangeListener { button, isChecked ->
+            if (button.isPressed) {
+                Toast.makeText(button.context, "Reverse is $isChecked", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val addrView = view.findViewById<TextView>(R.id.textViewAddr)
+        val titleView = view.findViewById<TextView>(R.id.textViewTitle)
+
+        LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
+            titleView.text = item.toString()
+            addrView.text = item.address.toString()
+            progressView.progress = item.speed
             revToggle.isChecked = item.reverse
 
             for ((i, b) in functionViews.withIndex()) {

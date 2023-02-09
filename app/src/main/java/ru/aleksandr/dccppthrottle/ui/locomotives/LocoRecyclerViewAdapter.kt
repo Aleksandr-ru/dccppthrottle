@@ -51,16 +51,21 @@ class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.V
         holder.address.text = item.address.toString()
         holder.title.text = item.toString()
         holder.progress.progress = item.speed
+
+        val strStop = holder.itemView.context.getString(R.string.speed_stop)
+        val strForward = holder.itemView.context.getString(R.string.speed_fwd)
+        val strReverse = holder.itemView.context.getString(R.string.speed_rev)
+
         if (item.speed > 0) {
             if (item.reverse) {
-                holder.direction.text = "R ${item.speed}"
+                holder.direction.text = String.format(strReverse, item.speed)
             }
             else {
-                holder.direction.text = "F ${item.speed}"
+                holder.direction.text = String.format(strForward, item.speed)
             }
         }
         else {
-            holder.direction.text = "STOP"
+            holder.direction.text = strStop
         }
     }
 
