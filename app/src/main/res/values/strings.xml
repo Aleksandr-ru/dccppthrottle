@@ -31,8 +31,8 @@
     <string name="label_connect_at_start">Connect at startup</string>
     <string name="label_address">Address</string>
     <string name="label_speed">Speed</string>
-    <string name="label_forward">Forward &gt;</string>
-    <string name="label_reverse">&lt; Reverse</string>
+    <string name="label_forward">Forward</string>
+    <string name="label_reverse">Reverse</string>
     <string name="label_locomotives_empty">Empty, tap to assign</string>
     <string name="label_accessories_empty">No accessories, tap to add</string>
 
