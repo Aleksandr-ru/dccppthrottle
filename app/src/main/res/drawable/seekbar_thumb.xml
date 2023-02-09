@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-        <shape android:shape="oval">
-            <solid android:color="@color/teal_200"/>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <solid android:color="@color/design_default_color_secondary_variant"/>
             <size
-                android:width="50dp"
-                android:height="50dp"/>
+                android:width="48dp"
+                android:height="96dp"/>
         </shape>
     </item>
 </layer-list>

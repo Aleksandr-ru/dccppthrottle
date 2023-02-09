@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item
-        android:id="@android:id/background"
-        android:drawable="@drawable/border_shadow" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp" />
+<!--            <gradient-->
+<!--                android:angle="270"-->
+<!--                android:startColor="@color/material_dynamic_neutral_variant80"-->
+<!--                android:centerColor="@color/material_dynamic_neutral_variant30"-->
+<!--                android:endColor="@color/material_dynamic_neutral_variant80"-->
+<!--                android:centerY="0.2"-->
+<!--                android:type="linear"-->
+<!--                />-->
+            <gradient
+                android:angle="270"
+                android:startColor="#33000000"
+                android:centerColor="#11000000"
+                android:endColor="#11000000"
+                android:centerY="0.2"
+                android:type="linear"
+                />
+        </shape>
     </item>
 
-    <item
-        android:id="@android:id/progress" >
-        <clip
-            android:drawable="@drawable/seekbar_progress" />
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <size android:height="24dp"/>
+                <solid android:color="@color/design_default_color_secondary"/>
+                <corners android:radius="5dp"/>
+            </shape>
+        </clip>
     </item>
+
+<!--    <item android:id="@android:id/secondaryProgress"-->
+<!--        android:drawable="@android:drawable/progress_secondary_holo_dark"/>-->
 </layer-list>
