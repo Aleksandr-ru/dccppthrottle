@@ -31,6 +31,8 @@
             android:id="@+id/editTextNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_minus_24"
+            android:drawableEnd="@drawable/ic_plus_24"
             android:ems="10"
             android:inputType="number"
             android:text="999"
@@ -42,6 +44,16 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_plus_24" />
     </LinearLayout>
+
+    <ru.aleksandr.dccppthrottle.PlusMinusView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/text_margin"
+        app:value="0"
+        app:min="1"
+        app:max="100"
+        app:nullable="false"/>
 
     <TextView
         android:id="@+id/textView5"
