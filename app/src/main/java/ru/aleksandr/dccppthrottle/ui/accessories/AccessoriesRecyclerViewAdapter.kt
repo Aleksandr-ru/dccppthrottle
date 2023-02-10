@@ -6,12 +6,15 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoryListItemBinding
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
-class AccessoriesRecyclerViewAdapter : RecyclerView.Adapter<AccessoriesRecyclerViewAdapter.ViewHolder>() {
+class AccessoriesRecyclerViewAdapter(
+    private val fragmentManager: FragmentManager
+) : RecyclerView.Adapter<AccessoriesRecyclerViewAdapter.ViewHolder>() {
     private var values: List<AccessoriesStore.AccessoryState> = listOf()
 
     fun replaceValues(newValues: List<AccessoriesStore.AccessoryState>) {

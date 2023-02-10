@@ -37,7 +37,7 @@ class LocoListFragment : Fragment() {
         }
 
         if (view is RecyclerView) {
-            val rvAdapter = LocoRecyclerViewAdapter()
+            val rvAdapter = LocoRecyclerViewAdapter(parentFragmentManager)
             LocomotivesStore.data.observe(viewLifecycleOwner) {
                 rvAdapter.replaceValues(it)
                 if (!view.isComputingLayout) {

@@ -34,7 +34,7 @@ class AccessoriesFragment : Fragment() {
         }
 
         if (view is RecyclerView) {
-            val rvAdapter = AccessoriesRecyclerViewAdapter()
+            val rvAdapter = AccessoriesRecyclerViewAdapter(parentFragmentManager)
             AccessoriesStore.data.observe(viewLifecycleOwner) {
                 rvAdapter.replaceValues(it)
                 if (!view.isComputingLayout) {

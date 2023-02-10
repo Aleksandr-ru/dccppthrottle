@@ -93,7 +93,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_loco -> {
-                LocomotiveDialog(getString(R.string.title_dialog_locomotive_add)) {
+                val loco = LocomotivesStore.LocomotiveState(3)
+                LocomotiveDialog(getString(R.string.title_dialog_locomotive_add), loco) {
                     LocomotivesStore.add(it)
                     true
                 }.show(supportFragmentManager, "loco")

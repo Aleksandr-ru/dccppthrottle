@@ -8,13 +8,17 @@ import android.widget.ProgressBar
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore.LocomotiveState
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 
-class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
+class LocoRecyclerViewAdapter(
+    private val fragmentManager: FragmentManager
+) : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
     private var values: List<LocomotiveState> = listOf()
 
     fun replaceValues(newValues: List<LocomotiveState>) {
@@ -87,14 +91,22 @@ class LocoRecyclerViewAdapter() : RecyclerView.Adapter<LocoRecyclerViewAdapter.V
 
             val popup = PopupMenu(itemView.context, itemView)
             popup.inflate(R.menu.context_menu)
-            popup.setOnMenuItemClickListener {
-                when (it.itemId) {
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
                     R.id.action_context_edit -> {
-                        Toast.makeText(itemView.context, "Edit $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        val loco = LocomotivesStore.data.value!![bindingAdapterPosition]
+                        val title = itemView.context.getString(R.string.title_dialog_locomotive_add)
+                        LocomotiveDialog(title, loco) {
+                            // TODO stop loco, null slot
+                            it.slot = 0
+                            LocomotivesStore.replaceByIndex(bindingAdapterPosition, it)
+                            true
+                        }.show(fragmentManager, "loco")
                         true
                     }
                     R.id.action_context_delete -> {
-                        Toast.makeText(itemView.context, "Delete $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        // TODO stop loco, null slot
+                        LocomotivesStore.removeByIndex(bindingAdapterPosition)
                         true
                     }
                     else -> false
