@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
+import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
@@ -92,7 +93,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_loco -> {
-                LocomotivesStore.add(MockStore.randomLocomotive())
+                LocomotiveDialog(getString(R.string.title_dialog_locomotive_add)) {
+                    LocomotivesStore.add(it)
+                    true
+                }.show(supportFragmentManager, "loco")
                 true
             }
             R.id.action_add_acc -> {
