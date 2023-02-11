@@ -36,7 +36,8 @@ class ConnectActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
-            val deviceName = pairedDevices!!.elementAt(spinner.selectedItemPosition).name
+            //val deviceName = pairedDevices!!.elementAt(spinner.selectedItemPosition).name // TODO uncomment me
+            val deviceName : String = pairedDevices?.elementAtOrNull(spinner.selectedItemPosition)?.name ?: "UNKNOWN" // TODO delete me
 
             val message = String.format(getString(R.string.message_connecting_to), deviceName)
             val snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
@@ -79,7 +80,8 @@ class ConnectActivity : AppCompatActivity() {
         if (pairedDevices.isNullOrEmpty()) {
             // Disable or enable it before setting the adapter.
             spinner.isEnabled = false
-            btn.isEnabled = false
+            //btn.isEnabled = false // TODO uncomment me!
+            btn.isEnabled = true // TODO delete me!
         }
         else {
             btn.isEnabled = true
