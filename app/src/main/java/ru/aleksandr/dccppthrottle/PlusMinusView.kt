@@ -26,11 +26,9 @@ class PlusMinusView : LinearLayout {
         set(value) {
             _value = if (value == null && !nullable) 0
             else if (value != null) {
-                if (max != null && value > max!!) {
-                    max
-                } else if (min != null && value < min!!) {
-                    min
-                } else value
+                if (max != null && value > max!!) max
+                else if (min != null && value < min!!) min
+                else value
             } else null
 
             numberInput?.setText(_value.toString())
@@ -60,7 +58,7 @@ class PlusMinusView : LinearLayout {
         )
 
         if (a.hasValue(R.styleable.PlusMinusView_value)) {
-            _value = a.getInt(R.styleable.PlusMinusView_value, 0)
+            value = a.getInt(R.styleable.PlusMinusView_value, 0)
         }
         if (a.hasValue(R.styleable.PlusMinusView_min)) {
             min = a.getInt(R.styleable.PlusMinusView_min, 1)
@@ -75,7 +73,7 @@ class PlusMinusView : LinearLayout {
         val minusButton = findViewById<ImageButton>(R.id.buttonMinus)
 
         plusButton.setOnClickListener {
-            value = numberInput?.text.toString().toIntOrNull()?.plus(1) ?: (max ?: 0)
+            value = numberInput?.text.toString().toIntOrNull()?.plus(1) ?: (max ?: 1)
         }
 
         minusButton.setOnClickListener {
