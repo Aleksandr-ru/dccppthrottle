@@ -7,6 +7,7 @@ import android.text.Editable
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import ru.aleksandr.dccppthrottle.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
@@ -24,10 +25,10 @@ class LocomotiveDialog (
             val inflater = requireActivity().layoutInflater
             val view = inflater.inflate(R.layout.dialog_locomotive, null)
 
-            val addr = view.findViewById<EditText>(R.id.editTextNumber)
+            val addr = view.findViewById<PlusMinusView>(R.id.plusminusAddr)
             val title = view.findViewById<EditText>(R.id.editTextTitle)
 
-            addr.setText(initial?.address.toString())
+            addr.value = initial?.address
             title.setText(initial?.title)
 
             builder.setView(view)
@@ -35,7 +36,7 @@ class LocomotiveDialog (
                 .setCancelable(true)
                 .setPositiveButton(R.string.label_ok) { dialog, id ->
                     val loco = LocomotivesStore.LocomotiveState(
-                        addr.text.toString().toInt(),
+                        addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
                     if (resultListener(loco)) {

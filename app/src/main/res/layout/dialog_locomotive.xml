@@ -19,33 +19,17 @@
             android:text="DCC Address"
             android:layout_marginTop="@dimen/text_margin"/>
 
-        <LinearLayout
+        <ru.aleksandr.dccppthrottle.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusAddr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/text_margin">
-
-            <ImageButton
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_minus_24" />
-
-            <EditText
-                android:id="@+id/editTextNumber"
-                android:layout_width="128dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:text="999"
-                android:textAlignment="center" />
-
-            <ImageButton
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_plus_24" />
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="1"
+            app:nullable="false"
+            app:value="0" />
 
         <TextView
             android:id="@+id/textView5"
