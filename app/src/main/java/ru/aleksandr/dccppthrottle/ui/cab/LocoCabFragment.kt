@@ -1,14 +1,16 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
+
 
 /**
  * A simple [Fragment] subclass.
@@ -36,12 +38,18 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val functionLayoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT
+        ).apply {
+            weight = 1F
+        }
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
             ToggleButton(view.context).apply {
                 text = "F$i"
                 textOn = "F$i"
                 textOff = "F$i"
                 tag = i
+                layoutParams = functionLayoutParams
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         Toast.makeText(button.context, "Function ${button.tag} ($i) is $isChecked", Toast.LENGTH_SHORT).show()

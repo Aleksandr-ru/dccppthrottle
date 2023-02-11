@@ -49,7 +49,7 @@ class ConnectActivity : AppCompatActivity() {
                 startActivity(myIntent)
 
                 snackbar.dismiss()
-            }, 3000)
+            }, 1000)
         }
 
         if (checkSelfPermission(bluetoothPermission) == PackageManager.PERMISSION_GRANTED) {
