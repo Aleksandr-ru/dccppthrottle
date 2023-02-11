@@ -3,7 +3,10 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.core.widget.doAfterTextChanged
 
 
 /**
@@ -15,6 +18,7 @@ class PlusMinusView : LinearLayout {
     private var _min: Int? = null
     private var _max: Int? = null
     private var _nullable: Boolean = false
+    private var _onChangeListener : ((Int?) -> Unit)? = null
 
     var value: Int?
         get() = _value
@@ -38,6 +42,12 @@ class PlusMinusView : LinearLayout {
         get() = _nullable
         set(value) {
             _nullable = value
+        }
+
+    var onChangeListener : ((Int?) -> Unit)?
+        get() = _onChangeListener
+        set(value) {
+            _onChangeListener = value
         }
 
     constructor(context: Context) : super(context) {
@@ -71,5 +81,35 @@ class PlusMinusView : LinearLayout {
         }
 
         a.recycle()
+
+        val plusButton = findViewById<Button>(R.id.buttonPlus)
+        val minusButton = findViewById<Button>(R.id.buttonMinus)
+        val numberInput = findViewById<EditText>(R.id.editTextNumber)
+
+        plusButton.setOnClickListener {
+            val n : Int = numberInput.text.toString().toIntOrNull()?.plus(1) ?: _max ?: 0
+            numberInput.setText(n.toString())
+        }
+
+        minusButton.setOnClickListener {
+            val n : Int = numberInput.text.toString().toIntOrNull()?.minus(1) ?: _min ?: 0
+            numberInput.setText(n.toString())
+        }
+
+        numberInput.doAfterTextChanged {
+            _value = it.toString().toIntOrNull()
+            if (_value == null && !_nullable) _value = 0
+            if (_value != null) {
+                if (_max != null && _value!! > _max!!) {
+                    _value = _max
+                }
+                else if (_min != null && _value!! < _min!!) {
+                    _value = _min
+                }
+            }
+            numberInput.setText(_value.toString())
+
+            if (_onChangeListener != null) _onChangeListener?.invoke(_value)
+        }
     }
 }
