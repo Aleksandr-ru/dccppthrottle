@@ -31,7 +31,9 @@ class PlusMinusView : LinearLayout {
                 else value
             } else null
 
-            numberInput?.setText(_value.toString())
+            if (numberInput != null && numberInput!!.text.toString() != _value.toString()) {
+                numberInput!!.setText(_value.toString())
+            }
         }
 
     var onChangeListener : ((Int?) -> Unit)? = null
@@ -84,7 +86,7 @@ class PlusMinusView : LinearLayout {
             if (hasFocus()) {
                 value = it.toString().toIntOrNull()
             }
-            if (_value.toString() != it.toString()) {
+            if (it.toString() != _value.toString()) {
                 numberInput!!.setText(_value.toString())
             }
             else if (onChangeListener != null) {
