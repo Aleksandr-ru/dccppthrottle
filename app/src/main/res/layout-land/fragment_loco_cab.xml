@@ -12,113 +12,110 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_margin"
                 android:text="Locomotive title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                android:layout_marginBottom="@dimen/text_margin"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!-- F buttons -->
+            </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <TableLayout
-                        android:id="@+id/tableLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <!-- F buttons -->
-                    </TableLayout>
-                </ScrollView>
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/text_margin">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:layout_marginStart="@dimen/text_margin">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_weight="1"
+                    <TextView
+                        android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:text="@string/label_address" />
 
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_address" />
+                    <TextView
+                        android:id="@+id/textViewAddr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/text_margin"
+                        android:text="5"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-                        <TextView
-                            android:id="@+id/textViewAddr"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/text_margin"
-                            android:text="5"
-                            android:textAlignment="center"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_speed" />
 
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_speed" />
+                    <TextView
+                        android:id="@+id/textViewSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_margin"
+                        android:layout_marginBottom="@dimen/text_margin"
+                        android:text="5%"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
-                        <TextView
-                            android:id="@+id/textViewSpeed"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/text_margin"
-                            android:layout_marginBottom="@dimen/text_margin"
-                            android:text="5%"
-                            android:textAlignment="center"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
-
-                        <ToggleButton
-                            android:id="@+id/toggleReverse"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/text_margin"
-                            android:layout_marginBottom="@dimen/text_margin"
-                            android:drawableStart="@drawable/check_reverse"
-                            android:drawableEnd="@drawable/check_forward"
-                            android:textOff="@string/label_forward"
-                            android:textOn="@string/label_reverse" />
-                    </LinearLayout>
+                    <ToggleButton
+                        android:id="@+id/toggleReverse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/check_reverse"
+                        android:drawableEnd="@drawable/check_forward"
+                        android:textOff="@string/label_forward"
+                        android:textOn="@string/label_reverse" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minWidth="96dp"
+                android:minWidth="256dp"
                 android:progress="50"
                 android:progressDrawable="@drawable/seekbar_style"
-                android:thumb="@drawable/seekbar_thumb"
-                android:thumbOffset="16dp"
                 android:rotation="270"
-                android:scaleX="1"
-                android:scaleY="1" />
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:thumb="@drawable/seekbar_thumb"
+                android:thumbOffset="16dp" />
         </RelativeLayout>
 
     </LinearLayout>
