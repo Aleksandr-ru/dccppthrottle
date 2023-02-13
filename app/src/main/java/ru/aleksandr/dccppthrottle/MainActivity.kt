@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
+import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.RouteDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
@@ -91,12 +92,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_content_menu)
         return when(item.itemId) {
             R.id.action_stop -> {
                 Toast.makeText(this,"STOP", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.action_add_loco -> {
+                navController.navigate(R.id.nav_locomotives)
                 val loco = LocomotivesStore.LocomotiveState(3)
                 LocomotiveDialog(getString(R.string.title_dialog_locomotive_add), loco) {
                     LocomotivesStore.add(it)
@@ -105,10 +108,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_acc -> {
-                AccessoriesStore.add(MockStore.randomAccessory())
+                navController.navigate(R.id.nav_accessories)
+                val accessory = AccessoriesStore.AccessoryState(1)
+                AccessoryDialog(getString(R.string.title_dialog_accessory_add), accessory) {
+                    try {
+                        AccessoriesStore.add(it)
+                    }
+                    catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
+                        Toast.makeText(this, "Address already in use", Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }.show(supportFragmentManager, "accessory")
                 true
             }
             R.id.action_add_route -> {
+                navController.navigate(R.id.nav_routes)
                 RouteDialog(getString(R.string.title_dialog_route_add)) {
                     RoutesStore.add(it)
                     true

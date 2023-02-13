@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_weight="3"
+        android:layout_weight="5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">

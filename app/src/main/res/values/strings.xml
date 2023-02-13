@@ -8,6 +8,8 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
+    <string name="title_dialog_accessory_add">Add accessory</string>
+    <string name="title_dialog_accessory_edit">Edit accessory</string>
     <string name="title_dialog_route_add">Add route</string>
     <string name="title_alert_permission_required">Permission required</string>
 

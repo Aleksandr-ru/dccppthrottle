@@ -31,6 +31,8 @@ object AccessoriesStore {
         }
     }
 
+    fun hasAddress(addr: Int) : Boolean = data.value!!.any { it.address == addr }
+
     fun setStateByIndex(index: Int, newState: Boolean) {
         _data.value = _data.value?.also {
             it.mapIndexed { i, item ->
