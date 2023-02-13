@@ -4,16 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
+import ru.aleksandr.dccppthrottle.dialogs.RouteDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding as ActivityMenuBinding
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -105,7 +109,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_route -> {
-                Toast.makeText(this,"Add route", Toast.LENGTH_SHORT).show()
+                RouteDialog(getString(R.string.title_dialog_route_add)) {
+                    RoutesStore.add(it)
+                    true
+                }.show(supportFragmentManager, "route")
                 true
             }
             else -> {

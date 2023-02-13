@@ -16,8 +16,8 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_address"
-            android:layout_marginTop="@dimen/text_margin"/>
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_address" />
 
         <ru.aleksandr.dccppthrottle.PlusMinusView
             style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
@@ -35,9 +35,8 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_name_optional"
             android:layout_marginTop="@dimen/text_margin"
-            />
+            android:text="@string/label_name_optional" />
 
         <EditText
             android:id="@+id/editTextTitle"

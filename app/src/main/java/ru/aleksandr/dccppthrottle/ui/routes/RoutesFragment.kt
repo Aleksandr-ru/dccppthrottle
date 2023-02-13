@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.databinding.FragmentRoutesBinding
+import ru.aleksandr.dccppthrottle.store.MockStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RoutesFragment : Fragment() {
 
@@ -22,15 +24,37 @@ class RoutesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val routesViewModel =
-            ViewModelProvider(this).get(RoutesViewModel::class.java)
-
         _binding = FragmentRoutesBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val view = binding.listRoutes
+        val placeholder = binding.emptyView
 
-        val textView: TextView = binding.textSlideshow
-        routesViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        placeholder.setOnClickListener {
+            RoutesStore.add(MockStore.randomRoute())
+        }
+
+        if (view is RecyclerView) {
+            val rvAdapter = RoutesRecyclerViewAdapter(parentFragmentManager)
+            RoutesStore.data.observe(viewLifecycleOwner) {
+                rvAdapter.replaceValues(it)
+                if (!view.isComputingLayout) {
+                    rvAdapter.notifyDataSetChanged()
+                }
+
+                if (it.isEmpty()) {
+                    view.visibility = View.GONE
+                    placeholder.visibility = View.VISIBLE
+                }
+                else {
+                    view.visibility = View.VISIBLE
+                    placeholder.visibility = View.GONE
+                }
+            }
+            with(view) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = rvAdapter
+            }
+
         }
         return root
     }

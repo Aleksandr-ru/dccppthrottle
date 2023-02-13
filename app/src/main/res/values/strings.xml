@@ -8,6 +8,7 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
+    <string name="title_dialog_route_add">Add route</string>
     <string name="title_alert_permission_required">Permission required</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -35,12 +36,16 @@
     <string name="label_connect">Connect</string>
     <string name="label_quit">Quit</string>
     <string name="label_connect_at_start">Connect at startup</string>
+    <string name="label_name">Name</string>
+    <string name="label_name_optional">Name (optional)</string>
     <string name="label_address">Address</string>
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward</string>
     <string name="label_reverse">Reverse</string>
+    <string name="label_accessories">Accessories</string>
     <string name="label_locomotives_empty">Empty, tap to assign</string>
     <string name="label_accessories_empty">No accessories, tap to add</string>
+    <string name="label_routes_empty">No routes defined, tap to add</string>
     <string name="label_bluetooth_empty">No bluetooth devices</string>
 
     <string name="message_connecting_to">Connecting to %s...</string>

@@ -28,6 +28,16 @@ object MockStore {
         "Signal"
     )
 
+    private val routes = listOf<String>(
+        "Freight shed",
+        "Station platform",
+        "Middle track",
+        "Main track transit",
+        "Tunnel to deport",
+        "Diagonal track",
+        "Bridge to factory"
+    )
+
     fun ramdomBluetoothList() : List<String> = btDevices.shuffled()
 
     fun randomLocomotive() : LocomotivesStore.LocomotiveState {
@@ -51,5 +61,10 @@ object MockStore {
                 title = accessories.random() + " " + (1..99).random()
             }
         }
+    }
+
+    fun randomRoute() : RoutesStore.RouteState {
+        val title = routes.random()
+        return RoutesStore.RouteState(title)
     }
 }
