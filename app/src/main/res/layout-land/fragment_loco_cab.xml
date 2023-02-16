@@ -7,7 +7,6 @@
     tools:context=".ui.cab.LocoCabFragment">
 
     <LinearLayout
-        android:layout_margin="@dimen/text_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -22,20 +21,22 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="Locomotive title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
+                    android:text="Locomotive title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <!-- F buttons -->
-            </TableLayout>
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin">
+                    <!-- F buttons -->
+                </TableLayout>
             </LinearLayout>
         </ScrollView>
 
@@ -60,6 +61,7 @@
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_margin"
                         android:text="@string/label_address" />
 
                     <TextView
