@@ -57,7 +57,7 @@ class AccessoriesRecyclerViewAdapter(
             }
 
             val popup = PopupMenu(itemView.context, itemView)
-            popup.inflate(R.menu.context_menu)
+            popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {

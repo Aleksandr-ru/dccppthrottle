@@ -19,7 +19,7 @@
             android:text="@string/label_address"
             android:layout_marginTop="@dimen/text_margin"/>
 
-        <ru.aleksandr.dccppthrottle.PlusMinusView
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
             style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
             android:id="@+id/plusminusAddr"
             android:layout_width="wrap_content"

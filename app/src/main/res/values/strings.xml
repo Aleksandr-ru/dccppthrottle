@@ -5,6 +5,7 @@
 
     <string name="title_activity_main">MenuActivity</string>
     <string name="title_activity_cab">Locomotive slot #</string>
+    <string name="title_activity_route">Edit route</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
@@ -50,6 +51,8 @@
     <string name="label_routes_empty">No routes defined, tap to add</string>
     <string name="label_bluetooth_empty">No bluetooth devices</string>
 
+    <string name="placeholder_route_name">Enter route name</string>
+
     <string name="message_connecting_to">Connecting to %s...</string>
     <string name="message_bluetooth_permission">Bluetooth permission is required to communicate with command station</string>
     <string name="message_bluetooth_denied">Unable to continue without bluetooth permission</string>
@@ -57,6 +60,8 @@
     <string name="speed_stop">STOP</string>
     <string name="speed_fwd">F %d</string>
     <string name="speed_rev">R %d</string>
+
+    <string name="route_accessory_params">Address: %d, delay %d ms.</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>

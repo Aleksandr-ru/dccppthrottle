@@ -1,4 +1,4 @@
-package ru.aleksandr.dccppthrottle
+package ru.aleksandr.dccppthrottle.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.widget.doAfterTextChanged
+import ru.aleksandr.dccppthrottle.R
 
 
 /**
@@ -19,6 +20,7 @@ class PlusMinusView : LinearLayout {
 
     var min: Int? = null
     var max: Int? = null
+    var step: Int = 1
     var nullable: Boolean = false
 
     var value: Int?
@@ -68,6 +70,9 @@ class PlusMinusView : LinearLayout {
         if (a.hasValue(R.styleable.PlusMinusView_max)) {
             max = a.getInt(R.styleable.PlusMinusView_max, 100)
         }
+        if (a.hasValue(R.styleable.PlusMinusView_step)) {
+            step = a.getInt(R.styleable.PlusMinusView_step, 1)
+        }
 
         a.recycle()
 
@@ -75,11 +80,11 @@ class PlusMinusView : LinearLayout {
         val minusButton = findViewById<ImageButton>(R.id.buttonMinus)
 
         plusButton.setOnClickListener {
-            value = numberInput?.text.toString().toIntOrNull()?.plus(1) ?: (max ?: 1)
+            value = numberInput?.text.toString().toIntOrNull()?.plus(step) ?: (max ?: 1)
         }
 
         minusButton.setOnClickListener {
-            value = numberInput?.text.toString().toIntOrNull()?.minus(1) ?: (min ?: 0)
+            value = numberInput?.text.toString().toIntOrNull()?.minus(step) ?: (min ?: 0)
         }
 
         numberInput!!.doAfterTextChanged {

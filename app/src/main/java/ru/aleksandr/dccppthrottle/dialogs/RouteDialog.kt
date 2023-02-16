@@ -3,16 +3,10 @@ package ru.aleksandr.dccppthrottle.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Editable
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import ru.aleksandr.dccppthrottle.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
-import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RouteDialog (

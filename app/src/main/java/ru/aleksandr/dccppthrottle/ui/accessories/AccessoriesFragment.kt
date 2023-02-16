@@ -1,6 +1,7 @@
 package ru.aleksandr.dccppthrottle.ui.accessories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,14 @@ class AccessoriesFragment : Fragment() {
         val placeholder = binding.emptyView
 
         placeholder.setOnClickListener {
-            AccessoriesStore.add(MockStore.randomAccessory())
+            for(i in 1..10) {
+                try {
+                    AccessoriesStore.add(MockStore.randomAccessory())
+                }
+                catch (ex: Exception) {
+                    Log.d("Exception", ex.toString())
+                }
+            }
         }
 
         if (view is RecyclerView) {

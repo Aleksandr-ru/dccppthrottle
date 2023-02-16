@@ -67,4 +67,10 @@ object MockStore {
         val title = routes.random()
         return RoutesStore.RouteState(title)
     }
+
+    fun randomRouteAccessory(): RoutesStore.RouteStateAccessory {
+        val addr = AccessoriesStore.data.value!!.random().address
+        val delay = (0..10).random() * 100
+        return RoutesStore.RouteStateAccessory(addr, delay)
+    }
 }

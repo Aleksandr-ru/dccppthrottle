@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_weight="5"
+        android:layout_weight="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -34,36 +34,35 @@
                 android:layout_marginTop="@dimen/text_margin"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="@dimen/text_margin"
-                android:text="@string/label_accessories"
-                android:textAppearance="?attr/textAppearanceListItem" />
+                android:text="@string/label_accessories" />
+
             <TextView
                 android:id="@+id/item_addr_pre2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
                 android:layout_marginStart="0dp"
+                android:layout_marginTop="@dimen/text_margin"
                 android:layout_marginEnd="0dp"
-                android:text=": "
-                android:textAppearance="?attr/textAppearanceListItem" />
+                android:layout_marginBottom="@dimen/text_margin"
+                android:text=": " />
+
             <TextView
                 android:id="@+id/item_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_marginEnd="@dimen/text_margin"
                 android:layout_marginStart="0dp"
-                android:text="45"
-                android:textAppearance="?attr/textAppearanceListItem" />
+                android:layout_marginTop="@dimen/text_margin"
+                android:layout_marginEnd="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:text="45" />
         </LinearLayout>
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
+        android:layout_width="96dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0"
         app:srcCompat="@drawable/ic_slideshow_32" />
 
 </LinearLayout>

@@ -30,7 +30,9 @@ class RoutesFragment : Fragment() {
         val placeholder = binding.emptyView
 
         placeholder.setOnClickListener {
-            RoutesStore.add(MockStore.randomRoute())
+            for(i in 1..10) {
+                RoutesStore.add(MockStore.randomRoute())
+            }
         }
 
         if (view is RecyclerView) {

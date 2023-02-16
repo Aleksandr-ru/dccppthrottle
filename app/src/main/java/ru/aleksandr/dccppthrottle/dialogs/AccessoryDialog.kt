@@ -5,7 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
-import ru.aleksandr.dccppthrottle.PlusMinusView
+import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 

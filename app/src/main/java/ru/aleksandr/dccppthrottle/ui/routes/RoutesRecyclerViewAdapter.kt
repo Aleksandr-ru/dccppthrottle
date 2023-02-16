@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.RouteEditorActivity
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteListItemBinding
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
@@ -51,16 +51,20 @@ class RoutesRecyclerViewAdapter(
         val button: ImageButton = binding.imageButton
 
         init {
+            itemView.setOnClickListener {
+                RouteEditorActivity.start(it.context, bindingAdapterPosition)
+            }
+
             button.setOnClickListener { btn ->
                 // TODO run route
             }
 
             val popup = PopupMenu(itemView.context, itemView)
-            popup.inflate(R.menu.context_menu)
+            popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        Toast.makeText(itemView.context, "Edit $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        RouteEditorActivity.start(itemView.context, bindingAdapterPosition)
                         true
                     }
                     R.id.action_context_delete -> {
