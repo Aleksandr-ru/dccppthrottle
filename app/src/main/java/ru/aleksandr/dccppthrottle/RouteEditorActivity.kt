@@ -88,7 +88,12 @@ class RouteEditorActivity : AppCompatActivity() {
 
         itemTouchHelper.attachToRecyclerView(listView)
 
-        val adapter = RouteEditorRecyclerViewAdapter(itemTouchHelper, getString(R.string.route_accessory_params), routeIndex)
+        val adapter = RouteEditorRecyclerViewAdapter(
+            supportFragmentManager,
+            itemTouchHelper,
+            getString(R.string.route_accessory_params),
+            routeIndex
+        )
         RoutesStore.data.map {
             it[routeIndex].accessories
         }.observe(this) {

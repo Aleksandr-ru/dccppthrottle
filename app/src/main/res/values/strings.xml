@@ -45,6 +45,8 @@
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward</string>
     <string name="label_reverse">Reverse</string>
+    <string name="label_delay">Delay (ms.)</string>
+    <string name="label_accessory">Accessory</string>
     <string name="label_accessories">Accessories</string>
     <string name="label_locomotives_empty">Empty, tap to assign</string>
     <string name="label_accessories_empty">No accessories, tap to add</string>

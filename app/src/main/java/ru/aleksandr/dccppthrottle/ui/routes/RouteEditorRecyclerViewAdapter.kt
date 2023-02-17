@@ -1,18 +1,20 @@
 package ru.aleksandr.dccppthrottle.ui.routes
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteEditorItemBinding
+import ru.aleksandr.dccppthrottle.dialogs.RouteAccessoryDialog
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 import java.util.*
 
 class RouteEditorRecyclerViewAdapter(
+    private val fragmentManager: FragmentManager,
     private val itemTouchHelper: ItemTouchHelper,
     private val subtitleFormat: String,
     private val routeIndex: Int
@@ -87,7 +89,16 @@ class RouteEditorRecyclerViewAdapter(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        Toast.makeText(itemView.context, "Edit $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        val routeAccessory = RoutesStore.data.value!![routeIndex].accessories[bindingAdapterPosition]
+                        val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
+                        RouteAccessoryDialog(title, routeAccessory){
+                            with(routeAccessory) {
+                                address = routeAccessory.address
+                                delay = routeAccessory.delay
+                            }
+                            notifyDataSetChanged()
+                            true
+                        }.show(fragmentManager, "route_acc")
                         true
                     }
                     R.id.action_context_delete -> {

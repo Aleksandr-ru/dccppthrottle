@@ -18,6 +18,9 @@ object AccessoriesStore {
 
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
 
+    fun getIndexByAddress(addr: Int) = data.value?.withIndex()?.find { it.value.address == addr }?.index
+    fun getAddressByIndex(index: Int) = data.value?.get(index)?.address
+
     fun removeByIndex(index: Int) {
         _data.value = _data.value?.also {
             it.removeAt(index)
