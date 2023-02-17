@@ -5,8 +5,10 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.RouteEditorActivity
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteListItemBinding
@@ -39,7 +41,7 @@ class RoutesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RoutesRecyclerViewAdapter.ViewHolder, position: Int) {
         with(values[position]) {
             holder.title.text = toString()
-            holder.num.text = "0" // TODO count
+            holder.num.text = accessories.size.toString()
         }
     }
 
@@ -57,6 +59,18 @@ class RoutesRecyclerViewAdapter(
 
             button.setOnClickListener { btn ->
                 // TODO run route
+                val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
+                GlobalScope.launch {
+                    accessories.forEach {
+                        Toast.makeText(
+                            itemView.context,
+                            "Route acc ${it.address} set ${it.isOn}, delay ${it.delay}",
+                            it.delay
+                        ).show()
+                        delay(it.delay.toLong() * 2) // TODO remove x2
+                    }
+                    // this.cancel()
+                }
             }
 
             val popup = PopupMenu(itemView.context, itemView)
