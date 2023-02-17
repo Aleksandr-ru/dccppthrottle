@@ -18,16 +18,16 @@ object AccessoriesStore {
 
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
 
+    fun getAddress(index: Int) = data.value?.get(index)?.address
     fun getIndexByAddress(addr: Int) = data.value?.withIndex()?.find { it.value.address == addr }?.index
-    fun getAddressByIndex(index: Int) = data.value?.get(index)?.address
 
-    fun removeByIndex(index: Int) {
+    fun remove(index: Int) {
         _data.value = _data.value?.also {
             it.removeAt(index)
         }
     }
 
-    fun replaceByIndex(index: Int, newItem: AccessoryState) {
+    fun replace(index: Int, newItem: AccessoryState) {
         if (_data.value?.withIndex()?.filter { it.index != index }?.any { it.value.address == newItem.address } == true) {
             throw AccessoryAddressInUseException()
         }
@@ -38,7 +38,7 @@ object AccessoriesStore {
 
     fun hasAddress(addr: Int) : Boolean = data.value!!.any { it.address == addr }
 
-    fun setStateByIndex(index: Int, newState: Boolean) {
+    fun setState(index: Int, newState: Boolean) {
         _data.value = _data.value?.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {

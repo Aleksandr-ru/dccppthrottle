@@ -1,11 +1,17 @@
 package ru.aleksandr.dccppthrottle.ui.routes
 
+import android.app.AlertDialog
+import android.os.Handler
+import android.os.Looper
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.setPadding
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
@@ -58,18 +64,34 @@ class RoutesRecyclerViewAdapter(
             }
 
             button.setOnClickListener { btn ->
-                // TODO run route
+                val route = RoutesStore.data.value!![bindingAdapterPosition]
                 val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
-                GlobalScope.launch {
+                val progressView = ProgressBar(
+                    itemView.context,
+                    null,
+                    android.R.attr.progressBarStyleHorizontal
+                ).apply {
+                    max = accessories.size
+                    val padding = resources.getDimension(R.dimen.dialog_padding).toInt()
+                    setPadding(padding)
+                }
+                var job: Job? = null
+                val dialog = AlertDialog.Builder(itemView.context)
+                    .setTitle(route.title)
+                    .setView(progressView)
+                    .setCancelable(false)
+                    .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                        job?.cancel()
+                        dialog.cancel()
+                    }.show()
+
+                job = GlobalScope.launch {
                     accessories.forEach {
-                        Toast.makeText(
-                            itemView.context,
-                            "Route acc ${it.address} set ${it.isOn}, delay ${it.delay}",
-                            it.delay
-                        ).show()
-                        delay(it.delay.toLong() * 2) // TODO remove x2
+                        // TODO run route - switchaccessory
+                        progressView.incrementProgressBy(1)
+                        delay(it.delay.toLong())
                     }
-                    // this.cancel()
+                    dialog.dismiss()
                 }
             }
 
@@ -82,7 +104,7 @@ class RoutesRecyclerViewAdapter(
                         true
                     }
                     R.id.action_context_delete -> {
-                        RoutesStore.removeByIndex(bindingAdapterPosition)
+                        RoutesStore.remove(bindingAdapterPosition)
                         true
                     }
                     else -> false

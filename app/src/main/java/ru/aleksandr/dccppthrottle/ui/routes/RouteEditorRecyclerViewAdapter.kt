@@ -81,7 +81,10 @@ class RouteEditorRecyclerViewAdapter(
             }
 
             toggle.setOnCheckedChangeListener { btn, isChecked ->
-                // TODO change data
+                val routeAccessory = values[bindingAdapterPosition]
+                routeAccessory.isOn = isChecked
+                RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, routeAccessory)
+                notifyItemChanged(bindingAdapterPosition)
             }
 
             val popup = PopupMenu(itemView.context, itemView)
@@ -89,20 +92,17 @@ class RouteEditorRecyclerViewAdapter(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        val routeAccessory = RoutesStore.data.value!![routeIndex].accessories[bindingAdapterPosition]
+                        val routeAccessory = values[bindingAdapterPosition]
                         val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
                         RouteAccessoryDialog(title, routeAccessory){
-                            with(routeAccessory) {
-                                address = routeAccessory.address
-                                delay = routeAccessory.delay
-                            }
-                            notifyDataSetChanged()
+                            RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, it)
+                            notifyItemChanged(bindingAdapterPosition)
                             true
                         }.show(fragmentManager, "route_acc")
                         true
                     }
                     R.id.action_context_delete -> {
-                        RoutesStore.removeAccessoryByIndex(routeIndex, bindingAdapterPosition)
+                        RoutesStore.removeAccessory(routeIndex, bindingAdapterPosition)
                         true
                     }
                     else -> false

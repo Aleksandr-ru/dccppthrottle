@@ -22,14 +22,14 @@ class RouteAccessoryDialog (
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
-        return activity!!.let {
+        return activity!!.let { it ->
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
             val view = inflater.inflate(R.layout.dialog_route_accessory, null)
 
             val delay = view.findViewById<PlusMinusView>(R.id.plusminusDelay)
             val list = view.findViewById<Spinner>(R.id.spinnerAccList)
-            val accessoryNames = AccessoriesStore.data.value!!.map { toString() }
+            val accessoryNames = AccessoriesStore.data.value!!.map { it.toString() }
             val selectedIndex = initial?.let { acc -> AccessoriesStore.getIndexByAddress(acc.address) } ?: 0
             val adapter: ArrayAdapter<String> =
                 ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, accessoryNames)
@@ -40,8 +40,8 @@ class RouteAccessoryDialog (
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_ok) { dialog, id ->
-                    val address: Int = AccessoriesStore.getAddressByIndex(list.selectedItemPosition)!!
+                .setPositiveButton(R.string.label_ok) { dialog, _ ->
+                    val address: Int = AccessoriesStore.getAddress(list.selectedItemPosition)!!
                     val acc = RoutesStore.RouteStateAccessory(
                         address,
                         delay.value!!
@@ -50,7 +50,7 @@ class RouteAccessoryDialog (
                         dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, id ->
+                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             dialog = builder.create()

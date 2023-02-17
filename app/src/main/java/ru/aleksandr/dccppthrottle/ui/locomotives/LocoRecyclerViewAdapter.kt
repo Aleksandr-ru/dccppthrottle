@@ -86,7 +86,7 @@ class LocoRecyclerViewAdapter(
 
         init {
             itemView.setOnClickListener {
-                val slot = LocomotivesStore.getSlotByIndex(bindingAdapterPosition)
+                val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
                 if (slot > 0) LocoCabActivity.start(it.context, slot)
             }
 
@@ -100,14 +100,14 @@ class LocoRecyclerViewAdapter(
                         LocomotiveDialog(title, loco) {
                             // TODO stop loco, null slot
                             it.slot = 0
-                            LocomotivesStore.replaceByIndex(bindingAdapterPosition, it)
+                            LocomotivesStore.replace(bindingAdapterPosition, it)
                             true
                         }.show(fragmentManager, "loco")
                         true
                     }
                     R.id.action_context_delete -> {
                         // TODO stop loco, null slot
-                        LocomotivesStore.removeByIndex(bindingAdapterPosition)
+                        LocomotivesStore.remove(bindingAdapterPosition)
                         true
                     }
                     else -> false
@@ -123,7 +123,7 @@ class LocoRecyclerViewAdapter(
                 if (sw.isPressed) {
                     if (isChecked) {
                         try {
-                            LocomotivesStore.assignToSlotByIndex(bindingAdapterPosition)
+                            LocomotivesStore.assignToSlot(bindingAdapterPosition)
                         }
                         catch (ex : LocomotivesStore.LocomotiveNoSlotsAvailableException) {
                             Toast.makeText(sw.context, "No slots available", Toast.LENGTH_SHORT).show()
@@ -135,7 +135,7 @@ class LocoRecyclerViewAdapter(
                         }
                     }
                     else {
-                        LocomotivesStore.assignToSlotByIndex(bindingAdapterPosition, 0)
+                        LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                     }
                 }
             }

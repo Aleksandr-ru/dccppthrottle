@@ -24,8 +24,8 @@ object LocomotivesStore {
     }
 
     fun hasFreeSlots() : Boolean = getSlots().size < SLOTS_COUNT
-    fun getSlotByIndex(index : Int) : Int = data.value!![index].slot
-    fun getAddressByIndex(index: Int) : Int = data.value!![index].address
+    fun getSlot(index : Int) : Int = data.value!![index].slot
+    fun getAddress(index: Int) : Int = data.value!![index].address
     fun getSlotByAddress(addr : Int) : Int = data.value!!.firstOrNull { it.address == addr }?.slot ?: 0
 
     fun add(item: LocomotiveState) {
@@ -37,13 +37,13 @@ object LocomotivesStore {
         }
     }
 
-    fun removeByIndex(index: Int) {
+    fun remove(index: Int) {
         _data.value = _data.value?.also {
             it.removeAt(index)
         }
     }
 
-    fun replaceByIndex(index: Int, newItem: LocomotiveState) {
+    fun replace(index: Int, newItem: LocomotiveState) {
         if (newItem.slot > 0) {
             if (newItem.address == 0) throw LocomotiveNoSlotAddressException()
             val slots : Map<Int, Int> = data.value!!.filterIndexed { i, item -> i != index && item.slot > 0 }
@@ -57,10 +57,10 @@ object LocomotivesStore {
         }
     }
 
-    fun assignToSlotByIndex(index: Int, toSlot: Int? = null) {
+    fun assignToSlot(index: Int, toSlot: Int? = null) {
         val newSlot = toSlot ?: getAvailableSlot() ?: throw LocomotiveNoSlotsAvailableException()
         if (newSlot > 0) {
-            val addr = getAddressByIndex(index)
+            val addr = getAddress(index)
             if (getSlotByAddress(addr) > 0) throw LocomotiveAddressInUseException()
         }
         _data.value = _data.value?.also {
@@ -72,7 +72,7 @@ object LocomotivesStore {
         }
     }
 
-    fun setFunctionByIndex(index: Int, func: Int, isOn : Boolean = false) {
+    fun setFunction(index: Int, func: Int, isOn : Boolean = false) {
         _data.value = _data.value?.also {
             it[index].apply {
                 functions[func] = isOn

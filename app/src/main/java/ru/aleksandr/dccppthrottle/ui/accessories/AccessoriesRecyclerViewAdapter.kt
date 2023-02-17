@@ -54,7 +54,7 @@ class AccessoriesRecyclerViewAdapter(
 
         init {
             button.setOnCheckedChangeListener { _, isChecked ->
-                AccessoriesStore.setStateByIndex(bindingAdapterPosition, isChecked)
+                AccessoriesStore.setState(bindingAdapterPosition, isChecked)
             }
 
             val popup = PopupMenu(itemView.context, itemView)
@@ -67,7 +67,7 @@ class AccessoriesRecyclerViewAdapter(
                     }
                     R.id.action_context_delete -> {
                         // TODO check in routes
-                        AccessoriesStore.removeByIndex(bindingAdapterPosition)
+                        AccessoriesStore.remove(bindingAdapterPosition)
                         true
                     }
                     else -> false

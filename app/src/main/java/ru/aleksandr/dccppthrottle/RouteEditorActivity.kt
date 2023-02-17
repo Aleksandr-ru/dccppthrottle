@@ -9,10 +9,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ListAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.map
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.UP
@@ -83,8 +85,14 @@ class RouteEditorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_route_editor)
 
         routeIndex = intent.getIntExtra(ARG_ROUTE, 0)
+        val editTextView = findViewById<EditText>(R.id.editTextName)
         val listView = findViewById<RecyclerView>(R.id.list_route_accessories)
         val placeholder = findViewById<TextView>(R.id.empty_view)
+
+        editTextView.setText(RoutesStore.data.value!![routeIndex].title)
+        editTextView.doAfterTextChanged {
+            RoutesStore.setTitle(routeIndex, it.toString())
+        }
 
         itemTouchHelper.attachToRecyclerView(listView)
 
@@ -94,9 +102,7 @@ class RouteEditorActivity : AppCompatActivity() {
             getString(R.string.route_accessory_params),
             routeIndex
         )
-        RoutesStore.data.map {
-            it[routeIndex].accessories
-        }.observe(this) {
+        RoutesStore.liveAccessories(routeIndex).observe(this) {
             adapter.replaceValues(it)
             adapter.notifyDataSetChanged()
 
@@ -115,7 +121,7 @@ class RouteEditorActivity : AppCompatActivity() {
             for(i in 1..10) {
                 RoutesStore.addAccessory(routeIndex, MockStore.randomRouteAccessory())
             }
-            // addAccessoryDialog()
+            // TODO addAccessoryDialog()
         }
     }
 
