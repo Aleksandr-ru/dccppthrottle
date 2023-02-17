@@ -19,43 +19,17 @@
             android:text="Accessory 45"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <LinearLayout
-            android:layout_marginTop="-16dp"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_addr"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="-8dp"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:text="Address: 45"
+            android:textAppearance="?attr/textAppearanceListItem" />
 
-            <TextView
-                android:id="@+id/item_addr_pre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginEnd="0dp"
-                android:text="@string/label_address"
-                android:textAppearance="?attr/textAppearanceListItem" />
-            <TextView
-                android:id="@+id/item_addr_pre2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:text=": "
-                android:textAppearance="?attr/textAppearanceListItem" />
-            <TextView
-                android:id="@+id/item_addr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginStart="0dp"
-                android:text="45"
-                android:textAppearance="?attr/textAppearanceListItem" />
-        </LinearLayout>
     </LinearLayout>
 
     <ToggleButton

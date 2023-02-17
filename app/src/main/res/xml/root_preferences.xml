@@ -1,36 +1,58 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory app:title="@string/messages_header">
+    <PreferenceCategory android:title="@string/title_pref_general">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/sort_entries"
-            app:entryValues="@array/sort_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
-
-
+        <SwitchPreferenceCompat
+            app:title="@string/label_keep_screen"
+            app:summaryOff="@string/label_keep_screen_off"
+            app:summaryOn="@string/label_keep_screen_on"
+            app:key="screen" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory android:title="@string/title_pref_lists">
+
+        <ListPreference
+            app:title="@string/label_sort_locos"
+            app:defaultValue="unsorted"
+            app:entries="@array/sort_loco_entries"
+            app:entryValues="@array/sort_loco_values"
+            app:key="sort_locos"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:title="@string/label_sort_acc"
+            app:defaultValue="unsorted"
+            app:entries="@array/sort_acc_entries"
+            app:entryValues="@array/sort_acc_values"
+            app:key="sort_accessories"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:title="@string/label_sort_routes"
+            app:defaultValue="unsorted"
+            app:entries="@array/sort_route_entries"
+            app:entryValues="@array/sort_route_values"
+            app:key="sort_routes"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_pref_cs">
+
+        <ListPreference
+            app:title="@string/label_speed_steps"
+            app:defaultValue="128"
+            app:entries="@array/speed_steps_entries"
+            app:entryValues="@array/speed_steps_values"
+            app:key="speed"
+            app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:key="connect"
+            app:title="@string/label_connect_at_start" />
 
     </PreferenceCategory>
 

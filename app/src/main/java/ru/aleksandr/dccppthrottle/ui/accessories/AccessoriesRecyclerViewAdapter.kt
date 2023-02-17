@@ -37,9 +37,10 @@ class AccessoriesRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: AccessoriesRecyclerViewAdapter.ViewHolder, position: Int) {
+        val strAddr = holder.itemView.context.getString(R.string.accessory_params)
         with(values[position]) {
             holder.title.text = toString()
-            holder.address.text = address.toString()
+            holder.address.text = String.format(strAddr, address)
             holder.button.isChecked = isOn
         }
     }

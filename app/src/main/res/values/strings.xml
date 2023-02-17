@@ -13,6 +13,9 @@
     <string name="title_dialog_accessory_edit">Edit accessory</string>
     <string name="title_dialog_route_add">Add route</string>
     <string name="title_alert_permission_required">Permission required</string>
+    <string name="title_pref_general">General</string>
+    <string name="title_pref_lists">Lists</string>
+    <string name="title_pref_cs">Command station</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -52,6 +55,13 @@
     <string name="label_accessories_empty">No accessories, tap to add</string>
     <string name="label_routes_empty">No routes defined, tap to add</string>
     <string name="label_bluetooth_empty">No bluetooth devices</string>
+    <string name="label_keep_screen">Keep screen on</string>
+    <string name="label_keep_screen_on">Prevent screen from blanking when inactive</string>
+    <string name="label_keep_screen_off">Screen will blank as normal</string>
+    <string name="label_sort_locos">Sort locomotives</string>
+    <string name="label_sort_acc">Sort accessories</string>
+    <string name="label_sort_routes">Sort routes</string>
+    <string name="label_speed_steps">Speed steps mode</string>
 
     <string name="placeholder_route_name">Enter route name</string>
 
@@ -59,24 +69,11 @@
     <string name="message_bluetooth_permission">Bluetooth permission is required to communicate with command station</string>
     <string name="message_bluetooth_denied">Unable to continue without bluetooth permission</string>
 
+    <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>
     <string name="speed_fwd">F %d</string>
     <string name="speed_rev">R %d</string>
 
+    <string name="accessory_params">Address: %d</string>
     <string name="route_accessory_params">Address: %d, delay %d ms.</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-
 </resources>

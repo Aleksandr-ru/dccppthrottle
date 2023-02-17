@@ -40,6 +40,11 @@ class LocoRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
 
+        val strAddr = holder.itemView.context.getString(R.string.dcc_addr)
+        val strStop = holder.itemView.context.getString(R.string.speed_stop)
+        val strForward = holder.itemView.context.getString(R.string.speed_fwd)
+        val strReverse = holder.itemView.context.getString(R.string.speed_rev)
+
         if (item.slot > 0) {
             holder.itemView.alpha = 1F
             holder.switch.isChecked = true
@@ -52,13 +57,9 @@ class LocoRecyclerViewAdapter(
             holder.switch.isEnabled = LocomotivesStore.hasFreeSlots()
             holder.slot.text = ""
         }
-        holder.address.text = item.address.toString()
         holder.title.text = item.toString()
         holder.progress.progress = item.speed
-
-        val strStop = holder.itemView.context.getString(R.string.speed_stop)
-        val strForward = holder.itemView.context.getString(R.string.speed_fwd)
-        val strReverse = holder.itemView.context.getString(R.string.speed_rev)
+        holder.address.text = String.format(strAddr, item.address)
 
         if (item.speed > 0) {
             if (item.reverse) {
