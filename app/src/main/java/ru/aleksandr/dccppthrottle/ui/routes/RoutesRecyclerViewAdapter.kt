@@ -72,8 +72,8 @@ class RoutesRecyclerViewAdapter(
                     android.R.attr.progressBarStyleHorizontal
                 ).apply {
                     max = accessories.size
-                    val padding = resources.getDimension(R.dimen.dialog_padding).toInt()
-                    setPadding(padding)
+                    val padding = resources.getDimension(R.dimen.dialog_padding)
+                    setPadding(padding.toInt())
                 }
                 var job: Job? = null
                 val dialog = AlertDialog.Builder(itemView.context)
@@ -82,12 +82,11 @@ class RoutesRecyclerViewAdapter(
                     .setCancelable(false)
                     .setNegativeButton(R.string.label_cancel) { dialog, _ ->
                         job?.cancel()
-                        dialog.cancel()
                     }.show()
 
                 job = GlobalScope.launch {
                     accessories.forEach {
-                        // TODO run route - switchaccessory
+                        // TODO run route - switch accessory
                         progressView.incrementProgressBy(1)
                         delay(it.delay.toLong())
                     }
