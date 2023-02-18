@@ -6,7 +6,10 @@
     <string name="title_activity_main">MenuActivity</string>
     <string name="title_activity_cab">Locomotive slot #</string>
     <string name="title_activity_route">Edit route</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_fragment_locomotives">Locomotives</string>
+    <string name="title_fragment_accessories">Accessories</string>
+    <string name="title_fragment_routes">Routes</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>

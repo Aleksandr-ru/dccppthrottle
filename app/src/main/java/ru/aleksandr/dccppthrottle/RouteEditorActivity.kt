@@ -4,18 +4,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.ListAdapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.ItemTouchHelper.DOWN
@@ -26,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
-import ru.aleksandr.dccppthrottle.ui.routes.RouteEditorRecyclerViewAdapter
+import ru.aleksandr.dccppthrottle.ui.route.RouteEditorRecyclerViewAdapter
 
 class RouteEditorActivity : AppCompatActivity() {
     var routeIndex: Int = 0

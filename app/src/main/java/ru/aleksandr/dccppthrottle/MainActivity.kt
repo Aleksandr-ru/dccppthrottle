@@ -1,55 +1,80 @@
 package ru.aleksandr.dccppthrottle
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.navigation.NavigationView
-import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.*
+import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.RouteDialog
-import ru.aleksandr.dccppthrottle.store.AccessoriesStore
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
-import ru.aleksandr.dccppthrottle.store.MockStore
-import ru.aleksandr.dccppthrottle.store.RoutesStore
-import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding as ActivityMenuBinding
+import ru.aleksandr.dccppthrottle.store.*
+import ru.aleksandr.dccppthrottle.ui.main.MainViewPagerAdapter
+import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMenuBinding
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMenuBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setSupportActionBar(binding.appBarMenu.toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_menu)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_locomotives, R.id.nav_accessories, R.id.nav_routes
-            ), drawerLayout
+        actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            binding.toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        actionBarDrawerToggle.isDrawerIndicatorEnabled = true
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
 
-        navView.setNavigationItemSelectedListener(this)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
+        val adapter = MainViewPagerAdapter(this)
+        viewPager = binding.mainPager
+        viewPager.adapter = adapter
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                supportActionBar?.title = when(position){
+                    POSITION_LOCOMOTIVES -> getString(R.string.title_fragment_locomotives)
+                    POSITION_ACCESSORIES -> getString(R.string.title_fragment_accessories)
+                    POSITION_ROUTES -> getString(R.string.title_fragment_routes)
+                    else -> ""
+                }
+                MainStore.setPosition(position)
+            }
+        })
+        MainStore.position.observe(this) {
+            viewPager.currentItem = it
+        }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onPostCreate(savedInstanceState, persistentState)
+        actionBarDrawerToggle.syncState()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        actionBarDrawerToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,15 +83,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_menu)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         drawerLayout.closeDrawers()
         return when (item.itemId) {
+            R.id.nav_locomotives -> {
+                viewPager.currentItem = POSITION_LOCOMOTIVES
+                false
+            }
+            R.id.nav_accessories -> {
+                viewPager.currentItem = POSITION_ACCESSORIES
+                false
+            }
+            R.id.nav_routes -> {
+                viewPager.currentItem = POSITION_ROUTES
+                false
+            }
             R.id.nav_programming -> {
                 Toast.makeText(this,"Programming", Toast.LENGTH_SHORT).show()
                 false
@@ -85,21 +117,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 false
             }
             else -> {
-                val navController = findNavController(R.id.nav_host_fragment_content_menu)
-                item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
             }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_menu)
         return when(item.itemId) {
             R.id.action_stop -> {
                 Toast.makeText(this,"STOP", Toast.LENGTH_SHORT).show()
                 true
             }
             R.id.action_add_loco -> {
-                navController.navigate(R.id.nav_locomotives)
+                viewPager.currentItem = POSITION_LOCOMOTIVES
                 val loco = LocomotivesStore.LocomotiveState(3)
                 LocomotiveDialog(getString(R.string.title_dialog_locomotive_add), loco) {
                     LocomotivesStore.add(it)
@@ -108,7 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_acc -> {
-                navController.navigate(R.id.nav_accessories)
+                viewPager.currentItem = POSITION_ACCESSORIES
                 val accessory = AccessoriesStore.AccessoryState(1)
                 AccessoryDialog(getString(R.string.title_dialog_accessory_add), accessory) {
                     try {
@@ -122,7 +152,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.action_add_route -> {
-                navController.navigate(R.id.nav_routes)
+                viewPager.currentItem = POSITION_ROUTES
                 RouteDialog(getString(R.string.title_dialog_route_add)) {
                     RoutesStore.add(it)
                     true
@@ -133,5 +163,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    companion object {
+        const val POSITION_LOCOMOTIVES = 0
+        const val POSITION_ACCESSORIES = 1
+        const val POSITION_ROUTES = 2
     }
 }

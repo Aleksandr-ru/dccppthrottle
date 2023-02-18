@@ -1,4 +1,4 @@
-package ru.aleksandr.dccppthrottle.ui.routes
+package ru.aleksandr.dccppthrottle.ui.route
 
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -40,7 +40,7 @@ class RouteEditorRecyclerViewAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: RouteEditorRecyclerViewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(values[position]) {
             holder.title.text = toString()
             holder.subtitle.text = String.format(subtitleFormat, address, delay)
