@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
+import ru.aleksandr.dccppthrottle.provider.BluetoothProvider
 
 class ConnectActivity : AppCompatActivity() {
 
@@ -37,6 +38,7 @@ class ConnectActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
             //val deviceName = pairedDevices!!.elementAt(spinner.selectedItemPosition).name // TODO uncomment me
+            //val deviceMac = pairedDevices!!.elementAt(spinner.selectedItemPosition).address // TODO uncomment me
             val deviceName : String = pairedDevices?.elementAtOrNull(spinner.selectedItemPosition)?.name ?: "UNKNOWN" // TODO delete me
 
             val message = String.format(getString(R.string.message_connecting_to), deviceName)
@@ -53,6 +55,7 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         if (checkSelfPermission(bluetoothPermission) == PackageManager.PERMISSION_GRANTED) {
+            BluetoothProvider.init(this)
             setupDevicesList()
         }
         else if (shouldShowRequestPermissionRationale(bluetoothPermission)) {
@@ -71,8 +74,7 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun setupDevicesList() {
-        val btManager = applicationContext.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        pairedDevices = btManager.adapter.bondedDevices
+        pairedDevices = BluetoothProvider.getPairedDevices()
 
         val btn = findViewById<Button>(R.id.btnConnect)
         val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -107,8 +109,10 @@ class ConnectActivity : AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
+                    BluetoothProvider.init(this)
                     setupDevicesList()
-                } else {
+                }
+                else {
                     // Explain to the user that the feature is unavailable because
                     // the feature requires a permission that the user has denied.
                     // At the same time, respect the user's decision. Don't link to

@@ -44,6 +44,7 @@ class RouteEditorRecyclerViewAdapter(
         with(values[position]) {
             holder.title.text = toString()
             holder.subtitle.text = String.format(subtitleFormat, address, delay)
+            holder.toggle.isChecked = isOn
         }
     }
 
@@ -81,10 +82,13 @@ class RouteEditorRecyclerViewAdapter(
             }
 
             toggle.setOnCheckedChangeListener { btn, isChecked ->
-                val routeAccessory = values[bindingAdapterPosition]
-                routeAccessory.isOn = isChecked
-                RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, routeAccessory)
-                notifyItemChanged(bindingAdapterPosition)
+                if (btn.isPressed) {
+//                    val routeAccessory = values[bindingAdapterPosition]
+//                    routeAccessory.isOn = isChecked
+//                    RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, routeAccessory)
+                    RoutesStore.toggleAccessory(routeIndex, bindingAdapterPosition, isChecked)
+                    notifyItemChanged(bindingAdapterPosition)
+                }
             }
 
             val popup = PopupMenu(itemView.context, itemView)

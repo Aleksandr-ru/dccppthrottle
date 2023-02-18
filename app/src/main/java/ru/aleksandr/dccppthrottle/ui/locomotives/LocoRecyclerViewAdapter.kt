@@ -126,11 +126,11 @@ class LocoRecyclerViewAdapter(
                             LocomotivesStore.assignToSlot(bindingAdapterPosition)
                         }
                         catch (ex : LocomotivesStore.LocomotiveNoSlotsAvailableException) {
-                            Toast.makeText(sw.context, "No slots available", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(sw.context, R.string.message_no_slots, Toast.LENGTH_SHORT).show()
                             sw.isChecked = false
                         }
                         catch (ex : LocomotivesStore.LocomotiveAddressInUseException) {
-                            Toast.makeText(sw.context, "Address already in use", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(sw.context, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
                             sw.isChecked = false
                         }
                     }

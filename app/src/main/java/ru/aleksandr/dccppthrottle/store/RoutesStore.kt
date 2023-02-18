@@ -52,6 +52,12 @@ object RoutesStore {
         }
     }
 
+    fun toggleAccessory(routeIndex: Int, accIndex: Int, isOn: Boolean) {
+        _data.value = _data.value?.also {
+            it[routeIndex].accessories[accIndex].isOn = isOn
+        }
+    }
+
     data class RouteState(
         var title : String
     ) {
