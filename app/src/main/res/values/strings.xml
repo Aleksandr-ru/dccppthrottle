@@ -4,7 +4,7 @@
     <string name="app_version">Public playable beta %s (%d)</string>
 
     <string name="title_activity_main">MenuActivity</string>
-    <string name="title_activity_cab">Locomotive slot #</string>
+    <string name="title_activity_cab">Locomotive slot #%d</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_fragment_locomotives">Locomotives</string>
@@ -69,10 +69,13 @@
     <string name="placeholder_route_name">Enter route name</string>
 
     <string name="message_connecting_to">Connecting to %s...</string>
+    <string name="message_connect_failed">Failed to connect!</string>
     <string name="message_bluetooth_permission">Bluetooth permission is required to communicate with command station</string>
     <string name="message_bluetooth_denied">Unable to continue without bluetooth permission</string>
+    <string name="message_bluetooth_disabled">Bluetooth adapter is disabled, please enable it</string>
     <string name="message_no_slots">No slots available</string>
     <string name="message_address_in_use">Address already in use</string>
+    <string name="message_stop_all">STOP all locomotives</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

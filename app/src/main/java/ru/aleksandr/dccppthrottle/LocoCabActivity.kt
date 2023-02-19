@@ -4,11 +4,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
 class LocoCabActivity : AppCompatActivity() {
+    private var slot: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loco_cab)
@@ -22,19 +27,38 @@ class LocoCabActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                setTitleForSlot(slots[position])
+                slot = slots[position]
+                setTitleForSlot()
             }
         })
 
-        val slot = intent.getIntExtra(ARG_SLOT, 0)
+        slot = intent.getIntExtra(ARG_SLOT, 0)
         if (slot > 0) {
             viewPager.currentItem = slots.indexOf(slot)
-            if (viewPager.currentItem == 0) setTitleForSlot(slot)
+            if (viewPager.currentItem == 0) setTitleForSlot()
         }
     }
 
-    fun setTitleForSlot(slot: Int) {
-        title = getString(R.string.title_activity_cab) + slot
+    fun setTitleForSlot() {
+        val format = getString(R.string.title_activity_cab)
+        title = String.format(format, slot)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.stop, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_stop -> {
+                CommandStation.stopLocomotive(slot)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
     }
 
     companion object {

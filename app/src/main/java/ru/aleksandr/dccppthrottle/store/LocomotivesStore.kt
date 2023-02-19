@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 
 object LocomotivesStore {
-    private const val SLOTS_COUNT = 10
-    const val FUNCTIONS_COUNT = 12
+    private const val SLOTS_COUNT = 12
+    const val FUNCTIONS_COUNT = 28
 
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
@@ -27,6 +27,8 @@ object LocomotivesStore {
     fun getSlot(index : Int) : Int = data.value!![index].slot
     fun getAddress(index: Int) : Int = data.value!![index].address
     fun getSlotByAddress(addr : Int) : Int = data.value!!.firstOrNull { it.address == addr }?.slot ?: 0
+
+    fun getBySlot(slot: Int) : LocomotiveState? = data.value?.firstOrNull { it.slot == slot }
 
     fun add(item: LocomotiveState) {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
@@ -67,6 +69,17 @@ object LocomotivesStore {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
                     slot = newSlot
+                }
+            }
+        }
+    }
+
+    fun setSpeedBySlot(slot: Int, newSpeed: Int, newReverse: Boolean) {
+        _data.value = _data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    speed = newSpeed
+                    reverse = newReverse
                 }
             }
         }

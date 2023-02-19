@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/text_margin"
-        app:max="255"
+        app:max="512"
         app:min="1"
         app:nullable="false"
         app:value="0" />

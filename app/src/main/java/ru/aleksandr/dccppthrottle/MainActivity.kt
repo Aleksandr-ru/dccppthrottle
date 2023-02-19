@@ -12,6 +12,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.RouteDialog
@@ -113,7 +114,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 false
             }
             R.id.nav_disconnect -> {
-                Toast.makeText(this,"Disconnect", Toast.LENGTH_SHORT).show()
+                val myIntent = Intent(this, ConnectActivity::class.java)
+                startActivity(myIntent)
                 false
             }
             else -> {
@@ -125,7 +127,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.action_stop -> {
-                Toast.makeText(this,"STOP", Toast.LENGTH_SHORT).show()
+                val slots = LocomotivesStore.getSlots()
+                if (slots.isNotEmpty()) {
+                    Toast.makeText(this, R.string.message_stop_all, Toast.LENGTH_SHORT).show()
+                }
+                slots.forEach {
+                    CommandStation.stopLocomotive(it)
+                }
                 true
             }
             R.id.action_add_loco -> {

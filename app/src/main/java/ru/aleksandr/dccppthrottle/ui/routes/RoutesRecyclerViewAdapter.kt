@@ -1,20 +1,17 @@
 package ru.aleksandr.dccppthrottle.ui.routes
 
 import android.app.AlertDialog
-import android.os.Handler
-import android.os.Looper
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.setPadding
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.RouteEditorActivity
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteListItemBinding
@@ -48,6 +45,7 @@ class RoutesRecyclerViewAdapter(
         with(values[position]) {
             holder.title.text = toString()
             holder.num.text = accessories.size.toString()
+            holder.button.isEnabled = accessories.isNotEmpty()
         }
     }
 
@@ -80,13 +78,13 @@ class RoutesRecyclerViewAdapter(
                     .setTitle(route.title)
                     .setView(progressView)
                     .setCancelable(false)
-                    .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                    .setNegativeButton(R.string.label_cancel) { _, _ ->
                         job?.cancel()
                     }.show()
 
                 job = GlobalScope.launch {
                     accessories.forEach {
-                        // TODO run route - switch accessory
+                        CommandStation.setAccessoryState(it.address, it.isOn)
                         progressView.incrementProgressBy(1)
                         delay(it.delay.toLong())
                     }

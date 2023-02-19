@@ -9,6 +9,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
@@ -98,7 +99,10 @@ class LocoRecyclerViewAdapter(
                         val loco = LocomotivesStore.data.value!![bindingAdapterPosition]
                         val title = itemView.context.getString(R.string.title_dialog_locomotive_add)
                         LocomotiveDialog(title, loco) {
-                            // TODO stop loco, null slot
+                            if (loco.slot > 0) {
+                                CommandStation.stopLocomotive(loco.slot)
+                                LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                            }
                             it.slot = 0
                             LocomotivesStore.replace(bindingAdapterPosition, it)
                             true
@@ -106,7 +110,11 @@ class LocoRecyclerViewAdapter(
                         true
                     }
                     R.id.action_context_delete -> {
-                        // TODO stop loco, null slot
+                        val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
+                        if (slot > 0) {
+                            CommandStation.stopLocomotive(slot)
+                            LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                        }
                         LocomotivesStore.remove(bindingAdapterPosition)
                         true
                     }
@@ -135,6 +143,8 @@ class LocoRecyclerViewAdapter(
                         }
                     }
                     else {
+                        val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
+                        CommandStation.stopLocomotive(slot)
                         LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                     }
                 }

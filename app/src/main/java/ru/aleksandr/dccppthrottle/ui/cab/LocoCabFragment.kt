@@ -1,22 +1,17 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LocoCabFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LocoCabFragment : Fragment() {
     private val F_PER_ROW = 4
 
@@ -52,7 +47,7 @@ class LocoCabFragment : Fragment() {
                 layoutParams = functionLayoutParams
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
-                        Toast.makeText(button.context, "Function ${button.tag} ($i) is $isChecked", Toast.LENGTH_SHORT).show()
+                        CommandStation.setLocomotiveFunction(slot, i, isChecked)
                     }
                 }
             }
@@ -86,13 +81,16 @@ class LocoCabFragment : Fragment() {
 
             override fun onStopTrackingTouch(bar: SeekBar?) {
                 // "Required but not yet implemented"
+                bar?.let {
+                    CommandStation.setLocomotiveSpeed(slot, it.progress)
+                }
             }
         })
 
         val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
         revToggle.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed) {
-                Toast.makeText(button.context, "Reverse is $isChecked", Toast.LENGTH_SHORT).show()
+                CommandStation.setLocomotiveSpeed(slot, 0, isChecked)
             }
         }
 

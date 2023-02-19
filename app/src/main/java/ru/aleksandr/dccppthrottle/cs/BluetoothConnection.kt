@@ -1,4 +1,4 @@
-package ru.aleksandr.dccppthrottle.provider
+package ru.aleksandr.dccppthrottle.cs
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
@@ -7,33 +7,23 @@ import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import android.util.Log
+import java.io.Closeable
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 
-object BluetoothProvider {
-
-    const val MESSAGE_READ = 1
-    const val MESSAGE_WRITE = 2
-    const val MESSAGE_CONNECTED = 3
-    const val MESSAGE_CONNECT_FAILED = 4
-
+class BluetoothConnection(context: Context) : Closeable {
     private val TAG = javaClass.simpleName
-
-    private lateinit var btAdaper : BluetoothAdapter
 
     private val handler = Handler(Looper.getMainLooper()) { msg ->
         when (msg.what) {
             MESSAGE_CONNECTED -> {
-                connected = true
-                connectListener?.invoke(connected)
+                connectListener?.invoke(true)
                 true
             }
             MESSAGE_CONNECT_FAILED -> {
-                connected = false
-                connectListener?.invoke(connected)
+                connectListener?.invoke(false)
                 true
             }
             MESSAGE_READ -> {
@@ -46,63 +36,58 @@ object BluetoothProvider {
                 Log.d(TAG, "Sent: $message")
                 true
             }
-            else -> throw Throwable("Unknown message type ${msg.what}")
+            else -> throw BluetoothConnectionException("Unknown message type ${msg.what}")
         }
     }
     private var connectThread: ConnectThread? = null
     private var connectedThread: ConnectedThread? = null
 
-    private var initialized = false
-    private var connected = false
+    private var btAdaper : BluetoothAdapter
 
-    var connectListener: ((connected: Boolean) -> Boolean)? = null
-    var receiveListener: ((message: String) -> Boolean)? = null
+    private var connectListener: ((connected: Boolean) -> Unit)? = null
+    private var receiveListener: ((message: String) -> Unit)? = null
 
-    fun init(context: Context) {
+    init {
         val btManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         btAdaper = btManager.adapter
         if (!btAdaper.isEnabled) {
-            initialized = false
-            throw BluetoothProviderAdapterDisabledException()
+            throw BluetoothConnectionException("Bluetooth adapter disabled")
         }
-        initialized = true
     }
 
-    fun getPairedDevices(): Set<BluetoothDevice> {
-        if (!initialized) throw BluetoothProviderNotInitializedException()
-        return btAdaper.bondedDevices
+    fun setOnConnectListener(listener : ((connected: Boolean) -> Unit)?) {
+        connectListener = listener
+    }
+
+    fun setOnReceiveListener(listener: ((message: String) -> Unit)?) {
+        receiveListener = listener
     }
 
     fun connect(mac: String) {
-        if (!initialized) throw BluetoothProviderNotInitializedException()
         val device = btAdaper.getRemoteDevice(mac)
         connectThread = ConnectThread(device)
         connectThread!!.start()
     }
 
-    fun disconnect() {
-        if (connected) {
-            connectedThread?.cancel()
-            connectThread = null
-        }
+    override fun close() {
+        connectedThread?.cancel()
+        connectedThread = null
         connectThread?.cancel()
         connectThread = null
     }
 
     fun send(message: String) {
-        if (!initialized) throw BluetoothProviderNotInitializedException()
-        else if (!connected) throw BluetoothProviderNotConnectedException()
         connectedThread!!.write(message)
     }
 
-    private class ConnectThread(device: BluetoothDevice) : Thread() {
+    private inner class ConnectThread(device: BluetoothDevice) : Thread() {
         private val mmSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
             val uuid = device.uuids.first().uuid
             device.createRfcommSocketToServiceRecord(uuid)
         }
 
         override fun run() {
-            btAdaper.cancelDiscovery()
+            // btAdaper.cancelDiscovery() // Need BLUETOOTH ADMIN permission
             mmSocket?.let { socket ->
                 try {
                     socket.connect()
@@ -111,6 +96,7 @@ object BluetoothProvider {
                 catch (e: IOException) {
                     Log.e(TAG, "Connect failed", e)
                     handler.obtainMessage(MESSAGE_CONNECT_FAILED).sendToTarget()
+                    return@run
                 }
 
                 connectedThread = ConnectedThread(socket)
@@ -128,12 +114,12 @@ object BluetoothProvider {
         }
     }
 
-    private class ConnectedThread(
+    private inner class ConnectedThread(
         private val mmSocket: BluetoothSocket
     ) : Thread() {
         private val mmInStream: InputStream = mmSocket.inputStream
         private val mmOutStream: OutputStream = mmSocket.outputStream
-        private val mmBuffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
+        private val mmBuffer: ByteArray = ByteArray(BUFFER_SIZE) // mmBuffer store for the stream
 
         override fun run() {
             var numBytes = 0
@@ -188,8 +174,14 @@ object BluetoothProvider {
         }
     }
 
-    open class BluetoothProviderException : Exception() {}
-    class BluetoothProviderAdapterDisabledException : BluetoothProviderException() {}
-    class BluetoothProviderNotInitializedException : BluetoothProviderException() {}
-    class BluetoothProviderNotConnectedException : BluetoothProviderException() {}
+    inner class BluetoothConnectionException(message: String) : Exception(message)
+
+    companion object {
+        const val BUFFER_SIZE = 1024
+
+        const val MESSAGE_READ = 1
+        const val MESSAGE_WRITE = 2
+        const val MESSAGE_CONNECTED = 3
+        const val MESSAGE_CONNECT_FAILED = 4
+    }
 }

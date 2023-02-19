@@ -14,7 +14,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
-import ru.aleksandr.dccppthrottle.provider.BluetoothProvider
+import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 
 class ConnectActivity : AppCompatActivity() {
 
@@ -28,34 +29,62 @@ class ConnectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (CommandStation.isConnected()) {
+            CommandStation.disconnect()
+        }
+
         setContentView(R.layout.activity_connect)
 
         val ver = findViewById<TextView>(R.id.textViewVersion)
-        ver.text = String.format(getString(R.string.app_version), BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+        ver.text = String.format(
+            getString(R.string.app_version),
+            BuildConfig.VERSION_NAME,
+            BuildConfig.VERSION_CODE
+        )
 
         val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
         val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
-            val spinner: Spinner = findViewById(R.id.spinnerBtList)
-            //val deviceName = pairedDevices!!.elementAt(spinner.selectedItemPosition).name // TODO uncomment me
-            //val deviceMac = pairedDevices!!.elementAt(spinner.selectedItemPosition).address // TODO uncomment me
-            val deviceName : String = pairedDevices?.elementAtOrNull(spinner.selectedItemPosition)?.name ?: "UNKNOWN" // TODO delete me
+//            val spinner: Spinner = findViewById(R.id.spinnerBtList)
+//            val deviceName : String = pairedDevices?.elementAtOrNull(spinner.selectedItemPosition)?.name ?: "UNKNOWN" // TODO delete me
+//
+//            val message = String.format(getString(R.string.message_connecting_to), deviceName)
+//            val snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
+//            snackbar.show()
+//            btn.isEnabled = false
+//
+//            Handler().postDelayed({
+//                val myIntent = Intent(this, MainActivity::class.java)
+//                startActivity(myIntent)
+//
+//                snackbar.dismiss()
+//            }, 1000)
 
-            val message = String.format(getString(R.string.message_connecting_to), deviceName)
+            btn.isEnabled = false
+            val spinner: Spinner = findViewById(R.id.spinnerBtList)
+            val device = pairedDevices!!.elementAt(spinner.selectedItemPosition)
+            val message = String.format(getString(R.string.message_connecting_to), device.name)
             val snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
             snackbar.show()
-            btn.isEnabled = false
 
-            Handler().postDelayed({
-                val myIntent = Intent(this, MainActivity::class.java)
-                startActivity(myIntent)
-
+            val connection = BluetoothConnection(this)
+            connection.setOnConnectListener { connected ->
                 snackbar.dismiss()
-            }, 1000)
+                if (connected) {
+                    CommandStation.setConnection(connection)
+                    val myIntent = Intent(this, MainActivity::class.java)
+                    startActivity(myIntent)
+                }
+                else {
+                    Toast.makeText(this, R.string.message_connect_failed, Toast.LENGTH_SHORT).show()
+                    btn.isEnabled = true
+                }
+            }
+            connection.connect(device.address)
         }
 
         if (checkSelfPermission(bluetoothPermission) == PackageManager.PERMISSION_GRANTED) {
-            BluetoothProvider.init(this)
             setupDevicesList()
         }
         else if (shouldShowRequestPermissionRationale(bluetoothPermission)) {
@@ -74,7 +103,12 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun setupDevicesList() {
-        pairedDevices = BluetoothProvider.getPairedDevices()
+        val btManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        val btAdaper = btManager.adapter
+        if (!btAdaper.isEnabled) {
+            Toast.makeText(this, R.string.message_bluetooth_disabled, Toast.LENGTH_SHORT).show()
+        }
+        pairedDevices = btAdaper.bondedDevices
 
         val btn = findViewById<Button>(R.id.btnConnect)
         val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -82,8 +116,7 @@ class ConnectActivity : AppCompatActivity() {
         if (pairedDevices.isNullOrEmpty()) {
             // Disable or enable it before setting the adapter.
             spinner.isEnabled = false
-            //btn.isEnabled = false // TODO uncomment me!
-            btn.isEnabled = true // TODO delete me!
+            btn.isEnabled = false
         }
         else {
             btn.isEnabled = true
@@ -109,7 +142,6 @@ class ConnectActivity : AppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // Permission is granted. Continue the action or workflow
                     // in your app.
-                    BluetoothProvider.init(this)
                     setupDevicesList()
                 }
                 else {

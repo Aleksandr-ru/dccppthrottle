@@ -4,12 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoryListItemBinding
+import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
 class AccessoriesRecyclerViewAdapter(
@@ -53,8 +54,12 @@ class AccessoriesRecyclerViewAdapter(
         val button: ToggleButton = binding.toggleButton
 
         init {
-            button.setOnCheckedChangeListener { _, isChecked ->
-                AccessoriesStore.setState(bindingAdapterPosition, isChecked)
+            button.setOnCheckedChangeListener { btn, isChecked ->
+                if (btn.isPressed) {
+                    AccessoriesStore.getAddress(bindingAdapterPosition)?.let {
+                        CommandStation.setAccessoryState(it, isChecked)
+                    }
+                }
             }
 
             val popup = PopupMenu(itemView.context, itemView)
@@ -62,7 +67,12 @@ class AccessoriesRecyclerViewAdapter(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        Toast.makeText(itemView.context, "Edit $bindingAdapterPosition", Toast.LENGTH_SHORT).show()
+                        val acc = AccessoriesStore.data.value!![bindingAdapterPosition]
+                        val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
+                        AccessoryDialog(title, acc) {
+                            AccessoriesStore.replace(bindingAdapterPosition, it)
+                            true
+                        }.show(fragmentManager, "accessory")
                         true
                     }
                     R.id.action_context_delete -> {
