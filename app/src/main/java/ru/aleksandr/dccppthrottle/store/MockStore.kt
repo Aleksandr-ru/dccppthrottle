@@ -40,7 +40,7 @@ object MockStore {
 
     fun ramdomBluetoothList() : List<String> = btDevices.shuffled()
 
-    fun randomLocomotive() : LocomotivesStore.LocomotiveState {
+    fun randomLocomotive(randFunc: Boolean = true) : LocomotivesStore.LocomotiveState {
         val addr = (1..255).random()
         return LocomotivesStore.LocomotiveState(addr).apply {
             speed = (0..100).random()
@@ -48,7 +48,7 @@ object MockStore {
             if (Random.nextBoolean()) {
                 title = locomotives.random()
             }
-            for (k in 0 until LocomotivesStore.FUNCTIONS_COUNT) {
+            if (randFunc) for (k in 0 until LocomotivesStore.FUNCTIONS_COUNT) {
                 functions[k] = Random.nextBoolean()
             }
         }

@@ -33,7 +33,7 @@ class LocoListFragment : Fragment() {
 
         placeholder.setOnClickListener {
             for (i in 1..10)
-            LocomotivesStore.add(MockStore.randomLocomotive())
+            LocomotivesStore.add(MockStore.randomLocomotive(false))
         }
 
         if (view is RecyclerView) {

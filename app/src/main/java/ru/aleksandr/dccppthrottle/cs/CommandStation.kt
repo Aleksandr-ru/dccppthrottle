@@ -1,5 +1,6 @@
 package ru.aleksandr.dccppthrottle.cs
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -10,6 +11,8 @@ import kotlin.math.min
 object CommandStation {
     private const val EMERGENCY_STOP = -1
     private const val MAX_SPEED_STEPS = 126
+
+    private val TAG = javaClass.simpleName
 
     private var connection: BluetoothConnection? = null
     private val read: MutableLiveData<String> = MutableLiveData()
@@ -23,6 +26,7 @@ object CommandStation {
             read.postValue(it)
             parseMessage(it)
         }
+        connection?.send(UnassignAllCommand().toString())
     }
 
     fun isConnected() = connection != null
@@ -32,25 +36,39 @@ object CommandStation {
             powerOn = it.groupValues[1].toInt() > 0
             return@parseMessage
         }
-        Regex("""<T (\d+) (\d+) (0|1)>""").matchEntire(mes)?.let {
+        Regex("""<T (\d+) (-?\d+) (0|1)>""").matchEntire(mes)?.let {
             val slot = it.groupValues[1].toInt()
-            val speed = speedStepsToPercent(it.groupValues[2].toInt())
+            val speedSteps = it.groupValues[2].toInt()
+            val speedPercent = speedStepsToPercent(speedSteps)
             val reverse = it.groupValues[3].toInt() == 0
-            LocomotivesStore.setSpeedBySlot(slot, speed, reverse)
+            LocomotivesStore.setSpeedBySlot(slot, speedPercent, reverse)
             return@parseMessage
+        }
+        Regex("""<l (\d+) (\d+) (\d+) (\d+)>""").matchEntire(mes)?.let {
+            val addr = it.groupValues[1].toInt()
+            val slot = it.groupValues[2].toInt() + 1
+            val speedDir = it.groupValues[3].toInt()
+            val speed = speedDir and 0b01111111
+            val direction = speedDir.shr(7)
+            val func = it.groupValues[4].toInt()
+            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
+            // todo use it
+            // https://dcc-ex.com/reference/software/command-reference.html
         }
     }
 
     private fun percentToSpeedSteps(percent: Int) : Int {
         return if (percent > 0) {
-            min(MAX_SPEED_STEPS, (MAX_SPEED_STEPS / 100) * percent)
+            val speedSteps = percent * MAX_SPEED_STEPS / 100
+            min(MAX_SPEED_STEPS, speedSteps)
         }
         else 0
     }
 
     private fun speedStepsToPercent(speedSteps: Int) : Int {
         return if (speedSteps > 0) {
-            min(100, (speedSteps / MAX_SPEED_STEPS) * 100)
+            val percent = speedSteps * 100 / MAX_SPEED_STEPS
+            min(100, percent)
         }
         else 0
     }
@@ -77,6 +95,11 @@ object CommandStation {
         sendCommand(command)
     }
 
+    fun unassignLoco(address: Int) {
+        val command = UnassignCommand(address)
+        sendCommand(command)
+    }
+
     // <t REGISTER CAB SPEED DIRECTION>
 /*
  *    sets the throttle for a given register/cab combination
@@ -96,8 +119,8 @@ object CommandStation {
             val direction = (reverse ?: loco.reverse).let { rev ->
                 if(rev) 0 else 1
             }
-            //todo speed percent
-            val command = ThrottleCommand(it.slot, it.address, percentToSpeedSteps(speed), direction)
+            val speedSteps = percentToSpeedSteps(speed)
+            val command = ThrottleCommand(it.slot, it.address, speedSteps, direction)
             sendCommand(command)
         }
     }
@@ -109,6 +132,12 @@ object CommandStation {
             val command = ThrottleCommand(it.slot, it.address, EMERGENCY_STOP, direction)
             sendCommand(command)
         }
+    }
+
+    fun emergencyStop() {
+        val command = EmergencyCommand()
+        sendCommand(command)
+        // todo speed 0
     }
 
     // <f CAB BYTE1 [BYTE2]>
@@ -222,6 +251,18 @@ object CommandStation {
 
     private class PowerCommand(val p: Int) : Command {
         override fun toString() = "<$p>"
+    }
+
+    private class UnassignCommand(val address: Int) : Command {
+        override fun toString() = "<- $address>"
+    }
+
+    private class UnassignAllCommand() : Command {
+        override fun toString() = "<->"
+    }
+
+    private class EmergencyCommand() : Command {
+        override fun toString() = "<!>"
     }
 
     private class ThrottleCommand(

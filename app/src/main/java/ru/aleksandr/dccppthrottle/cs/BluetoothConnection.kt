@@ -33,7 +33,7 @@ class BluetoothConnection(context: Context) : Closeable {
             }
             MESSAGE_WRITE -> {
                 val message = msg.obj.toString()
-                Log.d(TAG, "Sent: $message")
+                Log.i(TAG, "Sent: $message")
                 true
             }
             else -> throw BluetoothConnectionException("Unknown message type ${msg.what}")
@@ -100,7 +100,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 }
 
                 connectedThread = ConnectedThread(socket)
-                connectThread!!.start()
+                connectedThread!!.start()
             }
         }
 
@@ -125,30 +125,34 @@ class BluetoothConnection(context: Context) : Closeable {
             var numBytes = 0
 
             while (true) {
-//                try {
-//                    mmBuffer[numBytes] = mmInStream.read().toByte()
-//                    if (mmBuffer[numBytes].toInt().toChar() == '\n') {
-//                        val message = String(mmBuffer, 0, numBytes - 1)
-//                        Log.d(TAG, "Got message: $message")
-//                        handler.obtainMessage(MESSAGE_READ, message).sendToTarget()
-//                    }
-//                    else numBytes++
-//                }
-//                catch (e: IOException) {
-//                    Log.d(TAG, "Input stream was disconnected", e)
-//                    break
-//                }
-                numBytes = try {
-                    mmInStream.read(mmBuffer)
+                try {
+                    mmBuffer[numBytes] = mmInStream.read().toByte()
+                    if (mmBuffer[numBytes].toInt().toChar() == '\n') {
+                        val message = String(mmBuffer, 0, numBytes)
+                        Log.i(TAG, "Got message: $message")
+                        handler.obtainMessage(MESSAGE_READ, message).sendToTarget()
+                        numBytes = 0
+                    }
+                    else numBytes++
                 }
                 catch (e: IOException) {
-                    Log.d(TAG, "Input stream was disconnected", e)
+                    Log.i(TAG, "Input stream was disconnected", e)
                     break
                 }
 
-                val message = String(mmBuffer, 0, numBytes)
-                Log.d(TAG, "Got message: $message")
-                handler.obtainMessage(MESSAGE_READ, message).sendToTarget()
+//                numBytes = try {
+//                    mmInStream.read(mmBuffer)
+//                }
+//                catch (e: IOException) {
+//                    Log.i(TAG, "Input stream was disconnected", e)
+//                    break
+//                }
+//
+//                val message = String(mmBuffer, 0, numBytes)
+//                Log.i(TAG, "Got message: $message")
+//                message.trim().split("\n").forEach {
+//                    handler.obtainMessage(MESSAGE_READ, it).sendToTarget()
+//                }
             }
         }
 

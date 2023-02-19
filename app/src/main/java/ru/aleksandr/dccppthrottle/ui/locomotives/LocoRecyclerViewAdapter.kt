@@ -131,7 +131,8 @@ class LocoRecyclerViewAdapter(
                 if (sw.isPressed) {
                     if (isChecked) {
                         try {
-                            LocomotivesStore.assignToSlot(bindingAdapterPosition)
+                            val slot = LocomotivesStore.assignToSlot(bindingAdapterPosition)
+                            CommandStation.stopLocomotive(slot)
                         }
                         catch (ex : LocomotivesStore.LocomotiveNoSlotsAvailableException) {
                             Toast.makeText(sw.context, R.string.message_no_slots, Toast.LENGTH_SHORT).show()
@@ -144,7 +145,9 @@ class LocoRecyclerViewAdapter(
                     }
                     else {
                         val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
+                        val addr = LocomotivesStore.getAddress(bindingAdapterPosition)
                         CommandStation.stopLocomotive(slot)
+                        CommandStation.unassignLoco(addr)
                         LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                     }
                 }
