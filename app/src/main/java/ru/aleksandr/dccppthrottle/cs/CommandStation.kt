@@ -52,8 +52,33 @@ object CommandStation {
             val direction = speedDir.shr(7)
             val func = it.groupValues[4].toInt()
             Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
+            // todo parse func bit use it
+            // https://dcc-ex.com/reference/software/command-reference.html
+            return@parseMessage
+        }
+        Regex("""<c CurrentMAIN (\d+) C Milli (\d) (\d+) (0|1) (\d+)>""").matchEntire(mes)?.let {
+            val currentMa = it.groupValues[1].toInt()
+            val maxMa = it.groupValues[3].toInt()
+            val tripMa = it.groupValues[5].toInt()
+            Log.i(TAG, String.format("Current: %d mA, max: %d mA, trip: %d mA", currentMa, maxMa, tripMa))
+            // todo show current
+            // https://dcc-ex.com/reference/software/command-reference.html
+            return@parseMessage
+        }
+        Regex("""<r 32767 (-?\d+)>""").matchEntire(mes)?.let {
+            val value = it.groupValues[2].toInt()
+            Log.i(TAG, String.format("Read CV result %d (prog)", value))
             // todo use it
             // https://dcc-ex.com/reference/software/command-reference.html
+            return@parseMessage
+        }
+        Regex("""<r (\d+) (-?\d+)>""").matchEntire(mes)?.let {
+            val cv = it.groupValues[1].toInt()
+            val value = it.groupValues[2].toInt()
+            Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
+            // todo use it
+            // https://dcc-ex.com/reference/software/command-reference.html
+            return@parseMessage
         }
     }
 
@@ -100,19 +125,6 @@ object CommandStation {
         sendCommand(command)
     }
 
-    // <t REGISTER CAB SPEED DIRECTION>
-/*
- *    sets the throttle for a given register/cab combination
- *
- *    REGISTER: an internal register number, from 1 through MAX_MAIN_REGISTERS (inclusive), to store the DCC packet used to control this throttle setting
- *    CAB:  the short (1-127) or long (128-10293) address of the engine decoder
- *    SPEED: throttle speed from 0-126, or -1 for emergency stop (resets SPEED to 0)
- *    DIRECTION: 1=forward, 0=reverse.  Setting direction when speed=0 or speed=-1 only effects directionality of cab lighting for a stopped train
- *
- *    returns: <T REGISTER SPEED DIRECTION>
- *
- */
-
     fun setLocomotiveSpeed(slot: Int, speed: Int, reverse: Boolean? = null) {
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
@@ -140,107 +152,54 @@ object CommandStation {
         // todo speed 0
     }
 
-    // <f CAB BYTE1 [BYTE2]>
-/*
- *    turns on and off engine decoder functions F0-F28 (F0 is sometimes called FL)
- *    NOTE: setting requests transmitted directly to mobile engine decoder --- current state of engine functions is not stored by this program
- *
- *    CAB:  the short (1-127) or long (128-10293) address of the engine decoder
- *
- *    To set functions F0-F4 on (=1) or off (=0):
- *
- *    BYTE1:  128 + F1*1 + F2*2 + F3*4 + F4*8 + F0*16
- *    BYTE2:  omitted
- *
- *    To set functions F5-F8 on (=1) or off (=0):
- *
- *    BYTE1:  176 + F5*1 + F6*2 + F7*4 + F8*8
- *    BYTE2:  omitted
- *
- *    To set functions F9-F12 on (=1) or off (=0):
- *
- *    BYTE1:  160 + F9*1 +F10*2 + F11*4 + F12*8
- *    BYTE2:  omitted
- *
- *    To set functions F13-F20 on (=1) or off (=0):
- *
- *    BYTE1: 222
- *    BYTE2: F13*1 + F14*2 + F15*4 + F16*8 + F17*16 + F18*32 + F19*64 + F20*128
- *
- *    To set functions F21-F28 on (=1) of off (=0):
- *
- *    BYTE1: 223
- *    BYTE2: F21*1 + F22*2 + F23*4 + F24*8 + F25*16 + F26*32 + F27*64 + F28*128
- *
- *    returns: NONE
- *
- */
-
     fun setLocomotiveFunction(slot: Int, func: Int, isOn: Boolean) {
         LocomotivesStore.setFunctionBySlot(slot, func, isOn)
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
-            var byte1 : Int = 0
-            var byte2 : Int? = null
-            when (func) {
-                in (0..4) -> {
-                    // BYTE1:  128 + F1*1 + F2*2 + F3*4 + F4*8 + F0*16
-                    byte1 = 128
-                    for(i in 1..4) if(it.functions[i]) byte1 += 1.shl(i-1)
-                    if (it.functions[0]) byte1 += 1.shl(4)
-                }
-                in (5..8) -> {
-                    // BYTE1:  176 + F5*1 + F6*2 + F7*4 + F8*8
-                    byte1 = 176
-                    for(i in 1..4) if(it.functions[i+4]) byte1 += 1.shl(i-1)
-                }
-                in (9..12) -> {
-                    // BYTE1:  160 + F9*1 +F10*2 + F11*4 + F12*8
-                    byte1 = 160
-                    for(i in 1..4) if(it.functions[i+8]) byte1 += 1.shl(i-1)
-                }
-                in (13..20) -> {
-                    // BYTE2: F13*1 + F14*2 + F15*4 + F16*8 + F17*16 + F18*32 + F19*64 + F20*128
-                    byte1 = 222
-                    byte2 = 0
-                    for(i in 1..8) if(it.functions[i+12]) byte2 += 1.shl(i-1)
-                }
-                in (21..28) -> {
-                    // BYTE2: F21*1 + F22*2 + F23*4 + F24*8 + F25*16 + F26*32 + F27*64 + F28*128
-                    byte1 = 223
-                    byte2 = 0
-                    for(i in 1..8) if(it.functions[i+20]) byte2 += 1.shl(i-1)
-                }
-            }
-            val command = FunctionCommand(it.address, byte1, byte2)
+//            var byte1 : Int = 0
+//            var byte2 : Int? = null
+//            when (func) {
+//                in (0..4) -> {
+//                    // BYTE1:  128 + F1*1 + F2*2 + F3*4 + F4*8 + F0*16
+//                    byte1 = 128
+//                    for(i in 1..4) if(it.functions[i]) byte1 += 1.shl(i-1)
+//                    if (it.functions[0]) byte1 += 1.shl(4)
+//                }
+//                in (5..8) -> {
+//                    // BYTE1:  176 + F5*1 + F6*2 + F7*4 + F8*8
+//                    byte1 = 176
+//                    for(i in 1..4) if(it.functions[i+4]) byte1 += 1.shl(i-1)
+//                }
+//                in (9..12) -> {
+//                    // BYTE1:  160 + F9*1 +F10*2 + F11*4 + F12*8
+//                    byte1 = 160
+//                    for(i in 1..4) if(it.functions[i+8]) byte1 += 1.shl(i-1)
+//                }
+//                in (13..20) -> {
+//                    // BYTE2: F13*1 + F14*2 + F15*4 + F16*8 + F17*16 + F18*32 + F19*64 + F20*128
+//                    byte1 = 222
+//                    byte2 = 0
+//                    for(i in 1..8) if(it.functions[i+12]) byte2 += 1.shl(i-1)
+//                }
+//                in (21..28) -> {
+//                    // BYTE2: F21*1 + F22*2 + F23*4 + F24*8 + F25*16 + F26*32 + F27*64 + F28*128
+//                    byte1 = 223
+//                    byte2 = 0
+//                    for(i in 1..8) if(it.functions[i+20]) byte2 += 1.shl(i-1)
+//                }
+//            }
+//            val command = FunctionCommandLegacy(it.address, byte1, byte2)
+            val active = if (isOn) 1 else 0
+            val command = FunctionCommandEx(it.address, func, active)
             sendCommand(command)
         }
     }
 
-    // <a ADDRESS SUBADDRESS ACTIVATE>
-/*
- *    turns an accessory (stationary) decoder on or off
- *
- *    ADDRESS:  the primary address of the decoder (0-511)
- *    SUBADDRESS: the subaddress of the decoder (0-3)
- *    ACTIVATE: 1=on (set), 0=off (clear)
- *
- *    Note that many decoders and controllers combine the ADDRESS and SUBADDRESS into a single number, N,
- *    from  1 through a max of 2044, where
- *
- *    N = (ADDRESS - 1) * 4 + SUBADDRESS + 1, for all ADDRESS>0
- *
- *    OR
- *
- *    ADDRESS = INT((N - 1) / 4) + 1
- *    SUBADDRESS = (N - 1) % 4
- *
- *    returns: NONE
- */
     fun setAccessoryState(address: Int, isOn: Boolean) {
         //todo subaddress?
         val activate = if(isOn) 1 else 0
-        val command = AccessoryCommand(address, 0, activate)
+//        val command = AccessoryCommand(address, 0, activate)
+        val command = AccessoryCommand(address, activate)
         sendCommand(command)
         AccessoriesStore.setStateByAddress(address, isOn)
     }
@@ -249,11 +208,15 @@ object CommandStation {
         override fun toString(): String
     }
 
-    private class PowerCommand(val p: Int) : Command {
+    private data class PowerCommand(val p: Int) : Command {
         override fun toString() = "<$p>"
     }
 
-    private class UnassignCommand(val address: Int) : Command {
+    private class CurrentCommand() : Command {
+        override fun toString() = "<c>"
+    }
+
+    private data class UnassignCommand(val address: Int) : Command {
         override fun toString() = "<- $address>"
     }
 
@@ -265,7 +228,7 @@ object CommandStation {
         override fun toString() = "<!>"
     }
 
-    private class ThrottleCommand(
+    private data class ThrottleCommand(
         val register: Int,
         val cab: Int,
         val speed: Int,
@@ -274,7 +237,7 @@ object CommandStation {
         override fun toString() = "<t $register $cab $speed $direction>"
     }
 
-    private class FunctionCommand(
+    private data class FunctionCommandLegacy(
         val cab: Int,
         val byte1: Int,
         val byte2: Int?
@@ -284,13 +247,49 @@ object CommandStation {
             else "<f $cab $byte1 $byte2>"
     }
 
-    private class AccessoryCommand(
-        val address: Int,
-        val subaddress: Int,
+    private data class FunctionCommandEx(
+        val cab: Int,
+        val func: Int,
         val activate: Int
     ) : Command {
-        override fun toString() = "<a $address $subaddress $activate>"
+        override fun toString() = "<F $cab $func $activate>"
     }
 
-    class CommandStationException: Exception()
+    private data class AccessoryCommand(
+        val address: Int,
+        val subaddress: Int?,
+        val activate: Int
+    ) : Command {
+        constructor(linear_address: Int, activate: Int) : this(linear_address, null, activate)
+        override fun toString() =
+            if (subaddress == null) "<a $address $activate>"
+            else "<a $address $subaddress $activate>"
+    }
+
+    private data class WriteCvMain(
+        val cab: Int,
+        val cv: Int,
+        val bit: Int?,
+        val value: Int
+    ) : Command {
+        constructor(cab: Int, cv: Int, value: Int) : this(cab, cv, null, value)
+        override fun toString() =
+            if (bit == null) "<w $cab $cv $value>"
+            else "<w $cab $cv $bit $value>"
+    }
+
+    private data class WriteCvProg(
+        val cv: Int,
+        val value: Int
+    ) : Command {
+        override fun toString() = "<W $cv $value>"
+    }
+
+    private data class ReadCvProg(
+        val cv: Int
+    ) : Command {
+        override fun toString() = "<R $cv 32767 0>"
+    }
+
+    open class CommandStationException: Exception()
 }

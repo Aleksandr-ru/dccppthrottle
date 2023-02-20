@@ -45,7 +45,7 @@ class LocoCabActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.stop, menu)
+        menuInflater.inflate(R.menu.loco_cab, menu)
         return true
     }
 
