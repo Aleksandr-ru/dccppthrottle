@@ -34,18 +34,13 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val functionLayoutParams = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT
-        ).apply {
-            weight = 1F
-        }
+        val funcFormat = getString(R.string.label_f)
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
-            ToggleButton(view.context).apply {
-                text = "F$i"
-                textOn = "F$i"
-                textOff = "F$i"
+            ToggleButton(view.context, null, R.style.Widget_Theme_DCCppThrottle_Toggle_Func).apply {
+                text = String.format(funcFormat, i)
+                textOn = text
+                textOff = text
                 tag = i
-                layoutParams = functionLayoutParams
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         CommandStation.setLocomotiveFunction(slot, i, isChecked)
@@ -116,14 +111,6 @@ class LocoCabFragment : Fragment() {
 
         const val ARG_SLOT = "slot"
 
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param slot Parameter 1.
-         * @return A new instance of fragment LocoCabFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(slot: Int) =
             LocoCabFragment().apply {

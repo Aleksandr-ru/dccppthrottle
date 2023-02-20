@@ -8,11 +8,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
+import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
 class LocoCabActivity : AppCompatActivity() {
     private var slot: Int = 0
+    private var lastCv: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +56,22 @@ class LocoCabActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_stop -> {
                 CommandStation.stopLocomotive(slot)
+                true
+            }
+            R.id.action_pom_value -> {
+                PomValueDialog(lastCv) { cv, value ->
+                    lastCv = cv
+                    //todo write cv
+                    true
+                }.show(supportFragmentManager, "pom_val")
+                true
+            }
+            R.id.action_pom_bit -> {
+                PomBitDialog(lastCv) { cv, bit, value ->
+                    lastCv = cv
+                    //todo write cv bit
+                    true
+                }
                 true
             }
             else -> {
