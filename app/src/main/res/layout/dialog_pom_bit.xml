@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dialog_padding"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textCvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_cv_number" />
+
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusCvNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/text_margin"
+        app:max="1024"
+        app:min="1"
+        app:nullable="false"
+        app:value="1" />
+
+    <TextView
+        android:id="@+id/textCvValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_cv_value_bit" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/text_margin"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="7" />
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="6"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="5"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="4"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="3"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="2"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="1"
+            android:layout_weight="1"/>
+        <RadioButton
+            style="@style/Widget.Theme.DCCppThrottle.Radio.TextOnBottom"
+            android:text="0"
+            android:checked="true"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginBottom="@dimen/text_margin"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:text="@string/label_bit_value"/>
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

@@ -101,7 +101,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 false
             }
             R.id.nav_programming -> {
-                Toast.makeText(this,"Programming", Toast.LENGTH_SHORT).show()
+                val myIntent = Intent(this, ProgActivity::class.java)
+                startActivity(myIntent)
                 false
             }
             R.id.nav_console -> {

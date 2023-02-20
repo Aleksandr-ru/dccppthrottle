@@ -6,6 +6,7 @@
     <string name="title_activity_main">MenuActivity</string>
     <string name="title_activity_cab">Locomotive slot #%d</string>
     <string name="title_activity_route">Edit route</string>
+    <string name="title_activity_prog">Prog. track</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_fragment_locomotives">Locomotives</string>
     <string name="title_fragment_accessories">Accessories</string>
@@ -43,6 +44,8 @@
     <string name="label_ok">OK</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_connect">Connect</string>
+    <string name="label_read_value">Read value</string>
+    <string name="label_write_value">Write value</string>
     <string name="label_quit">Quit</string>
     <string name="label_connect_at_start">Connect at startup</string>
     <string name="label_name">Name</string>
@@ -65,6 +68,11 @@
     <string name="label_sort_acc">Sort accessories</string>
     <string name="label_sort_routes">Sort routes</string>
     <string name="label_speed_steps">Speed steps mode</string>
+    <string name="label_cv_number">CV number</string>
+    <string name="label_cv_value">CV value</string>
+    <string name="label_cv_value_bit">CV value bit</string>
+    <string name="label_cv_value_bits">CV value bits</string>
+    <string name="label_bit_value">Bit value</string>
 
     <string name="placeholder_route_name">Enter route name</string>
 
