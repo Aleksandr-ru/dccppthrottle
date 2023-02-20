@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     POSITION_ROUTES -> getString(R.string.title_fragment_routes)
                     else -> ""
                 }
-                MainStore.setPosition(position)
+                MainStore.setViewPagerPosition(position)
             }
         })
-        MainStore.position.observe(this) {
+        MainStore.viewPagerPosition.observe(this) {
             viewPager.currentItem = it
         }
     }

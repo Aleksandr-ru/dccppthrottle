@@ -71,7 +71,7 @@ class LocoCabActivity : AppCompatActivity() {
                     lastCv = cv
                     //todo write cv bit
                     true
-                }
+                }.show(supportFragmentManager, "pom_bit")
                 true
             }
             else -> {

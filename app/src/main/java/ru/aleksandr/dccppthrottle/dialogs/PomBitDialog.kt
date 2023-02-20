@@ -24,14 +24,19 @@ class PomBitDialog (
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.dialog_locomotive, null)
+            val view = inflater.inflate(R.layout.dialog_pom_bit, null)
 
             val viewCv = view.findViewById<PlusMinusView>(R.id.plusminusCvNum)
             viewCv.value = cv
 
             val viewGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
-            for (i in 7..0) {
-                val viewBit = RadioButton(context, null, R.style.Widget_Theme_DCCppThrottle_Radio_TextOnBottom).apply {
+            val viewBits = Array<RadioButton>(8) { i ->
+                RadioButton(
+                    context,
+                    null,
+                    0,
+                    R.style.Widget_Theme_DCCppThrottle_Radio_TextOnBottom
+                ).apply {
                     text = i.toString()
                     tag = i
                     setOnClickListener {
@@ -39,8 +44,19 @@ class PomBitDialog (
                         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
                     }
                 }
-                viewGroup.addView(viewBit)
             }
+            viewBits.forEach { viewGroup.addView(it, 0) }
+//            for (i in 7..0) {
+//                val viewBit = RadioButton(context, null, R.style.Widget_Theme_DCCppThrottle_Radio_TextOnBottom).apply {
+//                    text = i.toString()
+//                    tag = i
+//                    setOnClickListener {
+//                        selectedBit = i
+//                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
+//                    }
+//                }
+//                viewGroup.addView(viewBit, 0)
+//            }
             val viewValue = view.findViewById<ToggleButton>(R.id.toggleBitValue)
 
             builder.setView(view)

@@ -20,7 +20,7 @@ class PomValueDialog (
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.dialog_locomotive, null)
+            val view = inflater.inflate(R.layout.dialog_pom_value, null)
 
             val viewCv = view.findViewById<PlusMinusView>(R.id.plusminusCvNum)
             val viewValue = view.findViewById<PlusMinusView>(R.id.plusminusCvValue)

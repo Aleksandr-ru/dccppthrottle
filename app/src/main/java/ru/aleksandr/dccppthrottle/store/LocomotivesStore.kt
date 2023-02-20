@@ -86,6 +86,16 @@ object LocomotivesStore {
         }
     }
 
+    fun stopBySlot(slot: Int) {
+        _data.value = _data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    speed = 0
+                }
+            }
+        }
+    }
+
     fun setFunction(index: Int, func: Int, isOn : Boolean = false) {
         _data.value = _data.value?.also {
             it[index].apply {

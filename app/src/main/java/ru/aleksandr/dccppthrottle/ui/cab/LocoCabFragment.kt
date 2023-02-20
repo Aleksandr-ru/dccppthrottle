@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
@@ -34,13 +35,19 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val functionLayoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT
+        ).apply {
+            weight = 1F
+        }
         val funcFormat = getString(R.string.label_f)
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
-            ToggleButton(view.context, null, R.style.Widget_Theme_DCCppThrottle_Toggle_Func).apply {
+            ToggleButton(view.context).apply {
                 text = String.format(funcFormat, i)
                 textOn = text
                 textOff = text
                 tag = i
+                layoutParams = functionLayoutParams
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         CommandStation.setLocomotiveFunction(slot, i, isChecked)

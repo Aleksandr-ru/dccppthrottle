@@ -37,9 +37,20 @@ class ProgFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val viewCvVal = view.findViewById<PlusMinusView>(R.id.plusminusCvValue)
+        viewCvVal.onChangeListener = {
+            it?.let {
+                valueToBits(it)
+            }
+        }
 
+        val layoutBits: LinearLayout = view.findViewById(R.id.layoutBits)
         viewBits = Array<ToggleButton>(8) { i ->
-            ToggleButton(view.context, null, R.style.Widget_Theme_DCCppThrottle_Toggle_Bit).apply {
+            ToggleButton(
+                layoutBits.context,
+                null,
+                0,
+                R.style.Widget_Theme_DCCppThrottle_Toggle_Bit
+            ).apply {
                 text = i.toString()
                 textOn = text
                 textOff = text
@@ -52,16 +63,8 @@ class ProgFragment : Fragment() {
             }
         }
 
-        val layoutBits: LinearLayout = view.findViewById(R.id.layoutBits)
-        for(i in 7..0) {
-            layoutBits.addView(viewBits[i])
-        }
 
-        viewCvVal.onChangeListener = {
-            it?.let {
-                valueToBits(it)
-            }
-        }
+        viewBits.forEach { layoutBits.addView(it, 0) }
     }
 
     private fun valueToBits(value: Int) {
