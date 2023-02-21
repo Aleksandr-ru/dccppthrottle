@@ -47,20 +47,8 @@ class ConnectActivity : AppCompatActivity() {
         val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
         val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
-            val spinner: Spinner = findViewById(R.id.spinnerBtList)
-            val deviceName : String = pairedDevices?.elementAtOrNull(spinner.selectedItemPosition)?.name ?: "UNKNOWN" // TODO delete me
-
-            val message = String.format(getString(R.string.message_connecting_to), deviceName)
-            val snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
-            snackbar.show()
-            btn.isEnabled = false
-
-            Handler().postDelayed({
-                val myIntent = Intent(this, MainActivity::class.java)
-                startActivity(myIntent)
-
-                snackbar.dismiss()
-            }, 1000)
+            val myIntent = Intent(this, MainActivity::class.java)
+            startActivity(myIntent)
 
 //            btn.isEnabled = false
 //            val spinner: Spinner = findViewById(R.id.spinnerBtList)

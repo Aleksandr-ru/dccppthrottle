@@ -41,9 +41,9 @@ class LocoCabFragment : Fragment() {
         val tableRowLayoutParams = TableRow.LayoutParams(
             TableRow.LayoutParams.WRAP_CONTENT,
             TableRow.LayoutParams.WRAP_CONTENT
-        )/*.apply {
+        ).apply {
             weight = 1F
-        }*/
+        }
         val funcFormat = getString(R.string.label_f)
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
             ToggleButton(view.context).apply {

@@ -2,11 +2,14 @@ package ru.aleksandr.dccppthrottle.ui.prog
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.ToggleButton
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
@@ -60,37 +63,19 @@ class ProgFragment : Fragment() {
         }
 
         val layoutBits: LinearLayout = view.findViewById(R.id.layoutBits)
-//        viewBits = Array<ToggleButton>(8) { i ->
-//            ToggleButton(
-//                layoutBits.context,
-//                null,
-//                0,
-//                R.style.Widget_Theme_DCCppThrottle_Toggle_Bit
-//            ).apply {
-//                text = i.toString()
-//                textOn = text
-//                textOff = text
-//                tag = i
-//                setOnCheckedChangeListener { button, isChecked ->
-//                    if (button.isPressed) {
-//                        viewCvVal.value = bitsToInt()
-//                    }
-//                }
-//            }
-//        }
-//        viewBits.forEach { layoutBits.addView(it, 0) }
-
         // https://stackoverflow.com/questions/52508070/how-to-dynamically-add-buttons-to-view-so-that-layout-width-works-correctly
         viewBits = Array<ToggleButton>(8) { i ->
-            val bit = View.inflate(view.context, R.layout.bit_toggle, layoutBits) as ToggleButton
+            val bit = layoutInflater.inflate(R.layout.bit_toggle, layoutBits, false) as ToggleButton
             layoutBits.addView(bit, 0)
             bit.apply {
                 text = i.toString()
                 textOn = text
                 textOff = text
+                tag = i
                 setOnCheckedChangeListener { button, _ ->
                     if (button.isPressed) {
                         viewCvVal.value = bitsToInt()
+                        viewCvVal.requestFocus()
                     }
                 }
             }
@@ -98,7 +83,7 @@ class ProgFragment : Fragment() {
     }
 
     private fun valueToBits(value: Int) {
-        val bin = value.toUByte().toString(2)
+        val bin = value.toUByte().toString(2).padStart(8, '0')
         bin.reversed().withIndex().forEach { (index, value) ->
             viewBits[index].isChecked = value == '1'
         }

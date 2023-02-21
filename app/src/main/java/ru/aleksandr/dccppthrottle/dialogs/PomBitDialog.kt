@@ -32,7 +32,7 @@ class PomBitDialog (
 
             val viewRadioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
             val viewBits = Array<RadioButton>(8) { i ->
-                val bit = View.inflate(context, R.layout.bit_radio, viewRadioGroup) as RadioButton
+                val bit = layoutInflater.inflate(R.layout.bit_radio, viewRadioGroup, false) as RadioButton
                 viewRadioGroup.addView(bit, 0)
                 bit.apply {
                     text = i.toString()
