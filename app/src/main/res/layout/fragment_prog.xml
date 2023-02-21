@@ -167,14 +167,14 @@
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
-        <include layout="@layout/toggle_bit"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
+        <include layout="@layout/bit_toggle"/>
     </LinearLayout>
 
         <Button

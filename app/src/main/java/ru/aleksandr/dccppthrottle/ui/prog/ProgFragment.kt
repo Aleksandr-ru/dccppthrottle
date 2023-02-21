@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ToggleButton
+import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class ProgFragment : Fragment() {
 
     private lateinit var viewBits: Array<ToggleButton>
+    private val model by activityViewModels<ProgViewModel>()
 
     companion object {
         fun newInstance() = ProgFragment()
@@ -36,35 +38,63 @@ class ProgFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        val viewCvNum = view.findViewById<PlusMinusView>(R.id.plusminusCvNum)
+        viewCvNum.onChangeListener = {
+            it?.let {
+                model.setCvNum(it)
+            }
+        }
+        model.cvNum.observe(viewLifecycleOwner) {
+            viewCvNum.value = it
+        }
+
         val viewCvVal = view.findViewById<PlusMinusView>(R.id.plusminusCvValue)
         viewCvVal.onChangeListener = {
             it?.let {
+                model.setCvVal(it)
                 valueToBits(it)
             }
         }
+        model.cvVal.observe(viewLifecycleOwner) {
+            viewCvVal.value = it
+        }
 
         val layoutBits: LinearLayout = view.findViewById(R.id.layoutBits)
+//        viewBits = Array<ToggleButton>(8) { i ->
+//            ToggleButton(
+//                layoutBits.context,
+//                null,
+//                0,
+//                R.style.Widget_Theme_DCCppThrottle_Toggle_Bit
+//            ).apply {
+//                text = i.toString()
+//                textOn = text
+//                textOff = text
+//                tag = i
+//                setOnCheckedChangeListener { button, isChecked ->
+//                    if (button.isPressed) {
+//                        viewCvVal.value = bitsToInt()
+//                    }
+//                }
+//            }
+//        }
+//        viewBits.forEach { layoutBits.addView(it, 0) }
+
+        // https://stackoverflow.com/questions/52508070/how-to-dynamically-add-buttons-to-view-so-that-layout-width-works-correctly
         viewBits = Array<ToggleButton>(8) { i ->
-            ToggleButton(
-                layoutBits.context,
-                null,
-                0,
-                R.style.Widget_Theme_DCCppThrottle_Toggle_Bit
-            ).apply {
+            val bit = View.inflate(view.context, R.layout.bit_toggle, layoutBits) as ToggleButton
+            layoutBits.addView(bit, 0)
+            bit.apply {
                 text = i.toString()
                 textOn = text
                 textOff = text
-                tag = i
-                setOnCheckedChangeListener { button, isChecked ->
+                setOnCheckedChangeListener { button, _ ->
                     if (button.isPressed) {
                         viewCvVal.value = bitsToInt()
                     }
                 }
             }
         }
-
-
-        viewBits.forEach { layoutBits.addView(it, 0) }
     }
 
     private fun valueToBits(value: Int) {
