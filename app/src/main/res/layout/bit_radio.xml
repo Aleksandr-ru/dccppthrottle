@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <RadioButton
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:button="@null"
-        android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-        android:gravity="center_horizontal|bottom"
+        android:textOff="0"
+        android:textOn="0"
         android:text="0" />
 </merge>

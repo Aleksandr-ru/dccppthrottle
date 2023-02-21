@@ -34,11 +34,16 @@ class LocoCabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // https://stackoverflow.com/a/2397869
+        val tableLayoutParams = TableLayout.LayoutParams(
+            TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams.WRAP_CONTENT
+        )
         val tableRowLayoutParams = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT
-        ).apply {
+            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.WRAP_CONTENT
+        )/*.apply {
             weight = 1F
-        }
+        }*/
         val funcFormat = getString(R.string.label_f)
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
             ToggleButton(view.context).apply {
@@ -59,7 +64,9 @@ class LocoCabFragment : Fragment() {
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
         var i = 0
         for (r in 0 until rows) {
-            val tableRow = TableRow(view.context)
+            val tableRow = TableRow(view.context).apply {
+                layoutParams = tableLayoutParams
+            }
             for (b in 0 until F_PER_ROW) {
                 tableRow.addView(functionViews[i], b)
                 i++

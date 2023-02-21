@@ -8,27 +8,5 @@
     <style name="Widget.Theme.DCCppThrottle.Button.Secondary" parent="Widget.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/design_default_color_secondary_variant</item>
     </style>
-    
-<!--    <style name="Widget.Theme.DCCppThrottle.Toggle.Func" parent="android:Widget.Material.Light.Button.Toggle">-->
-<!--        <item name="android:layout_weight">1</item>-->
-<!--        <item name="android:layout_width">0dp</item>-->
-<!--        <item name="android:layout_height">wrap_content</item>-->
-<!--    </style>-->
 
-    <style name="Widget.Theme.DCCppThrottle.Toggle.Bit" parent="android:Widget.Material.Light.Button.Toggle">
-        <item name="android:layout_weight">1</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-<!--    <style name="Widget.Theme.DCCppThrottle.Radio.TextOnBottom" parent="Widget.MaterialComponents.CompoundButton.RadioButton">-->
-    <style name="Widget.Theme.DCCppThrottle.Radio.TextOnBottom" parent="Widget.AppCompat.CompoundButton.RadioButton">
-        <item name="android:button">@null</item>
-        <item name="android:drawableTop">?android:attr/listChoiceIndicatorSingle</item>
-        <item name="android:gravity">center_horizontal|bottom</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
 </resources>

@@ -3,6 +3,7 @@ package ru.aleksandr.dccppthrottle.dialogs
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.ToggleButton
@@ -29,14 +30,11 @@ class PomBitDialog (
             val viewCv = view.findViewById<PlusMinusView>(R.id.plusminusCvNum)
             viewCv.value = cv
 
-            val viewGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
+            val viewRadioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
             val viewBits = Array<RadioButton>(8) { i ->
-                RadioButton(
-                    context,
-                    null,
-                    0,
-                    R.style.Widget_Theme_DCCppThrottle_Radio_TextOnBottom
-                ).apply {
+                val bit = View.inflate(context, R.layout.bit_radio, viewRadioGroup) as RadioButton
+                viewRadioGroup.addView(bit, 0)
+                bit.apply {
                     text = i.toString()
                     tag = i
                     setOnClickListener {
@@ -45,18 +43,7 @@ class PomBitDialog (
                     }
                 }
             }
-            viewBits.forEach { viewGroup.addView(it, 0) }
-//            for (i in 7..0) {
-//                val viewBit = RadioButton(context, null, R.style.Widget_Theme_DCCppThrottle_Radio_TextOnBottom).apply {
-//                    text = i.toString()
-//                    tag = i
-//                    setOnClickListener {
-//                        selectedBit = i
-//                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = true
-//                    }
-//                }
-//                viewGroup.addView(viewBit, 0)
-//            }
+
             val viewValue = view.findViewById<ToggleButton>(R.id.toggleBitValue)
 
             builder.setView(view)
