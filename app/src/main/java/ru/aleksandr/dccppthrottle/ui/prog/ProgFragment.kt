@@ -7,12 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.ToggleButton
+import android.widget.*
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class ProgFragment : Fragment() {
@@ -76,6 +74,45 @@ class ProgFragment : Fragment() {
                     if (button.isPressed) {
                         viewCvVal.value = bitsToInt()
                         viewCvVal.requestFocus()
+                    }
+                }
+            }
+        }
+
+        val buttonRead = view.findViewById<Button>(R.id.buttonRead)
+        val buttonWrite = view.findViewById<Button>(R.id.buttonWrite)
+        buttonRead.setOnClickListener {
+            val cv = viewCvNum.value
+            cv?.let {
+                CommandStation.getCvProg(it) { cv, value ->
+                    var message = ""
+                    if (value >= 0) {
+                        if (viewCvNum.value == cv) {
+                            viewCvVal.value = value
+                        }
+                        val format = getString(R.string.message_read_cv_value)
+                        message = String.format(format, cv, value)
+                    }
+                    else {
+                        val format = getString(R.string.message_read_cv_error)
+                        message = String.format(format, cv)
+                    }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        buttonWrite.setOnClickListener {
+            val cv = viewCvNum.value
+            val value = viewCvVal.value
+            cv?.let {
+                value?.let {
+                    CommandStation.setCvProg(cv, value) { cv, value ->
+                        val stringId =
+                            if (value < 0) R.string.message_write_cv_error
+                            else R.string.message_write_cv_success
+                        val format = getString(stringId)
+                        val message = String.format(format, cv)
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }

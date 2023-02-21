@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.prog.ProgFragment">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textCvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_cv_number" />
+
+            <ru.aleksandr.dccppthrottle.view.PlusMinusView
+                style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+                android:id="@+id/plusminusCvNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/text_margin"
+                app:max="1024"
+                app:min="1"
+                app:nullable="false"
+                app:value="1" />
+
+            <TextView
+                android:id="@+id/textCvValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="@string/label_cv_value" />
+
+            <ru.aleksandr.dccppthrottle.view.PlusMinusView
+                style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+                android:id="@+id/plusminusCvValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/text_margin"
+                app:max="255"
+                app:min="0"
+                app:nullable="false"
+                app:value="0" />
+
+            <TextView
+                android:id="@+id/textCvBits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="@string/label_cv_value_bits" />
+
+            <LinearLayout
+                android:id="@+id/layoutBits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <!-- Bit buttons -->
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/text_margin">
+
+            <Button
+                android:id="@+id/buttonRead"
+                style="@style/Widget.Theme.DCCppThrottle.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/label_read_value" />
+
+            <Button
+                android:id="@+id/buttonWrite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@string/label_write_value" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

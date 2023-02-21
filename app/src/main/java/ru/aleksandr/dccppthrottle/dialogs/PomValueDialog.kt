@@ -2,6 +2,7 @@ package ru.aleksandr.dccppthrottle.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment

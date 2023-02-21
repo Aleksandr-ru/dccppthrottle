@@ -71,6 +71,7 @@ class LocoCabFragment : Fragment() {
                 tableRow.addView(functionViews[i], b)
                 i++
                 if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
+                if (i == 1) break // todo big button
             }
             tableLayout.addView(tableRow, r)
         }

@@ -22,6 +22,8 @@ object CommandStation {
     private val write: MutableLiveData<String> = MutableLiveData()
 
     private var resultListenersList: ArrayList<Command> = arrayListOf()
+    private var writeCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
+    private var readCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
 
     fun isConnected() = connection != null
 
@@ -182,6 +184,35 @@ object CommandStation {
         AccessoriesStore.setStateByAddress(address, isOn)
     }
 
+    fun setCvMain(slot: Int, cv: Int, value: Int) {
+        val loco = LocomotivesStore.getBySlot(slot)
+        loco?.let {
+            val command = WriteCvMainCommand(it.address, cv, value)
+            sendCommand(command)
+        }
+    }
+
+    fun setCvBitMain(slot: Int, cv: Int, bit: Int, value: Int) {
+        val loco = LocomotivesStore.getBySlot(slot)
+        loco?.let {
+            val command = WriteCvMainCommand(it.address, cv, bit, value)
+            sendCommand(command)
+        }
+    }
+
+    fun setCvProg(cv: Int, value: Int, callback: ((cv: Int, value: Int) -> Unit)? = null) {
+        writeCvProgCallvack = callback
+        val command = WriteCvProgCommand(cv, value)
+        sendCommand(command)
+    }
+
+    fun getCvProg(cv: Int, callback: ((cv: Int, value: Int) -> Unit)? = null) {
+        readCvProgCallvack = callback
+        val command = ReadCvProgCommand(cv)
+        sendCommand(command)
+
+    }
+
     private interface Command {
         val resultRegex: String?
         fun resultListener(groupValues: List<String>)
@@ -284,7 +315,7 @@ object CommandStation {
             else "<a $address $subaddress $activate>"
     }
 
-    private class WriteCvMain(
+    private class WriteCvMainCommand(
         val cab: Int,
         val cv: Int,
         val bit: Int?,
@@ -298,7 +329,7 @@ object CommandStation {
             else "<w $cab $cv $bit $value>"
     }
 
-    private class WriteCvProg(
+    private class WriteCvProgCommand(
         val cv: Int,
         val value: Int
     ) : Command {
@@ -308,21 +339,24 @@ object CommandStation {
 //            val cv = groupValues[1].toInt()
 //            val value = groupValues[2].toInt()
 //            Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
-            // todo use it
+
             val value = groupValues[1].toInt()
+            writeCvProgCallvack?.invoke(cv, value)
+
             Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
         }
         override fun toString() = "<W $cv $value>"
     }
 
-    private class ReadCvProg(
+    private class ReadCvProgCommand(
         val cv: Int
     ) : Command {
         override val resultRegex = """<r 32767 (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val value = groupValues[2].toInt()
+            readCvProgCallvack?.invoke(cv, value)
+
             Log.i(TAG, String.format("Read CV result %d (prog)", value))
-            // todo use it
         }
         override fun toString() = "<R $cv 32767 0>"
     }

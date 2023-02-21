@@ -16,8 +16,8 @@
     <string name="title_dialog_accessory_add">Add accessory</string>
     <string name="title_dialog_accessory_edit">Edit accessory</string>
     <string name="title_dialog_route_add">Add route</string>
-    <string name="title_dialog_pom_value">CV value</string>
-    <string name="title_dialog_pom_bit">CV bit</string>
+    <string name="title_dialog_pom_value">Set CV value (main track)</string>
+    <string name="title_dialog_pom_bit">Set CV bit (main track)</string>
     <string name="title_alert_permission_required">Permission required</string>
     <string name="title_pref_general">General</string>
     <string name="title_pref_lists">Lists</string>
@@ -88,6 +88,10 @@
     <string name="message_no_slots">No slots available</string>
     <string name="message_address_in_use">Address already in use</string>
     <string name="message_stop_all">STOP all locomotives</string>
+    <string name="message_read_cv_value">CV %d is %d</string>
+    <string name="message_read_cv_error">CV %d read error</string>
+    <string name="message_write_cv_success">Write CV %d successful</string>
+    <string name="message_write_cv_error">Write CV %d error</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

@@ -2,10 +2,13 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
@@ -61,7 +64,7 @@ class LocoCabActivity : AppCompatActivity() {
             R.id.action_pom_value -> {
                 PomValueDialog(lastCv) { cv, value ->
                     lastCv = cv
-                    //todo write cv
+                    CommandStation.setCvMain(slot, cv, value)
                     true
                 }.show(supportFragmentManager, "pom_val")
                 true
@@ -69,7 +72,7 @@ class LocoCabActivity : AppCompatActivity() {
             R.id.action_pom_bit -> {
                 PomBitDialog(lastCv) { cv, bit, value ->
                     lastCv = cv
-                    //todo write cv bit
+                    CommandStation.setCvBitMain(slot, cv, bit, value)
                     true
                 }.show(supportFragmentManager, "pom_bit")
                 true
