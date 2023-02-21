@@ -1,12 +1,10 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
@@ -35,7 +33,8 @@ class LocoCabFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val functionLayoutParams = TableRow.LayoutParams(
+        // https://stackoverflow.com/a/2397869
+        val tableRowLayoutParams = TableRow.LayoutParams(
             TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT
         ).apply {
             weight = 1F
@@ -47,7 +46,7 @@ class LocoCabFragment : Fragment() {
                 textOn = text
                 textOff = text
                 tag = i
-                layoutParams = functionLayoutParams
+                layoutParams = tableRowLayoutParams
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         CommandStation.setLocomotiveFunction(slot, i, isChecked)
