@@ -29,7 +29,7 @@ class AccessoryDialog (
             val title = view.findViewById<EditText>(R.id.editTextTitle)
 
             addr.value = initial?.address
-            addr.onChangeListener = {
+            addr.setOnChangeListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     if (it == null) false
                     else !AccessoriesStore.hasAddress(it!!)

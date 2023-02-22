@@ -40,7 +40,7 @@ class ProgFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val viewCvNum = view.findViewById<PlusMinusView>(R.id.plusminusCvNum)
-        viewCvNum.onChangeListener = {
+        viewCvNum.setOnChangeListener {
             it?.let {
                 model.setCvNum(it)
             }
@@ -50,7 +50,7 @@ class ProgFragment : Fragment() {
         }
 
         val viewCvVal = view.findViewById<PlusMinusView>(R.id.plusminusCvValue)
-        viewCvVal.onChangeListener = {
+        viewCvVal.setOnChangeListener {
             it?.let {
                 model.setCvVal(it)
                 valueToBits(it)

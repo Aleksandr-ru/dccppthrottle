@@ -11,9 +11,9 @@ object AccessoriesStore {
         if (_data.value?.any { it.address == item.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.add(item)
-        }
+        })
     }
 
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
@@ -22,40 +22,40 @@ object AccessoriesStore {
     fun getIndexByAddress(addr: Int) = data.value?.withIndex()?.find { it.value.address == addr }?.index
 
     fun remove(index: Int) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.removeAt(index)
-        }
+        })
     }
 
     fun replace(index: Int, newItem: AccessoryState) {
         if (_data.value?.withIndex()?.filter { it.index != index }?.any { it.value.address == newItem.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[index] = newItem
-        }
+        })
     }
 
     fun hasAddress(addr: Int) : Boolean = data.value!!.any { it.address == addr }
 
     fun setState(index: Int, newState: Boolean) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
                     isOn = newState
                 }
             }
-        }
+        })
     }
 
     fun setStateByAddress(address: Int, newState: Boolean) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.address == address }?.apply {
                     isOn = newState
                 }
             }
-        }
+        })
     }
 
     data class AccessoryState(

@@ -34,15 +34,15 @@ object LocomotivesStore {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
             throw LocomotiveSlotInUseException()
         }
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.add(item)
-        }
+        })
     }
 
     fun remove(index: Int) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.removeAt(index)
-        }
+        })
     }
 
     fun replace(index: Int, newItem: LocomotiveState) {
@@ -54,9 +54,9 @@ object LocomotivesStore {
             if (slots.keys.any { it == newItem.slot }) throw LocomotiveSlotInUseException()
             if (slots.values.any { it == newItem.address }) throw LocomotiveAddressInUseException()
         }
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[index] = newItem
-        }
+        })
     }
 
     fun assignToSlot(index: Int, toSlot: Int? = null) : Int {
@@ -65,53 +65,53 @@ object LocomotivesStore {
             val addr = getAddress(index)
             if (getSlotByAddress(addr) > 0) throw LocomotiveAddressInUseException()
         }
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
                     slot = newSlot
                 }
             }
-        }
+        })
         return newSlot
     }
 
     fun setSpeedBySlot(slot: Int, newSpeed: Int, newReverse: Boolean) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
                     speed = newSpeed
                     reverse = newReverse
                 }
             }
-        }
+        })
     }
 
     fun stopBySlot(slot: Int) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
                     speed = 0
                 }
             }
-        }
+        })
     }
 
     fun setFunction(index: Int, func: Int, isOn : Boolean = false) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[index].apply {
                 functions[func] = isOn
             }
-        }
+        })
     }
 
     fun setFunctionBySlot(slot: Int, func: Int, isOn : Boolean = false) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
                     functions[func] = isOn
                 }
             }
-        }
+        })
     }
 
     data class LocomotiveState(

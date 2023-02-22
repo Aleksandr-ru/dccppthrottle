@@ -11,9 +11,9 @@ object RoutesStore {
     fun liveAccessories(routeIndex: Int) = data.map { it[routeIndex].accessories }
 
     fun add(item: RouteState) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.add(item)
-        }
+        })
     }
 
     fun addAccessory(routeIndex: Int, acc: RouteStateAccessory) {
@@ -23,9 +23,9 @@ object RoutesStore {
     }
 
     fun remove(index: Int) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it.removeAt(index)
-        }
+        })
     }
 
     fun removeAccessory(routeIndex: Int, accIndex: Int) {
@@ -35,27 +35,27 @@ object RoutesStore {
     }
 
     fun replace(index: Int, newItem: RouteState) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[index] = newItem
-        }
+        })
     }
 
     fun setTitle(index: Int, newTitle: String) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[index].title = newTitle
-        }
+        })
     }
 
     fun replaceAccessory(routeIndex: Int, accIndex: Int, newItem: RouteStateAccessory) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[routeIndex].accessories[accIndex] = newItem
-        }
+        })
     }
 
     fun toggleAccessory(routeIndex: Int, accIndex: Int, isOn: Boolean) {
-        _data.value = _data.value?.also {
+        _data.postValue(_data.value?.also {
             it[routeIndex].accessories[accIndex].isOn = isOn
-        }
+        })
     }
 
     data class RouteState(

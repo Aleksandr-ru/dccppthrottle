@@ -38,7 +38,7 @@ class PlusMinusView : LinearLayout {
             }
         }
 
-    var onChangeListener : ((Int?) -> Unit)? = null
+    private var onChangeListener : ((Int?) -> Unit)? = null
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -98,5 +98,9 @@ class PlusMinusView : LinearLayout {
                 onChangeListener?.invoke(_value)
             }
         }
+    }
+
+    fun setOnChangeListener(listener: ((Int?) -> Unit)?) {
+        onChangeListener = listener
     }
 }
