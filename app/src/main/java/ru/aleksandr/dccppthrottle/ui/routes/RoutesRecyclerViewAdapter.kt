@@ -86,11 +86,7 @@ class RoutesRecyclerViewAdapter(
                     accessories.forEach { acc ->
                         // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
                         // https://stackoverflow.com/a/60126585
-                        // todo Use liveData.postValue(value) instead of liveData.value = value. It called asynchronous.
-                        // or
-                        withContext(Dispatchers.Main){
-                            CommandStation.setAccessoryState(acc.address, acc.isOn)
-                        }
+                        CommandStation.setAccessoryState(acc.address, acc.isOn)
                         progressView.incrementProgressBy(1)
                         delay(acc.delay.toLong())
                     }

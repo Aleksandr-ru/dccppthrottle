@@ -10,11 +10,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
 
-class AccessoryDialog (
-    //private val dialogTitle: String,
-    // private val initial: AccessoriesStore.AccessoryState?,
-    // private val resultListener : (AccessoriesStore.AccessoryState) -> Boolean,
-) : DialogFragment() {
+class AccessoryDialog () : DialogFragment() {
 
     private var dialogTitle: String? = null
     private var initial: AccessoriesStore.AccessoryState? = null
@@ -60,9 +56,6 @@ class AccessoryDialog (
                         addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
-//                    if (resultListener(acc)) {
-//                        dialog.dismiss()
-//                    }
                     resultListener?.let {
                         if (it(acc)) dialog.dismiss()
                     }

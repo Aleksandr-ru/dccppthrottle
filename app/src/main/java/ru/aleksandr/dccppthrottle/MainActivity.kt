@@ -141,17 +141,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_add_loco -> {
                 viewPager.currentItem = POSITION_LOCOMOTIVES
                 val loco = LocomotivesStore.LocomotiveState(3)
-                LocomotiveDialog(getString(R.string.title_dialog_locomotive_add), loco) {
-                    LocomotivesStore.add(it)
-                    true
+                val title = getString(R.string.title_dialog_locomotive_add)
+                LocomotiveDialog().apply {
+                    setTitle(title)
+                    setIntitial(loco)
+                    setListener {
+                        LocomotivesStore.add(it)
+                        true
+                    }
                 }.show(supportFragmentManager, "loco")
                 true
             }
             R.id.action_add_acc -> {
                 viewPager.currentItem = POSITION_ACCESSORIES
                 val accessory = AccessoriesStore.AccessoryState(1)
+                val title = getString(R.string.title_dialog_accessory_add)
                 AccessoryDialog().apply {
-                    setTitle(getString(R.string.title_dialog_accessory_add))
+                    setTitle(title)
                     setIntitial(accessory)
                     setListener {
                         try {
@@ -176,9 +182,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_add_route -> {
                 viewPager.currentItem = POSITION_ROUTES
-                RouteDialog(getString(R.string.title_dialog_route_add)) {
-                    RoutesStore.add(it)
-                    true
+                val title = getString(R.string.title_dialog_route_add)
+                RouteDialog().apply {
+                    setTitle(title)
+                    setListener {
+                        RoutesStore.add(it)
+                        true
+                    }
                 }.show(supportFragmentManager, "route")
                 true
             }

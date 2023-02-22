@@ -9,12 +9,20 @@ import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
-class RouteDialog (
-    private val dialogTitle: String,
-    private val resultListener : (RoutesStore.RouteState) -> Boolean,
-) : DialogFragment() {
+class RouteDialog() : DialogFragment() {
+
+    private var dialogTitle: String? = null
+    private var resultListener : ((RoutesStore.RouteState) -> Boolean)? = null
 
     private lateinit var dialog : AlertDialog
+
+    fun setTitle(title: String) {
+        dialogTitle = title
+    }
+
+    fun setListener(listener: (RoutesStore.RouteState) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -34,8 +42,8 @@ class RouteDialog (
                 .setPositiveButton(R.string.label_ok) { dialog, id ->
                     if (!title.text.isNullOrBlank()) {
                         val route = RoutesStore.RouteState(title.text.toString())
-                        if (resultListener(route)) {
-                            dialog.dismiss()
+                        resultListener?.let {
+                            if (it(route)) dialog.dismiss()
                         }
                     }
                 }

@@ -98,14 +98,18 @@ class LocoRecyclerViewAdapter(
                     R.id.action_context_edit -> {
                         val loco = LocomotivesStore.data.value!![bindingAdapterPosition]
                         val title = itemView.context.getString(R.string.title_dialog_locomotive_add)
-                        LocomotiveDialog(title, loco) {
-                            if (loco.slot > 0) {
-                                CommandStation.stopLocomotive(loco.slot)
-                                LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                        LocomotiveDialog().apply {
+                            setTitle(title)
+                            setIntitial(loco)
+                            setListener {
+                                if (loco.slot > 0) {
+                                    CommandStation.stopLocomotive(loco.slot)
+                                    LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                                }
+                                it.slot = 0
+                                LocomotivesStore.replace(bindingAdapterPosition, it)
+                                true
                             }
-                            it.slot = 0
-                            LocomotivesStore.replace(bindingAdapterPosition, it)
-                            true
                         }.show(fragmentManager, "loco")
                         true
                     }

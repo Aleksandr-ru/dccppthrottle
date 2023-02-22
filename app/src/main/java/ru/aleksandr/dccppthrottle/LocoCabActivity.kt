@@ -62,18 +62,24 @@ class LocoCabActivity : AppCompatActivity() {
                 true
             }
             R.id.action_pom_value -> {
-                PomValueDialog(lastCv) { cv, value ->
-                    lastCv = cv
-                    CommandStation.setCvMain(slot, cv, value)
-                    true
+                PomValueDialog().apply {
+                    setCv(lastCv)
+                    setListener { cv, value ->
+                        lastCv = cv
+                        CommandStation.setCvMain(slot, cv, value)
+                        true
+                    }
                 }.show(supportFragmentManager, "pom_val")
                 true
             }
             R.id.action_pom_bit -> {
-                PomBitDialog(lastCv) { cv, bit, value ->
-                    lastCv = cv
-                    CommandStation.setCvBitMain(slot, cv, bit, value)
-                    true
+                PomBitDialog().apply {
+                    setCv(lastCv)
+                    setListener { cv, bit, value ->
+                        lastCv = cv
+                        CommandStation.setCvBitMain(slot, cv, bit, value)
+                        true
+                    }
                 }.show(supportFragmentManager, "pom_bit")
                 true
             }

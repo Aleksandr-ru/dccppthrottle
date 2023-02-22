@@ -98,10 +98,14 @@ class RouteEditorRecyclerViewAdapter(
                     R.id.action_context_edit -> {
                         val routeAccessory = values[bindingAdapterPosition]
                         val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
-                        RouteAccessoryDialog(title, routeAccessory){
-                            RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, it)
-                            notifyItemChanged(bindingAdapterPosition)
-                            true
+                        RouteAccessoryDialog().apply {
+                            setTitle(title)
+                            setIntitial(routeAccessory)
+                            setListener {
+                                RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, it)
+                                notifyItemChanged(bindingAdapterPosition)
+                                true
+                            }
                         }.show(fragmentManager, "route_acc")
                         true
                     }

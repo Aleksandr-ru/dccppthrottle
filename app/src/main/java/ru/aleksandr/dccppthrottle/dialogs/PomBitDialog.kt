@@ -10,14 +10,22 @@ import android.widget.ToggleButton
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
-class PomBitDialog (
-    private val cv: Int,
-    private val resultListener : (cv: Int, bit: Int, value: Int) -> Boolean,
-) : DialogFragment() {
+class PomBitDialog() : DialogFragment() {
 
     private lateinit var dialog: AlertDialog
+    private var cv: Int? = null
     private var selectedBit: Int? = null
+    private var resultListener : ((cv: Int, bit: Int, value: Int) -> Boolean)? = null
+
+    fun setCv(cvNum: Int) {
+        cv = cvNum
+    }
+
+    fun setListener(listener: (cv: Int, bit: Int, value: Int) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -52,8 +60,8 @@ class PomBitDialog (
                 .setPositiveButton(R.string.label_write) { dialog, _ ->
                     val newCv = viewCv.value!!
                     val newValue = if (viewValue.isChecked) 1 else 0
-                    if (resultListener(newCv, selectedBit!!, newValue)) {
-                        dialog.dismiss()
+                    resultListener?.let {
+                        if (it(newCv, selectedBit!!, newValue)) dialog.dismiss()
                     }
                 }
                 .setNegativeButton(R.string.label_cancel) { dialog, _ ->

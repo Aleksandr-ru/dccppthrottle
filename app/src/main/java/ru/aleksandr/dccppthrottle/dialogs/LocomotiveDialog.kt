@@ -7,13 +7,26 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
-class LocomotiveDialog (
-    private val dialogTitle: String,
-    private val initial: LocomotivesStore.LocomotiveState?,
-    private val resultListener : (LocomotivesStore.LocomotiveState) -> Boolean,
-) : DialogFragment() {
+class LocomotiveDialog () : DialogFragment() {
+
+    private var dialogTitle: String? = null
+    private var initial: LocomotivesStore.LocomotiveState? = null
+    private var resultListener : ((LocomotivesStore.LocomotiveState) -> Boolean)? = null
+
+    fun setTitle(title: String) {
+        dialogTitle = title
+    }
+
+    fun setIntitial(item: LocomotivesStore.LocomotiveState) {
+        initial = item
+    }
+
+    fun setListener(listener: (LocomotivesStore.LocomotiveState) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -36,11 +49,11 @@ class LocomotiveDialog (
                         addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
-                    if (resultListener(loco)) {
-                        dialog.dismiss()
+                    resultListener?.let {
+                        if (it(loco)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, id ->
+                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             builder.create()

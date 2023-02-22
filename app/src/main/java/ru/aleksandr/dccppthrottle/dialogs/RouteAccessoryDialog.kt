@@ -12,13 +12,25 @@ import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 
-class RouteAccessoryDialog (
-    private val dialogTitle: String,
-    private val initial: RoutesStore.RouteStateAccessory?,
-    private val resultListener : (RoutesStore.RouteStateAccessory) -> Boolean,
-) : DialogFragment() {
+class RouteAccessoryDialog() : DialogFragment() {
+
+    private var dialogTitle: String? = null
+    private var initial: RoutesStore.RouteStateAccessory? = null
+    private var resultListener : ((RoutesStore.RouteStateAccessory) -> Boolean)? = null
 
     private lateinit var dialog : AlertDialog
+
+    fun setTitle(title: String) {
+        dialogTitle = title
+    }
+
+    fun setIntitial(item: RoutesStore.RouteStateAccessory) {
+        initial = item
+    }
+
+    fun setListener(listener: (RoutesStore.RouteStateAccessory) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -46,8 +58,8 @@ class RouteAccessoryDialog (
                         address,
                         delay.value!!
                     )
-                    if (resultListener(acc)) {
-                        dialog.dismiss()
+                    resultListener?.let {
+                        if (it(acc)) dialog.dismiss()
                     }
                 }
                 .setNegativeButton(R.string.label_cancel) { dialog, _ ->

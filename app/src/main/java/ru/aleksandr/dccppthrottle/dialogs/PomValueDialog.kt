@@ -10,10 +10,18 @@ import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
-class PomValueDialog (
-    private val cv: Int,
-    private val resultListener : (cv: Int, value: Int) -> Boolean,
-) : DialogFragment() {
+class PomValueDialog() : DialogFragment() {
+
+    private var cv: Int = 0
+    private var resultListener : ((cv: Int, value: Int) -> Boolean)? = null
+
+    fun setCv(cvNum: Int) {
+        cv = cvNum
+    }
+
+    fun setListener(listener: (cv: Int, value: Int) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -34,8 +42,8 @@ class PomValueDialog (
                 .setPositiveButton(R.string.label_write) { dialog, _ ->
                     val newCv = viewCv.value!!
                     val newValue = viewValue.value!!
-                    if (resultListener(newCv, newValue)) {
-                        dialog.dismiss()
+                    resultListener?.let {
+                        if (it(newCv, newValue)) dialog.dismiss()
                     }
                 }
                 .setNegativeButton(R.string.label_cancel) { dialog, _ ->
