@@ -11,12 +11,28 @@ import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
 
 class AccessoryDialog (
-    private val dialogTitle: String,
-    private val initial: AccessoriesStore.AccessoryState?,
-    private val resultListener : (AccessoriesStore.AccessoryState) -> Boolean,
+    //private val dialogTitle: String,
+    // private val initial: AccessoriesStore.AccessoryState?,
+    // private val resultListener : (AccessoriesStore.AccessoryState) -> Boolean,
 ) : DialogFragment() {
 
+    private var dialogTitle: String? = null
+    private var initial: AccessoriesStore.AccessoryState? = null
+    private var resultListener : ((AccessoriesStore.AccessoryState) -> Boolean)? = null
+
     private lateinit var dialog : AlertDialog
+
+    fun setTitle(title: String) {
+        dialogTitle = title
+    }
+
+    fun setIntitial(item: AccessoriesStore.AccessoryState) {
+        initial = item
+    }
+
+    fun setListener(listener: (AccessoriesStore.AccessoryState) -> Boolean) {
+        resultListener = listener
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
@@ -44,8 +60,11 @@ class AccessoryDialog (
                         addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
-                    if (resultListener(acc)) {
-                        dialog.dismiss()
+//                    if (resultListener(acc)) {
+//                        dialog.dismiss()
+//                    }
+                    resultListener?.let {
+                        if (it(acc)) dialog.dismiss()
                     }
                 }
                 .setNegativeButton(R.string.label_cancel) { dialog, id ->

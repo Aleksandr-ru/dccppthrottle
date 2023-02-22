@@ -150,15 +150,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.action_add_acc -> {
                 viewPager.currentItem = POSITION_ACCESSORIES
                 val accessory = AccessoriesStore.AccessoryState(1)
-                AccessoryDialog(getString(R.string.title_dialog_accessory_add), accessory) {
-                    try {
-                        AccessoriesStore.add(it)
+                AccessoryDialog().apply {
+                    setTitle(getString(R.string.title_dialog_accessory_add))
+                    setIntitial(accessory)
+                    setListener {
+                        try {
+                            AccessoriesStore.add(it)
+                        }
+                        catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
+                            Toast.makeText(this@MainActivity, "Address already in use", Toast.LENGTH_SHORT).show()
+                        }
+                        true
                     }
-                    catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
-                        Toast.makeText(this, "Address already in use", Toast.LENGTH_SHORT).show()
-                    }
-                    true
                 }.show(supportFragmentManager, "accessory")
+//                AccessoryDialog(getString(R.string.title_dialog_accessory_add), accessory) {
+//                    try {
+//                        AccessoriesStore.add(it)
+//                    }
+//                    catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
+//                        Toast.makeText(this, "Address already in use", Toast.LENGTH_SHORT).show()
+//                    }
+//                    true
+//                }.show(supportFragmentManager, "accessory")
                 true
             }
             R.id.action_add_route -> {
