@@ -25,7 +25,12 @@ object CommandStation {
     private var writeCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
     private var readCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
 
+    /**
+     * Public methods
+     */
+
     fun isConnected() = connection != null
+    fun getAddress() = connection?.getAddress()
 
     fun setConnection(conn: BluetoothConnection) {
         connection = conn
@@ -33,56 +38,8 @@ object CommandStation {
             read.postValue(it)
             parseMessage(it)
         }
-        connection?.send(UnassignAllCommand().toString())
-    }
-
-    private fun parseMessage(mes: String) {
-
-        Regex("""<l (\d+) (\d+) (\d+) (\d+)>""").matchEntire(mes)?.let {
-            val addr = it.groupValues[1].toInt()
-            val slot = it.groupValues[2].toInt() + 1
-            val speedDir = it.groupValues[3].toInt()
-            val speed = speedDir and 0b01111111
-            val direction = speedDir.shr(7)
-            val func = it.groupValues[4].toInt()
-            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
-            // todo parse func bit use it
-            return@parseMessage
-        }
-
-        resultListenersList.forEach { com ->
-            Regex(com.resultRegex!!).matchEntire(mes)?.let {
-                com.resultListener(it.groupValues)
-                resultListenersList.remove(com)
-                return@forEach
-            }
-        }
-    }
-
-    private fun percentToSpeedSteps(percent: Int) : Int {
-        return if (percent > 0) {
-            val speedSteps = percent * MAX_SPEED_STEPS / 100
-            min(MAX_SPEED_STEPS, speedSteps)
-        }
-        else 0
-    }
-
-    private fun speedStepsToPercent(speedSteps: Int) : Int {
-        return if (speedSteps > 0) {
-            val percent = speedSteps * 100 / MAX_SPEED_STEPS
-            min(100, percent)
-        }
-        else 0
-    }
-
-    private fun sendCommand(command: Command) {
-        val str = command.toString()
-        connection?.let {
-            it.send(str)
-            write.postValue(str)
-            if (command.resultRegex != null)
-                resultListenersList.add(command)
-        }
+        sendCommand(StatusCommand())
+        sendCommand(UnassignAllCommand())
     }
 
     fun disconnect() {
@@ -94,7 +51,7 @@ object CommandStation {
     }
 
     fun setTrackPower(isOn: Boolean) {
-        val power = if(isOn) 1 else 0
+        val power = if (isOn) 1 else 0
         val command = PowerCommand(power)
         sendCommand(command)
     }
@@ -109,7 +66,7 @@ object CommandStation {
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
             val direction = (reverse ?: loco.reverse).let { rev ->
-                if(rev) 0 else 1
+                if (rev) 0 else 1
             }
             val speedSteps = percentToSpeedSteps(speed)
             val command = ThrottleCommand(it.slot, it.address, speedSteps, direction)
@@ -120,7 +77,7 @@ object CommandStation {
     fun stopLocomotive(slot: Int) {
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
-            val direction = if(it.reverse) 0 else 1
+            val direction = if (it.reverse) 0 else 1
             val command = ThrottleCommand(it.slot, it.address, EMERGENCY_STOP, direction)
             sendCommand(command)
         }
@@ -177,7 +134,7 @@ object CommandStation {
 
     fun setAccessoryState(address: Int, isOn: Boolean) {
         //todo subaddress?
-        val activate = if(isOn) 1 else 0
+        val activate = if (isOn) 1 else 0
 //        val command = AccessoryCommand(address, 0, activate)
         val command = AccessoryCommand(address, activate)
         sendCommand(command)
@@ -213,10 +170,75 @@ object CommandStation {
 
     }
 
+    /**
+     * Private methods
+     */
+
+    private fun sendCommand(command: Command) {
+        val str = command.toString()
+        connection?.let {
+            if (command.resultRegex != null)
+                resultListenersList.add(command)
+            it.send(str)
+            write.postValue(str)
+        }
+    }
+
+    private fun parseMessage(mes: String) {
+
+        Regex("""<l (\d+) (\d+) (\d+) (\d+)>""").matchEntire(mes)?.let {
+            val addr = it.groupValues[1].toInt()
+            val slot = it.groupValues[2].toInt() + 1
+            val speedDir = it.groupValues[3].toInt()
+            val speed = speedDir and 0b01111111
+            val direction = speedDir.shr(7)
+            val func = it.groupValues[4].toInt()
+            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
+            // todo parse func bit use it
+            return@parseMessage
+        }
+
+        resultListenersList.forEach { com ->
+            Regex(com.resultRegex!!).matchEntire(mes)?.let {
+                com.resultListener(it.groupValues)
+                resultListenersList.remove(com)
+                return@forEach
+            }
+        }
+    }
+
+    private fun percentToSpeedSteps(percent: Int) : Int {
+        return if (percent > 0) {
+            val speedSteps = percent * MAX_SPEED_STEPS / 100
+            min(MAX_SPEED_STEPS, speedSteps)
+        }
+        else 0
+    }
+
+    private fun speedStepsToPercent(speedSteps: Int) : Int {
+        return if (speedSteps > 0) {
+            val percent = speedSteps * 100 / MAX_SPEED_STEPS
+            min(100, percent)
+        }
+        else 0
+    }
+
+    /**
+     * Commands
+     */
+
     private interface Command {
         val resultRegex: String?
         fun resultListener(groupValues: List<String>)
         override fun toString(): String
+    }
+
+    private class StatusCommand() : Command {
+        override val resultRegex = "<i(.+)>"
+        override fun resultListener(groupValues: List<String>) {
+            // todo parse status
+        }
+        override fun toString() = "<s>"
     }
 
     private class PowerCommand(val p: Int) : Command {
@@ -361,5 +383,8 @@ object CommandStation {
         override fun toString() = "<R $cv 32767 0>"
     }
 
+    /**
+     * Exceptions
+     */
     open class CommandStationException: Exception()
 }

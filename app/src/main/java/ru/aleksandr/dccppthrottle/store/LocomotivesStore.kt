@@ -8,6 +8,14 @@ object LocomotivesStore {
     const val SLOTS_COUNT = 12
     const val FUNCTIONS_COUNT = 29
 
+    const val SORT_UNSORTED = "unsorted"
+    const val SORT_NAME = "name"
+    const val SORT_ADDR = "address"
+    const val SORT_SLOT_NAME = "slot_name"
+    const val SORT_SLOT_ADDR = "slot_addr"
+
+    private var sort_order = "unsorted"
+
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
 
@@ -34,9 +42,9 @@ object LocomotivesStore {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
             throw LocomotiveSlotInUseException()
         }
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it.add(item)
-        })
+        }))
     }
 
     fun remove(index: Int) {
@@ -54,9 +62,9 @@ object LocomotivesStore {
             if (slots.keys.any { it == newItem.slot }) throw LocomotiveSlotInUseException()
             if (slots.values.any { it == newItem.address }) throw LocomotiveAddressInUseException()
         }
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it[index] = newItem
-        })
+        }))
     }
 
     fun assignToSlot(index: Int, toSlot: Int? = null) : Int {
@@ -65,13 +73,13 @@ object LocomotivesStore {
             val addr = getAddress(index)
             if (getSlotByAddress(addr) > 0) throw LocomotiveAddressInUseException()
         }
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
                     slot = newSlot
                 }
             }
-        })
+        }))
         return newSlot
     }
 
@@ -112,6 +120,31 @@ object LocomotivesStore {
                 }
             }
         })
+    }
+
+    private fun sorted(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
+        return when (sort_order) {
+            "name" -> {
+                list.sortedWith(compareBy { it.title })
+            }
+            "address" -> {
+                list.sortedWith(compareBy { it.address })
+            }
+            "slot_name" -> {
+                list.sortedWith(compareBy({ it.slot == 0 }, { it.slot }, { it.title }))
+            }
+            "slot_addr" -> {
+                list.sortedWith(compareBy({ it.slot == 0 }, { it.slot }, { it.address }))
+            }
+            else -> {
+                list
+            }
+        }.toMutableList()
+    }
+
+    fun sort(order: String) {
+        sort_order = order
+        _data.postValue(sorted(_data.value!!))
     }
 
     data class LocomotiveState(

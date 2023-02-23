@@ -5,15 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 
 object RoutesStore {
+    const val SORT_UNSORTED = "unsorted"
+    const val SORT_NAME = "name"
+
+    private var sort_order = "unsorted"
+
     private val _data = MutableLiveData<MutableList<RouteState>>(mutableListOf())
     val data: LiveData<MutableList<RouteState>> = _data
 
     fun liveAccessories(routeIndex: Int) = data.map { it[routeIndex].accessories }
 
     fun add(item: RouteState) {
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it.add(item)
-        })
+        }))
     }
 
     fun addAccessory(routeIndex: Int, acc: RouteStateAccessory) {
@@ -35,15 +40,15 @@ object RoutesStore {
     }
 
     fun replace(index: Int, newItem: RouteState) {
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it[index] = newItem
-        })
+        }))
     }
 
     fun setTitle(index: Int, newTitle: String) {
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it[index].title = newTitle
-        })
+        }))
     }
 
     fun replaceAccessory(routeIndex: Int, accIndex: Int, newItem: RouteStateAccessory) {
@@ -56,6 +61,22 @@ object RoutesStore {
         _data.postValue(_data.value?.also {
             it[routeIndex].accessories[accIndex].isOn = isOn
         })
+    }
+
+    private fun sorted(list: MutableList<RouteState>) : MutableList<RouteState> {
+        return when (sort_order) {
+            "name" -> {
+                list.sortedWith(compareBy { it.title })
+            }
+            else -> {
+                list
+            }
+        }.toMutableList()
+    }
+
+    fun sort(order: String) {
+        sort_order = order
+        _data.postValue(sorted(_data.value!!))
     }
 
     data class RouteState(

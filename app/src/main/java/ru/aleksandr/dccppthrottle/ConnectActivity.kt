@@ -14,9 +14,13 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.LocomotivesStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class ConnectActivity : AppCompatActivity() {
 
@@ -47,6 +51,15 @@ class ConnectActivity : AppCompatActivity() {
         val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
         val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
+            // TODO load from sore
+            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+            val locoSortOrder = prefs.getString("sort_locos", LocomotivesStore.SORT_UNSORTED)
+            val accSortOrder = prefs.getString("sort_accessories", AccessoriesStore.SORT_UNSORTED)
+            val routeSortOrder = prefs.getString("sort_routes", RoutesStore.SORT_UNSORTED)
+            LocomotivesStore.sort(locoSortOrder!!)
+            AccessoriesStore.sort(accSortOrder!!)
+            RoutesStore.sort(routeSortOrder!!)
+
             val myIntent = Intent(this, MainActivity::class.java)
             startActivity(myIntent)
 
@@ -112,6 +125,7 @@ class ConnectActivity : AppCompatActivity() {
             spinner.isEnabled = true
             devicesList = pairedDevices!!.map { it.name }
         }
+        btn.isEnabled = true //todo delete me
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,

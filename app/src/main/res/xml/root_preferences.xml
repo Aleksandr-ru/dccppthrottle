@@ -52,6 +52,7 @@
 
         <SwitchPreferenceCompat
             app:key="connect"
+            app:summaryOn="MAC"
             app:title="@string/label_connect_at_start" />
 
     </PreferenceCategory>

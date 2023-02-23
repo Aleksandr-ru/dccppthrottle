@@ -43,6 +43,7 @@ class BluetoothConnection(context: Context) : Closeable {
     private var connectedThread: ConnectedThread? = null
 
     private var btAdaper : BluetoothAdapter
+    private var address : String? = null
 
     private var connectListener: ((connected: Boolean) -> Unit)? = null
     private var receiveListener: ((message: String) -> Unit)? = null
@@ -63,10 +64,15 @@ class BluetoothConnection(context: Context) : Closeable {
         receiveListener = listener
     }
 
+    fun getAddress() : String? {
+        return address
+    }
+
     fun connect(mac: String) {
         val device = btAdaper.getRemoteDevice(mac)
         connectThread = ConnectThread(device)
         connectThread!!.start()
+        address = mac
     }
 
     override fun close() {
@@ -74,6 +80,7 @@ class BluetoothConnection(context: Context) : Closeable {
         connectedThread = null
         connectThread?.cancel()
         connectThread = null
+        address = null
     }
 
     fun send(message: String) {

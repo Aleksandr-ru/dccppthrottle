@@ -4,6 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 object AccessoriesStore {
+    const val SORT_UNSORTED = "unsorted"
+    const val SORT_NAME = "name"
+    const val SORT_ADDR = "address"
+
+    private var sort_order = "unsorted"
+
     private val _data = MutableLiveData<MutableList<AccessoryState>>(mutableListOf())
     val data: LiveData<MutableList<AccessoryState>> = _data
 
@@ -11,9 +17,9 @@ object AccessoriesStore {
         if (_data.value?.any { it.address == item.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it.add(item)
-        })
+        }))
     }
 
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
@@ -31,9 +37,9 @@ object AccessoriesStore {
         if (_data.value?.withIndex()?.filter { it.index != index }?.any { it.value.address == newItem.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.postValue(_data.value?.also {
+        _data.postValue(sorted(_data.value!!.also {
             it[index] = newItem
-        })
+        }))
     }
 
     fun hasAddress(addr: Int) : Boolean = data.value!!.any { it.address == addr }
@@ -56,6 +62,25 @@ object AccessoriesStore {
                 }
             }
         })
+    }
+
+    private fun sorted(list: MutableList<AccessoryState>) : MutableList<AccessoryState> {
+        return when (sort_order) {
+            "name" -> {
+                list.sortedWith(compareBy { it.title })
+            }
+            "address" -> {
+                list.sortedWith(compareBy { it.address })
+            }
+            else -> {
+                list
+            }
+        }.toMutableList()
+    }
+
+    fun sort(order: String) {
+        sort_order = order
+        _data.postValue(sorted(_data.value!!))
     }
 
     data class AccessoryState(

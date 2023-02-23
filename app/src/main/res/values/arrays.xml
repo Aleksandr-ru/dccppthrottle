@@ -10,7 +10,7 @@
     <string-array name="sort_loco_values">
         <item>unsorted</item>
         <item>slot_name</item>
-        <item>slot_Addr</item>
+        <item>slot_addr</item>
         <item>name</item>
         <item>address</item>
     </string-array>
