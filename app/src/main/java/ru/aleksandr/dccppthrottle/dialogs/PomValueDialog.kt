@@ -46,7 +46,7 @@ class PomValueDialog() : DialogFragment() {
                         if (it(newCv, newValue)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             builder.create()

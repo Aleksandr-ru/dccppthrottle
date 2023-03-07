@@ -51,7 +51,7 @@ class AccessoryDialog () : DialogFragment() {
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_ok) { dialog, id ->
+                .setPositiveButton(android.R.string.ok) { dialog, id ->
                     val acc = AccessoriesStore.AccessoryState(
                         addr.value!!,
                         title.text.toString().ifBlank { null }
@@ -60,7 +60,7 @@ class AccessoryDialog () : DialogFragment() {
                         if (it(acc)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, id ->
+                .setNegativeButton(android.R.string.cancel) { dialog, id ->
                     dialog.cancel()
                 }
             dialog = builder.create()

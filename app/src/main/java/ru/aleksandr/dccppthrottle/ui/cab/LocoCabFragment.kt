@@ -44,10 +44,9 @@ class LocoCabFragment : Fragment() {
         ).apply {
             weight = 1F
         }
-        val funcFormat = getString(R.string.label_f)
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
             ToggleButton(view.context).apply {
-                text = String.format(funcFormat, i)
+                text = getString(R.string.label_f, i)
                 textOn = text
                 textOff = text
                 tag = i

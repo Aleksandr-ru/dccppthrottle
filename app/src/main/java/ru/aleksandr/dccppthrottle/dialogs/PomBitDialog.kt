@@ -64,7 +64,7 @@ class PomBitDialog() : DialogFragment() {
                         if (it(newCv, selectedBit!!, newValue)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             dialog = builder.create()

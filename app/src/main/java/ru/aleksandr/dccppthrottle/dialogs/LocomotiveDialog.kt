@@ -44,7 +44,7 @@ class LocomotiveDialog () : DialogFragment() {
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_ok) { dialog, id ->
+                .setPositiveButton(android.R.string.ok) { dialog, id ->
                     val loco = LocomotivesStore.LocomotiveState(
                         addr.value!!,
                         title.text.toString().ifBlank { null }
@@ -53,7 +53,7 @@ class LocomotiveDialog () : DialogFragment() {
                         if (it(loco)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             builder.create()

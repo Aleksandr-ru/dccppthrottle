@@ -78,7 +78,7 @@ class RoutesRecyclerViewAdapter(
                     .setTitle(route.title)
                     .setView(progressView)
                     .setCancelable(false)
-                    .setNegativeButton(R.string.label_cancel) { _, _ ->
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
                         job?.cancel()
                     }.show()
 

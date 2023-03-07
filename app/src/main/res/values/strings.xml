@@ -44,8 +44,6 @@
     <string name="menu_disconnect">Disconnect</string>
 
     <string name="label_f">F%d</string>
-    <string name="label_ok">OK</string>
-    <string name="label_cancel">Cancel</string>
     <string name="label_connect">Connect</string>
     <string name="label_read_value">Read value</string>
     <string name="label_write_value">Write value</string>

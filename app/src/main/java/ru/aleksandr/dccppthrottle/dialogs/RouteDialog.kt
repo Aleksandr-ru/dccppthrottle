@@ -39,7 +39,7 @@ class RouteDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_ok) { dialog, id ->
+                .setPositiveButton(android.R.string.ok) { dialog, id ->
                     if (!title.text.isNullOrBlank()) {
                         val route = RoutesStore.RouteState(title.text.toString())
                         resultListener?.let {
@@ -47,7 +47,7 @@ class RouteDialog() : DialogFragment() {
                         }
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, id ->
+                .setNegativeButton(android.R.string.cancel) { dialog, id ->
                     dialog.cancel()
                 }
             dialog = builder.create()

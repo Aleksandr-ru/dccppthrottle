@@ -46,8 +46,7 @@ class LocoCabActivity : AppCompatActivity() {
     }
 
     fun setTitleForSlot() {
-        val format = getString(R.string.title_activity_cab)
-        title = String.format(format, slot)
+        title = getString(R.string.title_activity_cab, slot)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

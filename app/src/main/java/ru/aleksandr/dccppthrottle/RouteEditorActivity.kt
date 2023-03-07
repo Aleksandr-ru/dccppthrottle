@@ -152,7 +152,7 @@ class RouteEditorActivity : AppCompatActivity() {
 //                    .setPositiveButton(R.string.label_ok) { dialog, _ ->
 //                        dialog.dismiss()
 //                    }
-            .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }
             .show()

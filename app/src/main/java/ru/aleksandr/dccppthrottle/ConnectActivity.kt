@@ -42,8 +42,8 @@ class ConnectActivity : AppCompatActivity() {
         setContentView(R.layout.activity_connect)
 
         val ver = findViewById<TextView>(R.id.textViewVersion)
-        ver.text = String.format(
-            getString(R.string.app_version),
+        ver.text = getString(
+            R.string.app_version,
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE
         )
@@ -93,7 +93,7 @@ class ConnectActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle(getString(R.string.title_alert_permission_required))
                 .setMessage(getString(R.string.message_bluetooth_permission))
-                .setPositiveButton(R.string.label_ok) { dialog, _ ->
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                     requestPermissions(arrayOf(bluetoothPermission), bluetoothRequest)
                 }

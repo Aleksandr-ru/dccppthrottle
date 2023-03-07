@@ -52,7 +52,7 @@ class RouteAccessoryDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_ok) { dialog, _ ->
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     val address: Int = AccessoriesStore.getAddress(list.selectedItemPosition)!!
                     val acc = RoutesStore.RouteStateAccessory(
                         address,
@@ -62,7 +62,7 @@ class RouteAccessoryDialog() : DialogFragment() {
                         if (it(acc)) dialog.dismiss()
                     }
                 }
-                .setNegativeButton(R.string.label_cancel) { dialog, _ ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             dialog = builder.create()

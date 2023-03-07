@@ -90,12 +90,10 @@ class ProgFragment : Fragment() {
                         if (viewCvNum.value == cv) {
                             viewCvVal.value = value
                         }
-                        val format = getString(R.string.message_read_cv_value)
-                        message = String.format(format, cv, value)
+                        message = getString(R.string.message_read_cv_value, cv, value)
                     }
                     else {
-                        val format = getString(R.string.message_read_cv_error)
-                        message = String.format(format, cv)
+                        message = getString(R.string.message_read_cv_error, cv)
                     }
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
@@ -110,8 +108,7 @@ class ProgFragment : Fragment() {
                         val stringId =
                             if (value < 0) R.string.message_write_cv_error
                             else R.string.message_write_cv_success
-                        val format = getString(stringId)
-                        val message = String.format(format, cv)
+                        val message = getString(stringId, cv)
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                     }
                 }
