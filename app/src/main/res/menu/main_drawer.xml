@@ -5,7 +5,7 @@
     tools:showIn="navigation_view">
 
     <item
-        android:id="@+id/app_power_switch"
+        android:id="@+id/power_switch_item"
         android:title="@string/menu_power"
         app:actionLayout="@layout/switch_item"
         app:showAsAction="always" />

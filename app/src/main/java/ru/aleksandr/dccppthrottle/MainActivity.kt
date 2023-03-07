@@ -3,9 +3,12 @@ package ru.aleksandr.dccppthrottle
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.navigation.NavigationView
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var viewPager: ViewPager2
+
+    private var doubleBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+
+        val menuItem = navigationView.menu.findItem(R.id.power_switch_item)
+        val powerSwitch = menuItem.actionView.findViewById<Switch>(R.id.power_switch)
+        powerSwitch.setOnClickListener {
+            CommandStation.setTrackPower(powerSwitch.isChecked)
+        }
+        MainStore.trackPower.observe(this) {
+            powerSwitch.isChecked = it
+        }
 
         val adapter = MainViewPagerAdapter(this)
         viewPager = binding.mainPager
@@ -86,7 +100,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val drawerLayout: DrawerLayout = binding.drawerLayout
-        drawerLayout.closeDrawers()
+        if (item.itemId != R.id.power_switch_item) {
+            drawerLayout.closeDrawers()
+        }
         return when (item.itemId) {
             R.id.nav_locomotives -> {
                 viewPager.currentItem = POSITION_LOCOMOTIVES
@@ -115,8 +131,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 false
             }
             R.id.nav_disconnect -> {
-                val myIntent = Intent(this, ConnectActivity::class.java)
-                startActivity(myIntent)
+//                val myIntent = Intent(this, ConnectActivity::class.java)
+//                startActivity(myIntent)
+                doubleBack = true
+                onBackPressed()
                 false
             }
             else -> {
@@ -195,6 +213,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBack) {
+            CommandStation.disconnect()
+            super.onBackPressed()
+        }
+        else {
+            Toast.makeText(this, R.string.message_press_to_disconnect, Toast.LENGTH_SHORT).show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                doubleBack = false
+            }, MainStore.SHORT_DELAY)
+            doubleBack = true
         }
     }
 
