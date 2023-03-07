@@ -74,5 +74,10 @@ class AccessoryDialog () : DialogFragment() {
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
             if (addr.value == null) false
             else !AccessoriesStore.hasAddress(addr.value!!)
+        //todo: fix for edit existing
+    }
+
+    companion object {
+        const val TAG = "AccessoryDialog"
     }
 }

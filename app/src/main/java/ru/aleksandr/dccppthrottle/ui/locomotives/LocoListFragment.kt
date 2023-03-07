@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.aleksandr.dccppthrottle.MainActivity
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListBinding as FragmentLocomotivesBinding
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -34,6 +35,7 @@ class LocoListFragment : Fragment() {
         placeholder.setOnClickListener {
             for (i in 1..10)
             LocomotivesStore.add(MockStore.randomLocomotive(false))
+            //todo: show add loco dialog
         }
 
         if (view is RecyclerView) {

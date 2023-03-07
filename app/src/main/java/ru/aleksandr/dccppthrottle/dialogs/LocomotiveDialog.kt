@@ -59,4 +59,8 @@ class LocomotiveDialog () : DialogFragment() {
             builder.create()
         }
     }
+
+    companion object {
+        const val TAG = "LocomotiveDialog"
+    }
 }

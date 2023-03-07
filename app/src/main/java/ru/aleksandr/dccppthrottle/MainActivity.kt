@@ -167,35 +167,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         LocomotivesStore.add(it)
                         true
                     }
-                }.show(supportFragmentManager, "loco")
+                }.show(supportFragmentManager, LocomotiveDialog.TAG)
                 true
             }
             R.id.action_add_acc -> {
                 viewPager.currentItem = POSITION_ACCESSORIES
-                val accessory = AccessoriesStore.AccessoryState(1)
                 val title = getString(R.string.title_dialog_accessory_add)
                 AccessoryDialog().apply {
                     setTitle(title)
-                    setIntitial(accessory)
                     setListener {
                         try {
                             AccessoriesStore.add(it)
                         }
                         catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
-                            Toast.makeText(this@MainActivity, "Address already in use", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MainActivity, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
                         }
                         true
                     }
-                }.show(supportFragmentManager, "accessory")
-//                AccessoryDialog(getString(R.string.title_dialog_accessory_add), accessory) {
-//                    try {
-//                        AccessoriesStore.add(it)
-//                    }
-//                    catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
-//                        Toast.makeText(this, "Address already in use", Toast.LENGTH_SHORT).show()
-//                    }
-//                    true
-//                }.show(supportFragmentManager, "accessory")
+                }.show(supportFragmentManager, AccessoryDialog.TAG)
                 true
             }
             R.id.action_add_route -> {
@@ -207,7 +196,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         RoutesStore.add(it)
                         true
                     }
-                }.show(supportFragmentManager, "route")
+                }.show(supportFragmentManager, RouteDialog.TAG)
                 true
             }
             else -> {

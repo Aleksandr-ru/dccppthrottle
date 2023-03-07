@@ -68,7 +68,7 @@ class LocoCabActivity : AppCompatActivity() {
                         CommandStation.setCvMain(slot, cv, value)
                         true
                     }
-                }.show(supportFragmentManager, "pom_val")
+                }.show(supportFragmentManager, PomValueDialog.TAG)
                 true
             }
             R.id.action_pom_bit -> {
@@ -79,7 +79,7 @@ class LocoCabActivity : AppCompatActivity() {
                         CommandStation.setCvBitMain(slot, cv, bit, value)
                         true
                     }
-                }.show(supportFragmentManager, "pom_bit")
+                }.show(supportFragmentManager, PomBitDialog.TAG)
                 true
             }
             else -> {

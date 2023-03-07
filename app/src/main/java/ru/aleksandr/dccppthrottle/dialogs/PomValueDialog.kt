@@ -52,4 +52,8 @@ class PomValueDialog() : DialogFragment() {
             builder.create()
         }
     }
+
+    companion object {
+        const val TAG = "PomValueDialog"
+    }
 }

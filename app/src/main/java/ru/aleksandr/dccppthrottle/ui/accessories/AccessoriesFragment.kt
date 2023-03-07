@@ -39,6 +39,7 @@ class AccessoriesFragment : Fragment() {
                     Log.d("Exception", ex.toString())
                 }
             }
+            //todo: add accessory dialog
         }
 
         if (view is RecyclerView) {

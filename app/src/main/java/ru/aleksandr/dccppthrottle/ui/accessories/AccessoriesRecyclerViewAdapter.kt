@@ -68,10 +68,6 @@ class AccessoriesRecyclerViewAdapter(
                     R.id.action_context_edit -> {
                         val acc = AccessoriesStore.data.value!![bindingAdapterPosition]
                         val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
-//                        AccessoryDialog(title, acc) {
-//                            AccessoriesStore.replace(bindingAdapterPosition, it)
-//                            true
-//                        }.show(fragmentManager, "accessory")
                         AccessoryDialog().apply {
                             setTitle(title)
                             setIntitial(acc)

@@ -65,8 +65,9 @@ class ConnectActivity : AppCompatActivity() {
             AccessoriesStore.sort(accSortOrder!!)
             RoutesStore.sort(routeSortOrder!!)
 
-//            val myIntent = Intent(this, MainActivity::class.java)
-//            startActivity(myIntent)
+            val myIntent = Intent(this, MainActivity::class.java)
+            startActivity(myIntent)
+            return@setOnClickListener
 
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)

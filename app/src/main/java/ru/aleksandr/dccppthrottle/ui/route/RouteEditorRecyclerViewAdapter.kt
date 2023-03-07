@@ -106,7 +106,7 @@ class RouteEditorRecyclerViewAdapter(
                                 notifyItemChanged(bindingAdapterPosition)
                                 true
                             }
-                        }.show(fragmentManager, "route_acc")
+                        }.show(fragmentManager, RouteAccessoryDialog.TAG)
                         true
                     }
                     R.id.action_context_delete -> {

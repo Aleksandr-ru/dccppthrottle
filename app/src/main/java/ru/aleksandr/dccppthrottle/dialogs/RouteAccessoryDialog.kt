@@ -69,4 +69,8 @@ class RouteAccessoryDialog() : DialogFragment() {
             dialog
         }
     }
+
+    companion object {
+        const val TAG = "RouteAccessoryDialog"
+    }
 }

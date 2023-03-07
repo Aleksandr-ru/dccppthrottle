@@ -26,7 +26,7 @@ class PlusMinusView : LinearLayout {
     var value: Int?
         get() = _value
         set(value) {
-            _value = if (value == null && !nullable) 0
+            _value = if (value == null && !nullable) min ?: 0
             else if (value != null) {
                 if (max != null && value > max!!) max
                 else if (min != null && value < min!!) min
@@ -61,9 +61,6 @@ class PlusMinusView : LinearLayout {
             attrs, R.styleable.PlusMinusView, defStyle, 0
         )
 
-        if (a.hasValue(R.styleable.PlusMinusView_value)) {
-            value = a.getInt(R.styleable.PlusMinusView_value, 0)
-        }
         if (a.hasValue(R.styleable.PlusMinusView_min)) {
             min = a.getInt(R.styleable.PlusMinusView_min, 1)
         }
@@ -72,6 +69,9 @@ class PlusMinusView : LinearLayout {
         }
         if (a.hasValue(R.styleable.PlusMinusView_step)) {
             step = a.getInt(R.styleable.PlusMinusView_step, 1)
+        }
+        if (a.hasValue(R.styleable.PlusMinusView_value)) {
+            value = a.getInt(R.styleable.PlusMinusView_value, 0)
         }
 
         a.recycle()

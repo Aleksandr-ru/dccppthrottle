@@ -33,6 +33,7 @@ class RoutesFragment : Fragment() {
             for(i in 1..10) {
                 RoutesStore.add(MockStore.randomRoute())
             }
+            //todo: add route dialog
         }
 
         if (view is RecyclerView) {

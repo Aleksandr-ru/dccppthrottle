@@ -76,4 +76,8 @@ class PomBitDialog() : DialogFragment() {
         super.onResume()
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
     }
+
+    companion object {
+        const val TAG = "PomBitDialog"
+    }
 }
