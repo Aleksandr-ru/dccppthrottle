@@ -27,14 +27,14 @@ import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class ConnectActivity : AppCompatActivity() {
 
+    private val TAG = javaClass.simpleName
+
     private val bluetoothPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Manifest.permission.BLUETOOTH_CONNECT
         else Manifest.permission.BLUETOOTH
 
     private val bluetoothRequest = 1
-
     private var pairedDevices : Set<BluetoothDevice>? = null
-
     private var doubleBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,23 +68,26 @@ class ConnectActivity : AppCompatActivity() {
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
             val device = pairedDevices!!.elementAt(spinner.selectedItemPosition)
-            val message = String.format(getString(R.string.message_connecting_to), device.name)
+            val message = getString(R.string.message_connecting_to, device.name)
             val snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
             snackbar.show()
 
             val connection = BluetoothConnection(this)
-            connection.setOnConnectListener { connected ->
-                snackbar.dismiss()
-                if (connected) {
-                    CommandStation.setConnection(connection)
+            connection.setOnFailListener { ex ->
+                Log.w(TAG, ex)
+                Toast.makeText(this, R.string.message_connect_failed, Toast.LENGTH_SHORT).show()
 
-                    val myIntent = Intent(this, MainActivity::class.java)
-                    startActivity(myIntent)
-                }
-                else {
-                    Toast.makeText(this, R.string.message_connect_failed, Toast.LENGTH_SHORT).show()
-                }
                 btn.isEnabled = true
+                snackbar.dismiss()
+            }
+            connection.setOnConnectListener {
+                CommandStation.setConnection(connection)
+
+                val myIntent = Intent(this, MainActivity::class.java)
+                startActivity(myIntent)
+
+                btn.isEnabled = true
+                snackbar.dismiss()
             }
             connection.connect(device.address)
         }
@@ -94,8 +97,8 @@ class ConnectActivity : AppCompatActivity() {
         }
         else if (shouldShowRequestPermissionRationale(bluetoothPermission)) {
             AlertDialog.Builder(this)
-                .setTitle(getString(R.string.title_alert_permission_required))
-                .setMessage(getString(R.string.message_bluetooth_permission))
+                .setTitle(R.string.title_alert_permission_required)
+                .setMessage(R.string.message_bluetooth_permission)
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     dialog.dismiss()
                     requestPermissions(arrayOf(bluetoothPermission), bluetoothRequest)
@@ -178,8 +181,7 @@ class ConnectActivity : AppCompatActivity() {
                     // system settings in an effort to convince the user to change
                     // their decision.
                     val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
-                    val message = getString(R.string.message_bluetooth_denied)
-                    Snackbar.make(layout, message, Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.make(layout, R.string.message_bluetooth_denied, Snackbar.LENGTH_INDEFINITE)
                         .setAction(R.string.label_quit) { finishAndRemoveTask() }
                         .show()
                 }

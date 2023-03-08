@@ -83,7 +83,7 @@
     <string name="placeholder_route_name">Enter route name</string>
 
     <string name="message_connecting_to">Connecting to %s...</string>
-    <string name="message_connect_failed">Failed to connect!</string>
+    <string name="message_connect_failed">Connection fail!</string>
     <string name="message_bluetooth_permission">Bluetooth permission is required to communicate with command station</string>
     <string name="message_bluetooth_denied">Unable to continue without bluetooth permission</string>
     <string name="message_bluetooth_disabled">Bluetooth adapter is disabled, please enable it</string>

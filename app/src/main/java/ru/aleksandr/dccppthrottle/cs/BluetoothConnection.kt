@@ -19,11 +19,12 @@ class BluetoothConnection(context: Context) : Closeable {
     private val handler = Handler(Looper.getMainLooper()) { msg ->
         when (msg.what) {
             MESSAGE_CONNECTED -> {
-                connectListener?.invoke(true)
+                connectListener?.invoke()
                 true
             }
             MESSAGE_CONNECT_FAILED -> {
-                connectListener?.invoke(false)
+                val exception = msg.obj as Throwable
+                failListener?.invoke(exception)
                 true
             }
             MESSAGE_READ -> {
@@ -45,8 +46,9 @@ class BluetoothConnection(context: Context) : Closeable {
     private var btAdaper : BluetoothAdapter
     private var address : String? = null
 
-    private var connectListener: ((connected: Boolean) -> Unit)? = null
+    private var connectListener: (() -> Unit)? = null
     private var receiveListener: ((message: String) -> Unit)? = null
+    private var failListener: ((ex: Throwable) -> Unit)? = null
 
     init {
         val btManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -56,12 +58,16 @@ class BluetoothConnection(context: Context) : Closeable {
         }
     }
 
-    fun setOnConnectListener(listener : ((connected: Boolean) -> Unit)?) {
+    fun setOnConnectListener(listener : (() -> Unit)?) {
         connectListener = listener
     }
 
     fun setOnReceiveListener(listener: ((message: String) -> Unit)?) {
         receiveListener = listener
+    }
+
+    fun setOnFailListener(listener: ((ex: Throwable) -> Unit)?) {
+        failListener = listener
     }
 
     fun getAddress() : String? {
@@ -102,7 +108,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 }
                 catch (e: IOException) {
                     Log.e(TAG, "Connect failed", e)
-                    handler.obtainMessage(MESSAGE_CONNECT_FAILED).sendToTarget()
+                    handler.obtainMessage(MESSAGE_CONNECT_FAILED, e).sendToTarget()
                     return@run
                 }
 
@@ -117,6 +123,7 @@ class BluetoothConnection(context: Context) : Closeable {
             }
             catch (e : IOException) {
                 Log.e(TAG, "Could not close the client socket", e)
+                handler.obtainMessage(MESSAGE_CONNECT_FAILED, e).sendToTarget()
             }
         }
     }
@@ -144,6 +151,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 }
                 catch (e: IOException) {
                     Log.i(TAG, "Input stream was disconnected", e)
+                    handler.obtainMessage(MESSAGE_CONNECT_FAILED, e).sendToTarget()
                     break
                 }
 
@@ -167,12 +175,12 @@ class BluetoothConnection(context: Context) : Closeable {
             val buffer : ByteArray = message.toByteArray()
             try {
                 mmOutStream.write(buffer)
+                handler.obtainMessage(MESSAGE_WRITE, message).sendToTarget()
             }
             catch (e: IOException) {
                 Log.e(TAG, "Error occurred when sending data", e)
-                return
+                handler.obtainMessage(MESSAGE_CONNECT_FAILED, e).sendToTarget()
             }
-            handler.obtainMessage(MESSAGE_WRITE, message).sendToTarget()
         }
 
         fun cancel() {
@@ -181,6 +189,7 @@ class BluetoothConnection(context: Context) : Closeable {
             }
             catch (e: IOException) {
                 Log.e(TAG, "Could not close the connect socket", e)
+                handler.obtainMessage(MESSAGE_CONNECT_FAILED, e).sendToTarget()
             }
         }
     }
