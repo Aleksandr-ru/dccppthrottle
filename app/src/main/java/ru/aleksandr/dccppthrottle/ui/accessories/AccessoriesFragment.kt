@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoriesBinding
+import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.MockStore
 
 class AccessoriesFragment : Fragment() {
+
+    private val TAG = javaClass.simpleName
 
     private var _binding: FragmentAccessoriesBinding? = null
 
@@ -31,15 +35,18 @@ class AccessoriesFragment : Fragment() {
         val placeholder = binding.emptyView
 
         placeholder.setOnClickListener {
-            for(i in 1..10) {
-                try {
+            if (BuildConfig.DEBUG) {
+                for (i in 1..10) try {
                     AccessoriesStore.add(MockStore.randomAccessory())
                 }
                 catch (ex: Exception) {
-                    Log.d("Exception", ex.toString())
+                    Log.d(TAG, ex.toString())
                 }
             }
-            //todo: add accessory dialog
+            else {
+                AccessoryDialog.storeIndex = -1
+                AccessoryDialog().show(parentFragmentManager, AccessoryDialog.TAG)
+            }
         }
 
         if (view is RecyclerView) {

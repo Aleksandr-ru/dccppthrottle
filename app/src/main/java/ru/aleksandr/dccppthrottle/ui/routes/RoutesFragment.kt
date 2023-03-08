@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.databinding.FragmentRoutesBinding
+import ru.aleksandr.dccppthrottle.dialogs.RouteAddDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
@@ -30,10 +32,10 @@ class RoutesFragment : Fragment() {
         val placeholder = binding.emptyView
 
         placeholder.setOnClickListener {
-            for(i in 1..10) {
+            if (BuildConfig.DEBUG) for(i in 1..10)
                 RoutesStore.add(MockStore.randomRoute())
-            }
-            //todo: add route dialog
+            else
+                RouteAddDialog().show(parentFragmentManager, RouteAddDialog.TAG)
         }
 
         if (view is RecyclerView) {

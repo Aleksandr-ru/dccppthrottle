@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
@@ -16,7 +17,9 @@ import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
-class LocoCabActivity : AppCompatActivity() {
+class LocoCabActivity : AppCompatActivity(),
+    PomValueDialog.PomValueDialogListener,
+    PomBitDialog.PomBitDialogListener {
     private var slot: Int = 0
     private var lastCv: Int = 1
 
@@ -61,31 +64,33 @@ class LocoCabActivity : AppCompatActivity() {
                 true
             }
             R.id.action_pom_value -> {
-                PomValueDialog().apply {
-                    setCv(lastCv)
-                    setListener { cv, value ->
-                        lastCv = cv
-                        CommandStation.setCvMain(slot, cv, value)
-                        true
-                    }
-                }.show(supportFragmentManager, PomValueDialog.TAG)
+                PomValueDialog.cv = lastCv
+                PomValueDialog().show(supportFragmentManager, PomValueDialog.TAG)
                 true
             }
             R.id.action_pom_bit -> {
-                PomBitDialog().apply {
-                    setCv(lastCv)
-                    setListener { cv, bit, value ->
-                        lastCv = cv
-                        CommandStation.setCvBitMain(slot, cv, bit, value)
-                        true
-                    }
-                }.show(supportFragmentManager, PomBitDialog.TAG)
+                PomBitDialog.cv = lastCv
+                PomBitDialog().show(supportFragmentManager, PomBitDialog.TAG)
                 true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
         }
+    }
+
+    override fun onPomValueDialogResult(dialog: DialogFragment, cv: Int, value: Int) {
+        val message = getString(R.string.message_write_cv_value, cv, value)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        CommandStation.setCvMain(slot, cv, value)
+        lastCv = cv
+    }
+
+    override fun onPomBitDialogResult(dialog: DialogFragment, cv: Int, bit: Int, value: Int) {
+        val message = getString(R.string.message_write_cv_bit, cv, bit, value)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        CommandStation.setCvBitMain(slot, cv, bit, value)
+        lastCv = cv
     }
 
     companion object {

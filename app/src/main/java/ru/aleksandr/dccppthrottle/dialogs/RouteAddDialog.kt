@@ -9,23 +9,11 @@ import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
-class RouteDialog() : DialogFragment() {
-
-    private var dialogTitle: String? = null
-    private var resultListener : ((RoutesStore.RouteState) -> Boolean)? = null
+class RouteAddDialog() : DialogFragment() {
 
     private lateinit var dialog : AlertDialog
 
-    fun setTitle(title: String) {
-        dialogTitle = title
-    }
-
-    fun setListener(listener: (RoutesStore.RouteState) -> Boolean) {
-        resultListener = listener
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -37,14 +25,12 @@ class RouteDialog() : DialogFragment() {
             }
 
             builder.setView(view)
-                .setTitle(dialogTitle)
+                .setTitle(R.string.title_dialog_route_add)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok) { dialog, id ->
                     if (!title.text.isNullOrBlank()) {
                         val route = RoutesStore.RouteState(title.text.toString())
-                        resultListener?.let {
-                            if (it(route)) dialog.dismiss()
-                        }
+                        RoutesStore.add(route)
                     }
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, id ->

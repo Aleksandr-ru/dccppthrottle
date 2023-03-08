@@ -2,6 +2,7 @@ package ru.aleksandr.dccppthrottle.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.EditText
@@ -12,20 +13,23 @@ import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
 class PomValueDialog() : DialogFragment() {
 
-    private var cv: Int = 0
-    private var resultListener : ((cv: Int, value: Int) -> Boolean)? = null
+    private lateinit var listener: PomValueDialogListener
 
-    fun setCv(cvNum: Int) {
-        cv = cvNum
+    interface PomValueDialogListener {
+        fun onPomValueDialogResult(dialog: DialogFragment, cv: Int, value: Int)
     }
 
-    fun setListener(listener: (cv: Int, value: Int) -> Boolean) {
-        resultListener = listener
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            listener = context as PomValueDialogListener
+        }
+        catch (e: ClassCastException) {
+            throw ClassCastException(("$context must implement PomValueDialogListener"))
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
-        val dialogTitle = getString(R.string.title_dialog_pom_value)
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -37,14 +41,12 @@ class PomValueDialog() : DialogFragment() {
             viewCv.value = cv
 
             builder.setView(view)
-                .setTitle(dialogTitle)
+                .setTitle(R.string.title_dialog_pom_value)
                 .setCancelable(true)
                 .setPositiveButton(R.string.label_write) { dialog, _ ->
                     val newCv = viewCv.value!!
                     val newValue = viewValue.value!!
-                    resultListener?.let {
-                        if (it(newCv, newValue)) dialog.dismiss()
-                    }
+                    listener.onPomValueDialogResult(this, newCv, newValue)
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
@@ -55,5 +57,6 @@ class PomValueDialog() : DialogFragment() {
 
     companion object {
         const val TAG = "PomValueDialog"
+        var cv = 0
     }
 }

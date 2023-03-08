@@ -90,6 +90,8 @@
     <string name="message_read_cv_error">CV %d read error</string>
     <string name="message_write_cv_success">Write CV %d successful</string>
     <string name="message_write_cv_error">Write CV %d error</string>
+    <string name="message_write_cv_value">Writing CV %d = %d</string>
+    <string name="message_write_cv_bit">Writing CV %d bit %d = %d</string>
     <string name="message_press_to_exit">Press BACK again to exit</string>
     <string name="message_press_to_disconnect">Press BACK again to disconnect</string>
 

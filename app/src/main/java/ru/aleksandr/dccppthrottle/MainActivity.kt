@@ -18,7 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
-import ru.aleksandr.dccppthrottle.dialogs.RouteDialog
+import ru.aleksandr.dccppthrottle.dialogs.RouteAddDialog
 import ru.aleksandr.dccppthrottle.store.*
 import ru.aleksandr.dccppthrottle.ui.main.MainViewPagerAdapter
 import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding
@@ -158,45 +158,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.action_add_loco -> {
                 viewPager.currentItem = POSITION_LOCOMOTIVES
-                val loco = LocomotivesStore.LocomotiveState(3)
-                val title = getString(R.string.title_dialog_locomotive_add)
-                LocomotiveDialog().apply {
-                    setTitle(title)
-                    setIntitial(loco)
-                    setListener {
-                        LocomotivesStore.add(it)
-                        true
-                    }
-                }.show(supportFragmentManager, LocomotiveDialog.TAG)
+                LocomotiveDialog.storeIndex = -1
+                LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
                 true
             }
             R.id.action_add_acc -> {
                 viewPager.currentItem = POSITION_ACCESSORIES
-                val title = getString(R.string.title_dialog_accessory_add)
-                AccessoryDialog().apply {
-                    setTitle(title)
-                    setListener {
-                        try {
-                            AccessoriesStore.add(it)
-                        }
-                        catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
-                            Toast.makeText(this@MainActivity, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
-                        }
-                        true
-                    }
-                }.show(supportFragmentManager, AccessoryDialog.TAG)
+                AccessoryDialog.storeIndex = -1
+                AccessoryDialog().show(supportFragmentManager, AccessoryDialog.TAG)
                 true
             }
             R.id.action_add_route -> {
                 viewPager.currentItem = POSITION_ROUTES
-                val title = getString(R.string.title_dialog_route_add)
-                RouteDialog().apply {
-                    setTitle(title)
-                    setListener {
-                        RoutesStore.add(it)
-                        true
-                    }
-                }.show(supportFragmentManager, RouteDialog.TAG)
+                RouteAddDialog().show(supportFragmentManager, RouteAddDialog.TAG)
                 true
             }
             else -> {

@@ -4,34 +4,19 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 
 class AccessoryDialog () : DialogFragment() {
 
-    private var dialogTitle: String? = null
-    private var initial: AccessoriesStore.AccessoryState? = null
-    private var resultListener : ((AccessoriesStore.AccessoryState) -> Boolean)? = null
-
     private lateinit var dialog : AlertDialog
 
-    fun setTitle(title: String) {
-        dialogTitle = title
-    }
-
-    fun setIntitial(item: AccessoriesStore.AccessoryState) {
-        initial = item
-    }
-
-    fun setListener(listener: (AccessoriesStore.AccessoryState) -> Boolean) {
-        resultListener = listener
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -39,12 +24,17 @@ class AccessoryDialog () : DialogFragment() {
 
             val addr = view.findViewById<PlusMinusView>(R.id.plusminusAddr)
             val title = view.findViewById<EditText>(R.id.editTextTitle)
+            val dialogTitle = getString(
+                if (storeIndex > -1) R.string.title_dialog_accessory_edit
+                else R.string.title_dialog_accessory_add
+            )
+            val initial = AccessoriesStore.data.value?.getOrNull(storeIndex)
 
             addr.value = initial?.address
             addr.setOnChangeListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     if (it == null) false
-                    else !AccessoriesStore.hasAddress(it!!)
+                    else !AccessoriesStore.hasAddress(it!!, storeIndex)
             }
             title.setText(initial?.title)
 
@@ -56,8 +46,14 @@ class AccessoryDialog () : DialogFragment() {
                         addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
-                    resultListener?.let {
-                        if (it(acc)) dialog.dismiss()
+                    try {
+                        if (storeIndex > -1)
+                            AccessoriesStore.replace(storeIndex, acc)
+                        else
+                            AccessoriesStore.add(acc)
+                    }
+                    catch (ex : AccessoriesStore.AccessoryAddressInUseException) {
+                        Toast.makeText(context, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
                     }
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, id ->
@@ -73,11 +69,11 @@ class AccessoryDialog () : DialogFragment() {
         val addr = dialog.findViewById<PlusMinusView>(R.id.plusminusAddr)
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
             if (addr.value == null) false
-            else !AccessoriesStore.hasAddress(addr.value!!)
-        //todo: fix for edit existing
+            else !AccessoriesStore.hasAddress(addr.value!!, storeIndex)
     }
 
     companion object {
         const val TAG = "AccessoryDialog"
+        var storeIndex = -1
     }
 }

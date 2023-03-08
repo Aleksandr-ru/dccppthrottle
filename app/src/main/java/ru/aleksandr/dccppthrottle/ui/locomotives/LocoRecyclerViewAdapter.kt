@@ -91,27 +91,15 @@ class LocoRecyclerViewAdapter(
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.action_context_edit -> {
-                        val loco = LocomotivesStore.data.value!![bindingAdapterPosition]
-                        val title = itemView.context.getString(R.string.title_dialog_locomotive_add)
-                        LocomotiveDialog().apply {
-                            setTitle(title)
-                            setIntitial(loco)
-                            setListener {
-                                if (loco.slot > 0) {
-                                    CommandStation.stopLocomotive(loco.slot)
-                                    LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
-                                }
-                                it.slot = 0
-                                LocomotivesStore.replace(bindingAdapterPosition, it)
-                                true
-                            }
-                        }.show(fragmentManager, "loco")
+                        LocomotiveDialog.storeIndex = bindingAdapterPosition
+                        LocomotiveDialog().show(fragmentManager, LocomotiveDialog.TAG)
                         true
                     }
                     R.id.action_context_delete -> {
                         val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
                         if (slot > 0) {
                             CommandStation.stopLocomotive(slot)
+                            // todo unassign from cs
                             LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                         }
                         LocomotivesStore.remove(bindingAdapterPosition)

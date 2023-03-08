@@ -25,7 +25,8 @@ object AccessoriesStore {
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
 
     fun getAddress(index: Int) = data.value?.get(index)?.address
-    fun getIndexByAddress(addr: Int) = data.value?.withIndex()?.find { it.value.address == addr }?.index
+    fun getIndexByAddress(addr: Int) =
+        data.value?.withIndex()?.find { it.value.address == addr }?.index
 
     fun remove(index: Int) {
         _data.postValue(_data.value?.also {
@@ -34,7 +35,8 @@ object AccessoriesStore {
     }
 
     fun replace(index: Int, newItem: AccessoryState) {
-        if (_data.value?.withIndex()?.filter { it.index != index }?.any { it.value.address == newItem.address } == true) {
+        if (_data.value?.withIndex()?.filter { it.index != index }
+                ?.any { it.value.address == newItem.address } == true) {
             throw AccessoryAddressInUseException()
         }
         _data.postValue(sorted(_data.value!!.also {
@@ -42,7 +44,8 @@ object AccessoriesStore {
         }))
     }
 
-    fun hasAddress(addr: Int) : Boolean = data.value!!.any { it.address == addr }
+    fun hasAddress(addr: Int, skipIndex: Int = -1): Boolean =
+        data.value!!.withIndex().any { it.index != skipIndex && it.value.address == addr }
 
     fun setState(index: Int, newState: Boolean) {
         _data.postValue(_data.value?.also {
@@ -64,7 +67,7 @@ object AccessoriesStore {
         })
     }
 
-    private fun sorted(list: MutableList<AccessoryState>) : MutableList<AccessoryState> {
+    private fun sorted(list: MutableList<AccessoryState>): MutableList<AccessoryState> {
         return when (sort_order) {
             "name" -> {
                 list.sortedWith(compareBy { it.title })

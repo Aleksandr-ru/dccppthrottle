@@ -65,9 +65,12 @@ class ConnectActivity : AppCompatActivity() {
             AccessoriesStore.sort(accSortOrder!!)
             RoutesStore.sort(routeSortOrder!!)
 
-            val myIntent = Intent(this, MainActivity::class.java)
-            startActivity(myIntent)
-            return@setOnClickListener
+            if (BuildConfig.DEBUG && pairedDevices.isNullOrEmpty()) {
+                Toast.makeText(this, String.format(getString(R.string.message_connecting_to), "DEBUG"), Toast.LENGTH_SHORT).show()
+                val myIntent = Intent(this, MainActivity::class.java)
+                startActivity(myIntent)
+                return@setOnClickListener
+            }
 
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -138,14 +141,14 @@ class ConnectActivity : AppCompatActivity() {
         if (pairedDevices.isNullOrEmpty()) {
             // Disable or enable it before setting the adapter.
             spinner.isEnabled = false
-            btn.isEnabled = false
+            btn.isEnabled = BuildConfig.DEBUG
         }
         else {
             btn.isEnabled = true
             spinner.isEnabled = true
             devicesList = pairedDevices!!.map { it.name }
         }
-//        btn.isEnabled = true //todo delete me
+
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item,

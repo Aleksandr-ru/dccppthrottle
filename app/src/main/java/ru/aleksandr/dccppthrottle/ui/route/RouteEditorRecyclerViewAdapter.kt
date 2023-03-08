@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteEditorItemBinding
-import ru.aleksandr.dccppthrottle.dialogs.RouteAccessoryDialog
+import ru.aleksandr.dccppthrottle.dialogs.RouteAccEditDialog
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 import java.util.*
 
@@ -96,17 +96,9 @@ class RouteEditorRecyclerViewAdapter(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        val routeAccessory = values[bindingAdapterPosition]
-                        val title = itemView.context.getString(R.string.title_dialog_accessory_edit)
-                        RouteAccessoryDialog().apply {
-                            setTitle(title)
-                            setIntitial(routeAccessory)
-                            setListener {
-                                RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, it)
-                                notifyItemChanged(bindingAdapterPosition)
-                                true
-                            }
-                        }.show(fragmentManager, RouteAccessoryDialog.TAG)
+                        RouteAccEditDialog.routeIndex = routeIndex
+                        RouteAccEditDialog.accessoryIndex = bindingAdapterPosition
+                        RouteAccEditDialog().show(fragmentManager, RouteAccEditDialog.TAG)
                         true
                     }
                     R.id.action_context_delete -> {

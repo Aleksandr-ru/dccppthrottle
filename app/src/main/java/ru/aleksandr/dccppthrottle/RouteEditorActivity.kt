@@ -113,10 +113,10 @@ class RouteEditorActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         placeholder.setOnClickListener {
-            for(i in 1..10) {
+            if (BuildConfig.DEBUG) for(i in 1..10)
                 RoutesStore.addAccessory(routeIndex, MockStore.randomRouteAccessory())
-            }
-            // TODO addAccessoryDialog()
+            else
+                addAccessoryDialog()
         }
     }
 
@@ -149,9 +149,6 @@ class RouteEditorActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .setCancelable(true)
-//                    .setPositiveButton(R.string.label_ok) { dialog, _ ->
-//                        dialog.dismiss()
-//                    }
             .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }

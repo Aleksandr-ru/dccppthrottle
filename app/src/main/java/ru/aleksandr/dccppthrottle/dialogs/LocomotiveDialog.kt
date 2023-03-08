@@ -7,29 +7,13 @@ import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
-class LocomotiveDialog () : DialogFragment() {
-
-    private var dialogTitle: String? = null
-    private var initial: LocomotivesStore.LocomotiveState? = null
-    private var resultListener : ((LocomotivesStore.LocomotiveState) -> Boolean)? = null
-
-    fun setTitle(title: String) {
-        dialogTitle = title
-    }
-
-    fun setIntitial(item: LocomotivesStore.LocomotiveState) {
-        initial = item
-    }
-
-    fun setListener(listener: (LocomotivesStore.LocomotiveState) -> Boolean) {
-        resultListener = listener
-    }
+class LocomotiveDialog() : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -37,6 +21,11 @@ class LocomotiveDialog () : DialogFragment() {
 
             val addr = view.findViewById<PlusMinusView>(R.id.plusminusAddr)
             val title = view.findViewById<EditText>(R.id.editTextTitle)
+            val dialogTitle = getString(
+                if (storeIndex > -1) R.string.title_dialog_locomotive_edit
+                else R.string.title_dialog_locomotive_add
+            )
+            val initial = LocomotivesStore.data.value?.getOrNull(storeIndex)
 
             addr.value = initial?.address
             title.setText(initial?.title)
@@ -49,8 +38,17 @@ class LocomotiveDialog () : DialogFragment() {
                         addr.value!!,
                         title.text.toString().ifBlank { null }
                     )
-                    resultListener?.let {
-                        if (it(loco)) dialog.dismiss()
+                    if (storeIndex > -1) {
+                        if (loco.slot > 0) {
+                            CommandStation.stopLocomotive(loco.slot)
+                            // todo unassign loco from cs
+                            LocomotivesStore.assignToSlot(storeIndex, 0)
+                        }
+                        loco.slot = 0
+                        LocomotivesStore.replace(storeIndex, loco)
+                    }
+                    else {
+                        LocomotivesStore.add(loco)
                     }
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ ->
@@ -62,5 +60,6 @@ class LocomotiveDialog () : DialogFragment() {
 
     companion object {
         const val TAG = "LocomotiveDialog"
+        var storeIndex = -1
     }
 }

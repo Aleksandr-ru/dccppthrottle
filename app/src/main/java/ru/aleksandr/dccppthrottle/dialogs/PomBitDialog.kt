@@ -2,34 +2,37 @@ package ru.aleksandr.dccppthrottle.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.ToggleButton
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 
 class PomBitDialog() : DialogFragment() {
 
-    private lateinit var dialog: AlertDialog
-    private var cv: Int? = null
     private var selectedBit: Int? = null
-    private var resultListener : ((cv: Int, bit: Int, value: Int) -> Boolean)? = null
 
-    fun setCv(cvNum: Int) {
-        cv = cvNum
+    private lateinit var dialog: AlertDialog
+    private lateinit var listener: PomBitDialogListener
+
+    interface PomBitDialogListener {
+        fun onPomBitDialogResult(dialog: DialogFragment, cv: Int, bit: Int, value: Int)
     }
 
-    fun setListener(listener: (cv: Int, bit: Int, value: Int) -> Boolean) {
-        resultListener = listener
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            listener = context as PomBitDialogListener
+        }
+        catch (e: ClassCastException) {
+            throw ClassCastException(("$context must implement PomBitDialogListener"))
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
-        val dialogTitle = getString(R.string.title_dialog_pom_bit)
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -55,14 +58,12 @@ class PomBitDialog() : DialogFragment() {
             val viewValue = view.findViewById<ToggleButton>(R.id.toggleBitValue)
 
             builder.setView(view)
-                .setTitle(dialogTitle)
+                .setTitle(R.string.title_dialog_pom_bit)
                 .setCancelable(true)
                 .setPositiveButton(R.string.label_write) { dialog, _ ->
                     val newCv = viewCv.value!!
                     val newValue = if (viewValue.isChecked) 1 else 0
-                    resultListener?.let {
-                        if (it(newCv, selectedBit!!, newValue)) dialog.dismiss()
-                    }
+                    listener.onPomBitDialogResult(this, newCv, selectedBit!!, newValue)
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
@@ -79,5 +80,6 @@ class PomBitDialog() : DialogFragment() {
 
     companion object {
         const val TAG = "PomBitDialog"
+        var cv = 0
     }
 }

@@ -12,28 +12,9 @@ import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 
-class RouteAccessoryDialog() : DialogFragment() {
-
-    private var dialogTitle: String? = null
-    private var initial: RoutesStore.RouteStateAccessory? = null
-    private var resultListener : ((RoutesStore.RouteStateAccessory) -> Boolean)? = null
-
-    private lateinit var dialog : AlertDialog
-
-    fun setTitle(title: String) {
-        dialogTitle = title
-    }
-
-    fun setIntitial(item: RoutesStore.RouteStateAccessory) {
-        initial = item
-    }
-
-    fun setListener(listener: (RoutesStore.RouteStateAccessory) -> Boolean) {
-        resultListener = listener
-    }
+class RouteAccEditDialog() : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //return super.onCreateDialog(savedInstanceState)
         return activity!!.let { it ->
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -41,6 +22,7 @@ class RouteAccessoryDialog() : DialogFragment() {
 
             val delay = view.findViewById<PlusMinusView>(R.id.plusminusDelay)
             val list = view.findViewById<Spinner>(R.id.spinnerAccList)
+            val initial = RoutesStore.data.value?.getOrNull(routeIndex)?.accessories?.getOrNull(accessoryIndex)
             val accessoryNames = AccessoriesStore.data.value!!.map { it.toString() }
             val selectedIndex = initial?.let { acc -> AccessoriesStore.getIndexByAddress(acc.address) } ?: 0
             val adapter: ArrayAdapter<String> =
@@ -50,7 +32,7 @@ class RouteAccessoryDialog() : DialogFragment() {
             delay.value = initial?.delay ?: 0
 
             builder.setView(view)
-                .setTitle(dialogTitle)
+                .setTitle(R.string.title_dialog_accessory_edit)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     val address: Int = AccessoriesStore.getAddress(list.selectedItemPosition)!!
@@ -58,19 +40,18 @@ class RouteAccessoryDialog() : DialogFragment() {
                         address,
                         delay.value!!
                     )
-                    resultListener?.let {
-                        if (it(acc)) dialog.dismiss()
-                    }
+                    RoutesStore.replaceAccessory(routeIndex, accessoryIndex, acc)
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
-            dialog = builder.create()
-            dialog
+            builder.create()
         }
     }
 
     companion object {
         const val TAG = "RouteAccessoryDialog"
+        var routeIndex = -1
+        var accessoryIndex = -1
     }
 }

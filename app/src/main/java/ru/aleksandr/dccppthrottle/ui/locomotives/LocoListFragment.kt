@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.MainActivity
+import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListBinding as FragmentLocomotivesBinding
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -33,9 +35,12 @@ class LocoListFragment : Fragment() {
         val placeholder = binding.emptyView
 
         placeholder.setOnClickListener {
-            for (i in 1..10)
-            LocomotivesStore.add(MockStore.randomLocomotive(false))
-            //todo: show add loco dialog
+            if (BuildConfig.DEBUG) for (i in 1..10)
+                LocomotivesStore.add(MockStore.randomLocomotive(false))
+            else {
+                LocomotiveDialog.storeIndex = -1
+                LocomotiveDialog().show(parentFragmentManager, LocomotiveDialog.TAG)
+            }
         }
 
         if (view is RecyclerView) {
