@@ -8,6 +8,7 @@
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_console">Console</string>
     <string name="title_fragment_locomotives">Locomotives</string>
     <string name="title_fragment_accessories">Accessories</string>
     <string name="title_fragment_routes">Routes</string>

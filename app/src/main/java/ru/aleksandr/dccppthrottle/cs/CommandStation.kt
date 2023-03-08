@@ -3,6 +3,7 @@ package ru.aleksandr.dccppthrottle.cs
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.ConsoleStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MainStore
 import kotlin.math.min
@@ -18,8 +19,6 @@ object CommandStation {
     private val TAG = javaClass.simpleName
 
     private var connection: BluetoothConnection? = null
-    private val read: MutableLiveData<String> = MutableLiveData()
-    private val write: MutableLiveData<String> = MutableLiveData()
 
     private var resultListenersList: ArrayList<Command> = arrayListOf()
     private var writeCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
@@ -35,7 +34,7 @@ object CommandStation {
     fun setConnection(conn: BluetoothConnection) {
         connection = conn
         connection!!.setOnReceiveListener {
-            read.postValue(it)
+            ConsoleStore.addIn(it)
             parseMessage(it)
         }
         sendCommand(StatusCommand())
@@ -48,6 +47,7 @@ object CommandStation {
             close()
         }
         connection = null
+        ConsoleStore.clear()
     }
 
     fun setTrackPower(isOn: Boolean) {
@@ -180,7 +180,7 @@ object CommandStation {
             if (command.resultRegex != null)
                 resultListenersList.add(command)
             it.send(str)
-            write.postValue(str)
+            ConsoleStore.addOut(str)
         }
     }
 

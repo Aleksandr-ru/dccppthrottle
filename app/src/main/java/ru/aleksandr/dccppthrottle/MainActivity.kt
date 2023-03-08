@@ -122,7 +122,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 false
             }
             R.id.nav_console -> {
-                Toast.makeText(this,"Console", Toast.LENGTH_SHORT).show()
+                val myIntent = Intent(this, ConsoleActivity::class.java)
+                startActivity(myIntent)
                 false
             }
             R.id.nav_settings -> {
