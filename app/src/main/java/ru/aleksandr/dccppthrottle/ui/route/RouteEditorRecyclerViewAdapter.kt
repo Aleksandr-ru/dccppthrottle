@@ -83,9 +83,6 @@ class RouteEditorRecyclerViewAdapter(
 
             toggle.setOnCheckedChangeListener { btn, isChecked ->
                 if (btn.isPressed) {
-//                    val routeAccessory = values[bindingAdapterPosition]
-//                    routeAccessory.isOn = isChecked
-//                    RoutesStore.replaceAccessory(routeIndex, bindingAdapterPosition, routeAccessory)
                     RoutesStore.toggleAccessory(routeIndex, bindingAdapterPosition, isChecked)
                     notifyItemChanged(bindingAdapterPosition)
                 }

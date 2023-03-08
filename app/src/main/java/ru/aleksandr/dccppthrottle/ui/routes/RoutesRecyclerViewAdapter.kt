@@ -46,6 +46,7 @@ class RoutesRecyclerViewAdapter(
             holder.title.text = toString()
             holder.num.text = accessories.size.toString()
             holder.button.isEnabled = accessories.isNotEmpty()
+            holder.button.imageAlpha = if (accessories.isNotEmpty()) 255 else 75
         }
     }
 

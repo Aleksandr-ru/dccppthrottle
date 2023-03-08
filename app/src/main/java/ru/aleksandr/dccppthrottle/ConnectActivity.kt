@@ -65,13 +65,6 @@ class ConnectActivity : AppCompatActivity() {
             AccessoriesStore.sort(accSortOrder!!)
             RoutesStore.sort(routeSortOrder!!)
 
-            if (BuildConfig.DEBUG && pairedDevices.isNullOrEmpty()) {
-                Toast.makeText(this, String.format(getString(R.string.message_connecting_to), "DEBUG"), Toast.LENGTH_SHORT).show()
-                val myIntent = Intent(this, MainActivity::class.java)
-                startActivity(myIntent)
-                return@setOnClickListener
-            }
-
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
             val device = pairedDevices!!.elementAt(spinner.selectedItemPosition)
@@ -112,6 +105,14 @@ class ConnectActivity : AppCompatActivity() {
         else {
             requestPermissions(arrayOf(bluetoothPermission), bluetoothRequest)
         }
+
+        if (BuildConfig.DEBUG) {
+            Snackbar.make(layout, "Debug mode enabled", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Debug") {
+                    val myIntent = Intent(this, MainActivity::class.java)
+                    startActivity(myIntent)
+                }.show()
+        }
     }
 
     override fun onBackPressed() {
@@ -141,7 +142,7 @@ class ConnectActivity : AppCompatActivity() {
         if (pairedDevices.isNullOrEmpty()) {
             // Disable or enable it before setting the adapter.
             spinner.isEnabled = false
-            btn.isEnabled = BuildConfig.DEBUG
+            btn.isEnabled = false
         }
         else {
             btn.isEnabled = true
