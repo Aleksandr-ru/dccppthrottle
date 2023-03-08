@@ -5,5 +5,6 @@
         <attr name="max" format="integer" />
         <attr name="step" format="integer" />
         <attr name="nullable" format="boolean" />
+        <attr name="android:enabled" />
     </declare-styleable>
 </resources>

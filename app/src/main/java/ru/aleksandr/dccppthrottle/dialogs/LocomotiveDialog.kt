@@ -26,7 +26,7 @@ class LocomotiveDialog() : DialogFragment() {
                 else R.string.title_dialog_locomotive_add
             )
             val initial = LocomotivesStore.data.value?.getOrNull(storeIndex)
-
+            addr.isEnabled = initial == null || initial.slot == 0
             addr.value = initial?.address
             title.setText(initial?.title)
 
@@ -34,20 +34,16 @@ class LocomotiveDialog() : DialogFragment() {
                 .setTitle(dialogTitle)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok) { dialog, id ->
-                    val loco = LocomotivesStore.LocomotiveState(
-                        addr.value!!,
-                        title.text.toString().ifBlank { null }
-                    )
                     if (storeIndex > -1) {
-                        if (loco.slot > 0) {
-                            CommandStation.stopLocomotive(loco.slot)
-                            // todo unassign loco from cs
-                            LocomotivesStore.assignToSlot(storeIndex, 0)
-                        }
-                        loco.slot = 0
-                        LocomotivesStore.replace(storeIndex, loco)
+                        initial!!.address = addr.value!!
+                        initial!!.title = title.text.toString().ifBlank { null }
+                        LocomotivesStore.replace(storeIndex, initial)
                     }
                     else {
+                        val loco = LocomotivesStore.LocomotiveState(
+                            addr.value!!,
+                            title.text.toString().ifBlank { null }
+                        )
                         LocomotivesStore.add(loco)
                     }
                 }

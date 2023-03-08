@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.core.widget.doAfterTextChanged
 import ru.aleksandr.dccppthrottle.R
 
@@ -73,6 +74,9 @@ class PlusMinusView : LinearLayout {
         if (a.hasValue(R.styleable.PlusMinusView_value)) {
             value = a.getInt(R.styleable.PlusMinusView_value, 0)
         }
+        if (a.hasValue(R.styleable.PlusMinusView_android_enabled)) {
+            isEnabled = a.getBoolean(R.styleable.PlusMinusView_android_enabled, true)
+        }
 
         a.recycle()
 
@@ -98,6 +102,11 @@ class PlusMinusView : LinearLayout {
                 onChangeListener?.invoke(_value)
             }
         }
+    }
+
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        children.forEach { it.isEnabled = enabled }
     }
 
     fun setOnChangeListener(listener: ((Int?) -> Unit)?) {

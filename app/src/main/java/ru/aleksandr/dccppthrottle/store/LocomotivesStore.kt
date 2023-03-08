@@ -35,6 +35,7 @@ object LocomotivesStore {
     fun getSlot(index : Int) : Int = data.value!![index].slot
     fun getAddress(index: Int) : Int = data.value!![index].address
     fun getSlotByAddress(addr : Int) : Int = data.value!!.firstOrNull { it.address == addr }?.slot ?: 0
+    fun getIndexBySlot(slot: Int) : Int = data.value!!.indexOfFirst { it.slot == slot }
 
     fun getBySlot(slot: Int) : LocomotiveState? = data.value?.firstOrNull { it.slot == slot }
 

@@ -9,13 +9,18 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/action_edit_loco"
+        android:title="@string/action_edit_loco"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_pom_value"
-        android:title="Program CV value"
+        android:title="@string/action_pom_value"
         android:visible="true"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_pom_bit"
-        android:title="Program CV bit"
+        android:title="@string/action_pom_bit"
         android:visible="true"
         app:showAsAction="never" />
 </menu>

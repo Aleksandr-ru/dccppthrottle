@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -61,6 +62,11 @@ class LocoCabActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.action_stop -> {
                 CommandStation.stopLocomotive(slot)
+                true
+            }
+            R.id.action_edit_loco -> {
+                LocomotiveDialog.storeIndex = LocomotivesStore.getIndexBySlot(slot)
+                LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
                 true
             }
             R.id.action_pom_value -> {

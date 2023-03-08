@@ -29,10 +29,13 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_stop">Stop</string>
     <string name="action_add_loco">Add locomotive</string>
+    <string name="action_edit_loco">Edit locomotive</string>
     <string name="action_add_acc">Add accessory</string>
     <string name="action_add_route">Add route</string>
     <string name="action_context_edit">Edit</string>
     <string name="action_context_delete">Delete</string>
+    <string name="action_pom_value">Program CV value</string>
+    <string name="action_pom_bit">Program CV bit</string>
 
     <string name="menu_power">Track power</string>
     <string name="menu_locomotives">Locomotives</string>
