@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -77,8 +78,20 @@ class ConnectActivity : AppCompatActivity() {
                 Log.w(TAG, ex)
                 Toast.makeText(this, R.string.message_connect_failed, Toast.LENGTH_SHORT).show()
 
-                btn.isEnabled = true
-                snackbar.dismiss()
+                // https://stackoverflow.com/a/54589015
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    btn.isEnabled = true
+                    snackbar.dismiss()
+                }
+                else {
+                    // https://stackoverflow.com/questions/4038479/android-go-back-to-previous-activity
+                    // https://developer.android.com/reference/android/content/Intent#FLAG_ACTIVITY_CLEAR_TOP
+                    // https://developer.android.com/guide/components/activities/tasks-and-back-stack#ManagingTasks
+                    val myIntent = Intent(this, ConnectActivity::class.java)
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(myIntent)
+                    // todo TEST ME!
+                }
             }
             connection.setOnConnectListener {
                 CommandStation.setConnection(connection)
