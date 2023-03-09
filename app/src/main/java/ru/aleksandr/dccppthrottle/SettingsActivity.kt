@@ -2,12 +2,12 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -46,11 +46,15 @@ class SettingsActivity : AppCompatActivity() {
             if (pref != null && key != null) when(key) {
                 "sort_locos" -> {
                     val keyVal = pref.getString(key, LocomotivesStore.SORT_UNSORTED)
-                    LocomotivesStore.sort(keyVal!!)
+                    LocomotivesStore.setSortOrder(keyVal!!)
                 }
                 "sort_accessories" -> {
                     val keyVal = pref.getString(key, AccessoriesStore.SORT_UNSORTED)
-                    AccessoriesStore.sort(keyVal!!)
+                    AccessoriesStore.setSortOrder(keyVal!!)
+                }
+                "sort_routes" -> {
+                    val keyVal = pref.getString(key, RoutesStore.SORT_UNSORTED)
+                    RoutesStore.setSortOrder(keyVal!!)
                 }
                 else -> {}
             }

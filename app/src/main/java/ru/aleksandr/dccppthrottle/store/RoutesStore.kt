@@ -10,15 +10,14 @@ object RoutesStore {
     const val SORT_UNSORTED = "unsorted"
     const val SORT_NAME = "name"
 
-    private var sort_order = "unsorted"
-
+    private var _sortOrder = SORT_UNSORTED
     private val _data = MutableLiveData<MutableList<RouteState>>(mutableListOf())
     val data: LiveData<MutableList<RouteState>> = _data
 
     fun liveAccessories(routeIndex: Int) = data.map { it[routeIndex].accessories }
 
     fun add(item: RouteState) {
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it.add(item)
         }))
     }
@@ -42,13 +41,13 @@ object RoutesStore {
     }
 
     fun replace(index: Int, newItem: RouteState) {
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
     }
 
     fun setTitle(index: Int, newTitle: String) {
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it[index].title = newTitle
         }))
     }
@@ -65,8 +64,8 @@ object RoutesStore {
         })
     }
 
-    private fun sorted(list: MutableList<RouteState>) : MutableList<RouteState> {
-        return when (sort_order) {
+    private fun sort(list: MutableList<RouteState>) : MutableList<RouteState> {
+        return when (_sortOrder) {
             SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
@@ -76,14 +75,14 @@ object RoutesStore {
         }.toMutableList()
     }
 
-    fun sort(order: String) {
-        sort_order = order
-        _data.postValue(sorted(_data.value!!))
+    fun setSortOrder(order: String) {
+        _sortOrder = order
+        _data.postValue(sort(_data.value!!))
     }
 
     fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
 
-    fun fromJson(jsonArray: JSONArray) {
+    fun fromJson(jsonArray: JSONArray, sortOrder: String = SORT_UNSORTED) {
         val list = mutableListOf<RouteState>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -108,7 +107,8 @@ object RoutesStore {
             }
             list.add(item)
         }
-        _data.postValue(sorted(list))
+        _sortOrder = sortOrder
+        _data.postValue(sort(list))
     }
 
     data class RouteState(

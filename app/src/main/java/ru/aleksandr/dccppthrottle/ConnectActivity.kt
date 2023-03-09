@@ -19,6 +19,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
@@ -57,15 +58,6 @@ class ConnectActivity : AppCompatActivity() {
         val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
         val btn = findViewById<Button>(R.id.btnConnect)
         btn.setOnClickListener {
-            // TODO load from sore
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-            val locoSortOrder = prefs.getString("sort_locos", LocomotivesStore.SORT_UNSORTED)
-            val accSortOrder = prefs.getString("sort_accessories", AccessoriesStore.SORT_UNSORTED)
-            val routeSortOrder = prefs.getString("sort_routes", RoutesStore.SORT_UNSORTED)
-            LocomotivesStore.sort(locoSortOrder!!)
-            AccessoriesStore.sort(accSortOrder!!)
-            RoutesStore.sort(routeSortOrder!!)
-
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
             val device = pairedDevices!!.elementAt(spinner.selectedItemPosition)
@@ -90,11 +82,10 @@ class ConnectActivity : AppCompatActivity() {
                     val myIntent = Intent(this, ConnectActivity::class.java)
                     myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(myIntent)
-                    // todo TEST ME!
                 }
             }
             connection.setOnConnectListener {
-                CommandStation.setConnection(connection)
+                startCommandStation(connection)
 
                 val myIntent = Intent(this, MainActivity::class.java)
                 startActivity(myIntent)
@@ -204,5 +195,18 @@ class ConnectActivity : AppCompatActivity() {
                 // Ignore all other requests.
             }
         }
+    }
+
+    fun startCommandStation(connection: BluetoothConnection) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val locoSortOrder = prefs.getString("sort_locos", LocomotivesStore.SORT_UNSORTED)
+        val accSortOrder = prefs.getString("sort_accessories", AccessoriesStore.SORT_UNSORTED)
+        val routeSortOrder = prefs.getString("sort_routes", RoutesStore.SORT_UNSORTED)
+        // TODO load from sore
+        LocomotivesStore.fromJson(JSONArray(), locoSortOrder!!)
+        AccessoriesStore.fromJson(JSONArray(), accSortOrder!!)
+        RoutesStore.fromJson(JSONArray(), routeSortOrder!!)
+
+        CommandStation.setConnection(connection)
     }
 }

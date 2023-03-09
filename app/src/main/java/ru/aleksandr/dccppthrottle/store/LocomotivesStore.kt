@@ -16,8 +16,7 @@ object LocomotivesStore {
     const val SORT_SLOT_NAME = "slot_name"
     const val SORT_SLOT_ADDR = "slot_addr"
 
-    private var sort_order = SORT_UNSORTED
-
+    private var _sortOrder = SORT_UNSORTED
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
 
@@ -45,7 +44,7 @@ object LocomotivesStore {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
             throw LocomotiveSlotInUseException()
         }
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it.add(item)
         }))
     }
@@ -65,7 +64,7 @@ object LocomotivesStore {
             if (slots.keys.any { it == newItem.slot }) throw LocomotiveSlotInUseException()
             if (slots.values.any { it == newItem.address }) throw LocomotiveAddressInUseException()
         }
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
     }
@@ -76,7 +75,7 @@ object LocomotivesStore {
             val addr = getAddress(index)
             if (getSlotByAddress(addr) > 0) throw LocomotiveAddressInUseException()
         }
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it.mapIndexed { i, item ->
                 item.takeIf { i == index }?.apply {
                     slot = newSlot
@@ -125,8 +124,8 @@ object LocomotivesStore {
         })
     }
 
-    private fun sorted(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
-        return when (sort_order) {
+    private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
+        return when (_sortOrder) {
             SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
@@ -145,14 +144,14 @@ object LocomotivesStore {
         }.toMutableList()
     }
 
-    fun sort(order: String) {
-        sort_order = order
-        _data.postValue(sorted(_data.value!!))
+    fun setSortOrder(order: String) {
+        _sortOrder = order
+        _data.postValue(sort(_data.value!!))
     }
 
     fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
 
-    fun fromJson(jsonArray: JSONArray) {
+    fun fromJson(jsonArray: JSONArray, sortOrder: String = SORT_UNSORTED) {
         val list = mutableListOf<LocomotiveState>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -164,7 +163,8 @@ object LocomotivesStore {
             }
             list.add(item)
         }
-        _data.postValue(sorted(list))
+        _sortOrder = sortOrder
+        _data.postValue(sort(list))
     }
 
     data class LocomotiveState(

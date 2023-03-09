@@ -10,8 +10,7 @@ object AccessoriesStore {
     const val SORT_NAME = "name"
     const val SORT_ADDR = "address"
 
-    private var sort_order = SORT_UNSORTED
-
+    private var _sortOrder = SORT_UNSORTED
     private val _data = MutableLiveData<MutableList<AccessoryState>>(mutableListOf())
     val data: LiveData<MutableList<AccessoryState>> = _data
 
@@ -19,7 +18,7 @@ object AccessoriesStore {
         if (_data.value?.any { it.address == item.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it.add(item)
         }))
     }
@@ -41,7 +40,7 @@ object AccessoriesStore {
                 ?.any { it.value.address == newItem.address } == true) {
             throw AccessoryAddressInUseException()
         }
-        _data.postValue(sorted(_data.value!!.also {
+        _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
     }
@@ -69,8 +68,8 @@ object AccessoriesStore {
         })
     }
 
-    private fun sorted(list: MutableList<AccessoryState>): MutableList<AccessoryState> {
-        return when (sort_order) {
+    private fun sort(list: MutableList<AccessoryState>): MutableList<AccessoryState> {
+        return when (_sortOrder) {
             SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
@@ -83,14 +82,14 @@ object AccessoriesStore {
         }.toMutableList()
     }
 
-    fun sort(order: String) {
-        sort_order = order
-        _data.postValue(sorted(_data.value!!))
+    fun setSortOrder(order: String) {
+        _sortOrder = order
+        _data.postValue(sort(_data.value!!))
     }
 
     fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
 
-    fun fromJson(jsonArray: JSONArray) {
+    fun fromJson(jsonArray: JSONArray, sortOrder: String = SORT_UNSORTED) {
         val list = mutableListOf<AccessoryState>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -102,7 +101,8 @@ object AccessoriesStore {
             }
             list.add(item)
         }
-        _data.postValue(sorted(list))
+        _sortOrder = sortOrder
+        _data.postValue(sort(list))
     }
 
     data class AccessoryState(
