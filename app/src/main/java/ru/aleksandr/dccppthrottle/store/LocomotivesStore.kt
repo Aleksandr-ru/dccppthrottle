@@ -3,6 +3,8 @@ package ru.aleksandr.dccppthrottle.store
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import org.json.JSONArray
+import org.json.JSONObject
 
 object LocomotivesStore {
     const val SLOTS_COUNT = 12
@@ -14,7 +16,7 @@ object LocomotivesStore {
     const val SORT_SLOT_NAME = "slot_name"
     const val SORT_SLOT_ADDR = "slot_addr"
 
-    private var sort_order = "unsorted"
+    private var sort_order = SORT_UNSORTED
 
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
@@ -125,16 +127,16 @@ object LocomotivesStore {
 
     private fun sorted(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
         return when (sort_order) {
-            "name" -> {
+            SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
-            "address" -> {
+            SORT_ADDR -> {
                 list.sortedWith(compareBy { it.address })
             }
-            "slot_name" -> {
+            SORT_SLOT_NAME -> {
                 list.sortedWith(compareBy({ it.slot == 0 }, { it.slot }, { it.title }))
             }
-            "slot_addr" -> {
+            SORT_SLOT_ADDR -> {
                 list.sortedWith(compareBy({ it.slot == 0 }, { it.slot }, { it.address }))
             }
             else -> {
@@ -148,6 +150,23 @@ object LocomotivesStore {
         _data.postValue(sorted(_data.value!!))
     }
 
+    fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
+
+    fun fromJson(jsonArray: JSONArray) {
+        val list = mutableListOf<LocomotiveState>()
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val item = LocomotiveState(
+                jsonObject.getInt("address"),
+                jsonObject.optString("title", null)
+            ).apply {
+                slot = jsonObject.getInt("slot")
+            }
+            list.add(item)
+        }
+        _data.postValue(sorted(list))
+    }
+
     data class LocomotiveState(
         var address: Int,
         var title: String? = null
@@ -158,6 +177,12 @@ object LocomotivesStore {
         var slot: Int = 0
 
         override fun toString(): String = title ?: ("DCC:$address (untitled)")
+
+        fun toJson() = JSONObject().apply {
+            put("address", address)
+            if (title != null) put("title", title)
+            put("slot", slot)
+        }
     }
 
     open class LocomotiveStoreException() : Exception() {}

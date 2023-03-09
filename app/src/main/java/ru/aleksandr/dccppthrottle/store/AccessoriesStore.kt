@@ -2,13 +2,15 @@ package ru.aleksandr.dccppthrottle.store
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import org.json.JSONArray
+import org.json.JSONObject
 
 object AccessoriesStore {
     const val SORT_UNSORTED = "unsorted"
     const val SORT_NAME = "name"
     const val SORT_ADDR = "address"
 
-    private var sort_order = "unsorted"
+    private var sort_order = SORT_UNSORTED
 
     private val _data = MutableLiveData<MutableList<AccessoryState>>(mutableListOf())
     val data: LiveData<MutableList<AccessoryState>> = _data
@@ -69,10 +71,10 @@ object AccessoriesStore {
 
     private fun sorted(list: MutableList<AccessoryState>): MutableList<AccessoryState> {
         return when (sort_order) {
-            "name" -> {
+            SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
-            "address" -> {
+            SORT_ADDR -> {
                 list.sortedWith(compareBy { it.address })
             }
             else -> {
@@ -86,6 +88,23 @@ object AccessoriesStore {
         _data.postValue(sorted(_data.value!!))
     }
 
+    fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
+
+    fun fromJson(jsonArray: JSONArray) {
+        val list = mutableListOf<AccessoryState>()
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val item = AccessoryState(
+                jsonObject.getInt("address"),
+                jsonObject.optString("title", null)
+            ).apply {
+                isOn = jsonObject.getBoolean("isOn")
+            }
+            list.add(item)
+        }
+        _data.postValue(sorted(list))
+    }
+
     data class AccessoryState(
         var address: Int,
         var title: String? = null
@@ -93,6 +112,12 @@ object AccessoriesStore {
         var isOn: Boolean = false
 
         override fun toString(): String = title ?: ("Untitled accessory $address")
+
+        fun toJson() = JSONObject().apply {
+            put("address", address)
+            if (title != null) put("title", title)
+            put("isOn", isOn)
+        }
     }
 
     open class AccessoriesStoreException() : Exception() {}

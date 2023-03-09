@@ -3,6 +3,8 @@ package ru.aleksandr.dccppthrottle.store
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import org.json.JSONArray
+import org.json.JSONObject
 
 object RoutesStore {
     const val SORT_UNSORTED = "unsorted"
@@ -65,7 +67,7 @@ object RoutesStore {
 
     private fun sorted(list: MutableList<RouteState>) : MutableList<RouteState> {
         return when (sort_order) {
-            "name" -> {
+            SORT_NAME -> {
                 list.sortedWith(compareBy { it.title })
             }
             else -> {
@@ -79,12 +81,47 @@ object RoutesStore {
         _data.postValue(sorted(_data.value!!))
     }
 
+    fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
+
+    fun fromJson(jsonArray: JSONArray) {
+        val list = mutableListOf<RouteState>()
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+
+            val accList = mutableListOf<RouteStateAccessory>()
+            val accJsonArray : JSONArray = jsonObject.getJSONArray("accessories")
+            for (k in 0 until accJsonArray.length()) {
+                val accJsonObject = accJsonArray.getJSONObject(k)
+                val accItem = RouteStateAccessory(
+                    accJsonObject.getInt("address"),
+                    accJsonObject.getInt("delay")
+                ).apply {
+                    isOn = accJsonObject.getBoolean("isOn")
+                }
+                accList.add(accItem)
+            }
+
+            val item = RouteState(
+                jsonObject.getString("title")
+            ).apply {
+                accessories = accList
+            }
+            list.add(item)
+        }
+        _data.postValue(sorted(list))
+    }
+
     data class RouteState(
         var title : String
     ) {
         var accessories : MutableList<RouteStateAccessory> = mutableListOf()
 
         override fun toString() = title
+
+        fun toJson() = JSONObject().apply {
+            put("title", title)
+            put("accessories", JSONArray(accessories.map { it.toJson() }))
+        }
     }
 
     data class RouteStateAccessory(
@@ -94,5 +131,11 @@ object RoutesStore {
         var isOn : Boolean = false
 
         override fun toString() = AccessoriesStore.getByAddress(address).toString()
+
+        fun toJson() = JSONObject().apply {
+            put("address", address)
+            put("delay", delay)
+            put("isOn", isOn)
+        }
     }
 }
