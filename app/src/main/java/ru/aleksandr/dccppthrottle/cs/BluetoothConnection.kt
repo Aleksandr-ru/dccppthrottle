@@ -90,7 +90,9 @@ class BluetoothConnection(context: Context) : Closeable {
     }
 
     fun send(message: String) {
-        connectedThread!!.write(message)
+        Handler(Looper.getMainLooper()).post {
+            connectedThread!!.write(message)
+        }
     }
 
     private inner class ConnectThread(device: BluetoothDevice) : Thread() {
