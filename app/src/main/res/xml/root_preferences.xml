@@ -47,13 +47,16 @@
             app:defaultValue="128"
             app:entries="@array/speed_steps_entries"
             app:entryValues="@array/speed_steps_values"
-            app:key="speed"
+            app:key="speed_steps"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="connect"
-            app:summaryOn="MAC"
+            app:key="connect_at_start"
             app:title="@string/label_connect_at_start" />
+
+        <SwitchPreferenceCompat
+            app:key="power_at_start"
+            app:title="@string/label_power_at_start" />
 
     </PreferenceCategory>
 

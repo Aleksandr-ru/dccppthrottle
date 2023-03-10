@@ -6,7 +6,7 @@ import androidx.lifecycle.map
 import org.json.JSONArray
 import org.json.JSONObject
 
-object LocomotivesStore {
+object LocomotivesStore : JsonStoreInterface {
     const val SLOTS_COUNT = 12
     const val FUNCTIONS_COUNT = 29
 
@@ -19,6 +19,8 @@ object LocomotivesStore {
     private var _sortOrder = SORT_UNSORTED
     private val _data = MutableLiveData<MutableList<LocomotiveState>>(mutableListOf())
     val data : LiveData<MutableList<LocomotiveState>> = _data
+
+    override var hasUnsavedData = false
 
     fun liveSlot(slot : Int) : LiveData<LocomotiveState> = data.map { it.first { item -> item.slot == slot } }
 
@@ -47,12 +49,14 @@ object LocomotivesStore {
         _data.postValue(sort(_data.value!!.also {
             it.add(item)
         }))
+        hasUnsavedData = true
     }
 
     fun remove(index: Int) {
         _data.postValue(_data.value?.also {
             it.removeAt(index)
         })
+        hasUnsavedData = true
     }
 
     fun replace(index: Int, newItem: LocomotiveState) {
@@ -67,6 +71,7 @@ object LocomotivesStore {
         _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
+        hasUnsavedData = true
     }
 
     fun assignToSlot(index: Int, toSlot: Int? = null) : Int {
@@ -82,6 +87,7 @@ object LocomotivesStore {
                 }
             }
         }))
+        hasUnsavedData = true
         return newSlot
     }
 
@@ -149,9 +155,12 @@ object LocomotivesStore {
         _data.postValue(sort(_data.value!!))
     }
 
-    fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
+    override fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
 
-    fun fromJson(jsonArray: JSONArray, sortOrder: String = SORT_UNSORTED) {
+    override fun fromJson(jsonArray: JSONArray, sortOrder: String?) {
+        sortOrder?.let {
+            _sortOrder = it
+        }
         val list = mutableListOf<LocomotiveState>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -163,8 +172,8 @@ object LocomotivesStore {
             }
             list.add(item)
         }
-        _sortOrder = sortOrder
         _data.postValue(sort(list))
+        hasUnsavedData = false
     }
 
     data class LocomotiveState(

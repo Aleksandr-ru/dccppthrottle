@@ -22,6 +22,7 @@ import ru.aleksandr.dccppthrottle.dialogs.RouteAddDialog
 import ru.aleksandr.dccppthrottle.store.*
 import ru.aleksandr.dccppthrottle.ui.main.MainViewPagerAdapter
 import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -191,6 +192,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 doubleBack = false
             }, MainStore.SHORT_DELAY)
             doubleBack = true
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        try {
+            saveStoreToFile(LocomotivesStore)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_save_locos, Toast.LENGTH_SHORT).show()
+        }
+        try {
+            saveStoreToFile(AccessoriesStore)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_save_acc, Toast.LENGTH_SHORT).show()
+        }
+        try {
+            saveStoreToFile(RoutesStore)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_save_routes, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun saveStoreToFile(store: JsonStoreInterface) {
+        if (store.hasUnsavedData) {
+            val fileName = "${store.javaClass.simpleName}.json"
+            val file = File(filesDir, fileName)
+            val bufferedWriter = file.bufferedWriter()
+            val jsonArray = store.toJson()
+            bufferedWriter.use {
+                it.write(jsonArray.toString())
+            }
+            store.hasUnsavedData = false
         }
     }
 

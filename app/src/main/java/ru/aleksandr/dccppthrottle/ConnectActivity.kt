@@ -22,10 +22,10 @@ import kotlinx.coroutines.Dispatchers
 import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
 import ru.aleksandr.dccppthrottle.cs.CommandStation
-import ru.aleksandr.dccppthrottle.store.AccessoriesStore
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
-import ru.aleksandr.dccppthrottle.store.MainStore
-import ru.aleksandr.dccppthrottle.store.RoutesStore
+import ru.aleksandr.dccppthrottle.store.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
 
 class ConnectActivity : AppCompatActivity() {
 
@@ -37,7 +37,6 @@ class ConnectActivity : AppCompatActivity() {
 
     private val bluetoothRequest = 1
     private var pairedDevices : Set<BluetoothDevice>? = null
-    private var doubleBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +56,7 @@ class ConnectActivity : AppCompatActivity() {
 
         val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
         val btn = findViewById<Button>(R.id.btnConnect)
+        val chk = findViewById<CheckBox>(R.id.checkConnectAtStart)
         btn.setOnClickListener {
             btn.isEnabled = false
             val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -85,7 +85,12 @@ class ConnectActivity : AppCompatActivity() {
                 }
             }
             connection.setOnConnectListener {
-                startCommandStation(connection)
+                val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
+                prefsEditor.putString(PREF_LAST_MAC, connection.getAddress())
+                prefsEditor.putBoolean(PREF_CONNECT, chk.isChecked)
+                prefsEditor.commit()
+
+                startCommandStation(connection, device.name)
 
                 val myIntent = Intent(this, MainActivity::class.java)
                 startActivity(myIntent)
@@ -113,6 +118,16 @@ class ConnectActivity : AppCompatActivity() {
             requestPermissions(arrayOf(bluetoothPermission), bluetoothRequest)
         }
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val lastMac = prefs.getString(PREF_LAST_MAC, null)
+        val connectAtStart = prefs.getBoolean(PREF_CONNECT, false)
+        pairedDevices?.let {
+            if (connectAtStart && it.isNotEmpty() && it.elementAt(0).address == lastMac) {
+                chk.isChecked = true
+                btn.performClick()
+            }
+        }
+
         if (BuildConfig.DEBUG) {
             Snackbar.make(layout, "Debug mode enabled", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Debug") {
@@ -123,16 +138,7 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (doubleBack) {
-            finishAndRemoveTask()
-        }
-        else {
-            Toast.makeText(this, R.string.message_press_to_exit, Toast.LENGTH_SHORT).show()
-            Handler(Looper.getMainLooper()).postDelayed({
-                doubleBack = false
-            }, MainStore.SHORT_DELAY)
-            doubleBack = true
-        }
+        finishAndRemoveTask()
     }
 
     private fun setupDevicesList() {
@@ -141,7 +147,9 @@ class ConnectActivity : AppCompatActivity() {
         if (!btAdaper.isEnabled) {
             Toast.makeText(this, R.string.message_bluetooth_disabled, Toast.LENGTH_SHORT).show()
         }
-        pairedDevices = btAdaper.bondedDevices
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val lastMac = prefs.getString(PREF_LAST_MAC, null)
+        pairedDevices = btAdaper.bondedDevices.sortedBy { it.address != lastMac }.toSet()
 
         val btn = findViewById<Button>(R.id.btnConnect)
         val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -197,16 +205,55 @@ class ConnectActivity : AppCompatActivity() {
         }
     }
 
-    fun startCommandStation(connection: BluetoothConnection) {
+    private fun startCommandStation(connection: BluetoothConnection, deviceName: String) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val powerOn = prefs.getBoolean("power_at_start", false)
         val locoSortOrder = prefs.getString("sort_locos", LocomotivesStore.SORT_UNSORTED)
         val accSortOrder = prefs.getString("sort_accessories", AccessoriesStore.SORT_UNSORTED)
         val routeSortOrder = prefs.getString("sort_routes", RoutesStore.SORT_UNSORTED)
-        // TODO load from sore
-        LocomotivesStore.fromJson(JSONArray(), locoSortOrder!!)
-        AccessoriesStore.fromJson(JSONArray(), accSortOrder!!)
-        RoutesStore.fromJson(JSONArray(), routeSortOrder!!)
 
-        CommandStation.setConnection(connection)
+        try {
+            loadStoreFromFile(LocomotivesStore, locoSortOrder)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_load_locos, Toast.LENGTH_SHORT).show()
+        }
+        try {
+            loadStoreFromFile(AccessoriesStore, accSortOrder)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_load_acc, Toast.LENGTH_SHORT).show()
+        }
+        try {
+            loadStoreFromFile(RoutesStore, routeSortOrder)
+        }
+        catch (e: Exception) {
+            Toast.makeText(this, R.string.message_failed_load_routes, Toast.LENGTH_SHORT).show()
+        }
+
+        CommandStation.setConnection(connection, deviceName)
+        LocomotivesStore.data.value?.filter { it.slot > 0 }?.sortedBy { it.slot }?.forEach {
+            // assign loco
+            CommandStation.stopLocomotive(it.slot)
+        }
+        CommandStation.setTrackPower(powerOn)
+    }
+
+    private fun loadStoreFromFile(store: JsonStoreInterface, sortOrder: String?) {
+        val fileName = "${store.javaClass.simpleName}.json"
+        val file = File(filesDir, fileName)
+        if (file.exists()) {
+            val bufferedReader = file.bufferedReader()
+            val jsonString = bufferedReader.use {
+                it.readText()
+            }
+            val jsonArray = JSONArray(jsonString)
+            store.fromJson(jsonArray, sortOrder)
+        }
+    }
+
+    companion object {
+        const val PREF_LAST_MAC = "last_mac"
+        const val PREF_CONNECT = "connect_at_start"
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import org.json.JSONArray
 import org.json.JSONObject
 
-object AccessoriesStore {
+object AccessoriesStore : JsonStoreInterface {
     const val SORT_UNSORTED = "unsorted"
     const val SORT_NAME = "name"
     const val SORT_ADDR = "address"
@@ -14,6 +14,8 @@ object AccessoriesStore {
     private val _data = MutableLiveData<MutableList<AccessoryState>>(mutableListOf())
     val data: LiveData<MutableList<AccessoryState>> = _data
 
+    override var hasUnsavedData = false
+
     fun add(item: AccessoryState) {
         if (_data.value?.any { it.address == item.address } == true) {
             throw AccessoryAddressInUseException()
@@ -21,6 +23,7 @@ object AccessoriesStore {
         _data.postValue(sort(_data.value!!.also {
             it.add(item)
         }))
+        hasUnsavedData = true
     }
 
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
@@ -33,6 +36,7 @@ object AccessoriesStore {
         _data.postValue(_data.value?.also {
             it.removeAt(index)
         })
+        hasUnsavedData = true
     }
 
     fun replace(index: Int, newItem: AccessoryState) {
@@ -43,6 +47,7 @@ object AccessoriesStore {
         _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
+        hasUnsavedData = true
     }
 
     fun hasAddress(addr: Int, skipIndex: Int = -1): Boolean =
@@ -56,6 +61,7 @@ object AccessoriesStore {
                 }
             }
         })
+        hasUnsavedData = true
     }
 
     fun setStateByAddress(address: Int, newState: Boolean) {
@@ -66,6 +72,7 @@ object AccessoriesStore {
                 }
             }
         })
+        hasUnsavedData = true
     }
 
     private fun sort(list: MutableList<AccessoryState>): MutableList<AccessoryState> {
@@ -87,9 +94,12 @@ object AccessoriesStore {
         _data.postValue(sort(_data.value!!))
     }
 
-    fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
+    override fun toJson() = JSONArray(_data.value!!.map { it.toJson() })
 
-    fun fromJson(jsonArray: JSONArray, sortOrder: String = SORT_UNSORTED) {
+    override fun fromJson(jsonArray: JSONArray, sortOrder: String?) {
+        sortOrder?.let {
+            _sortOrder = it
+        }
         val list = mutableListOf<AccessoryState>()
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
@@ -101,8 +111,8 @@ object AccessoriesStore {
             }
             list.add(item)
         }
-        _sortOrder = sortOrder
         _data.postValue(sort(list))
+        hasUnsavedData = false
     }
 
     data class AccessoryState(

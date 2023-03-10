@@ -28,6 +28,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_stop">Stop</string>
     <string name="action_add_loco">Add locomotive</string>
     <string name="action_edit_loco">Edit locomotive</string>
@@ -54,6 +55,7 @@
     <string name="label_write">Write</string>
     <string name="label_quit">Quit</string>
     <string name="label_connect_at_start">Connect at startup</string>
+    <string name="label_power_at_start">Power-on track at startup</string>
     <string name="label_name">Name</string>
     <string name="label_name_optional">Name (optional)</string>
     <string name="label_address">Address</string>
@@ -96,8 +98,13 @@
     <string name="message_write_cv_error">Write CV %d error</string>
     <string name="message_write_cv_value">Writing CV %d = %d</string>
     <string name="message_write_cv_bit">Writing CV %d bit %d = %d</string>
-    <string name="message_press_to_exit">Press BACK again to exit</string>
     <string name="message_press_to_disconnect">Press BACK again to disconnect</string>
+    <string name="message_failed_load_locos">Failed to load locomotives list</string>
+    <string name="message_failed_load_acc">Failed to load accessories list</string>
+    <string name="message_failed_load_routes">Failed to load routes list</string>
+    <string name="message_failed_save_locos">Failed to save locomotives list</string>
+    <string name="message_failed_save_acc">Failed to save accessories list</string>
+    <string name="message_failed_save_routes">Failed to save routes list</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

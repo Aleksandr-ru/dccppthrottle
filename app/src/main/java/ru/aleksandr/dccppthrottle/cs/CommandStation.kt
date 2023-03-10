@@ -19,6 +19,7 @@ object CommandStation {
     private val TAG = javaClass.simpleName
 
     private var connection: BluetoothConnection? = null
+    private var deviceName: String? = null
 
     private var resultListenersList: ArrayList<Command> = arrayListOf()
     private var writeCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
@@ -30,9 +31,11 @@ object CommandStation {
 
     fun isConnected() = connection != null
     fun getAddress() = connection?.getAddress()
+    fun getName() = deviceName
 
-    fun setConnection(conn: BluetoothConnection) {
+    fun setConnection(conn: BluetoothConnection, name: String) {
         connection = conn
+        deviceName = name
         connection!!.setOnReceiveListener {
             ConsoleStore.addIn(it)
             parseMessage(it)
@@ -47,6 +50,7 @@ object CommandStation {
             close()
         }
         connection = null
+        deviceName = null
         ConsoleStore.clear()
     }
 
