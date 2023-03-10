@@ -8,8 +8,9 @@ open class AwakeActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        val key = getString(R.string.pref_key_screen_on)
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val screenOn = prefs.getBoolean("screen_always_on", false)
+        val screenOn = prefs.getBoolean(key, false)
         if (screenOn) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }

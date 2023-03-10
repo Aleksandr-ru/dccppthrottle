@@ -8,8 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -18,18 +16,18 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
 import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.*
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 
 class ConnectActivity : AppCompatActivity() {
 
     private val TAG = javaClass.simpleName
+
+    private val prefKeyLastMac = getString(R.string.pref_key_last_mac)
+    private val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
 
     private val bluetoothPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Manifest.permission.BLUETOOTH_CONNECT
@@ -86,8 +84,8 @@ class ConnectActivity : AppCompatActivity() {
             }
             connection.setOnConnectListener {
                 val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
-                prefsEditor.putString(PREF_LAST_MAC, connection.getAddress())
-                prefsEditor.putBoolean(PREF_CONNECT, chk.isChecked)
+                prefsEditor.putString(prefKeyLastMac, connection.getAddress())
+                prefsEditor.putBoolean(prefKeyConnectStartup, chk.isChecked)
                 prefsEditor.commit()
 
                 startCommandStation(connection, device.name)
@@ -119,8 +117,8 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val lastMac = prefs.getString(PREF_LAST_MAC, null)
-        val connectAtStart = prefs.getBoolean(PREF_CONNECT, false)
+        val lastMac = prefs.getString(prefKeyLastMac, null)
+        val connectAtStart = prefs.getBoolean(prefKeyConnectStartup, false)
         pairedDevices?.let {
             if (connectAtStart && it.isNotEmpty() && it.elementAt(0).address == lastMac) {
                 chk.isChecked = true
@@ -148,7 +146,7 @@ class ConnectActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.message_bluetooth_disabled, Toast.LENGTH_SHORT).show()
         }
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val lastMac = prefs.getString(PREF_LAST_MAC, null)
+        val lastMac = prefs.getString(prefKeyLastMac, null)
         pairedDevices = btAdaper.bondedDevices.sortedBy { it.address != lastMac }.toSet()
 
         val btn = findViewById<Button>(R.id.btnConnect)
@@ -206,11 +204,15 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun startCommandStation(connection: BluetoothConnection, deviceName: String) {
+        val keySortLocos = getString(R.string.pref_key_sort_locos)
+        val keySortAcc = getString(R.string.pref_key_sort_acc)
+        val keySortRoutes = getString(R.string.pref_key_sort_routes)
+
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val powerOn = prefs.getBoolean("power_at_start", false)
-        val locoSortOrder = prefs.getString("sort_locos", LocomotivesStore.SORT_UNSORTED)
-        val accSortOrder = prefs.getString("sort_accessories", AccessoriesStore.SORT_UNSORTED)
-        val routeSortOrder = prefs.getString("sort_routes", RoutesStore.SORT_UNSORTED)
+        val locoSortOrder = prefs.getString(keySortLocos, LocomotivesStore.SORT_UNSORTED)
+        val accSortOrder = prefs.getString(keySortAcc, AccessoriesStore.SORT_UNSORTED)
+        val routeSortOrder = prefs.getString(keySortRoutes, RoutesStore.SORT_UNSORTED)
 
         try {
             loadStoreFromFile(LocomotivesStore, locoSortOrder)
@@ -250,10 +252,5 @@ class ConnectActivity : AppCompatActivity() {
             val jsonArray = JSONArray(jsonString)
             store.fromJson(jsonArray, sortOrder)
         }
-    }
-
-    companion object {
-        const val PREF_LAST_MAC = "last_mac"
-        const val PREF_CONNECT = "connect_at_start"
     }
 }

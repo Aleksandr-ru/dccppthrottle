@@ -32,19 +32,23 @@ class SettingsActivity : AwakeActivity() {
 
         override fun onResume() {
             super.onResume()
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             prefs.registerOnSharedPreferenceChangeListener(this)
         }
 
         override fun onPause() {
             super.onPause()
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             prefs.unregisterOnSharedPreferenceChangeListener(this)
         }
 
         override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
+            val keyScreenOn = getString(R.string.pref_key_screen_on)
+            val keySortLocos = getString(R.string.pref_key_sort_locos)
+            val keySortAcc = getString(R.string.pref_key_sort_acc)
+            val keySortRoutes = getString(R.string.pref_key_sort_routes)
             if (pref != null && key != null) when(key) {
-                "screen_always_on" -> {
+                keyScreenOn -> {
                     val screenOn = pref.getBoolean(key, false)
                     val flag = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     activity?.window?.apply {
@@ -52,15 +56,15 @@ class SettingsActivity : AwakeActivity() {
                         else clearFlags(flag)
                     }
                 }
-                "sort_locos" -> {
+                keySortLocos -> {
                     val keyVal = pref.getString(key, LocomotivesStore.SORT_UNSORTED)
                     LocomotivesStore.setSortOrder(keyVal!!)
                 }
-                "sort_accessories" -> {
+                keySortAcc -> {
                     val keyVal = pref.getString(key, AccessoriesStore.SORT_UNSORTED)
                     AccessoriesStore.setSortOrder(keyVal!!)
                 }
-                "sort_routes" -> {
+                keySortRoutes -> {
                     val keyVal = pref.getString(key, RoutesStore.SORT_UNSORTED)
                     RoutesStore.setSortOrder(keyVal!!)
                 }

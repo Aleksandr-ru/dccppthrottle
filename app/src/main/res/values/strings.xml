@@ -113,4 +113,13 @@
 
     <string name="accessory_params">Address: %d</string>
     <string name="route_accessory_params">Address: %d, delay %d ms.</string>
+
+    <string translatable="false" name="pref_key_screen_on">screen_always_on</string>
+    <string translatable="false" name="pref_key_sort_locos">sort_locos</string>
+    <string translatable="false" name="pref_key_sort_acc">sort_accessories</string>
+    <string translatable="false" name="pref_key_sort_routes">sort_routes</string>
+    <string translatable="false" name="pref_key_speed_steps">speed_steps</string>
+    <string translatable="false" name="pref_key_connect_startup">connect_at_start</string>
+    <string translatable="false" name="pref_key_power_startup">power_at_start</string>
+    <string translatable="false" name="pref_key_last_mac">last_mac</string>
 </resources>

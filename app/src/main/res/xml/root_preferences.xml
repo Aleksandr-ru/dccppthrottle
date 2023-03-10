@@ -8,7 +8,7 @@
             app:title="@string/label_keep_screen"
             app:summaryOff="@string/label_keep_screen_off"
             app:summaryOn="@string/label_keep_screen_on"
-            app:key="screen_always_on" />
+            app:key="@string/pref_key_screen_on" />
 
     </PreferenceCategory>
 
@@ -19,7 +19,7 @@
             app:defaultValue="unsorted"
             app:entries="@array/sort_loco_entries"
             app:entryValues="@array/sort_loco_values"
-            app:key="sort_locos"
+            app:key="@string/pref_key_sort_locos"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -27,7 +27,7 @@
             app:defaultValue="unsorted"
             app:entries="@array/sort_acc_entries"
             app:entryValues="@array/sort_acc_values"
-            app:key="sort_accessories"
+            app:key="@string/pref_key_sort_acc"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
@@ -35,7 +35,7 @@
             app:defaultValue="unsorted"
             app:entries="@array/sort_route_entries"
             app:entryValues="@array/sort_route_values"
-            app:key="sort_routes"
+            app:key="@string/pref_key_sort_routes"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
@@ -47,15 +47,15 @@
             app:defaultValue="128"
             app:entries="@array/speed_steps_entries"
             app:entryValues="@array/speed_steps_values"
-            app:key="speed_steps"
+            app:key="@string/pref_key_speed_steps"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
-            app:key="connect_at_start"
+            app:key="@string/pref_key_connect_startup"
             app:title="@string/label_connect_at_start" />
 
         <SwitchPreferenceCompat
-            app:key="power_at_start"
+            app:key="@string/pref_key_power_startup"
             app:title="@string/label_power_at_start" />
 
     </PreferenceCategory>
