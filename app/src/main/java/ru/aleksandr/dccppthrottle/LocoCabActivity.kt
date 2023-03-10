@@ -2,10 +2,7 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -18,7 +15,7 @@ import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
-class LocoCabActivity : AppCompatActivity(),
+class LocoCabActivity : AwakeActivity(),
     PomValueDialog.PomValueDialogListener,
     PomBitDialog.PomBitDialogListener {
     private var slot: Int = 0

@@ -1,10 +1,9 @@
 package ru.aleksandr.dccppthrottle
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.aleksandr.dccppthrottle.ui.prog.ProgFragment
 
-class ProgActivity : AppCompatActivity() {
+class ProgActivity : AwakeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

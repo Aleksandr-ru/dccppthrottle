@@ -2,7 +2,6 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -23,7 +22,7 @@ import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 import ru.aleksandr.dccppthrottle.ui.route.RouteEditorRecyclerViewAdapter
 
-class RouteEditorActivity : AppCompatActivity() {
+class RouteEditorActivity : AwakeActivity() {
     var routeIndex: Int = 0
 
     // https://yfujiki.medium.com/drag-and-reorder-recyclerview-items-in-a-user-friendly-manner-1282335141e9

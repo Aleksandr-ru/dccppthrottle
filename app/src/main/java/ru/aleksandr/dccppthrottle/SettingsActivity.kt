@@ -2,14 +2,14 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.WindowManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AwakeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,14 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
             if (pref != null && key != null) when(key) {
+                "screen_always_on" -> {
+                    val screenOn = pref.getBoolean(key, false)
+                    val flag = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                    activity?.window?.apply {
+                        if (screenOn) addFlags(flag)
+                        else clearFlags(flag)
+                    }
+                }
                 "sort_locos" -> {
                     val keyVal = pref.getString(key, LocomotivesStore.SORT_UNSORTED)
                     LocomotivesStore.setSortOrder(keyVal!!)

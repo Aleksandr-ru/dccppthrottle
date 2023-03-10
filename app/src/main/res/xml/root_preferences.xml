@@ -8,7 +8,7 @@
             app:title="@string/label_keep_screen"
             app:summaryOff="@string/label_keep_screen_off"
             app:summaryOn="@string/label_keep_screen_on"
-            app:key="screen" />
+            app:key="screen_always_on" />
 
     </PreferenceCategory>
 

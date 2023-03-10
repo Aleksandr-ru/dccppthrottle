@@ -1,6 +1,5 @@
 package ru.aleksandr.dccppthrottle
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
 import android.view.Gravity
@@ -10,7 +9,7 @@ import android.widget.TextView
 import com.google.android.material.color.MaterialColors
 import ru.aleksandr.dccppthrottle.store.ConsoleStore
 
-class ConsoleActivity : AppCompatActivity() {
+class ConsoleActivity : AwakeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_console)
