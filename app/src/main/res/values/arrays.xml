@@ -7,7 +7,7 @@
         <item>Address</item>
     </string-array>
 
-    <string-array name="sort_loco_values">
+    <string-array name="sort_loco_values" translatable="false">
         <item>unsorted</item>
         <item>slot_name</item>
         <item>slot_addr</item>
@@ -15,26 +15,24 @@
         <item>address</item>
     </string-array>
 
-
     <string-array name="sort_acc_entries">
         <item>Unsorted</item>
         <item>Name</item>
         <item>Address</item>
     </string-array>
 
-    <string-array name="sort_acc_values">
+    <string-array name="sort_acc_values" translatable="false">
         <item>unsorted</item>
         <item>name</item>
         <item>address</item>
     </string-array>
-
 
     <string-array name="sort_route_entries">
         <item>Unsorted</item>
         <item>Name</item>
     </string-array>
 
-    <string-array name="sort_route_values">
+    <string-array name="sort_route_values" translatable="false">
         <item>unsorted</item>
         <item>name</item>
     </string-array>
@@ -44,7 +42,7 @@
         <item>28 speed steps</item>
     </string-array>
 
-    <string-array name="speed_steps_values">
+    <string-array name="speed_steps_values" translatable="false">
         <item>128</item>
         <item>28</item>
     </string-array>

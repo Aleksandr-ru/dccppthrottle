@@ -1,9 +1,8 @@
 <resources>
-    <string name="app_name">DCC++Throttle</string>
-    <string name="app_subtitle">aleksandr.ru</string>
-    <string name="app_version">Public playable beta %s (%d)</string>
-
-    <string name="title_activity_main">MenuActivity</string>
+    <string name="app_name" translatable="false">DCC++Throttle</string>
+    <string name="app_subtitle" translatable="false">aleksandr.ru</string>
+    <string name="app_version" translatable="false">Public playable beta %s (%d)</string>
+    
     <string name="title_activity_cab">Locomotive slot #%d</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>
