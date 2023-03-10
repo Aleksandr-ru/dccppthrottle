@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import com.google.android.material.snackbar.Snackbar
 import org.json.JSONArray
@@ -244,11 +245,14 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         CommandStation.setConnection(connection, deviceName)
-        LocomotivesStore.data.value?.filter { it.slot > 0 }?.sortedBy { it.slot }?.forEach {
-            // assign loco
-            CommandStation.stopLocomotive(it.slot)
-        }
         CommandStation.setTrackPower(powerOn)
+        // todo ConcurrentModificationException resultListenersList.remove(com)
+//        Handler(Looper.getMainLooper()).post {
+//            LocomotivesStore.getSlots().sorted().forEach {
+//                // assign loco
+//                CommandStation.stopLocomotive(it)
+//            }
+//        }
     }
 
     private fun loadStoreFromFile(store: JsonStoreInterface, sortOrder: String?) {
@@ -263,4 +267,6 @@ class ConnectActivity : AppCompatActivity() {
             store.fromJson(jsonArray, sortOrder)
         }
     }
+
+
 }

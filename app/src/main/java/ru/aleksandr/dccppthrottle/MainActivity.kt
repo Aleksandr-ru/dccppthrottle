@@ -182,7 +182,11 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
     }
 
     override fun onBackPressed() {
-        if (doubleBack) {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        if (drawerLayout.isOpen) {
+            drawerLayout.closeDrawers()
+        }
+        else if (doubleBack) {
             CommandStation.disconnect()
 
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
