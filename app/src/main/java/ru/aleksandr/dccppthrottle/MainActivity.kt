@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import androidx.viewpager2.widget.ViewPager2
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
@@ -183,6 +184,12 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
     override fun onBackPressed() {
         if (doubleBack) {
             CommandStation.disconnect()
+
+            val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
+            val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
+            prefsEditor.putBoolean(prefKeyConnectStartup, false)
+            prefsEditor.commit()
+
             super.onBackPressed()
         }
         else {

@@ -136,11 +136,12 @@ class BluetoothConnection(context: Context) : Closeable {
         private val mmInStream: InputStream = mmSocket.inputStream
         private val mmOutStream: OutputStream = mmSocket.outputStream
         private val mmBuffer: ByteArray = ByteArray(BUFFER_SIZE) // mmBuffer store for the stream
+        private var cancelled = false
 
         override fun run() {
             var numBytes = 0
 
-            while (true) {
+            while (!cancelled) {
                 try {
                     mmBuffer[numBytes] = mmInStream.read().toByte()
                     if (mmBuffer[numBytes].toInt().toChar() == '\n') {
@@ -187,6 +188,7 @@ class BluetoothConnection(context: Context) : Closeable {
 
         fun cancel() {
             try {
+                cancelled = true
                 mmSocket.close()
             }
             catch (e: IOException) {

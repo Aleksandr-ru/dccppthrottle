@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -26,8 +28,8 @@ class ConnectActivity : AppCompatActivity() {
 
     private val TAG = javaClass.simpleName
 
-    private val prefKeyLastMac = getString(R.string.pref_key_last_mac)
-    private val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
+    private val prefKeyLastMac by lazy { getString(R.string.pref_key_last_mac) }
+    private val prefKeyConnectStartup by lazy { getString(R.string.pref_key_connect_startup) }
 
     private val bluetoothPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) Manifest.permission.BLUETOOTH_CONNECT
@@ -80,6 +82,11 @@ class ConnectActivity : AppCompatActivity() {
                     val myIntent = Intent(this, ConnectActivity::class.java)
                     myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(myIntent)
+
+                    val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
+                    val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
+                    prefsEditor.putBoolean(prefKeyConnectStartup, false)
+                    prefsEditor.commit()
                 }
             }
             connection.setOnConnectListener {
@@ -119,10 +126,12 @@ class ConnectActivity : AppCompatActivity() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val lastMac = prefs.getString(prefKeyLastMac, null)
         val connectAtStart = prefs.getBoolean(prefKeyConnectStartup, false)
-        pairedDevices?.let {
-            if (connectAtStart && it.isNotEmpty() && it.elementAt(0).address == lastMac) {
-                chk.isChecked = true
-                btn.performClick()
+        Handler(Looper.getMainLooper()).post {
+            pairedDevices?.let {
+                if (connectAtStart && it.isNotEmpty() && it.elementAt(0).address == lastMac) {
+                    chk.isChecked = true
+                    btn.performClick()
+                }
             }
         }
 
@@ -204,12 +213,13 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun startCommandStation(connection: BluetoothConnection, deviceName: String) {
+        val keyPower = getString(R.string.pref_key_power_startup)
         val keySortLocos = getString(R.string.pref_key_sort_locos)
         val keySortAcc = getString(R.string.pref_key_sort_acc)
         val keySortRoutes = getString(R.string.pref_key_sort_routes)
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val powerOn = prefs.getBoolean("power_at_start", false)
+        val powerOn = prefs.getBoolean(keyPower, false)
         val locoSortOrder = prefs.getString(keySortLocos, LocomotivesStore.SORT_UNSORTED)
         val accSortOrder = prefs.getString(keySortAcc, AccessoriesStore.SORT_UNSORTED)
         val routeSortOrder = prefs.getString(keySortRoutes, RoutesStore.SORT_UNSORTED)
