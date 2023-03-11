@@ -133,8 +133,6 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
                 false
             }
             R.id.nav_disconnect -> {
-//                val myIntent = Intent(this, ConnectActivity::class.java)
-//                startActivity(myIntent)
                 doubleBack = true
                 onBackPressed()
                 false
@@ -186,7 +184,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         if (drawerLayout.isOpen) {
             drawerLayout.closeDrawers()
         }
-        else if (doubleBack) {
+        if (doubleBack) {
             CommandStation.disconnect()
 
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)

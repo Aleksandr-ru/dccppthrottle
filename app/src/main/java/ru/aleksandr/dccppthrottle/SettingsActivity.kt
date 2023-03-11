@@ -3,6 +3,7 @@ package ru.aleksandr.dccppthrottle
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
@@ -47,6 +48,7 @@ class SettingsActivity : AwakeActivity() {
             val keySortLocos = getString(R.string.pref_key_sort_locos)
             val keySortAcc = getString(R.string.pref_key_sort_acc)
             val keySortRoutes = getString(R.string.pref_key_sort_routes)
+            val keySpeedSteps = getString(R.string.pref_key_speed_steps)
             if (pref != null && key != null) when(key) {
                 keyScreenOn -> {
                     val screenOn = pref.getBoolean(key, false)
@@ -67,6 +69,10 @@ class SettingsActivity : AwakeActivity() {
                 keySortRoutes -> {
                     val keyVal = pref.getString(key, RoutesStore.SORT_UNSORTED)
                     RoutesStore.setSortOrder(keyVal!!)
+                }
+                keySpeedSteps -> {
+                    Toast.makeText(this.context, "Not today, sorry :(", Toast.LENGTH_SHORT).show()
+                    // TODO change speed steps in CS
                 }
                 else -> {}
             }

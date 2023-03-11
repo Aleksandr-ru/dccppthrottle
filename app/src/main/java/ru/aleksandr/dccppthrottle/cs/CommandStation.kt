@@ -1,7 +1,6 @@
 package ru.aleksandr.dccppthrottle.cs
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.ConsoleStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -22,8 +21,8 @@ object CommandStation {
     private var deviceName: String? = null
 
     private var resultListenersList: ArrayList<Command> = arrayListOf()
-    private var writeCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
-    private var readCvProgCallvack: ((cv: Int, value: Int) -> Unit)? = null
+    private var writeCvProgCallback: ((cv: Int, value: Int) -> Unit)? = null
+    private var readCvProgCallback: ((cv: Int, value: Int) -> Unit)? = null
 
     /**
      * Public methods
@@ -162,13 +161,13 @@ object CommandStation {
     }
 
     fun setCvProg(cv: Int, value: Int, callback: ((cv: Int, value: Int) -> Unit)? = null) {
-        writeCvProgCallvack = callback
+        writeCvProgCallback = callback
         val command = WriteCvProgCommand(cv, value)
         sendCommand(command)
     }
 
     fun getCvProg(cv: Int, callback: ((cv: Int, value: Int) -> Unit)? = null) {
-        readCvProgCallvack = callback
+        readCvProgCallback = callback
         val command = ReadCvProgCommand(cv)
         sendCommand(command)
 
@@ -181,8 +180,10 @@ object CommandStation {
     private fun sendCommand(command: Command) {
         val str = command.toString()
         connection?.let {
-            if (command.resultRegex != null)
+            if (command.resultRegex != null) {
+                resultListenersList.removeAll { it.processed }
                 resultListenersList.add(command)
+            }
             it.send(str)
             ConsoleStore.addOut(str)
         }
@@ -196,7 +197,7 @@ object CommandStation {
             val speedDir = it.groupValues[3].toInt()
             val speed = speedDir and 0b01111111
             val direction = speedDir.shr(7)
-            val func = it.groupValues[4].toInt()
+            val func = it.groupValues[4].toInt() // 536870911 max
             Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
             // todo parse func bit use it
             return@parseMessage
@@ -205,7 +206,7 @@ object CommandStation {
         resultListenersList.forEach { com ->
             Regex(com.resultRegex!!).matchEntire(mes)?.let {
                 com.resultListener(it.groupValues)
-                resultListenersList.remove(com)
+                com.processed = true // to avoid ConcurrentModificationException
                 return@forEach
             }
         }
@@ -231,13 +232,14 @@ object CommandStation {
      * Commands
      */
 
-    private interface Command {
-        val resultRegex: String?
-        fun resultListener(groupValues: List<String>)
-        override fun toString(): String
+    private abstract class Command {
+        var processed = false
+        abstract val resultRegex: String?
+        abstract fun resultListener(groupValues: List<String>)
+        abstract override fun toString(): String
     }
 
-    private class StatusCommand() : Command {
+    private class StatusCommand() : Command() {
         override val resultRegex = "<i(.+)>"
         override fun resultListener(groupValues: List<String>) {
             // todo parse status
@@ -245,7 +247,7 @@ object CommandStation {
         override fun toString() = "<s>"
     }
 
-    private class PowerCommand(val p: Int) : Command {
+    private class PowerCommand(val p: Int) : Command() {
         override val resultRegex = "<p(0|1)>"
         override fun resultListener(groupValues: List<String>) {
             val power = groupValues[1].toInt() > 0
@@ -254,7 +256,7 @@ object CommandStation {
         override fun toString() = "<$p>"
     }
 
-    private class CurrentCommand() : Command {
+    private class CurrentCommand() : Command() {
         override val resultRegex = """<c CurrentMAIN (\d+) C Milli (\d) (\d+) (0|1) (\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val currentMa = groupValues[1].toInt()
@@ -266,19 +268,19 @@ object CommandStation {
         override fun toString() = "<c>"
     }
 
-    private class UnassignCommand(val address: Int) : Command {
+    private class UnassignCommand(val address: Int) : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() = "<- $address>"
     }
 
-    private class UnassignAllCommand() : Command {
+    private class UnassignAllCommand() : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() = "<->"
     }
 
-    private class EmergencyCommand() : Command {
+    private class EmergencyCommand() : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() = "<!>"
@@ -289,7 +291,7 @@ object CommandStation {
         val cab: Int,
         val speed: Int,
         val direction: Int
-    ) : Command {
+    ) : Command() {
 //        override val resultRegex = """<T (\d+) (-?\d+) (0|1)>"""
         override val resultRegex = """<T $register (-?\d+) (0|1)>"""
         override fun resultListener(groupValues: List<String>) {
@@ -310,7 +312,7 @@ object CommandStation {
         val cab: Int,
         val byte1: Int,
         val byte2: Int?
-    ) : Command {
+    ) : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() =
@@ -322,7 +324,7 @@ object CommandStation {
         val cab: Int,
         val func: Int,
         val activate: Int
-    ) : Command {
+    ) : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() = "<F $cab $func $activate>"
@@ -332,7 +334,7 @@ object CommandStation {
         val address: Int,
         val subaddress: Int?,
         val activate: Int
-    ) : Command {
+    ) : Command() {
         constructor(linear_address: Int, activate: Int) : this(linear_address, null, activate)
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
@@ -346,7 +348,7 @@ object CommandStation {
         val cv: Int,
         val bit: Int?,
         val value: Int
-    ) : Command {
+    ) : Command() {
         constructor(cab: Int, cv: Int, value: Int) : this(cab, cv, null, value)
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
@@ -358,7 +360,7 @@ object CommandStation {
     private class WriteCvProgCommand(
         val cv: Int,
         val value: Int
-    ) : Command {
+    ) : Command() {
         //override val resultRegex = """<r (\d{1,4}) (-?\d+)>"""
         override val resultRegex = """<r $cv (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
@@ -367,7 +369,7 @@ object CommandStation {
 //            Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
 
             val value = groupValues[1].toInt()
-            writeCvProgCallvack?.invoke(cv, value)
+            writeCvProgCallback?.invoke(cv, value)
 
             Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
         }
@@ -376,11 +378,11 @@ object CommandStation {
 
     private class ReadCvProgCommand(
         val cv: Int
-    ) : Command {
+    ) : Command() {
         override val resultRegex = """<r 32767 (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val value = groupValues[2].toInt()
-            readCvProgCallvack?.invoke(cv, value)
+            readCvProgCallback?.invoke(cv, value)
 
             Log.i(TAG, String.format("Read CV result %d (prog)", value))
         }
