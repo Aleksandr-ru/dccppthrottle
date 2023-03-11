@@ -1,3 +1,30 @@
+def getVerCode() {
+    // https://stackoverflow.com/a/58880410
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def code = versionProps['VERSION_CODE'].toInteger()
+
+        gradle.taskGraph.whenReady { graph ->
+            List<Task> tasks = graph.getAllTasks()
+            for (Task t : tasks) {
+                if (t.name.contains("assembleDebug")) {
+                    code += 1
+                    versionProps['VERSION_CODE'] = code.toString()
+                    versionProps.store(versionPropsFile.newWriter(), null)
+                    break
+                }
+            }
+        }
+
+        return code
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -7,26 +34,16 @@ android {
     namespace 'ru.aleksandr.dccppthrottle'
     compileSdk 32
 
-    def versionPropsFile = file('version.properties')
-    if (versionPropsFile.canRead()) {
-        Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionPropsFile))
-        def code = versionProps['VERSION_CODE'].toInteger() + 1
-        versionProps['VERSION_CODE']=code.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
+    def code = getVerCode()
 
-        defaultConfig {
-            applicationId "ru.aleksandr.dccppthrottle"
-            minSdk 21
-            targetSdk 32
-            versionCode code
-            versionName "1.0"
+    defaultConfig {
+        applicationId "ru.aleksandr.dccppthrottle"
+        minSdk 21
+        targetSdk 32
+        versionCode code
+        versionName "1.0"
 
-            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        }
-    }
-    else {
-        throw new GradleException("Could not read version.properties!")
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
