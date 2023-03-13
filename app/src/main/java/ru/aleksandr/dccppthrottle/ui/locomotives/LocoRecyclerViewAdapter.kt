@@ -99,7 +99,7 @@ class LocoRecyclerViewAdapter(
                         val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
                         if (slot > 0) {
                             CommandStation.stopLocomotive(slot)
-                            // todo unassign from cs
+                            CommandStation.unassignLoco(slot)
                             LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                         }
                         LocomotivesStore.remove(bindingAdapterPosition)
@@ -132,9 +132,8 @@ class LocoRecyclerViewAdapter(
                     }
                     else {
                         val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
-                        val addr = LocomotivesStore.getAddress(bindingAdapterPosition)
                         CommandStation.stopLocomotive(slot)
-                        CommandStation.unassignLoco(addr)
+                        CommandStation.unassignLoco(slot)
                         LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
                     }
                 }

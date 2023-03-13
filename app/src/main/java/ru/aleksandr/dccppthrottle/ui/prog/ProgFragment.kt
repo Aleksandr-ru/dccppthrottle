@@ -1,8 +1,6 @@
 package ru.aleksandr.dccppthrottle.ui.prog
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,14 +18,6 @@ class ProgFragment : Fragment() {
 
     companion object {
         fun newInstance() = ProgFragment()
-    }
-
-    private lateinit var viewModel: ProgViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProgViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(
@@ -102,15 +92,13 @@ class ProgFragment : Fragment() {
         buttonWrite.setOnClickListener {
             val cv = viewCvNum.value
             val value = viewCvVal.value
-            cv?.let {
-                value?.let {
-                    CommandStation.setCvProg(cv, value) { cv, value ->
-                        val stringId =
-                            if (value < 0) R.string.message_write_cv_error
-                            else R.string.message_write_cv_success
-                        val message = getString(stringId, cv)
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                    }
+            if (cv != null && value != null) {
+                CommandStation.setCvProg(cv, value) { cv, value ->
+                    val stringId =
+                        if (value < 0) R.string.message_write_cv_error
+                        else R.string.message_write_cv_success
+                    val message = getString(stringId, cv)
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             }
         }

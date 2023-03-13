@@ -59,18 +59,18 @@ object CommandStation {
         sendCommand(command)
     }
 
-    fun unassignLoco(address: Int) {
-        val command = UnassignCommand(address)
-        sendCommand(command)
-
-        val slot = LocomotivesStore.getSlotByAddress(address)
-        LocomotivesStore.stopBySlot(slot)
+    fun unassignLoco(slot: Int) {
+        val loco = LocomotivesStore.getBySlot(slot)
+        loco?.let {
+            val command = UnassignCommand(it.address)
+            sendCommand(command)
+        }
     }
 
     fun setLocomotiveSpeed(slot: Int, speed: Int, reverse: Boolean? = null) {
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
-            val direction = (reverse ?: loco.reverse).let { rev ->
+            val direction = (reverse ?: it.reverse).let { rev ->
                 if (rev) 0 else 1
             }
             val speedSteps = percentToSpeedSteps(speed)
@@ -140,13 +140,13 @@ object CommandStation {
     }
 
     fun setAccessoryState(address: Int, isOn: Boolean) {
-        //todo subaddress?
         val activate = if (isOn) 1 else 0
-//        val command = AccessoryCommand(address, 0, activate)
         val command = AccessoryCommand(address, activate)
         sendCommand(command)
         AccessoriesStore.setStateByAddress(address, isOn)
     }
+    // todo set accessory state with subaddress
+    // val command = AccessoryCommand(address, 0, activate)
 
     fun setCvMain(slot: Int, cv: Int, value: Int) {
         val loco = LocomotivesStore.getBySlot(slot)

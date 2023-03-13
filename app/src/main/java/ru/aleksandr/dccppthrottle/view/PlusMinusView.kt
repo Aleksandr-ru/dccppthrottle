@@ -10,10 +10,6 @@ import androidx.core.view.children
 import androidx.core.widget.doAfterTextChanged
 import ru.aleksandr.dccppthrottle.R
 
-
-/**
- * TODO: document your custom view class.
- */
 class PlusMinusView : LinearLayout {
 
     private var numberInput : EditText? = null

@@ -143,7 +143,7 @@ class RouteEditorActivity : AwakeActivity() {
             .setTitle(getString(R.string.action_add_acc))
             .setItems(items) { dialog, index ->
                 val addr = AccessoriesStore.data.value!![index].address
-                val acc = RoutesStore.RouteStateAccessory(addr) //TODO delay ms
+                val acc = RoutesStore.RouteStateAccessory(addr)
                 RoutesStore.addAccessory(routeIndex, acc)
                 dialog.dismiss()
             }
