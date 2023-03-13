@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentAccessoryListItemBinding
 import ru.aleksandr.dccppthrottle.dialogs.AccessoryDialog
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
+import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class AccessoriesRecyclerViewAdapter(
     private val fragmentManager: FragmentManager
@@ -71,8 +73,14 @@ class AccessoriesRecyclerViewAdapter(
                         true
                     }
                     R.id.action_context_delete -> {
-                        // TODO check in routes
+                        val addr = AccessoriesStore.getAddress(bindingAdapterPosition)
+                        val cnt = RoutesStore.removeAccFromAll(addr!!)
                         AccessoriesStore.remove(bindingAdapterPosition)
+                        if (cnt > 0) with(itemView.context) {
+                            val plural = resources.getQuantityString(R.plurals.routes, cnt)
+                            val message = getString(R.string.message_acc_removed_plural, plural)
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                        }
                         true
                     }
                     else -> false

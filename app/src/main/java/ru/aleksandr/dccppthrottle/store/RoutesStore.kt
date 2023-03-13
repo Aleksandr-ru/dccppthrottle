@@ -46,6 +46,18 @@ object RoutesStore : JsonStoreInterface {
         hasUnsavedData = true
     }
 
+    fun removeAccFromAll(addr: Int) : Int {
+        var countRemoved = 0
+        _data.postValue(_data.value!!.also {
+            it.map { route ->
+                if (route.accessories.removeAll { it.address == addr })
+                    countRemoved++
+            }
+        })
+        hasUnsavedData = true
+        return countRemoved
+    }
+
     fun replace(index: Int, newItem: RouteState) {
         _data.postValue(sort(_data.value!!.also {
             it[index] = newItem

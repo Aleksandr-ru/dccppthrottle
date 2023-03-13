@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="routes">
+        <item quantity="zero">no routes</item>
+        <item quantity="one">%d route</item>
+        <item quantity="two">%d routes</item>
+        <item quantity="few">%d routes</item>
+        <item quantity="many">%d routes</item>
+        <item quantity="other">%d routes</item>
+    </plurals>
+</resources>

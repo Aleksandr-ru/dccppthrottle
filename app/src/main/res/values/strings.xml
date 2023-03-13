@@ -83,7 +83,7 @@
 
     <string name="placeholder_route_name">Enter route name</string>
 
-    <string name="message_connecting_to">Connecting to %s...</string>
+    <string name="message_connecting_to">Connecting to %s…</string>
     <string name="message_connect_failed">Connection fail!</string>
     <string name="message_bluetooth_permission">Bluetooth permission is required to communicate with command station</string>
     <string name="message_bluetooth_denied">Unable to continue without bluetooth permission</string>
@@ -104,6 +104,7 @@
     <string name="message_failed_save_locos">Failed to save locomotives list</string>
     <string name="message_failed_save_acc">Failed to save accessories list</string>
     <string name="message_failed_save_routes">Failed to save routes list</string>
+    <string name="message_acc_removed_plural">Accessory removed from %s</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>
