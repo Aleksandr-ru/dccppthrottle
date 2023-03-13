@@ -149,10 +149,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
                 val slots = LocomotivesStore.getSlots()
                 if (slots.isNotEmpty()) {
                     Toast.makeText(this, R.string.message_stop_all, Toast.LENGTH_SHORT).show()
-//                    CommandStation.emergencyStop()
-                }
-                slots.forEach {
-                    CommandStation.stopLocomotive(it)
+                    CommandStation.emergencyStop()
                 }
                 true
             }

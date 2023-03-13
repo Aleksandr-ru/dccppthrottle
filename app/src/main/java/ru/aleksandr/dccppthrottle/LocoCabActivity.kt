@@ -58,7 +58,8 @@ class LocoCabActivity : AwakeActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_stop -> {
-                CommandStation.stopLocomotive(slot)
+                Toast.makeText(this, R.string.message_stop_all, Toast.LENGTH_SHORT).show()
+                CommandStation.emergencyStop()
                 true
             }
             R.id.action_edit_loco -> {
