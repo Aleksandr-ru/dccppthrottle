@@ -137,7 +137,7 @@ object LocomotivesStore : JsonStoreInterface {
         _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
-                    for (i in 0 .. FUNCTIONS_COUNT) {
+                    for (i in 0 until FUNCTIONS_COUNT) {
                         functions[i] = allFunc[i]
                     }
                 }
@@ -181,7 +181,7 @@ object LocomotivesStore : JsonStoreInterface {
             val jsonObject = jsonArray.getJSONObject(i)
             val item = LocomotiveState(
                 jsonObject.getInt("address"),
-                jsonObject.optString("title", null)
+                jsonObject.optString("title").ifEmpty { null }
             ).apply {
                 slot = jsonObject.getInt("slot")
             }

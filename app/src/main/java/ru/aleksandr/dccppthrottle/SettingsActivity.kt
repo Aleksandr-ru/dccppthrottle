@@ -1,10 +1,8 @@
 package ru.aleksandr.dccppthrottle
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.cs.CommandStation
@@ -75,25 +73,12 @@ class SettingsActivity : AwakeActivity() {
                 keySpeedSteps -> {
                     val keyVal = pref.getString(key, null)
                     keyVal?.let {
-                        onSpeedStepsChanged(keyVal)
+                        CommandStation.emergencyStop()
+                        CommandStation.setSpeedSteps(it)
                     }
                 }
                 else -> {}
             }
-        }
-
-        private fun onSpeedStepsChanged(value: String) {
-            CommandStation.setSpeedSteps(value)
-            AlertDialog.Builder(context!!)
-                .setTitle(R.string.title_dialog_restart)
-                .setMessage(R.string.message_sped_steps_restart)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    // disconnect at ConnectActivity start
-                    val myIntent = Intent(context!!, ConnectActivity::class.java)
-                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(myIntent)
-                }
-                .create().show()
         }
     }
 }

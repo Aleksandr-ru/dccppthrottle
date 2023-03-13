@@ -23,6 +23,7 @@ object CommandStation {
     private var resultListenersList: ArrayList<Command> = arrayListOf()
     private var writeCvProgCallback: ((cv: Int, value: Int) -> Unit)? = null
     private var readCvProgCallback: ((cv: Int, value: Int) -> Unit)? = null
+    private var statusCallback: ((status: String) -> Unit)? = null
 
     /**
      * Public methods
@@ -39,8 +40,6 @@ object CommandStation {
             ConsoleStore.addIn(it)
             parseMessage(it)
         }
-        sendCommand(StatusCommand())
-        sendCommand(UnassignAllCommand())
     }
 
     fun disconnect() {
@@ -53,9 +52,20 @@ object CommandStation {
         ConsoleStore.clear()
     }
 
+    fun getStatus(callback: ((status: String) -> Unit)? = null) {
+        statusCallback = callback
+        val command = StatusCommand()
+        sendCommand(command)
+    }
+
     fun setTrackPower(isOn: Boolean) {
         val power = if (isOn) 1 else 0
         val command = PowerCommand(power)
+        sendCommand(command)
+    }
+
+    fun unassignAll() {
+        val command = UnassignAllCommand()
         sendCommand(command)
     }
 
@@ -97,42 +107,8 @@ object CommandStation {
     }
 
     fun setLocomotiveFunction(slot: Int, func: Int, isOn: Boolean) {
-        LocomotivesStore.setFunctionBySlot(slot, func, isOn)
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
-//            var byte1 : Int = 0
-//            var byte2 : Int? = null
-//            when (func) {
-//                in (0..4) -> {
-//                    // BYTE1:  128 + F1*1 + F2*2 + F3*4 + F4*8 + F0*16
-//                    byte1 = 128
-//                    for(i in 1..4) if(it.functions[i]) byte1 += 1.shl(i-1)
-//                    if (it.functions[0]) byte1 += 1.shl(4)
-//                }
-//                in (5..8) -> {
-//                    // BYTE1:  176 + F5*1 + F6*2 + F7*4 + F8*8
-//                    byte1 = 176
-//                    for(i in 1..4) if(it.functions[i+4]) byte1 += 1.shl(i-1)
-//                }
-//                in (9..12) -> {
-//                    // BYTE1:  160 + F9*1 +F10*2 + F11*4 + F12*8
-//                    byte1 = 160
-//                    for(i in 1..4) if(it.functions[i+8]) byte1 += 1.shl(i-1)
-//                }
-//                in (13..20) -> {
-//                    // BYTE2: F13*1 + F14*2 + F15*4 + F16*8 + F17*16 + F18*32 + F19*64 + F20*128
-//                    byte1 = 222
-//                    byte2 = 0
-//                    for(i in 1..8) if(it.functions[i+12]) byte2 += 1.shl(i-1)
-//                }
-//                in (21..28) -> {
-//                    // BYTE2: F21*1 + F22*2 + F23*4 + F24*8 + F25*16 + F26*32 + F27*64 + F28*128
-//                    byte1 = 223
-//                    byte2 = 0
-//                    for(i in 1..8) if(it.functions[i+20]) byte2 += 1.shl(i-1)
-//                }
-//            }
-//            val command = FunctionCommandLegacy(it.address, byte1, byte2)
             val active = if (isOn) 1 else 0
             val command = FunctionCommandEx(it.address, func, active)
             sendCommand(command)
@@ -182,7 +158,6 @@ object CommandStation {
         }
         val command = SpeedDCommand(speedSteps)
         sendCommand(command)
-        // restart required!
     }
 
     /**
@@ -203,23 +178,6 @@ object CommandStation {
 
     private fun parseMessage(mes: String) {
         // todo parse errors <*Too much locos
-
-        Regex("""<l (\d+) (\d+) (\d+) (\d+)>""").matchEntire(mes)?.let {
-            val addr = it.groupValues[1].toInt()
-            val slot = it.groupValues[2].toInt() + 1
-            val speedDir = it.groupValues[3].toInt()
-            val speed = speedDir and 0b01111111
-            val direction = speedDir.shr(7)
-            val func = it.groupValues[4].toInt() // 536870911 max
-            val funcStr = func.toString(2).padStart(LocomotivesStore.FUNCTIONS_COUNT, '0')
-            val funcArr = funcStr.map { it == '1' }.reversed().toBooleanArray()
-            val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
-            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
-            LocomotivesStore.setSpeedBySlot(slot, speedStepsToPercent(speed), direction == 0)
-            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
-            // todo TEST ME!
-            return@parseMessage
-        }
 
         resultListenersList.forEach { com ->
             Regex(com.resultRegex!!).matchEntire(mes)?.let {
@@ -262,6 +220,7 @@ object CommandStation {
         override fun resultListener(groupValues: List<String>) {
             // <iDCC-EX V-3.0.4 / MEGA / STANDARD_MOTOR_SHIELD G-75ab2ab>
             Log.i(TAG, groupValues[1])
+            statusCallback?.invoke(groupValues[1])
         }
         override fun toString() = "<s>"
     }
@@ -312,17 +271,13 @@ object CommandStation {
         val speed: Int,
         val direction: Int
     ) : Command() {
-//        override val resultRegex = """<T (\d+) (-?\d+) (0|1)>"""
-        override val resultRegex = """<T $register (-?\d+) (0|1)>"""
+        override val resultRegex = """<T ($register) (-?\d+) (0|1)>"""
         override fun resultListener(groupValues: List<String>) {
-//            val slot = groupValues[1].toInt()
-//            val speedSteps = groupValues[2].toInt()
-//            val speedPercent = speedStepsToPercent(speedSteps)
-//            val reverse = groupValues[3].toInt() == 0
-//            LocomotivesStore.setSpeedBySlot(slot, speedPercent, reverse)
-            val speedSteps = groupValues[1].toInt()
+            val slot = groupValues[1].toInt()
+            val speedSteps = groupValues[2].toInt()
             val speedPercent = speedStepsToPercent(speedSteps)
-            val reverse = groupValues[2].toInt() == 0
+            val reverse = groupValues[3].toInt() == 0
+            Log.i(TAG, "Slot: $slot, speed $speedSteps, reverse $reverse")
             LocomotivesStore.setSpeedBySlot(register, speedPercent, reverse)
         }
         override fun toString() = "<t $register $cab $speed $direction>"
@@ -345,8 +300,21 @@ object CommandStation {
         val func: Int,
         val activate: Int
     ) : Command() {
-        override val resultRegex: String? = null
-        override fun resultListener(groupValues: List<String>) {}
+        override val resultRegex = """<l ($cab) (\d+) (\d+) (\d+)>"""
+        override fun resultListener(groupValues: List<String>) {
+            val addr = groupValues[1].toInt()
+            val slot = groupValues[2].toInt() + 1
+            val speedDir = groupValues[3].toInt()
+            val speed = speedDir and 0b01111111
+            val direction = speedDir.shr(7)
+            val func = groupValues[4].toInt() // 536870911 max
+            val funcStr = func.toString(2).padStart(LocomotivesStore.FUNCTIONS_COUNT, '0')
+            val funcArr = funcStr.map { it == '1' }.reversed().toBooleanArray()
+            val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
+            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
+//            LocomotivesStore.setSpeedBySlot(slot, speedStepsToPercent(speed), direction == 0)
+            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
+        }
         override fun toString() = "<F $cab $func $activate>"
     }
 
@@ -381,17 +349,12 @@ object CommandStation {
         val cv: Int,
         val value: Int
     ) : Command() {
-        //override val resultRegex = """<r (\d{1,4}) (-?\d+)>"""
-        override val resultRegex = """<r $cv (-?\d+)>"""
+        override val resultRegex = """<r ($cv) (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
-//            val cv = groupValues[1].toInt()
-//            val value = groupValues[2].toInt()
-//            Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
-
-            val value = groupValues[1].toInt()
-            writeCvProgCallback?.invoke(cv, value)
-
+            val cv = groupValues[1].toInt()
+            val value = groupValues[2].toInt()
             Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
+            writeCvProgCallback?.invoke(cv, value)
         }
         override fun toString() = "<W $cv $value>"
     }
@@ -402,9 +365,8 @@ object CommandStation {
         override val resultRegex = """<r 32767 (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val value = groupValues[2].toInt()
-            readCvProgCallback?.invoke(cv, value)
-
             Log.i(TAG, String.format("Read CV result %d (prog)", value))
+            readCvProgCallback?.invoke(cv, value)
         }
         override fun toString() = "<R $cv 32767 0>"
     }

@@ -105,7 +105,7 @@ object AccessoriesStore : JsonStoreInterface {
             val jsonObject = jsonArray.getJSONObject(i)
             val item = AccessoryState(
                 jsonObject.getInt("address"),
-                jsonObject.optString("title", null)
+                jsonObject.optString("title").ifEmpty { null }
             ).apply {
                 isOn = jsonObject.getBoolean("isOn")
             }

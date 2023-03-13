@@ -18,7 +18,6 @@
     <string name="title_dialog_route_add">Add route</string>
     <string name="title_dialog_pom_value">Set CV value (main track)</string>
     <string name="title_dialog_pom_bit">Set CV bit (main track)</string>
-    <string name="title_dialog_restart">Set CV bit (main track)</string>
     <string name="title_alert_permission_required">Permission required</string>
     <string name="title_pref_general">General</string>
     <string name="title_pref_lists">Lists</string>
@@ -55,7 +54,7 @@
     <string name="label_write">Write</string>
     <string name="label_quit">Quit</string>
     <string name="label_connect_at_start">Connect at startup</string>
-    <string name="label_power_at_start">Power-on track at startup</string>
+    <string name="label_power_at_start">Track power on at startup</string>
     <string name="label_name">Name</string>
     <string name="label_name_optional">Name (optional)</string>
     <string name="label_address">Address</string>
@@ -106,7 +105,7 @@
     <string name="message_failed_save_acc">Failed to save accessories list</string>
     <string name="message_failed_save_routes">Failed to save routes list</string>
     <string name="message_acc_removed_plural">Accessory removed from %s</string>
-    <string name="message_sped_steps_restart">Speed steps mode changed. Please restart command station and connect again.</string>
+    <string name="message_cs_not_supported">Command station is not supported!</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

@@ -144,6 +144,7 @@ class ConnectActivity : AppCompatActivity() {
 
         if (CommandStation.isConnected()) {
             CommandStation.disconnect()
+            Log.i(TAG, "Command station disconnected")
         }
     }
 
@@ -247,6 +248,12 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         CommandStation.setConnection(connection, deviceName)
+        CommandStation.getStatus {
+            if (!it.startsWith("DCC-EX")) {
+                Toast.makeText(this, R.string.message_cs_not_supported, Toast.LENGTH_LONG).show()
+            }
+        }
+        CommandStation.unassignAll()
         CommandStation.setTrackPower(powerOn)
         // locomotives list is not right in place yet
         Handler(Looper.getMainLooper()).post {
