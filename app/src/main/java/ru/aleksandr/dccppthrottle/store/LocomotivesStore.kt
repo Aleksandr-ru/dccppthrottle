@@ -130,6 +130,21 @@ object LocomotivesStore : JsonStoreInterface {
         })
     }
 
+    fun setAllFuncBySlot(slot: Int, allFunc: BooleanArray) {
+        if (allFunc.size != FUNCTIONS_COUNT) {
+            throw LocomotiveIncorrectFunctionsException()
+        }
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    for (i in 0 .. FUNCTIONS_COUNT) {
+                        functions[i] = allFunc[i]
+                    }
+                }
+            }
+        })
+    }
+
     private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
         return when (_sortOrder) {
             SORT_NAME -> {
@@ -199,4 +214,5 @@ object LocomotivesStore : JsonStoreInterface {
     class LocomotiveNoSlotAddressException() : LocomotiveStoreException() {}
     class LocomotiveAddressInUseException() : LocomotiveStoreException() {}
     class LocomotiveSlotInUseException() : LocomotiveStoreException() {}
+    class LocomotiveIncorrectFunctionsException() : LocomotiveStoreException() {}
 }

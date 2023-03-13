@@ -62,7 +62,9 @@ object CommandStation {
     fun unassignLoco(address: Int) {
         val command = UnassignCommand(address)
         sendCommand(command)
-        // todo speed 0 in store
+
+        val slot = LocomotivesStore.getSlotByAddress(address)
+        LocomotivesStore.stopBySlot(slot)
     }
 
     fun setLocomotiveSpeed(slot: Int, speed: Int, reverse: Boolean? = null) {
@@ -89,7 +91,9 @@ object CommandStation {
     fun emergencyStop() {
         val command = EmergencyCommand()
         sendCommand(command)
-        // todo speed 0 in store
+
+        for (i in LocomotivesStore.getSlots())
+            LocomotivesStore.stopBySlot(i)
     }
 
     fun setLocomotiveFunction(slot: Int, func: Int, isOn: Boolean) {
@@ -190,6 +194,7 @@ object CommandStation {
     }
 
     private fun parseMessage(mes: String) {
+        // todo parse errors <*Too much locos
 
         Regex("""<l (\d+) (\d+) (\d+) (\d+)>""").matchEntire(mes)?.let {
             val addr = it.groupValues[1].toInt()
@@ -198,8 +203,13 @@ object CommandStation {
             val speed = speedDir and 0b01111111
             val direction = speedDir.shr(7)
             val func = it.groupValues[4].toInt() // 536870911 max
-            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $func")
-            // todo parse func bit use it
+            val funcStr = func.toString(2).padStart(LocomotivesStore.FUNCTIONS_COUNT, '0')
+            val funcArr = funcStr.map { it == '1' }.reversed().toBooleanArray()
+            val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
+            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
+            LocomotivesStore.setSpeedBySlot(slot, speedStepsToPercent(speed), direction == 0)
+            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
+            // todo TEST ME!
             return@parseMessage
         }
 
@@ -242,7 +252,8 @@ object CommandStation {
     private class StatusCommand() : Command() {
         override val resultRegex = "<i(.+)>"
         override fun resultListener(groupValues: List<String>) {
-            // todo parse status
+            // <iDCC-EX V-3.0.4 / MEGA / STANDARD_MOTOR_SHIELD G-75ab2ab>
+            Log.i(TAG, groupValues[1])
         }
         override fun toString() = "<s>"
     }
@@ -262,8 +273,8 @@ object CommandStation {
             val currentMa = groupValues[1].toInt()
             val maxMa = groupValues[3].toInt()
             val tripMa = groupValues[5].toInt()
+            MainStore.setTrackCurrent(mapOf("current" to currentMa, "max" to maxMa, "trip" to tripMa))
             Log.i(TAG, String.format("Current: %d mA, max: %d mA, trip: %d mA", currentMa, maxMa, tripMa))
-            // todo show current
         }
         override fun toString() = "<c>"
     }

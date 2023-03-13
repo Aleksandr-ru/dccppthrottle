@@ -14,11 +14,18 @@ object MainStore {
     private val _trackPower: MutableLiveData<Boolean> = MutableLiveData(false)
     val trackPower: LiveData<Boolean> = _trackPower
 
+    private val _trackCurrent: MutableLiveData<Map<String, Int>> = MutableLiveData(mapOf())
+    val trackCurrent: LiveData<Map<String, Int>> = _trackCurrent
+
     fun setViewPagerPosition(value: Int) {
         _viewPagerPosition.postValue(value)
     }
 
     fun setTrackPower(value: Boolean) {
         _trackPower.postValue(value)
+    }
+
+    fun setTrackCurrent(value: Map<String, Int>) {
+        _trackCurrent.postValue(value)
     }
 }
