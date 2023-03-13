@@ -299,6 +299,7 @@ object CommandStation {
         override fun toString() = "<->"
     }
 
+    // Emergency Stop ALL TRAINS. (But leaves power to the track turned on)
     private class EmergencyCommand() : Command() {
         override val resultRegex: String? = null
         override fun resultListener(groupValues: List<String>) {}
