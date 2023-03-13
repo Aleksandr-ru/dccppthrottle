@@ -40,11 +40,6 @@ class ConnectActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (CommandStation.isConnected()) {
-            CommandStation.disconnect()
-        }
-
         setContentView(R.layout.activity_connect)
 
         val ver = findViewById<TextView>(R.id.textViewVersion)
@@ -141,6 +136,14 @@ class ConnectActivity : AppCompatActivity() {
                     val myIntent = Intent(this, MainActivity::class.java)
                     startActivity(myIntent)
                 }.show()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (CommandStation.isConnected()) {
+            CommandStation.disconnect()
         }
     }
 

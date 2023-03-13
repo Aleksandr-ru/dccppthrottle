@@ -1,11 +1,13 @@
 package ru.aleksandr.dccppthrottle
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
@@ -71,11 +73,27 @@ class SettingsActivity : AwakeActivity() {
                     RoutesStore.setSortOrder(keyVal!!)
                 }
                 keySpeedSteps -> {
-                    Toast.makeText(this.context, "Not today, sorry :(", Toast.LENGTH_SHORT).show()
-                    // TODO change speed steps in CS
+                    val keyVal = pref.getString(key, null)
+                    keyVal?.let {
+                        onSpeedStepsChanged(keyVal)
+                    }
                 }
                 else -> {}
             }
+        }
+
+        private fun onSpeedStepsChanged(value: String) {
+            CommandStation.setSpeedSteps(value)
+            AlertDialog.Builder(context!!)
+                .setTitle(R.string.title_dialog_restart)
+                .setMessage(R.string.message_sped_steps_restart)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    // disconnect at ConnectActivity start
+                    val myIntent = Intent(context!!, ConnectActivity::class.java)
+                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(myIntent)
+                }
+                .create().show()
         }
     }
 }

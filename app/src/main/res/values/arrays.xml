@@ -43,7 +43,7 @@
     </string-array>
 
     <string-array name="speed_steps_values" translatable="false">
-        <item>128</item>
-        <item>28</item>
+        <item>SPEED128</item>
+        <item>SPEED28</item>
     </string-array>
 </resources>

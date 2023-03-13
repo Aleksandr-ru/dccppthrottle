@@ -174,7 +174,15 @@ object CommandStation {
         readCvProgCallback = callback
         val command = ReadCvProgCommand(cv)
         sendCommand(command)
+    }
 
+    fun setSpeedSteps(speedSteps: String) {
+        if (!arrayOf("SPEED28", "SPEED128").contains(speedSteps)) {
+            throw CommandStationException()
+        }
+        val command = SpeedDCommand(speedSteps)
+        sendCommand(command)
+        // restart required!
     }
 
     /**
@@ -398,6 +406,14 @@ object CommandStation {
             Log.i(TAG, String.format("Read CV result %d (prog)", value))
         }
         override fun toString() = "<R $cv 32767 0>"
+    }
+
+    private class SpeedDCommand(
+        val speed: String
+    ) : Command() {
+        override val resultRegex: String? = null
+        override fun resultListener(groupValues: List<String>) {}
+        override fun toString() = "<D $speed>"
     }
 
     /**
