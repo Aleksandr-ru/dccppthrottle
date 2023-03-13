@@ -52,6 +52,7 @@ object RoutesStore : JsonStoreInterface {
             it.map { route ->
                 if (route.accessories.removeAll { it.address == addr })
                     countRemoved++
+                route
             }
         })
         hasUnsavedData = true
