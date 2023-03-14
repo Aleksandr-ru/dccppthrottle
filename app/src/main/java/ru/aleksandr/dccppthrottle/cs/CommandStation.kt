@@ -313,7 +313,8 @@ object CommandStation {
             val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
             Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
 //            LocomotivesStore.setSpeedBySlot(slot, speedStepsToPercent(speed), direction == 0)
-            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
+//            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
+            LocomotivesStore.setAllFuncByAddress(addr, funcArr)
         }
         override fun toString() = "<F $cab $func $activate>"
     }

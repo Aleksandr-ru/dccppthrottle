@@ -41,6 +41,7 @@ object LocomotivesStore : JsonStoreInterface {
     fun getIndexBySlot(slot: Int) : Int = data.value!!.indexOfFirst { it.slot == slot }
 
     fun getBySlot(slot: Int) : LocomotiveState? = data.value?.firstOrNull { it.slot == slot }
+    fun getByAddress(addr: Int) : LocomotiveState? = data.value?.firstOrNull { it.slot > 0 && it.address == addr }
 
     fun add(item: LocomotiveState) {
         if (item.slot > 0 && getSlots().indexOf(item.slot) > -1) {
@@ -102,10 +103,31 @@ object LocomotivesStore : JsonStoreInterface {
         })
     }
 
+    fun setSpeedByAddress(addr: Int, newSpeed: Int, newReverse: Boolean) {
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot > 0 && it.address == addr }?.apply {
+                    speed = newSpeed
+                    reverse = newReverse
+                }
+            }
+        })
+    }
+
     fun stopBySlot(slot: Int) {
         _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
+                    speed = 0
+                }
+            }
+        })
+    }
+
+    fun stopByAddress(addr: Int) {
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot > 0 && it.address == addr }?.apply {
                     speed = 0
                 }
             }
@@ -130,6 +152,16 @@ object LocomotivesStore : JsonStoreInterface {
         })
     }
 
+    fun setFunctionByAddress(addr: Int, func: Int, isOn : Boolean = false) {
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot > 0 && it.address == addr }?.apply {
+                    functions[func] = isOn
+                }
+            }
+        })
+    }
+
     fun setAllFuncBySlot(slot: Int, allFunc: BooleanArray) {
         if (allFunc.size != FUNCTIONS_COUNT) {
             throw LocomotiveIncorrectFunctionsException()
@@ -137,6 +169,21 @@ object LocomotivesStore : JsonStoreInterface {
         _data.postValue(_data.value?.also {
             it.map { item ->
                 item.takeIf { it.slot == slot }?.apply {
+                    for (i in 0 until FUNCTIONS_COUNT) {
+                        functions[i] = allFunc[i]
+                    }
+                }
+            }
+        })
+    }
+
+    fun setAllFuncByAddress(addr: Int, allFunc: BooleanArray) {
+        if (allFunc.size != FUNCTIONS_COUNT) {
+            throw LocomotiveIncorrectFunctionsException()
+        }
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot >0 && it.address == addr }?.apply {
                     for (i in 0 until FUNCTIONS_COUNT) {
                         functions[i] = allFunc[i]
                     }
