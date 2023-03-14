@@ -77,7 +77,7 @@ class AccessoriesRecyclerViewAdapter(
                         val cnt = RoutesStore.removeAccFromAll(addr!!)
                         AccessoriesStore.remove(bindingAdapterPosition)
                         if (cnt > 0) with(itemView.context) {
-                            val plural = resources.getQuantityString(R.plurals.routes, cnt)
+                            val plural = resources.getQuantityString(R.plurals.routes, cnt, cnt)
                             val message = getString(R.string.message_acc_removed_plural, plural)
                             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         }
