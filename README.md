@@ -3,15 +3,17 @@ DCC++Throttle
 
 Android application to drive [DCC-EX](https://dcc-ex.com/) command station via Bluetooth. 
 
-Project homepage with screenshots: https://aleksandr.ru/my/dccppthrottle
+Project homepage with screenshots in [English](https://aleksandr-ru.translate.goog/my/dccppthrottle?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=ru&_x_tr_pto=wapp) and [Russian](https://aleksandr.ru/my/dccppthrottle)
 
-Hardware setup:
+## Hardware setup
 
 - Arduino UNO with [DCC-EX firmware](https://github.com/DCC-EX/CommandStation-EX)
 - Arduino Motor Shield
-- Bluetoorh module HC-06 with [115200 bps speed](https://aleksandr.ru/blog/bluetooth_modul_hc_06_v_rukah_diletanta)
+- Bluetoorh module HC-06 with 115200 bps speed
 
-Application features:
+Detailed hardware setup guide in [English](https://aleksandr-ru.translate.goog/blog/komandnaya_stanciya_dcc_svoimi_rukami?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=ru&_x_tr_pto=wapp) and [Russian](https://aleksandr.ru/blog/komandnaya_stanciya_dcc_svoimi_rukami)
+
+## Application features
 
 - Locomotives library and control panel (cab)
 - Accessories library with control from the list
