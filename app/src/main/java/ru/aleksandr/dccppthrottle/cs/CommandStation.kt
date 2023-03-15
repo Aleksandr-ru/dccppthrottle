@@ -1,6 +1,7 @@
 package ru.aleksandr.dccppthrottle.cs
 
 import android.util.Log
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.ConsoleStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
@@ -219,7 +220,7 @@ object CommandStation {
         override val resultRegex = "<i(.+)>"
         override fun resultListener(groupValues: List<String>) {
             // <iDCC-EX V-3.0.4 / MEGA / STANDARD_MOTOR_SHIELD G-75ab2ab>
-            Log.i(TAG, groupValues[1])
+            if (BuildConfig.DEBUG) Log.i(TAG, groupValues[1])
             statusCallback?.invoke(groupValues[1])
         }
         override fun toString() = "<s>"
@@ -240,8 +241,8 @@ object CommandStation {
             val currentMa = groupValues[1].toInt()
             val maxMa = groupValues[3].toInt()
             val tripMa = groupValues[5].toInt()
+            if (BuildConfig.DEBUG) Log.i(TAG, String.format("Current: %d mA, max: %d mA, trip: %d mA", currentMa, maxMa, tripMa))
             MainStore.setTrackCurrent(mapOf("current" to currentMa, "max" to maxMa, "trip" to tripMa))
-            Log.i(TAG, String.format("Current: %d mA, max: %d mA, trip: %d mA", currentMa, maxMa, tripMa))
         }
         override fun toString() = "<c>"
     }
@@ -277,8 +278,9 @@ object CommandStation {
             val speedSteps = groupValues[2].toInt()
             val speedPercent = speedStepsToPercent(speedSteps)
             val reverse = groupValues[3].toInt() == 0
-            Log.i(TAG, "Slot: $slot, speed $speedSteps, reverse $reverse")
+            if (BuildConfig.DEBUG) Log.i(TAG, "Slot: $slot, speed $speedSteps, reverse $reverse")
             LocomotivesStore.setSpeedBySlot(register, speedPercent, reverse)
+            //TODO: <l result
         }
         override fun toString() = "<t $register $cab $speed $direction>"
     }
@@ -310,8 +312,10 @@ object CommandStation {
             val func = groupValues[4].toInt() // 536870911 max
             val funcStr = func.toString(2).padStart(LocomotivesStore.FUNCTIONS_COUNT, '0')
             val funcArr = funcStr.map { it == '1' }.reversed().toBooleanArray()
-            val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
-            Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
+            if (BuildConfig.DEBUG) {
+                val logArr = funcArr.mapIndexed{ index, b -> if (b) index else -1 }.filter { it > -1 }
+                Log.i(TAG, "Cab $addr, slot: $slot, speed $speed, direction $direction, functions $logArr")
+            }
 //            LocomotivesStore.setSpeedBySlot(slot, speedStepsToPercent(speed), direction == 0)
 //            LocomotivesStore.setAllFuncBySlot(slot, funcArr)
             LocomotivesStore.setAllFuncByAddress(addr, funcArr)
@@ -354,7 +358,7 @@ object CommandStation {
         override fun resultListener(groupValues: List<String>) {
             val cv = groupValues[1].toInt()
             val value = groupValues[2].toInt()
-            Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
+            if (BuildConfig.DEBUG) Log.i(TAG, String.format("Write CV %d result %d (prog)", cv, value))
             writeCvProgCallback?.invoke(cv, value)
         }
         override fun toString() = "<W $cv $value>"
@@ -366,7 +370,7 @@ object CommandStation {
         override val resultRegex = """<r 32767 (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val value = groupValues[2].toInt()
-            Log.i(TAG, String.format("Read CV result %d (prog)", value))
+            if (BuildConfig.DEBUG) Log.i(TAG, String.format("Read CV result %d (prog)", value))
             readCvProgCallback?.invoke(cv, value)
         }
         override fun toString() = "<R $cv 32767 0>"

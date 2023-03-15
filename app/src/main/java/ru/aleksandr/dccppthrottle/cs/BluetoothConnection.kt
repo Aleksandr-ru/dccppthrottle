@@ -8,6 +8,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import ru.aleksandr.dccppthrottle.BuildConfig
 import java.io.Closeable
 import java.io.IOException
 import java.io.InputStream
@@ -109,7 +110,7 @@ class BluetoothConnection(context: Context) : Closeable {
                     handler.obtainMessage(MESSAGE_CONNECTED).sendToTarget()
                 }
                 catch (e: IOException) {
-                    Log.e(TAG, "Connect failed", e)
+                    if (BuildConfig.DEBUG) Log.e(TAG, "Connect failed", e)
                     handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
                     return@run
                 }
@@ -124,7 +125,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 mmSocket?.close()
             }
             catch (e : IOException) {
-                Log.e(TAG, "Could not close the client socket", e)
+                if (BuildConfig.DEBUG) Log.e(TAG, "Could not close the client socket", e)
                 handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
             }
         }
@@ -146,14 +147,14 @@ class BluetoothConnection(context: Context) : Closeable {
                         mmBuffer[numBytes] = mmInStream.read().toByte()
                         if (mmBuffer[numBytes].toInt().toChar() == '\n') {
                             val message = String(mmBuffer, 0, numBytes)
-                            Log.i(TAG, "Got message: $message")
+                            if (BuildConfig.DEBUG) Log.i(TAG, "Got message: $message")
                             handler.obtainMessage(MESSAGE_READ, message).sendToTarget()
                             numBytes = 0
                         } else numBytes++
                     }
                 }
                 catch (e: IOException) {
-                    Log.i(TAG, "Input stream was disconnected", e)
+                    if (BuildConfig.DEBUG) Log.i(TAG, "Input stream was disconnected", e)
                     handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
                     break
                 }
@@ -181,7 +182,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 handler.obtainMessage(MESSAGE_WRITE, message).sendToTarget()
             }
             catch (e: IOException) {
-                Log.e(TAG, "Error occurred when sending data", e)
+                if (BuildConfig.DEBUG) Log.e(TAG, "Error occurred when sending data", e)
                 handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
             }
         }
@@ -192,7 +193,7 @@ class BluetoothConnection(context: Context) : Closeable {
                 mmSocket.close()
             }
             catch (e: IOException) {
-                Log.e(TAG, "Could not close the connect socket", e)
+                if (BuildConfig.DEBUG) Log.e(TAG, "Could not close the connect socket", e)
                 handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
             }
         }

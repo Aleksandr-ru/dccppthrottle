@@ -144,7 +144,7 @@ class ConnectActivity : AppCompatActivity() {
 
         if (CommandStation.isConnected()) {
             CommandStation.disconnect()
-            Log.i(TAG, "Command station disconnected")
+            if (BuildConfig.DEBUG) Log.i(TAG, "Command station disconnected")
         }
     }
 
