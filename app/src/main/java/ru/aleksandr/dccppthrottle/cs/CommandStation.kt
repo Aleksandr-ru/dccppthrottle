@@ -7,6 +7,7 @@ import ru.aleksandr.dccppthrottle.store.ConsoleStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MainStore
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 // https://github.com/DCC-EX/BaseStation-Classic/blob/master/DCCpp/SerialCommand.cpp#L82
 // https://dcc-ex.com/reference/software/command-reference.html
@@ -193,7 +194,7 @@ object CommandStation {
         return if (percent > 0) {
             val scaledPercent = remap(percent.toFloat(), 1F, 100F, minPercent.toFloat(), maxPercent.toFloat())
             val speedSteps = scaledPercent * MAX_SPEED_STEPS.toFloat() / 100F
-            min(MAX_SPEED_STEPS.toFloat(), speedSteps).toInt()
+            min(MAX_SPEED_STEPS.toFloat(), speedSteps).roundToInt()
         }
         else 0
     }
@@ -202,7 +203,7 @@ object CommandStation {
         return if (speedSteps > 0) {
             val percent = speedSteps.toFloat() * 100F / MAX_SPEED_STEPS.toFloat()
             val percentScaled = remap(percent, minPercent.toFloat(), maxPercent.toFloat(), 1F, 100F)
-            min(100F, percentScaled).toInt()
+            min(100F, percentScaled).roundToInt()
         }
         else 0
     }
