@@ -84,7 +84,7 @@ object CommandStation {
             val direction = (reverse ?: it.reverse).let { rev ->
                 if (rev) 0 else 1
             }
-            val speedSteps = percentToSpeedSteps(speed)
+            val speedSteps = percentToSpeedSteps(speed, it.minSpeed, it.maxSpeed)
             val command = ThrottleCommand(it.slot, it.address, speedSteps, direction)
             sendCommand(command)
         }
@@ -189,20 +189,29 @@ object CommandStation {
         }
     }
 
-    private fun percentToSpeedSteps(percent: Int) : Int {
+    private fun percentToSpeedSteps(percent: Int, minPercent: Int = 1, maxPercent: Int = 100) : Int {
         return if (percent > 0) {
-            val speedSteps = percent * MAX_SPEED_STEPS / 100
-            min(MAX_SPEED_STEPS, speedSteps)
+            val scaledPercent = remap(percent.toFloat(), 1F, 100F, minPercent.toFloat(), maxPercent.toFloat())
+            val speedSteps = scaledPercent * MAX_SPEED_STEPS.toFloat() / 100F
+            min(MAX_SPEED_STEPS.toFloat(), speedSteps).toInt()
         }
         else 0
     }
 
-    private fun speedStepsToPercent(speedSteps: Int) : Int {
+    private fun speedStepsToPercent(speedSteps: Int, minPercent: Int = 1, maxPercent: Int = 100) : Int {
         return if (speedSteps > 0) {
-            val percent = speedSteps * 100 / MAX_SPEED_STEPS
-            min(100, percent)
+            val percent = speedSteps.toFloat() * 100F / MAX_SPEED_STEPS.toFloat()
+            val percentScaled = remap(percent, minPercent.toFloat(), maxPercent.toFloat(), 1F, 100F)
+            min(100F, percentScaled).toInt()
         }
         else 0
+    }
+
+    // https://stackoverflow.com/a/929107
+    private fun remap(value: Float, oldMin: Float, oldMax: Float, newMin: Float, newMax: Float) : Float {
+        val oldRange = (oldMax - oldMin)
+        val newRange = (newMax - newMin)
+        return (((value - oldMin) * newRange) / oldRange) + newMin
     }
 
     /**
@@ -276,10 +285,13 @@ object CommandStation {
         override fun resultListener(groupValues: List<String>) {
             val slot = groupValues[1].toInt()
             val speedSteps = groupValues[2].toInt()
-            val speedPercent = speedStepsToPercent(speedSteps)
             val reverse = groupValues[3].toInt() == 0
             if (BuildConfig.DEBUG) Log.i(TAG, "Slot: $slot, speed $speedSteps, reverse $reverse")
-            LocomotivesStore.setSpeedBySlot(register, speedPercent, reverse)
+            val loco = LocomotivesStore.getBySlot(slot)
+            loco?.let {
+                val speedPercent = speedStepsToPercent(speedSteps, it.minSpeed, it.maxSpeed)
+                LocomotivesStore.setSpeedBySlot(register, speedPercent, reverse)
+            }
             //TODO: <l result
         }
         override fun toString() = "<t $register $cab $speed $direction>"

@@ -58,6 +58,9 @@
     <string name="label_name">Name</string>
     <string name="label_name_optional">Name (optional)</string>
     <string name="label_address">Address</string>
+    <string name="label_speed_limit">Speed limit</string>
+    <string name="label_min">Min</string>
+    <string name="label_max">Max</string>
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward</string>
     <string name="label_reverse">Reverse</string>

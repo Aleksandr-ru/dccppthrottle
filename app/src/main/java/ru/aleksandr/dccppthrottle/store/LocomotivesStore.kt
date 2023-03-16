@@ -228,7 +228,9 @@ object LocomotivesStore : JsonStoreInterface {
             val jsonObject = jsonArray.getJSONObject(i)
             val item = LocomotiveState(
                 jsonObject.getInt("address"),
-                jsonObject.optString("title").ifEmpty { null }
+                jsonObject.optString("title").ifEmpty { null },
+                jsonObject.optInt("minSpeed", 1),
+                jsonObject.optInt("maxSpeed", 100)
             ).apply {
                 slot = jsonObject.getInt("slot")
             }
@@ -240,7 +242,9 @@ object LocomotivesStore : JsonStoreInterface {
 
     data class LocomotiveState(
         var address: Int,
-        var title: String? = null
+        var title: String? = null,
+        var minSpeed: Int = 1,
+        var maxSpeed: Int = 100
     ) {
         val functions = BooleanArray(FUNCTIONS_COUNT)
         var speed: Int = 0
@@ -252,6 +256,8 @@ object LocomotivesStore : JsonStoreInterface {
         fun toJson() = JSONObject().apply {
             put("address", address)
             if (title != null) put("title", title)
+            put("minSpeed", minSpeed)
+            put("maxSpeed", maxSpeed)
             put("slot", slot)
         }
     }
