@@ -1,3 +1,5 @@
+![DCC++Throttle](https://aleksandr.ru/sitefiles/378/icon-192.png)
+
 DCC++Throttle
 =============
 
