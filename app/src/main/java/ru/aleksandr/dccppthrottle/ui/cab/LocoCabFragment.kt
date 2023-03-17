@@ -17,11 +17,14 @@ import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 class LocoCabFragment : Fragment() {
     private val F_PER_ROW = 4
 
     private var slot: Int = 0
+    private var minSpeed = 1
+    private var maxSpeed = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,9 +88,18 @@ class LocoCabFragment : Fragment() {
         val progressView = view.findViewById<SeekBar>(R.id.seekBar)
         val strStop = getString(R.string.speed_stop)
         progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            private var speed = 0
+
             override fun onProgressChanged(bar: SeekBar?, value: Int, fromUser: Boolean) {
-                if (value > 0) speedView.text = "$value%"
-                else speedView.text = strStop
+                if (value > 0) {
+                    val scaledValue = remap(value.toFloat(), 1F, 100F, minSpeed.toFloat(), maxSpeed.toFloat())
+                    speed = scaledValue.roundToInt()
+                    speedView.text = "$speed%"
+                }
+                else {
+                    speed = 0
+                    speedView.text = strStop
+                }
             }
 
             override fun onStartTrackingTouch(bar: SeekBar?) {
@@ -95,9 +107,7 @@ class LocoCabFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(bar: SeekBar?) {
-                bar?.let {
-                    CommandStation.setLocomotiveSpeed(slot, bar.progress)
-                }
+                CommandStation.setLocomotiveSpeed(slot, speed)
             }
         })
 
@@ -112,15 +122,30 @@ class LocoCabFragment : Fragment() {
         val titleView = view.findViewById<TextView>(R.id.textViewTitle)
 
         LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
+            minSpeed = item.minSpeed
+            maxSpeed = item.maxSpeed
+
+            if (item.speed > 0) {
+                val scaledSpeed = remap(item.speed.toFloat(), minSpeed.toFloat(), maxSpeed.toFloat(), 1F, 100F)
+                progressView.progress = scaledSpeed.roundToInt()
+            }
+            else progressView.progress = 0
+
+            revToggle.isChecked = item.reverse
             titleView.text = item.toString()
             addrView.text = item.address.toString()
-            progressView.progress = item.speed
-            revToggle.isChecked = item.reverse
 
             for ((index, button) in functionViews.withIndex()) {
                 button.isChecked = item.functions[index]
             }
         }
+    }
+
+    // https://stackoverflow.com/a/929107
+    private fun remap(value: Float, oldMin: Float, oldMax: Float, newMin: Float, newMax: Float) : Float {
+        val oldRange = (oldMax - oldMin)
+        val newRange = (newMax - newMin)
+        return (((value - oldMin) * newRange) / oldRange) + newMin
     }
 
     companion object {
