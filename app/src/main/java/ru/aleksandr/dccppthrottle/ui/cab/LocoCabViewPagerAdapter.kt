@@ -1,9 +1,15 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
 class LocoCabViewPagerAdapter(
     fragment: FragmentActivity,

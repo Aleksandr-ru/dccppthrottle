@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.ui.prog
 
 import android.os.Bundle
@@ -75,7 +82,7 @@ class ProgFragment : Fragment() {
             val cv = viewCvNum.value
             cv?.let {
                 CommandStation.getCvProg(it) { cv, value ->
-                    var message = ""
+                    var message: String
                     if (value >= 0) {
                         if (viewCvNum.value == cv) {
                             viewCvVal.value = value

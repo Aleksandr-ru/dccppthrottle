@@ -1,9 +1,16 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.store
 
 import kotlin.random.Random
 
 object MockStore {
-    private val btDevices = listOf<String>(
+    private val btDevices = listOf(
         "HC-06-115200",
         "HC-05",
         "Breezer 4S",
@@ -12,7 +19,7 @@ object MockStore {
         "SPS 705"
     )
 
-    private val locomotives = listOf<String>(
+    private val locomotives = listOf(
         "BR-80 (Piko)",
         "BR120 (Piko)",
         "GP 35 (Bachmann)",
@@ -23,12 +30,12 @@ object MockStore {
         "BR 78 (Piko new)"
     )
 
-    private val accessories = listOf<String>(
+    private val accessories = listOf(
         "Turnout",
         "Signal"
     )
 
-    private val routes = listOf<String>(
+    private val routes = listOf(
         "Freight shed",
         "Station platform",
         "Middle track",

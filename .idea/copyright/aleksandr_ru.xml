@@ -1,0 +1,6 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="Copyright (c) &amp;#36;originalComment.match(&quot;Copyright \(c\) (\d+)&quot;, 1, &quot;-&quot;, &quot;&amp;#36;today.year&quot;)&amp;#36;today.year. Aleksandr.ru&#10;@link http://aleksandr.ru&#10;&#10;If you're using this code, please keep above information." />
+    <option name="myName" value="aleksandr.ru" />
+  </copyright>
+</component>

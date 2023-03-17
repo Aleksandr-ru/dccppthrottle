@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle
 
 import android.content.Context
@@ -67,7 +74,7 @@ class RouteEditorActivity : AwakeActivity() {
                     viewHolder: RecyclerView.ViewHolder
                 ) {
                     super.clearView(recyclerView, viewHolder)
-                    viewHolder?.itemView?.alpha = 1.0f
+                    viewHolder.itemView.alpha = 1.0f
                 }
             }
 

@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.store
 
-import android.text.Html
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 
 object ConsoleStore {
     private const val MAX_LINES = 256

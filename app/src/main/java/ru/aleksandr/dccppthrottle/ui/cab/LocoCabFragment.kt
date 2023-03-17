@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
@@ -10,7 +17,6 @@ import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
-
 
 class LocoCabFragment : Fragment() {
     private val F_PER_ROW = 4

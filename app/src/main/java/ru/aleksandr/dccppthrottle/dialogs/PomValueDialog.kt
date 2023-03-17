@@ -1,15 +1,19 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 
 class PomValueDialog() : DialogFragment() {
 

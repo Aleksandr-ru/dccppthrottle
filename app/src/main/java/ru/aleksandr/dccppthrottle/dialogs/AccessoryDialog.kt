@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2023. Aleksandr.ru
+ * @link http://aleksandr.ru
+ *
+ * If you're using this code, please keep above information.
+ */
+
 package ru.aleksandr.dccppthrottle.dialogs
 
 import android.app.AlertDialog
@@ -9,8 +16,6 @@ import androidx.fragment.app.DialogFragment
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.AccessoriesStore
-import ru.aleksandr.dccppthrottle.store.RoutesStore
-
 
 class AccessoryDialog () : DialogFragment() {
 
@@ -34,7 +39,7 @@ class AccessoryDialog () : DialogFragment() {
             addr.setOnChangeListener {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled =
                     if (it == null) false
-                    else !AccessoriesStore.hasAddress(it!!, storeIndex)
+                    else !AccessoriesStore.hasAddress(it, storeIndex)
             }
             title.setText(initial?.title)
 
