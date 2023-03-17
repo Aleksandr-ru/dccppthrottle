@@ -79,12 +79,9 @@ class LocoCabFragment : Fragment() {
         val progressView = view.findViewById<SeekBar>(R.id.seekBar)
         val strStop = getString(R.string.speed_stop)
         progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            private var progress = 0
-
             override fun onProgressChanged(bar: SeekBar?, value: Int, fromUser: Boolean) {
                 if (value > 0) speedView.text = "$value%"
                 else speedView.text = strStop
-                progress = value
             }
 
             override fun onStartTrackingTouch(bar: SeekBar?) {
@@ -114,8 +111,8 @@ class LocoCabFragment : Fragment() {
             progressView.progress = item.speed
             revToggle.isChecked = item.reverse
 
-            for ((i, b) in functionViews.withIndex()) {
-                b.isChecked = item.functions[i]
+            for ((index, button) in functionViews.withIndex()) {
+                button.isChecked = item.functions[index]
             }
         }
     }
