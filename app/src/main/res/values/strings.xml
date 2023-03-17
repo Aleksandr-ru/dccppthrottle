@@ -26,8 +26,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="nav_header_desc">Navigation header</string>
-
     <string name="action_stop">Stop</string>
     <string name="action_add_loco">Add locomotive</string>
     <string name="action_edit_loco">Edit locomotive</string>
