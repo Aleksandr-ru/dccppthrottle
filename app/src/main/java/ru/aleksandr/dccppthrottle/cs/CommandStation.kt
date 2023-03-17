@@ -117,7 +117,7 @@ object CommandStation {
         val loco = LocomotivesStore.getBySlot(slot)
         loco?.let {
             val active = if (isOn) 1 else 0
-            val command = FunctionCommandEx(it.address, func, active)
+            val command = FunctionCommand(it.address, func, active)
             sendCommand(command)
         }
     }
@@ -291,19 +291,7 @@ object CommandStation {
         override fun toString() = "<t $register $cab $speed $direction>"
     }
 
-    private class FunctionCommandLegacy(
-        val cab: Int,
-        val byte1: Int,
-        val byte2: Int?
-    ) : Command() {
-        override val resultRegex: String? = null
-        override fun resultListener(groupValues: List<String>) {}
-        override fun toString() =
-            if (byte2 == null) "<f $cab $byte1>"
-            else "<f $cab $byte1 $byte2>"
-    }
-
-    private class FunctionCommandEx(
+    private class FunctionCommand(
         val cab: Int,
         val func: Int,
         val activate: Int
@@ -373,10 +361,11 @@ object CommandStation {
     private class ReadCvProgCommand(
         val cv: Int
     ) : Command() {
-        override val resultRegex = """<r 32767 (-?\d+)>"""
+        override val resultRegex = """<r(32767)\|(0)\|($cv) (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
-            val value = groupValues[2].toInt()
-            if (BuildConfig.DEBUG) Log.i(TAG, String.format("Read CV result %d (prog)", value))
+            val cv = groupValues[3].toInt()
+            val value = groupValues[4].toInt()
+            if (BuildConfig.DEBUG) Log.i(TAG, String.format("Read CV %d result %d (prog)", cv, value))
             readCvProgCallback?.invoke(cv, value)
         }
         override fun toString() = "<R $cv 32767 0>"
