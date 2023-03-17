@@ -27,9 +27,7 @@ object CommandStation {
     private var readCvProgCallback: ((cv: Int, value: Int) -> Unit)? = null
     private var statusCallback: ((status: String) -> Unit)? = null
 
-    /**
-     * Public methods
-     */
+    //region Public methods
 
     fun isConnected() = connection != null
     fun getAddress() = connection?.getAddress()
@@ -162,9 +160,9 @@ object CommandStation {
         sendCommand(command)
     }
 
-    /**
-     * Private methods
-     */
+    //endregion
+
+    //region Private methods
 
     private fun sendCommand(command: Command) {
         val str = command.toString()
@@ -215,9 +213,9 @@ object CommandStation {
         return (((value - oldMin) * newRange) / oldRange) + newMin
     }
 
-    /**
-     * Commands
-     */
+    //endregion
+
+    //region Command Station commands
 
     private abstract class Command {
         var processed = false
@@ -397,8 +395,7 @@ object CommandStation {
         override fun toString() = "<D $speed>"
     }
 
-    /**
-     * Exceptions
-     */
+    //endregion
+
     open class CommandStationException: Exception()
 }
