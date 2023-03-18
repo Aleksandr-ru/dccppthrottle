@@ -341,7 +341,7 @@ object CommandStation {
         override fun resultListener(groupValues: List<String>) {}
         override fun toString() =
             if (bit == null) "<w $cab $cv $value>"
-            else "<w $cab $cv $bit $value>"
+            else "<b $cab $cv $bit $value>"
     }
 
     private class WriteCvProgCommand(
@@ -361,14 +361,16 @@ object CommandStation {
     private class ReadCvProgCommand(
         val cv: Int
     ) : Command() {
-        override val resultRegex = """<r(32767)\|(0)\|($cv) (-?\d+)>"""
+        private val callbacknum = 32767
+        private val callbacksub = 0
+        override val resultRegex = """<r($callbacknum)\|($callbacksub)\|($cv) (-?\d+)>"""
         override fun resultListener(groupValues: List<String>) {
             val cv = groupValues[3].toInt()
             val value = groupValues[4].toInt()
             if (BuildConfig.DEBUG) Log.i(TAG, String.format("Read CV %d result %d (prog)", cv, value))
             readCvProgCallback?.invoke(cv, value)
         }
-        override fun toString() = "<R $cv 32767 0>"
+        override fun toString() = "<R $cv $callbacknum $callbacksub>"
     }
 
     private class SpeedDCommand(
