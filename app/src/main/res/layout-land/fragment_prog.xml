@@ -5,6 +5,8 @@
     android:id="@+id/prog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="@dimen/text_margin"
+    android:paddingEnd="@dimen/text_margin"
     tools:context=".ui.prog.ProgFragment">
 
     <LinearLayout
@@ -16,65 +18,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textCvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_cv_number" />
-
-            <ru.aleksandr.dccppthrottle.view.PlusMinusView
-                style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
-                android:id="@+id/plusminusCvNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/text_margin"
-                app:max="1024"
-                app:min="1"
-                app:nullable="false"
-                app:value="1" />
-
-            <TextView
-                android:id="@+id/textCvValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:text="@string/label_cv_value" />
-
-            <ru.aleksandr.dccppthrottle.view.PlusMinusView
-                style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
-                android:id="@+id/plusminusCvValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/text_margin"
-                app:max="255"
-                app:min="0"
-                app:nullable="false"
-                app:value="0" />
-
-            <TextView
-                android:id="@+id/textCvBits"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:text="@string/label_cv_value_bits" />
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
-                android:id="@+id/layoutBits"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
-                <!-- Bit buttons -->
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textCvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_cv_number" />
+
+                <ru.aleksandr.dccppthrottle.view.PlusMinusView
+                    style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+                    android:id="@+id/plusminusCvNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/text_margin"
+                    app:max="1024"
+                    app:min="1"
+                    app:nullable="false"
+                    app:value="1" />
+
+                <TextView
+                    android:id="@+id/textCvValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:text="@string/label_cv_value" />
+
+                <ru.aleksandr.dccppthrottle.view.PlusMinusView
+                    style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+                    android:id="@+id/plusminusCvValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/text_margin"
+                    app:max="255"
+                    app:min="0"
+                    app:nullable="false"
+                    app:value="0" />
+
+                <TextView
+                    android:id="@+id/textCvBits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:text="@string/label_cv_value_bits" />
+
+                <LinearLayout
+                    android:id="@+id/layoutBits"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <!-- Bit buttons -->
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="wrap_content"
