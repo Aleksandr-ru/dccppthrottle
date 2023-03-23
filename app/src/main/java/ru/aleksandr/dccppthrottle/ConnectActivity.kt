@@ -155,10 +155,6 @@ class ConnectActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        finishAndRemoveTask()
-    }
-
     private fun setupDevicesList() {
         val btManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val btAdaper = btManager.adapter
