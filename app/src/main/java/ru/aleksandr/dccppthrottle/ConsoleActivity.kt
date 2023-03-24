@@ -7,9 +7,12 @@
 
 package ru.aleksandr.dccppthrottle
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Layout
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -51,6 +54,24 @@ class ConsoleActivity : AwakeActivity() {
             }
             scrollView.post {
                 scrollView.fullScroll(ScrollView.FOCUS_DOWN)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.prog, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_console -> {
+                val myIntent = Intent(this, ConsoleActivity::class.java)
+                startActivity(myIntent)
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
             }
         }
     }

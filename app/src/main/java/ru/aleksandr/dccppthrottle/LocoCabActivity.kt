@@ -84,6 +84,11 @@ class LocoCabActivity : AwakeActivity(),
                 PomBitDialog().show(supportFragmentManager, PomBitDialog.TAG)
                 true
             }
+            R.id.action_console -> {
+                val myIntent = Intent(this, ConsoleActivity::class.java)
+                startActivity(myIntent)
+                true
+            }
             else -> {
                 super.onOptionsItemSelected(item)
             }

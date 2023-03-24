@@ -23,4 +23,10 @@
         android:title="@string/action_pom_bit"
         android:visible="true"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_console"
+        android:title="@string/menu_console"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>
