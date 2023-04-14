@@ -187,7 +187,7 @@ object CommandStation {
         // todo parse errors <*Too much locos
 
         resultListenersList.forEach { com ->
-            Regex(com.resultRegex!!).matchEntire(mes)?.let {
+            if (!com.processed) Regex(com.resultRegex!!).matchEntire(mes)?.let {
                 com.resultListener(it.groupValues)
                 com.processed = true // to avoid ConcurrentModificationException
                 return@forEach
