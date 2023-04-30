@@ -9,6 +9,7 @@ package ru.aleksandr.dccppthrottle.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageButton
@@ -18,6 +19,8 @@ import androidx.core.widget.doAfterTextChanged
 import ru.aleksandr.dccppthrottle.R
 
 class PlusMinusView : LinearLayout {
+
+    private val TAG = javaClass.simpleName
 
     private var numberInput : EditText? = null
     private var _value: Int? = null
@@ -37,8 +40,11 @@ class PlusMinusView : LinearLayout {
                 else value
             } else null
 
-            if (numberInput != null && numberInput!!.text.toString() != _value.toString()) {
-                numberInput!!.setText(_value.toString())
+            numberInput?.let {
+                if (it.text.ifEmpty { null }.toString() != _value.toString()) {
+                    it.setText(_value.toString())
+                    it.setSelection(it.text.length)
+                }
             }
         }
 
@@ -74,6 +80,9 @@ class PlusMinusView : LinearLayout {
         if (a.hasValue(R.styleable.PlusMinusView_step)) {
             step = a.getInt(R.styleable.PlusMinusView_step, 1)
         }
+        if (a.hasValue(R.styleable.PlusMinusView_nullable)) {
+            nullable = a.getBoolean(R.styleable.PlusMinusView_nullable, false)
+        }
         if (a.hasValue(R.styleable.PlusMinusView_value)) {
             value = a.getInt(R.styleable.PlusMinusView_value, 0)
         }
@@ -94,15 +103,18 @@ class PlusMinusView : LinearLayout {
             value = numberInput?.text.toString().toIntOrNull()?.minus(step) ?: (min ?: 0)
         }
 
-        numberInput!!.doAfterTextChanged {
-            if (hasFocus()) {
-                value = it.toString().toIntOrNull()
-            }
-            if (it.toString() != _value.toString()) {
-                numberInput!!.setText(_value.toString())
-            }
-            else if (onChangeListener != null) {
-                onChangeListener?.invoke(_value)
+        numberInput?.let {
+            it.doAfterTextChanged { editable ->
+                if (hasFocus()) {
+                    value = editable.toString().toIntOrNull()
+                }
+                if (editable.toString().ifEmpty { null }.toString() != _value.toString()) {
+                    it.setText(_value.toString().ifEmpty { null })
+                    it.selectAll()
+                }
+                else if (onChangeListener != null) {
+                    onChangeListener?.invoke(_value)
+                }
             }
         }
     }
