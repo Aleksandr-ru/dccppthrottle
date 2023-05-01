@@ -43,6 +43,13 @@ class PomValueDialog() : DialogFragment() {
             val viewValue = view.findViewById<PlusMinusView>(R.id.plusminusCvValue)
 
             viewCv.value = cv
+            viewValue.value = valuesMap[cv]
+
+            viewCv.setOnChangeListener { cv ->
+                if (valuesMap.containsKey(cv)) {
+                    viewValue.value = valuesMap[cv]
+                }
+            }
 
             builder.setView(view)
                 .setTitle(R.string.title_dialog_pom_value)
@@ -51,6 +58,7 @@ class PomValueDialog() : DialogFragment() {
                     val newCv = viewCv.value!!
                     val newValue = viewValue.value!!
                     listener.onPomValueDialogResult(this, newCv, newValue)
+                    valuesMap[newCv] = newValue
                 }
                 .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
@@ -61,6 +69,7 @@ class PomValueDialog() : DialogFragment() {
 
     companion object {
         const val TAG = "PomValueDialog"
+        private val valuesMap: MutableMap<Int, Int> = mutableMapOf()
         var cv = 0
     }
 }
