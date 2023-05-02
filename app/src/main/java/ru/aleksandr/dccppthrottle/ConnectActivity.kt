@@ -268,7 +268,7 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun loadStoreFromFile(store: JsonStoreInterface, sortOrder: String?) {
-        val fileName = "${store.javaClass.simpleName}.json"
+        val fileName = getString(R.string.filename_store, store.javaClass.simpleName)
         val file = File(filesDir, fileName)
         if (file.exists()) {
             val bufferedReader = file.bufferedReader()

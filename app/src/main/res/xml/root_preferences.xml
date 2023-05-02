@@ -38,6 +38,16 @@
             app:key="@string/pref_key_sort_routes"
             app:useSimpleSummaryProvider="true" />
 
+        <Preference
+            app:title="@string/label_backup"
+            app:summary="@string/label_backup_summary"
+            app:key="@string/pref_key_backup"/>
+
+        <Preference
+            app:title="@string/label_restore"
+            app:summary="@string/label_restore_summary"
+            app:key="@string/pref_key_restore"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_pref_cs">

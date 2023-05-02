@@ -81,6 +81,16 @@
     <string name="label_cv_value_bit">CV value bit</string>
     <string name="label_cv_value_bits">CV value bits</string>
     <string name="label_bit_value">Bit value</string>
+    <string name="label_backup">Backup</string>
+    <string name="label_backup_summary">Select file to save backup to</string>
+    <string name="label_backup_progress">Backup in progress…</string>
+    <string name="label_backup_complete">Saved to: %s</string>
+    <string name="label_backup_error">Error! %s</string>
+    <string name="label_restore">Restore</string>
+    <string name="label_restore_summary">Select file to restore from</string>
+    <string name="label_restore_progress">Restore in progress…</string>
+    <string name="label_restore_complete">Success</string>
+    <string name="label_restore_error">Error! %s</string>
 
     <string name="placeholder_route_name">Enter route name</string>
 
@@ -107,6 +117,10 @@
     <string name="message_failed_save_routes">Failed to save routes list</string>
     <string name="message_acc_removed_plural">Accessory removed from %s</string>
     <string name="message_cs_not_supported">Command station is not supported!</string>
+    <string name="message_backup_ok">Backup completed</string>
+    <string name="message_backup_error">Backup failed!</string>
+    <string name="message_restore_ok">Restore completed</string>
+    <string name="message_restore_error">Restore failed!</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>
@@ -124,4 +138,10 @@
     <string translatable="false" name="pref_key_connect_startup">connect_at_start</string>
     <string translatable="false" name="pref_key_power_startup">power_at_start</string>
     <string translatable="false" name="pref_key_last_mac">last_mac</string>
+    <string translatable="false" name="pref_key_backup">backup</string>
+    <string translatable="false" name="pref_key_restore">restore</string>
+
+    <string translatable="false" name="mime_type_zip">application/zip</string>
+    <string translatable="false" name="filename_backup">dccppthrottle_%s.zip</string>
+    <string translatable="false" name="filename_store">%s.json</string>
 </resources>

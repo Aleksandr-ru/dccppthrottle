@@ -7,15 +7,27 @@
 
 package ru.aleksandr.dccppthrottle
 
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.CommandStation
-import ru.aleksandr.dccppthrottle.store.AccessoriesStore
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore
-import ru.aleksandr.dccppthrottle.store.RoutesStore
+import ru.aleksandr.dccppthrottle.store.*
+import java.io.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 class SettingsActivity : AwakeActivity() {
 
@@ -33,9 +45,90 @@ class SettingsActivity : AwakeActivity() {
 
     class SettingsFragment : PreferenceFragmentCompat(),
         SharedPreferences.OnSharedPreferenceChangeListener {
+
+        private val TAG = javaClass.simpleName
+        private val storeList = listOf(LocomotivesStore, AccessoriesStore, RoutesStore)
+
+        private lateinit var backupPref: Preference
+        private lateinit var restorePref: Preference
+
+        private val backupLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent: Intent? = result.data
+                intent?.data?.also { uri ->
+                    try {
+                        backupPref.isEnabled = false
+                        restorePref.isEnabled = false
+                        backupPref.summary = getString(R.string.label_backup_progress)
+                        backupToFile(uri)
+                        Toast.makeText(this.context, R.string.message_backup_ok, Toast.LENGTH_SHORT).show()
+                        backupPref.summary = getString(R.string.label_backup_complete, uri.path) // todo: real path
+                    }
+                    catch (e: Exception) {
+                        if (BuildConfig.DEBUG) e.printStackTrace()
+                        Toast.makeText(this.context, R.string.message_backup_error, Toast.LENGTH_SHORT).show()
+                        backupPref.summary = getString(R.string.label_backup_error, e.message)
+                    }
+                    finally {
+                        backupPref.isEnabled = true
+                        restorePref.isEnabled = true
+                    }
+                }
+            }
+        }
+
+        private val restoreLauncher = registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent: Intent? = result.data
+                intent?.data?.also { uri ->
+                    try {
+                        backupPref.isEnabled = false
+                        restorePref.isEnabled = false
+                        restorePref.summary = getString(R.string.label_restore_progress)
+                        restoreFromFile(uri)
+                        Toast.makeText(this.context, R.string.message_restore_ok, Toast.LENGTH_SHORT).show()
+                        restorePref.summary = getString(R.string.label_restore_complete)
+                    }
+                    catch (e: Exception) {
+                        if (BuildConfig.DEBUG) e.printStackTrace()
+                        Toast.makeText(this.context, R.string.message_restore_error, Toast.LENGTH_SHORT).show()
+                        backupPref.summary = getString(R.string.label_restore_error, e.message)
+                    }
+                    finally {
+                        backupPref.isEnabled = true
+                        restorePref.isEnabled = true
+                    }
+                }
+            }
+        }
+
         // https://stackoverflow.com/a/72451941
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            backupPref = findPreference<Preference>(getString(R.string.pref_key_backup))!!
+            backupPref.setOnPreferenceClickListener {
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = getString(R.string.mime_type_zip)
+
+                    val date = LocalDate.now()
+                    val filename = getString(R.string.filename_backup, date.format(DateTimeFormatter.ISO_DATE))
+                    putExtra(Intent.EXTRA_TITLE, filename)
+                }
+                backupLauncher.launch(intent)
+                true
+            }
+
+            restorePref = findPreference<Preference>(getString(R.string.pref_key_restore))!!
+            restorePref.setOnPreferenceClickListener {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = getString(R.string.mime_type_zip)
+                }
+                restoreLauncher.launch(intent)
+                true
+            }
         }
 
         override fun onResume() {
@@ -85,6 +178,48 @@ class SettingsActivity : AwakeActivity() {
                     }
                 }
                 else -> {}
+            }
+        }
+
+        // https://gist.github.com/kairos34/75f782b029540e60c2f3b69e5166588e
+        private fun backupToFile(uri: Uri) {
+            val storeFiles: List<File> = storeList.map {
+                val filename = getString(R.string.filename_store, it.javaClass.simpleName)
+                File(this.context!!.filesDir, filename)
+            }.filter { it.isFile }
+
+            val contentResolver = this.context!!.contentResolver
+            val outputStream = contentResolver.openOutputStream(uri)
+            ZipOutputStream(outputStream).use { output ->
+                storeFiles.forEach { file ->
+                    FileInputStream(file).use { input ->
+                        val entry = ZipEntry(file.name)
+                        output.putNextEntry(entry)
+                        input.copyTo(output)
+                    }
+                    if (BuildConfig.DEBUG) Log.i(TAG, "Compressed: " + file.name)
+                }
+            }
+        }
+
+        // https://stackoverflow.com/a/66683493
+        private fun restoreFromFile(uri: Uri) {
+            val storeFiles: Map<String, JsonStoreInterface> = storeList.map {
+                getString(R.string.filename_store, it.javaClass.simpleName) to it
+            }.toMap()
+
+            val contentResolver = this.context!!.contentResolver
+            val inputStream = contentResolver.openInputStream(uri)
+            ZipInputStream(inputStream).use { input ->
+                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.forEach { entry ->
+                    val jsonString = String(input.readBytes())
+                    val jsonArray = JSONArray(jsonString)
+                    storeFiles[entry.name]?.apply {
+                        fromJson(jsonArray)
+                        hasUnsavedData = true
+                    }
+                    if (BuildConfig.DEBUG) Log.i(TAG, "Restored: " + entry.name)
+                }
             }
         }
     }

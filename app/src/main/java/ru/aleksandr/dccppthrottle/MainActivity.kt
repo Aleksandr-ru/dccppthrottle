@@ -232,7 +232,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
 
     private fun saveStoreToFile(store: JsonStoreInterface) {
         if (store.hasUnsavedData) {
-            val fileName = "${store.javaClass.simpleName}.json"
+            val fileName = getString(R.string.filename_store, store.javaClass.simpleName)
             val file = File(filesDir, fileName)
             val bufferedWriter = file.bufferedWriter()
             val jsonArray = store.toJson()
