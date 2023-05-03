@@ -141,7 +141,6 @@
     <string translatable="false" name="pref_key_backup">backup</string>
     <string translatable="false" name="pref_key_restore">restore</string>
 
-    <string translatable="false" name="mime_type_zip">application/zip</string>
     <string translatable="false" name="filename_backup">dccppthrottle_%s.zip</string>
     <string translatable="false" name="filename_store">%s.json</string>
 </resources>

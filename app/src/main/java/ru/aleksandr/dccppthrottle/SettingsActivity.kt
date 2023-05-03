@@ -7,7 +7,7 @@
 
 package ru.aleksandr.dccppthrottle
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -15,7 +15,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -43,62 +44,62 @@ class SettingsActivity : AwakeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    // https://stackoverflow.com/a/68883413
+    class CreateMimeDocument(private val mimeType: String) : CreateDocument() {
+        override fun createIntent(context: Context, input: String): Intent {
+            return super.createIntent(context, input).setType(mimeType)
+        }
+    }
+
     class SettingsFragment : PreferenceFragmentCompat(),
         SharedPreferences.OnSharedPreferenceChangeListener {
 
         private val TAG = javaClass.simpleName
+        private val mimeTypeZip = "application/zip"
         private val storeList = listOf(LocomotivesStore, AccessoriesStore, RoutesStore)
 
         private lateinit var backupPref: Preference
         private lateinit var restorePref: Preference
 
-        private val backupLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent: Intent? = result.data
-                intent?.data?.also { uri ->
-                    try {
-                        backupPref.isEnabled = false
-                        restorePref.isEnabled = false
-                        backupPref.summary = getString(R.string.label_backup_progress)
-                        backupToFile(uri)
-                        Toast.makeText(this.context, R.string.message_backup_ok, Toast.LENGTH_SHORT).show()
-                        backupPref.summary = getString(R.string.label_backup_complete, uri.path) // todo: real path
-                    }
-                    catch (e: Exception) {
-                        if (BuildConfig.DEBUG) e.printStackTrace()
-                        Toast.makeText(this.context, R.string.message_backup_error, Toast.LENGTH_SHORT).show()
-                        backupPref.summary = getString(R.string.label_backup_error, e.message)
-                    }
-                    finally {
-                        backupPref.isEnabled = true
-                        restorePref.isEnabled = true
-                    }
-                }
+        private val backupLauncher = registerForActivityResult(
+            CreateMimeDocument(mimeTypeZip)
+        ) { uri ->
+            try {
+                backupPref.isEnabled = false
+                restorePref.isEnabled = false
+                backupPref.summary = getString(R.string.label_backup_progress)
+                backupToFile(uri)
+                Toast.makeText(this.context, R.string.message_backup_ok, Toast.LENGTH_SHORT).show()
+                backupPref.summary = getString(R.string.label_backup_complete, uri.path) // todo: real path
+            }
+            catch (e: Exception) {
+                if (BuildConfig.DEBUG) e.printStackTrace()
+                Toast.makeText(this.context, R.string.message_backup_error, Toast.LENGTH_SHORT).show()
+                backupPref.summary = getString(R.string.label_backup_error, e.message)
+            }
+            finally {
+                backupPref.isEnabled = true
+                restorePref.isEnabled = true
             }
         }
 
-        private val restoreLauncher = registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent: Intent? = result.data
-                intent?.data?.also { uri ->
-                    try {
-                        backupPref.isEnabled = false
-                        restorePref.isEnabled = false
-                        restorePref.summary = getString(R.string.label_restore_progress)
-                        restoreFromFile(uri)
-                        Toast.makeText(this.context, R.string.message_restore_ok, Toast.LENGTH_SHORT).show()
-                        restorePref.summary = getString(R.string.label_restore_complete)
-                    }
-                    catch (e: Exception) {
-                        if (BuildConfig.DEBUG) e.printStackTrace()
-                        Toast.makeText(this.context, R.string.message_restore_error, Toast.LENGTH_SHORT).show()
-                        backupPref.summary = getString(R.string.label_restore_error, e.message)
-                    }
-                    finally {
-                        backupPref.isEnabled = true
-                        restorePref.isEnabled = true
-                    }
-                }
+        private val restoreLauncher = registerForActivityResult(OpenDocument()) { uri ->
+            try {
+                backupPref.isEnabled = false
+                restorePref.isEnabled = false
+                restorePref.summary = getString(R.string.label_restore_progress)
+                restoreFromFile(uri)
+                Toast.makeText(this.context, R.string.message_restore_ok, Toast.LENGTH_SHORT).show()
+                restorePref.summary = getString(R.string.label_restore_complete)
+            }
+            catch (e: Exception) {
+                if (BuildConfig.DEBUG) e.printStackTrace()
+                Toast.makeText(this.context, R.string.message_restore_error, Toast.LENGTH_SHORT).show()
+                backupPref.summary = getString(R.string.label_restore_error, e.message)
+            }
+            finally {
+                backupPref.isEnabled = true
+                restorePref.isEnabled = true
             }
         }
 
@@ -108,25 +109,15 @@ class SettingsActivity : AwakeActivity() {
 
             backupPref = findPreference<Preference>(getString(R.string.pref_key_backup))!!
             backupPref.setOnPreferenceClickListener {
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = getString(R.string.mime_type_zip)
-
-                    val date = LocalDate.now()
-                    val filename = getString(R.string.filename_backup, date.format(DateTimeFormatter.ISO_DATE))
-                    putExtra(Intent.EXTRA_TITLE, filename)
-                }
-                backupLauncher.launch(intent)
+                val date = LocalDate.now()
+                val filename = getString(R.string.filename_backup, date.format(DateTimeFormatter.ISO_DATE))
+                backupLauncher.launch(filename)
                 true
             }
 
             restorePref = findPreference<Preference>(getString(R.string.pref_key_restore))!!
             restorePref.setOnPreferenceClickListener {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = getString(R.string.mime_type_zip)
-                }
-                restoreLauncher.launch(intent)
+                restoreLauncher.launch(arrayOf(mimeTypeZip))
                 true
             }
         }
