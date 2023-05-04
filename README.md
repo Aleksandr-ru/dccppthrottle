@@ -11,7 +11,7 @@ Project homepage with screenshots in [English](https://aleksandr-ru.translate.go
 
 - Arduino UNO with [DCC-EX firmware](https://github.com/DCC-EX/CommandStation-EX)
 - Arduino Motor Shield
-- Bluetoorh module HC-06 with 115200 bps speed
+- Bluetooth module HC-06 with 115200 bps speed
 
 Detailed hardware setup guide in [English](https://aleksandr-ru.translate.goog/blog/komandnaya_stanciya_dcc_svoimi_rukami?_x_tr_sl=ru&_x_tr_tl=en&_x_tr_hl=ru&_x_tr_pto=wapp) and [Russian](https://aleksandr.ru/blog/komandnaya_stanciya_dcc_svoimi_rukami)
 
