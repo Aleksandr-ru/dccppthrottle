@@ -8,6 +8,7 @@
 package ru.aleksandr.dccppthrottle
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
@@ -88,14 +89,14 @@ class ConnectActivity : AppCompatActivity() {
                     val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
                     val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
                     prefsEditor.putBoolean(prefKeyConnectStartup, false)
-                    prefsEditor.commit()
+                    prefsEditor.apply()
                 }
             }
             connection.setOnConnectListener {
                 val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
                 prefsEditor.putString(prefKeyLastMac, connection.getAddress())
                 prefsEditor.putBoolean(prefKeyConnectStartup, chk.isChecked)
-                prefsEditor.commit()
+                prefsEditor.apply()
 
                 startCommandStation(connection, device.name)
 
@@ -155,15 +156,22 @@ class ConnectActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun setupDevicesList() {
         val btManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        val btAdaper = btManager.adapter
-        if (!btAdaper.isEnabled) {
+        val btAdapter = btManager.adapter
+        if (btAdapter == null) {
+            val message = "Bluetooth not supported" // emulator?
+            Log.e(TAG, message)
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            return
+        }
+        if (!btAdapter.isEnabled) {
             Toast.makeText(this, R.string.message_bluetooth_disabled, Toast.LENGTH_SHORT).show()
         }
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val lastMac = prefs.getString(prefKeyLastMac, null)
-        pairedDevices = btAdaper.bondedDevices.sortedBy { it.address != lastMac }.toSet()
+        pairedDevices = btAdapter.bondedDevices.sortedBy { it.address != lastMac }.toSet()
 
         val btn = findViewById<Button>(R.id.btnConnect)
         val spinner: Spinner = findViewById(R.id.spinnerBtList)
@@ -192,7 +200,7 @@ class ConnectActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        // super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode) {
             bluetoothRequest -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
