@@ -11,7 +11,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
@@ -67,10 +69,19 @@ class SettingsActivity : AwakeActivity() {
             try {
                 backupPref.isEnabled = false
                 restorePref.isEnabled = false
-                backupPref.summary = getString(R.string.label_backup_progress)
                 backupToFile(uri)
                 Toast.makeText(this.context, R.string.message_backup_ok, Toast.LENGTH_SHORT).show()
-                backupPref.summary = getString(R.string.label_backup_complete, uri.path) // todo: real path
+                try {
+                    // https://stackoverflow.com/a/25005243
+                    val filename = context?.contentResolver?.query(uri, null, null, null, null)?.use {
+                        it.moveToFirst()
+                        it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+                    } ?: throw Exception("Failed to get filename from uri")
+                    backupPref.summary = getString(R.string.label_backup_complete, filename)
+                }
+                catch (e: Exception) {
+                    backupPref.summary = getString(R.string.label_backup_complete, uri.path)
+                }
             }
             catch (e: Exception) {
                 if (BuildConfig.DEBUG) e.printStackTrace()
@@ -87,7 +98,7 @@ class SettingsActivity : AwakeActivity() {
             try {
                 backupPref.isEnabled = false
                 restorePref.isEnabled = false
-                restorePref.summary = getString(R.string.label_restore_progress)
+                CommandStation.unassignAll()
                 restoreFromFile(uri)
                 Toast.makeText(this.context, R.string.message_restore_ok, Toast.LENGTH_SHORT).show()
                 restorePref.summary = getString(R.string.label_restore_complete)
@@ -109,8 +120,11 @@ class SettingsActivity : AwakeActivity() {
 
             backupPref = findPreference<Preference>(getString(R.string.pref_key_backup))!!
             backupPref.setOnPreferenceClickListener {
-                val date = LocalDate.now()
-                val filename = getString(R.string.filename_backup, date.format(DateTimeFormatter.ISO_DATE))
+                val suffix = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+                }
+                else "backup"
+                val filename = getString(R.string.filename_backup, suffix)
                 backupLauncher.launch(filename)
                 true
             }
@@ -201,8 +215,8 @@ class SettingsActivity : AwakeActivity() {
 
             val contentResolver = this.context!!.contentResolver
             val inputStream = contentResolver.openInputStream(uri)
-            ZipInputStream(inputStream).use { input ->
-                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.forEach { entry ->
+            val restored = ZipInputStream(inputStream).use { input ->
+                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.map { entry ->
                     val jsonString = String(input.readBytes())
                     val jsonArray = JSONArray(jsonString)
                     storeFiles[entry.name]?.apply {
@@ -210,7 +224,11 @@ class SettingsActivity : AwakeActivity() {
                         hasUnsavedData = true
                     }
                     if (BuildConfig.DEBUG) Log.i(TAG, "Restored: " + entry.name)
+                    entry.name to jsonString.length
                 }
+            }
+            if (restored.map { it.second }.sum() == 0) {
+                throw Exception("Nothing restored")
             }
         }
     }

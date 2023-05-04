@@ -82,13 +82,11 @@
     <string name="label_cv_value_bits">CV value bits</string>
     <string name="label_bit_value">Bit value</string>
     <string name="label_backup">Backup</string>
-    <string name="label_backup_summary">Select file to save backup to</string>
-    <string name="label_backup_progress">Backup in progress…</string>
+    <string name="label_backup_summary">Select file to create backup</string>
     <string name="label_backup_complete">Saved to: %s</string>
     <string name="label_backup_error">Error! %s</string>
     <string name="label_restore">Restore</string>
     <string name="label_restore_summary">Select file to restore from</string>
-    <string name="label_restore_progress">Restore in progress…</string>
     <string name="label_restore_complete">Success</string>
     <string name="label_restore_error">Error! %s</string>
 
