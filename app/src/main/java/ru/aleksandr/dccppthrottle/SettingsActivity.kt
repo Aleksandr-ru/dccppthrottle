@@ -106,7 +106,7 @@ class SettingsActivity : AwakeActivity() {
             catch (e: Exception) {
                 if (BuildConfig.DEBUG) e.printStackTrace()
                 Toast.makeText(this.context, R.string.message_restore_error, Toast.LENGTH_SHORT).show()
-                backupPref.summary = getString(R.string.label_restore_error, e.message)
+                restorePref.summary = getString(R.string.label_restore_error, e.message)
             }
             finally {
                 backupPref.isEnabled = true
@@ -215,8 +215,9 @@ class SettingsActivity : AwakeActivity() {
 
             val contentResolver = this.context!!.contentResolver
             val inputStream = contentResolver.openInputStream(uri)
-            val restored = ZipInputStream(inputStream).use { input ->
-                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.map { entry ->
+            var restoredLength = 0
+            ZipInputStream(inputStream).use { input ->
+                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.forEach { entry ->
                     val jsonString = String(input.readBytes())
                     val jsonArray = JSONArray(jsonString)
                     storeFiles[entry.name]?.apply {
@@ -224,10 +225,10 @@ class SettingsActivity : AwakeActivity() {
                         hasUnsavedData = true
                     }
                     if (BuildConfig.DEBUG) Log.i(TAG, "Restored: " + entry.name)
-                    entry.name to jsonString.length
+                    restoredLength += jsonString.length
                 }
             }
-            if (restored.map { it.second }.sum() == 0) {
+            if (restoredLength == 0) {
                 throw Exception("Nothing restored")
             }
         }
