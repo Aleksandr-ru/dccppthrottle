@@ -2,7 +2,8 @@
     <string name="app_name" translatable="false">DCC++Throttle</string>
     <string name="app_subtitle" translatable="false">aleksandr.ru</string>
     <string name="app_version" translatable="false">Public playable beta %s (%d)</string>
-    
+    <string name="app_website" translatable="false">https://aleksandr.ru/my/dccppthrottle</string>
+
     <string name="title_activity_cab">Loco #%d</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>
@@ -139,6 +140,7 @@
     <string translatable="false" name="pref_key_backup">backup</string>
     <string translatable="false" name="pref_key_restore">restore</string>
 
-    <string translatable="false" name="filename_backup">dccppthrottle_%s.zip</string>
     <string translatable="false" name="filename_store">%s.json</string>
+    <string translatable="false" name="filename_backup">dccppthrottle_%s.zip</string>
+    <string translatable="false" name="filename_readme">README.txt</string>
 </resources>

@@ -66,6 +66,10 @@ class SettingsActivity : AwakeActivity() {
         private val backupLauncher = registerForActivityResult(
             CreateMimeDocument(mimeTypeZip)
         ) { uri ->
+            if (uri == null) {
+                if (BuildConfig.DEBUG) Log.i(TAG, "Backup cancelled")
+                return@registerForActivityResult
+            }
             try {
                 backupPref.isEnabled = false
                 restorePref.isEnabled = false
@@ -73,10 +77,11 @@ class SettingsActivity : AwakeActivity() {
                 Toast.makeText(this.context, R.string.message_backup_ok, Toast.LENGTH_SHORT).show()
                 try {
                     // https://stackoverflow.com/a/25005243
-                    val filename = context?.contentResolver?.query(uri, null, null, null, null)?.use {
-                        it.moveToFirst()
-                        it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
-                    } ?: throw Exception("Failed to get filename from uri")
+                    val filename =
+                        context?.contentResolver?.query(uri, null, null, null, null)?.use {
+                            it.moveToFirst()
+                            it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+                        } ?: throw Exception("Failed to get filename from uri")
                     backupPref.summary = getString(R.string.label_backup_complete, filename)
                 }
                 catch (e: Exception) {
@@ -95,6 +100,10 @@ class SettingsActivity : AwakeActivity() {
         }
 
         private val restoreLauncher = registerForActivityResult(OpenDocument()) { uri ->
+            if (uri == null) {
+                if (BuildConfig.DEBUG) Log.i(TAG, "Restore cancelled")
+                return@registerForActivityResult
+            }
             try {
                 backupPref.isEnabled = false
                 restorePref.isEnabled = false
@@ -193,6 +202,19 @@ class SettingsActivity : AwakeActivity() {
                 File(this.context!!.filesDir, filename)
             }.filter { it.isFile }
 
+            if (storeFiles.isEmpty()) {
+                throw Exception("Nothing to backup")
+            }
+
+            val readme = String.format(
+                "%s %s %s\n%s\n%s",
+                getString(R.string.app_name),
+                BuildConfig.VERSION_NAME,
+                BuildConfig.VERSION_CODE,
+                storeFiles.joinToString { it.name },
+                getString(R.string.app_website)
+            )
+
             val contentResolver = this.context!!.contentResolver
             val outputStream = contentResolver.openOutputStream(uri)
             ZipOutputStream(outputStream).use { output ->
@@ -204,29 +226,34 @@ class SettingsActivity : AwakeActivity() {
                     }
                     if (BuildConfig.DEBUG) Log.i(TAG, "Compressed: " + file.name)
                 }
+
+                val entry = ZipEntry(getString(R.string.filename_readme))
+                output.putNextEntry(entry)
+                readme.byteInputStream().copyTo(output)
             }
         }
 
         // https://stackoverflow.com/a/66683493
         private fun restoreFromFile(uri: Uri) {
-            val storeFiles: Map<String, JsonStoreInterface> = storeList.map {
-                getString(R.string.filename_store, it.javaClass.simpleName) to it
-            }.toMap()
+            val storeFiles: Map<String, JsonStoreInterface> = storeList.associateBy {
+                getString(R.string.filename_store, it.javaClass.simpleName)
+            }
 
             val contentResolver = this.context!!.contentResolver
             val inputStream = contentResolver.openInputStream(uri)
             var restoredLength = 0
             ZipInputStream(inputStream).use { input ->
-                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }.forEach { entry ->
-                    val jsonString = String(input.readBytes())
-                    val jsonArray = JSONArray(jsonString)
-                    storeFiles[entry.name]?.apply {
-                        fromJson(jsonArray)
-                        hasUnsavedData = true
+                generateSequence { input.nextEntry }.filter { storeFiles.containsKey(it.name) }
+                    .forEach { entry ->
+                        val jsonString = String(input.readBytes())
+                        val jsonArray = JSONArray(jsonString)
+                        storeFiles[entry.name]?.apply {
+                            fromJson(jsonArray)
+                            hasUnsavedData = true
+                        }
+                        if (BuildConfig.DEBUG) Log.i(TAG, "Restored: " + entry.name)
+                        restoredLength += jsonString.length
                     }
-                    if (BuildConfig.DEBUG) Log.i(TAG, "Restored: " + entry.name)
-                    restoredLength += jsonString.length
-                }
             }
             if (restoredLength == 0) {
                 throw Exception("Nothing restored")
