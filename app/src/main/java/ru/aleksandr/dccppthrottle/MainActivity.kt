@@ -9,13 +9,16 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Switch
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.navigation.NavigationView
@@ -32,6 +35,8 @@ import ru.aleksandr.dccppthrottle.databinding.ActivityMainBinding
 import java.io.File
 
 class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    private val TAG = javaClass.simpleName
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -60,6 +65,13 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+
+        val subtitle = navigationView.getHeaderView(0).findViewById<TextView>(R.id.textDrawerSubtitle)
+        subtitle.setOnClickListener {
+            val uri = Uri.parse(String.format("http://%s", subtitle.text))
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
 
         val menuItem = navigationView.menu.findItem(R.id.power_switch_item)
         val powerSwitch = menuItem.actionView.findViewById<Switch>(R.id.power_switch)
@@ -194,7 +206,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
             val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
             prefsEditor.putBoolean(prefKeyConnectStartup, false)
-            prefsEditor.commit()
+            prefsEditor.apply()
 
             super.onBackPressed()
         }
@@ -212,18 +224,21 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
 
         try {
             saveStoreToFile(LocomotivesStore)
+            if (BuildConfig.DEBUG) Log.i(TAG, "Locomotives store saved")
         }
         catch (e: Exception) {
             Toast.makeText(this, R.string.message_failed_save_locos, Toast.LENGTH_SHORT).show()
         }
         try {
             saveStoreToFile(AccessoriesStore)
+            if (BuildConfig.DEBUG) Log.i(TAG, "Accessories store saved")
         }
         catch (e: Exception) {
             Toast.makeText(this, R.string.message_failed_save_acc, Toast.LENGTH_SHORT).show()
         }
         try {
             saveStoreToFile(RoutesStore)
+            if (BuildConfig.DEBUG) Log.i(TAG, "Routes store saved")
         }
         catch (e: Exception) {
             Toast.makeText(this, R.string.message_failed_save_routes, Toast.LENGTH_SHORT).show()
