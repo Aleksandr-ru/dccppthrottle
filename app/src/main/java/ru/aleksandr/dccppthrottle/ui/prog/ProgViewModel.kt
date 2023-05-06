@@ -20,9 +20,20 @@ class ProgViewModel : ViewModel() {
 
     fun setCvNum(value: Int) {
         _cvNum.postValue(value)
+        if (valuesMap.containsKey(value)) {
+            _cvVal.postValue(valuesMap[value]!!)
+        }
     }
 
     fun setCvVal(value: Int) {
         _cvVal.postValue(value)
+    }
+
+    fun storeValue(cv: Int, value: Int) {
+        valuesMap[cv] = value
+    }
+
+    companion object {
+        private val valuesMap: MutableMap<Int, Int> = mutableMapOf()
     }
 }

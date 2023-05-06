@@ -82,8 +82,9 @@ class ProgFragment : Fragment() {
             val cv = viewCvNum.value
             cv?.let {
                 CommandStation.getCvProg(it) { cv, value ->
-                    var message: String
+                    val message: String
                     if (value >= 0) {
+                        model.storeValue(cv, value)
                         if (viewCvNum.value == cv) {
                             viewCvVal.value = value
                         }
@@ -100,6 +101,7 @@ class ProgFragment : Fragment() {
             val cv = viewCvNum.value
             val value = viewCvVal.value
             if (cv != null && value != null) {
+                model.storeValue(cv, value)
                 CommandStation.setCvProg(cv, value) { cv, value ->
                     val stringId =
                         if (value < 0) R.string.message_write_cv_error
