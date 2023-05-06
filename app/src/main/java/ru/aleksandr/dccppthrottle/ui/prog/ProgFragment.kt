@@ -79,20 +79,14 @@ class ProgFragment : Fragment() {
         val buttonRead = view.findViewById<Button>(R.id.buttonRead)
         val buttonWrite = view.findViewById<Button>(R.id.buttonWrite)
         buttonRead.setOnClickListener {
-            val cv = viewCvNum.value
-            cv?.let {
+            viewCvNum.value?.let {
                 CommandStation.getCvProg(it) { cv, value ->
-                    val message: String
-                    if (value >= 0) {
+                    val message = if (value >= 0) {
                         model.storeValue(cv, value)
-                        if (viewCvNum.value == cv) {
-                            viewCvVal.value = value
-                        }
-                        message = getString(R.string.message_read_cv_value, cv, value)
+                        if (viewCvNum.value == cv) viewCvVal.value = value
+                        getString(R.string.message_read_cv_value, cv, value)
                     }
-                    else {
-                        message = getString(R.string.message_read_cv_error, cv)
-                    }
+                    else getString(R.string.message_read_cv_error, cv)
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
             }
