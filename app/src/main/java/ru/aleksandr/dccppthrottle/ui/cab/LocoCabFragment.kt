@@ -15,6 +15,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.Utility.remap
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import kotlin.math.ceil
 import kotlin.math.roundToInt
@@ -139,13 +140,6 @@ class LocoCabFragment : Fragment() {
                 button.isChecked = item.functions[index]
             }
         }
-    }
-
-    // https://stackoverflow.com/a/929107
-    private fun remap(value: Float, oldMin: Float, oldMax: Float, newMin: Float, newMax: Float) : Float {
-        val oldRange = (oldMax - oldMin)
-        val newRange = (newMax - newMin)
-        return (((value - oldMin) * newRange) / oldRange) + newMin
     }
 
     companion object {

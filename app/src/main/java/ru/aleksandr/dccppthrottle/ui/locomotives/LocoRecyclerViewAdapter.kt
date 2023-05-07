@@ -19,9 +19,11 @@ import androidx.fragment.app.FragmentManager
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.Utility.remap
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore.LocomotiveState
+import kotlin.math.roundToInt
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 
 class LocoRecyclerViewAdapter(
@@ -61,8 +63,16 @@ class LocoRecyclerViewAdapter(
             holder.slot.text = ""
         }
         holder.title.text = item.toString()
-        holder.progress.progress = item.speed
         holder.address.text = holder.itemView.context.getString(R.string.dcc_addr, item.address)
+        holder.progress.progress =
+            if (item.speed == 0) 0
+            else remap(
+                item.speed.toFloat(),
+                item.minSpeed.toFloat(),
+                item.maxSpeed.toFloat(),
+                1F,
+                100F
+            ).roundToInt()
 
         if (item.speed > 0) {
             if (item.reverse) {
