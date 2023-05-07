@@ -51,6 +51,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def app_name = applicationId.tokenize('.')[-1]
+                    outputFileName = "${app_name}-${variant.versionCode}.apk"
+                }
+            }
         }
     }
     compileOptions {
