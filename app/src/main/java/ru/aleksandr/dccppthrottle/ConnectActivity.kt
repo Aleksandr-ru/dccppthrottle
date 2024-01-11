@@ -110,7 +110,8 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         if (checkSelfPermission(bluetoothPermission) == PackageManager.PERMISSION_GRANTED) {
-            setupDevicesList()
+            // setupDevicesList()
+            // moved to onStart to get changes in devices
         }
         else if (shouldShowRequestPermissionRationale(bluetoothPermission)) {
             AlertDialog.Builder(this)
@@ -149,6 +150,10 @@ class ConnectActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        if (checkSelfPermission(bluetoothPermission) == PackageManager.PERMISSION_GRANTED) {
+            setupDevicesList()
+        }
 
         if (CommandStation.isConnected()) {
             CommandStation.disconnect()
