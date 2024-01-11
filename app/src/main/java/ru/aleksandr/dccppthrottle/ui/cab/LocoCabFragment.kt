@@ -8,6 +8,8 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,10 @@ import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class LocoCabFragment : Fragment() {
+    private val TAG = javaClass.simpleName
+
     private val F_PER_ROW = 4
+    private val SPEED_KEYSTEP = 5
 
     private var slot: Int = 0
     private var minSpeed = 1
@@ -108,6 +113,7 @@ class LocoCabFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(bar: SeekBar?) {
+                //Log.i(TAG, "Speed to CS: $speed")
                 CommandStation.setLocomotiveSpeed(slot, speed)
             }
         })
@@ -140,6 +146,21 @@ class LocoCabFragment : Fragment() {
                 button.isChecked = item.functions[index]
             }
         }
+    }
+
+    fun onKeyDown(keyCode: Int): Boolean {
+        val progressView = view?.findViewById<SeekBar>(R.id.seekBar)
+        if (progressView != null && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) progressView.progress -= SPEED_KEYSTEP
+            else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) progressView.progress += SPEED_KEYSTEP
+
+            val scaledValue = remap(progressView.progress.toFloat(), 1F, 100F, minSpeed.toFloat(), maxSpeed.toFloat())
+            val speed = scaledValue.roundToInt()
+            //Log.i(TAG, "Speed to CS: $speed")
+            CommandStation.setLocomotiveSpeed(slot, speed)
+            return true
+        }
+        return false
     }
 
     companion object {

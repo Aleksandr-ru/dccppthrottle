@@ -10,6 +10,8 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -20,11 +22,15 @@ import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
+import ru.aleksandr.dccppthrottle.ui.cab.LocoCabFragment
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
 class LocoCabActivity : AwakeActivity(),
     PomValueDialog.PomValueDialogListener,
     PomBitDialog.PomBitDialogListener {
+
+    private val TAG = javaClass.simpleName
+
     private var slot: Int = 0
     private var lastCv: Int = 1
 
@@ -107,6 +113,17 @@ class LocoCabActivity : AwakeActivity(),
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         CommandStation.setCvBitMain(slot, cv, bit, value)
         lastCv = cv
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        //TODO: debounce
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            // https://stackoverflow.com/a/61178226
+            val viewPager = findViewById<ViewPager2>(R.id.pager)
+            val fragment = supportFragmentManager.findFragmentByTag("f" + viewPager.currentItem) as LocoCabFragment?
+            return fragment?.onKeyDown(keyCode) ?: false
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     companion object {
