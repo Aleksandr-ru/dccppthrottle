@@ -240,6 +240,16 @@ object LocomotivesStore : JsonStoreInterface {
                 jsonObject.optInt("maxSpeed", 100)
             ).apply {
                 slot = jsonObject.getInt("slot")
+                val names = jsonObject.optJSONArray("funcNames")
+                if (names != null) {
+                    (0 until names.length()).forEach {
+                        funcNames[it] = names.getString(it)
+                    }
+                }
+                else {
+                    // backwards compatibility
+                    funcNames[0] = "Lights"
+                }
             }
             list.add(item)
         }
@@ -254,6 +264,7 @@ object LocomotivesStore : JsonStoreInterface {
         var maxSpeed: Int = 100
     ) {
         val functions = BooleanArray(FUNCTIONS_COUNT)
+        val funcNames = Array<String>(FUNCTIONS_COUNT) { "" }
         var speed: Int = 0
         var reverse: Boolean = false
         var slot: Int = 0
@@ -266,6 +277,7 @@ object LocomotivesStore : JsonStoreInterface {
             put("minSpeed", minSpeed)
             put("maxSpeed", maxSpeed)
             put("slot", slot)
+            put("funcNames", JSONArray(funcNames))
         }
     }
 

@@ -30,6 +30,13 @@ object MockStore {
         "BR 78 (Piko new)"
     )
 
+    private val funcs = listOf(
+        "Cabin light",
+        "Interior light",
+        "Horn",
+        "Shunting mode"
+    )
+
     private val accessories = listOf(
         "Turnout",
         "Signal"
@@ -57,6 +64,10 @@ object MockStore {
             }
             if (randFunc) for (k in 0 until LocomotivesStore.FUNCTIONS_COUNT) {
                 functions[k] = Random.nextBoolean()
+            }
+            funcNames[0] = "Lights"
+            if (Random.nextBoolean()) {
+                funcNames[(1..9).random()] = funcs.random()
             }
         }
     }

@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -59,13 +58,17 @@ class LocoCabFragment : Fragment() {
         ).apply {
             weight = 1F
         }
+        val loco = LocomotivesStore.getBySlot(slot)!!
         val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
             ToggleButton(view.context).apply {
-                text = getString(R.string.label_f, i)
+                text = if (loco.funcNames[i].isEmpty()) getString(R.string.label_f, i)
+                        else getString(R.string.label_f_named, i, loco.funcNames[i])
                 textOn = text
                 textOff = text
                 tag = i
-                layoutParams = tableRowLayoutParams
+                layoutParams = tableRowLayoutParams.apply {
+                    if (loco.funcNames[i].isNotEmpty()) span = 4
+                }
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         CommandStation.setLocomotiveFunction(slot, i, isChecked)
@@ -74,18 +77,27 @@ class LocoCabFragment : Fragment() {
             }
         }
 
-        val rows = ceil(LocomotivesStore.FUNCTIONS_COUNT.toDouble() / F_PER_ROW.toDouble()).toInt()
+        val named = loco.funcNames.mapIndexedNotNull { index, s ->
+            if (s.isEmpty()) null
+            else index
+        }
+        val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
+            if (s.isNotEmpty()) null
+            else index
+        }
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
+        val rows = named.size + ceil(unnamed.size.toDouble() / F_PER_ROW.toDouble()).toInt()
         var i = 0
         for (r in 0 until rows) {
             val tableRow = TableRow(view.context).apply {
                 layoutParams = tableLayoutParams
             }
             for (b in 0 until F_PER_ROW) {
-                tableRow.addView(functionViews[i], b)
+                val f = if (i < named.size) named[i] else unnamed[i - named.size]
+                tableRow.addView(functionViews[f], b)
                 i++
                 if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
-                if (i == 1) break // big button
+                else if (i <= named.size) break // big button
             }
             tableLayout.addView(tableRow, r)
         }

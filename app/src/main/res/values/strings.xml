@@ -47,6 +47,7 @@
     <string name="menu_disconnect">Disconnect</string>
 
     <string name="label_f">F%d</string>
+    <string name="label_f_named">F%d: %s</string>
     <string name="label_connect">Connect</string>
     <string name="label_read_value">Read value</string>
     <string name="label_write_value">Write value</string>
