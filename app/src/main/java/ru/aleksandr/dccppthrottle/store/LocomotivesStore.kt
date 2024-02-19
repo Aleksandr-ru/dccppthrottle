@@ -199,6 +199,21 @@ object LocomotivesStore : JsonStoreInterface {
         })
     }
 
+    fun setAllFuncNamesBySlot(slot: Int, allFunc: Array<String>) {
+        if (allFunc.size != FUNCTIONS_COUNT) {
+            throw LocomotiveIncorrectFunctionsException()
+        }
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    for (i in 0 until FUNCTIONS_COUNT) {
+                        funcNames[i] = allFunc[i]
+                    }
+                }
+            }
+        })
+    }
+
     private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
         return when (_sortOrder) {
             SORT_NAME -> {

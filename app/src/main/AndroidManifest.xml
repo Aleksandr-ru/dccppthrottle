@@ -5,7 +5,6 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
@@ -25,6 +24,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DCCppThrottle"
         tools:targetApi="31">
+        <activity
+            android:name=".FunctionsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_functions"
+            android:parentActivityName=".LocoCabActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ConsoleActivity"
             android:exported="false"

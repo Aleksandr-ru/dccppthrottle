@@ -22,6 +22,7 @@ import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
+import ru.aleksandr.dccppthrottle.store.MainStore
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabFragment
 import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
 
@@ -47,15 +48,21 @@ class LocoCabActivity : AwakeActivity(),
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                slot = slots[position]
-                setTitleForSlot()
+//                slot = slots[position]
+//                setTitleForSlot()
+                MainStore.setCabViewPagerPosition(position)
             }
         })
 
-        slot = intent.getIntExtra(ARG_SLOT, 0)
-        if (slot > 0) {
-            viewPager.currentItem = slots.indexOf(slot)
-            if (viewPager.currentItem == 0) setTitleForSlot()
+//        slot = intent.getIntExtra(ARG_SLOT, 0)
+//        if (slot > 0) {
+//            viewPager.currentItem = slots.indexOf(slot)
+//            if (viewPager.currentItem == 0) setTitleForSlot()
+//        }
+        MainStore.cabViewPagerPosition.observe(this) {
+            viewPager.currentItem = it
+            slot = slots[it]
+            setTitleForSlot()
         }
     }
 
@@ -78,6 +85,10 @@ class LocoCabActivity : AwakeActivity(),
             R.id.action_edit_loco -> {
                 LocomotiveDialog.storeIndex = LocomotivesStore.getIndexBySlot(slot)
                 LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
+                true
+            }
+            R.id.action_func_names -> {
+                FunctionsActivity.start(this, slot)
                 true
             }
             R.id.action_pom_value -> {
@@ -127,12 +138,15 @@ class LocoCabActivity : AwakeActivity(),
     }
 
     companion object {
-        const val ARG_SLOT = "slot"
+//        const val ARG_SLOT = "slot"
 
         @JvmStatic
         fun start(context: Context, slot: Int) {
+            val slots = LocomotivesStore.getSlots()
+            MainStore.setCabViewPagerPosition(slots.indexOf(slot))
+
             val intent = Intent(context, LocoCabActivity::class.java)
-            intent.putExtra(ARG_SLOT, slot)
+//            intent.putExtra(ARG_SLOT, slot)
             context.startActivity(intent)
         }
     }

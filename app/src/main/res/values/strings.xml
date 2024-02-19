@@ -5,6 +5,7 @@
     <string name="app_website" translatable="false">https://aleksandr.ru/my/dccppthrottle</string>
 
     <string name="title_activity_cab">Loco #%d</string>
+    <string name="title_activity_functions">Function names</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>
     <string name="title_activity_settings">Settings</string>
@@ -30,6 +31,7 @@
     <string name="action_stop">Stop</string>
     <string name="action_add_loco">Add locomotive</string>
     <string name="action_edit_loco">Edit locomotive</string>
+    <string name="action_func_names">Function names</string>
     <string name="action_add_acc">Add accessory</string>
     <string name="action_add_route">Add route</string>
     <string name="action_context_edit">Edit</string>
@@ -130,18 +132,18 @@
     <string name="accessory_params">Address: %d</string>
     <string name="route_accessory_params">Address: %d, delay %d ms.</string>
 
-    <string translatable="false" name="pref_key_screen_on">screen_always_on</string>
-    <string translatable="false" name="pref_key_sort_locos">sort_locos</string>
-    <string translatable="false" name="pref_key_sort_acc">sort_accessories</string>
-    <string translatable="false" name="pref_key_sort_routes">sort_routes</string>
-    <string translatable="false" name="pref_key_speed_steps">speed_steps</string>
-    <string translatable="false" name="pref_key_connect_startup">connect_at_start</string>
-    <string translatable="false" name="pref_key_power_startup">power_at_start</string>
-    <string translatable="false" name="pref_key_last_mac">last_mac</string>
-    <string translatable="false" name="pref_key_backup">backup</string>
-    <string translatable="false" name="pref_key_restore">restore</string>
+    <string name="pref_key_screen_on" translatable="false">screen_always_on</string>
+    <string name="pref_key_sort_locos" translatable="false">sort_locos</string>
+    <string name="pref_key_sort_acc" translatable="false">sort_accessories</string>
+    <string name="pref_key_sort_routes" translatable="false">sort_routes</string>
+    <string name="pref_key_speed_steps" translatable="false">speed_steps</string>
+    <string name="pref_key_connect_startup" translatable="false">connect_at_start</string>
+    <string name="pref_key_power_startup" translatable="false">power_at_start</string>
+    <string name="pref_key_last_mac" translatable="false">last_mac</string>
+    <string name="pref_key_backup" translatable="false">backup</string>
+    <string name="pref_key_restore" translatable="false">restore</string>
 
-    <string translatable="false" name="filename_store">%s.json</string>
-    <string translatable="false" name="filename_backup">dccppthrottle_%s.zip</string>
-    <string translatable="false" name="filename_readme">README.txt</string>
+    <string name="filename_store" translatable="false">%s.json</string>
+    <string name="filename_backup" translatable="false">dccppthrottle_%s.zip</string>
+    <string name="filename_readme" translatable="false">README.txt</string>
 </resources>
