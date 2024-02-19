@@ -7,8 +7,6 @@
 
 package ru.aleksandr.dccppthrottle.ui.functions
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,15 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentFunctionItemBinding
 
-class FunctionsRecyclerViewAdapter() : RecyclerView.Adapter<FunctionsRecyclerViewAdapter.ViewHolder>() {
-    private var values: Array<String> = arrayOf()
-    private val TAG = javaClass.simpleName
+class FunctionsRecyclerViewAdapter(
+    private val values: Array<String>
+) : RecyclerView.Adapter<FunctionsRecyclerViewAdapter.ViewHolder>() {
 
-    fun replaceValues(newValues: Array<String>) {
-        values = newValues
-        // notifyDataSetChanged()
-        // Cannot call this method while RecyclerView is computing a layout or scrolling
-    }
+    private val TAG = javaClass.simpleName
 
     fun getValues() = values
 
@@ -46,8 +40,10 @@ class FunctionsRecyclerViewAdapter() : RecyclerView.Adapter<FunctionsRecyclerVie
 
     override fun onBindViewHolder(holder: FunctionsRecyclerViewAdapter.ViewHolder, position: Int) {
         holder.label.text = holder.label.context.getString(R.string.label_f, position)
-        holder.edit.hint = holder.label.text
-        holder.edit.setText(values[position])
+        with(holder.edit) {
+            hint = holder.label.text
+            setText(values[position])
+        }
     }
 
     override fun getItemCount(): Int = values.size

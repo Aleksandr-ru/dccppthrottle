@@ -102,6 +102,7 @@ class LocomotiveDialog() : DialogFragment() {
                             barMin.progress,
                             barMax.progress
                         )
+                        loco.funcNames[0] = getString(R.string.label_f0_default)
                         LocomotivesStore.add(loco)
                     }
                 }

@@ -33,8 +33,7 @@ class FunctionsActivity : AwakeActivity() {
         val titleView = findViewById<TextView>(R.id.textViewTitle)
         titleView.text = loco.toString()
 
-        adapter = FunctionsRecyclerViewAdapter()
-        adapter.replaceValues(loco.funcNames)
+        adapter = FunctionsRecyclerViewAdapter(loco.funcNames)
 
         val listView = findViewById<RecyclerView>(R.id.rvFunctions)
         listView.adapter = adapter
