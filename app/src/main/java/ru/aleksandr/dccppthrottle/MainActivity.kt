@@ -94,10 +94,10 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
                     POSITION_ROUTES -> getString(R.string.title_fragment_routes)
                     else -> ""
                 }
-                MainStore.setViewPagerPosition(position)
+                MainStore.setMainViewPagerPosition(position)
             }
         })
-        MainStore.viewPagerPosition.observe(this) {
+        MainStore.mainViewPagerPosition.observe(this) {
             viewPager.currentItem = it
         }
     }

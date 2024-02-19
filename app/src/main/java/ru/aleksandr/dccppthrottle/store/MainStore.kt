@@ -15,8 +15,8 @@ object MainStore {
     const val LONG_DELAY = 3500L
     const val SHORT_DELAY = 2000L
 
-    private val _viewPagerPosition: MutableLiveData<Int> = MutableLiveData(0)
-    val viewPagerPosition: LiveData<Int> = _viewPagerPosition
+    private val _mainViewPagerPosition: MutableLiveData<Int> = MutableLiveData(0)
+    val mainViewPagerPosition: LiveData<Int> = _mainViewPagerPosition
 
     private val _cabViewPagerPosition: MutableLiveData<Int> = MutableLiveData(0)
     val cabViewPagerPosition: LiveData<Int> = _cabViewPagerPosition
@@ -27,8 +27,8 @@ object MainStore {
     private val _trackCurrent: MutableLiveData<Map<String, Int>> = MutableLiveData(mapOf())
     val trackCurrent: LiveData<Map<String, Int>> = _trackCurrent
 
-    fun setViewPagerPosition(value: Int) {
-        _viewPagerPosition.postValue(value)
+    fun setMainViewPagerPosition(value: Int) {
+        _mainViewPagerPosition.postValue(value)
     }
 
     fun setCabViewPagerPosition(value: Int) {

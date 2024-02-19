@@ -48,17 +48,10 @@ class LocoCabActivity : AwakeActivity(),
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-//                slot = slots[position]
-//                setTitleForSlot()
                 MainStore.setCabViewPagerPosition(position)
             }
         })
 
-//        slot = intent.getIntExtra(ARG_SLOT, 0)
-//        if (slot > 0) {
-//            viewPager.currentItem = slots.indexOf(slot)
-//            if (viewPager.currentItem == 0) setTitleForSlot()
-//        }
         MainStore.cabViewPagerPosition.observe(this) {
             viewPager.currentItem = it
             slot = slots[it]
@@ -138,15 +131,12 @@ class LocoCabActivity : AwakeActivity(),
     }
 
     companion object {
-//        const val ARG_SLOT = "slot"
-
         @JvmStatic
         fun start(context: Context, slot: Int) {
             val slots = LocomotivesStore.getSlots()
             MainStore.setCabViewPagerPosition(slots.indexOf(slot))
 
             val intent = Intent(context, LocoCabActivity::class.java)
-//            intent.putExtra(ARG_SLOT, slot)
             context.startActivity(intent)
         }
     }
