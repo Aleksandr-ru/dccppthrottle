@@ -7,6 +7,8 @@
 
 package ru.aleksandr.dccppthrottle.ui.accessories
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -26,11 +28,13 @@ class AccessoriesRecyclerViewAdapter(
     private val fragmentManager: FragmentManager
 ) : RecyclerView.Adapter<AccessoriesRecyclerViewAdapter.ViewHolder>() {
     private var values: List<AccessoriesStore.AccessoryState> = listOf()
+    private var disabledButtons = BooleanArray(values.size)
 
     fun replaceValues(newValues: List<AccessoriesStore.AccessoryState>) {
         values = newValues
         // notifyDataSetChanged()
         // Cannot call this method while RecyclerView is computing a layout or scrolling
+        if (values.size != disabledButtons.size) disabledButtons = BooleanArray(values.size)
     }
 
     override fun onCreateViewHolder(
@@ -51,6 +55,7 @@ class AccessoriesRecyclerViewAdapter(
             holder.title.text = toString()
             holder.address.text = holder.itemView.context.getString(R.string.accessory_params, address)
             holder.button.isChecked = isOn
+            holder.button.isEnabled = !disabledButtons[position]
         }
     }
 
@@ -64,9 +69,14 @@ class AccessoriesRecyclerViewAdapter(
         init {
             button.setOnCheckedChangeListener { btn, isChecked ->
                 if (btn.isPressed) {
+                    disabledButtons[bindingAdapterPosition] = true
                     AccessoriesStore.getAddress(bindingAdapterPosition)?.let {
                         CommandStation.setAccessoryState(it, isChecked)
                     }
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        getEnabler(bindingAdapterPosition),
+                        500 //todo: individual accessory delay
+                    )
                 }
             }
 
@@ -97,6 +107,13 @@ class AccessoriesRecyclerViewAdapter(
             itemView.setOnLongClickListener {
                 popup.show()
                 true
+            }
+        }
+
+        private fun getEnabler(pos: Int): Runnable {
+            return Runnable {
+                disabledButtons[pos] = false
+                notifyItemChanged(pos)
             }
         }
 
