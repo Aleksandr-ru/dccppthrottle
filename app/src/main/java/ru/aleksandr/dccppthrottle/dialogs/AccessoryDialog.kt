@@ -25,7 +25,7 @@ class AccessoryDialog () : DialogFragment() {
         return activity!!.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            val view = inflater.inflate(R.layout.dialog_locomotive, null)
+            val view = inflater.inflate(R.layout.dialog_accessory, null)
 
             val addr = view.findViewById<PlusMinusView>(R.id.plusminusAddr)
             val title = view.findViewById<EditText>(R.id.editTextTitle)
