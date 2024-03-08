@@ -74,10 +74,12 @@ object MockStore {
 
     fun randomAccessory() : AccessoriesStore.AccessoryState {
         val addr = (1..255).random()
+        val delay = (0 .. 15).random() * 100
         return AccessoriesStore.AccessoryState(addr).apply {
             if (Random.nextBoolean()) {
                 title = accessories.random() + " " + (1..99).random()
             }
+            this.delay = delay
         }
     }
 

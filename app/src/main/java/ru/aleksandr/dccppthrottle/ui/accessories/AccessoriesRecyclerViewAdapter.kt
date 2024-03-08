@@ -53,7 +53,7 @@ class AccessoriesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: AccessoriesRecyclerViewAdapter.ViewHolder, position: Int) {
         with(values[position]) {
             holder.title.text = toString()
-            holder.address.text = holder.itemView.context.getString(R.string.accessory_params, address)
+            holder.params.text = holder.itemView.context.getString(R.string.accessory_params, address, delay)
             holder.button.isChecked = isOn
             holder.button.isEnabled = !disabledButtons[position]
         }
@@ -63,7 +63,7 @@ class AccessoriesRecyclerViewAdapter(
 
     inner class ViewHolder(binding: FragmentAccessoryListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.itemTitle
-        val address: TextView = binding.itemAddr
+        val params: TextView = binding.itemParams
         val button: ToggleButton = binding.toggleButton
 
         init {
@@ -73,9 +73,12 @@ class AccessoriesRecyclerViewAdapter(
                     AccessoriesStore.getAddress(bindingAdapterPosition)?.let {
                         CommandStation.setAccessoryState(it, isChecked)
                     }
+                    val delay = AccessoriesStore.getDelay(bindingAdapterPosition)?.takeIf {
+                        it >= MIN_DELAY
+                    }
                     Handler(Looper.getMainLooper()).postDelayed(
                         getEnabler(bindingAdapterPosition),
-                        500 //todo: individual accessory delay
+                        delay?.toLong() ?: MIN_DELAY
                     )
                 }
             }
@@ -120,5 +123,9 @@ class AccessoriesRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + title.text + "'"
         }
+    }
+
+    companion object {
+        const val MIN_DELAY = 300L
     }
 }

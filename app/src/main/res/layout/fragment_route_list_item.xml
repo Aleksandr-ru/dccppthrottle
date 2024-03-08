@@ -20,42 +20,15 @@
             android:text="My route name"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <LinearLayout
-            android:layout_marginTop="-16dp"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_params"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item_addr_pre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="@string/label_accessories" />
-
-            <TextView
-                android:id="@+id/item_addr_pre2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text=": " />
-
-            <TextView
-                android:id="@+id/item_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="@dimen/text_margin"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:text="45" />
-        </LinearLayout>
+            android:layout_marginTop="-8dp"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:text="@string/route_params" />
     </LinearLayout>
 
     <ImageButton

@@ -29,6 +29,7 @@ class AccessoryDialog () : DialogFragment() {
 
             val addr = view.findViewById<PlusMinusView>(R.id.plusminusAddr)
             val title = view.findViewById<EditText>(R.id.editTextTitle)
+            val delay = view.findViewById<PlusMinusView>(R.id.plusminusDelay)
             val dialogTitle = getString(
                 if (storeIndex > -1) R.string.title_dialog_accessory_edit
                 else R.string.title_dialog_accessory_add
@@ -42,6 +43,7 @@ class AccessoryDialog () : DialogFragment() {
                     else !AccessoriesStore.hasAddress(it, storeIndex)
             }
             title.setText(initial?.title)
+            delay.value = initial?.delay
 
             builder.setView(view)
                 .setTitle(dialogTitle)
@@ -49,7 +51,8 @@ class AccessoryDialog () : DialogFragment() {
                 .setPositiveButton(android.R.string.ok) { dialog, id ->
                     val acc = AccessoriesStore.AccessoryState(
                         addr.value!!,
-                        title.text.toString().ifBlank { null }
+                        title.text.toString().ifBlank { null },
+                        delay.value!!
                     )
                     try {
                         if (storeIndex > -1)

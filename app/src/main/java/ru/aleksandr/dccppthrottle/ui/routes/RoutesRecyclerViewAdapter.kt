@@ -51,7 +51,7 @@ class RoutesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: RoutesRecyclerViewAdapter.ViewHolder, position: Int) {
         with(values[position]) {
             holder.title.text = toString()
-            holder.num.text = accessories.size.toString()
+            holder.params.text = holder.itemView.context.getString(R.string.route_params, accessories.size)
             holder.button.isEnabled = accessories.isNotEmpty()
             holder.button.imageAlpha = if (accessories.isNotEmpty()) 255 else 75
         }
@@ -61,7 +61,7 @@ class RoutesRecyclerViewAdapter(
 
     inner class ViewHolder(binding: FragmentRouteListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val title: TextView = binding.itemTitle
-        val num: TextView = binding.itemNum
+        val params: TextView = binding.itemParams
         val button: ImageButton = binding.imageButton
 
         init {

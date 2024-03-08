@@ -130,7 +130,8 @@
     <string name="speed_fwd">F %d</string>
     <string name="speed_rev">R %d</string>
 
-    <string name="accessory_params">Address: %d</string>
+    <string name="accessory_params">Address: %d, delay: %d ms.</string>
+    <string name="route_params">Accessories: %d</string>
     <string name="route_accessory_params">Address: %d, delay %d ms.</string>
 
     <string name="pref_key_screen_on" translatable="false">screen_always_on</string>

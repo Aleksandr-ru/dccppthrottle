@@ -36,6 +36,9 @@ object AccessoriesStore : JsonStoreInterface {
     fun getByAddress(addr: Int) = data.value?.find { it.address == addr }
 
     fun getAddress(index: Int) = data.value?.get(index)?.address
+
+    fun getDelay(index: Int) = data.value?.get(index)?.delay
+
     fun getIndexByAddress(addr: Int) =
         data.value?.withIndex()?.find { it.value.address == addr }?.index
 
@@ -112,7 +115,8 @@ object AccessoriesStore : JsonStoreInterface {
             val jsonObject = jsonArray.getJSONObject(i)
             val item = AccessoryState(
                 jsonObject.getInt("address"),
-                jsonObject.optString("title").ifEmpty { null }
+                jsonObject.optString("title").ifEmpty { null },
+                jsonObject.optInt("delay")
             ).apply {
                 isOn = jsonObject.getBoolean("isOn")
             }
@@ -124,7 +128,8 @@ object AccessoriesStore : JsonStoreInterface {
 
     data class AccessoryState(
         var address: Int,
-        var title: String? = null
+        var title: String? = null,
+        var delay: Int = 0
     ) {
         var isOn: Boolean = false
 
@@ -133,6 +138,7 @@ object AccessoriesStore : JsonStoreInterface {
         fun toJson() = JSONObject().apply {
             put("address", address)
             if (title != null) put("title", title)
+            put("delay", delay)
             put("isOn", isOn)
         }
     }

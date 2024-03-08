@@ -38,7 +38,25 @@
         android:id="@+id/editTextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/text_margin"
         android:inputType="textCapSentences"
         />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_delay" />
+
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/text_margin"
+        app:min="0"
+        app:step="100"
+        app:nullable="false"
+        app:value="300" />
 </LinearLayout>

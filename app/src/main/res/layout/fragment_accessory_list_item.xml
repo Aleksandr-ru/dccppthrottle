@@ -20,15 +20,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
-            android:id="@+id/item_addr"
+            android:id="@+id/item_params"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-8dp"
             android:layout_marginBottom="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
-            android:text="Address: 45"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:text="@string/accessory_params" />
 
     </LinearLayout>
 
