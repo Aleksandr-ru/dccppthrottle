@@ -20,14 +20,15 @@ object MockStore {
     )
 
     private val locomotives = listOf(
-        "BR-80 (Piko)",
-        "BR120 (Piko)",
+        "BR-80 (old Piko)",
+        "BR120 (old Piko)",
         "GP 35 (Bachmann)",
         "Breuer traktor (Rivarossi)",
         "Hercules (Piko new)",
         "V 200 (Piko new)",
         "Y-2126 (Ree)",
-        "BR 78 (Piko new)"
+        "BR 78 (Piko new)",
+        "D.141 (Piko new)"
     )
 
     private val funcs = listOf(

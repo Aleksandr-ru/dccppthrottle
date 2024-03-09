@@ -14,7 +14,6 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.view.setPadding
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
@@ -72,19 +71,18 @@ class RoutesRecyclerViewAdapter(
             button.setOnClickListener { btn ->
                 val title = RoutesStore.data.value!![bindingAdapterPosition].title
                 val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
-                val progressView = ProgressBar(
-                    itemView.context,
-                    null,
-                    android.R.attr.progressBarStyleHorizontal
-                ).apply {
+                val view = LayoutInflater.from(itemView.context).inflate(R.layout.dialog_route_progress, null)
+                val progressView = view.findViewById<ProgressBar>(R.id.progressBar).apply {
+                    progress = 0
                     max = accessories.size
-                    val padding = resources.getDimension(R.dimen.dialog_padding)
-                    setPadding(padding.toInt())
+                }
+                val accTitleView = view.findViewById<TextView>(R.id.textAccessory).apply {
+                    text = ""
                 }
                 var job: Job? = null
                 val dialog = AlertDialog.Builder(itemView.context)
                     .setTitle(title)
-                    .setView(progressView)
+                    .setView(view)
                     .setCancelable(false)
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         job?.cancel()
@@ -94,8 +92,9 @@ class RoutesRecyclerViewAdapter(
                     accessories.forEach { acc ->
                         // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
                         // https://stackoverflow.com/a/60126585
-                        CommandStation.setAccessoryState(acc.address, acc.isOn)
+                        accTitleView.text = acc.toString()
                         progressView.incrementProgressBy(1)
+                        CommandStation.setAccessoryState(acc.address, acc.isOn)
                         delay(acc.delay.toLong())
                     }
                     dialog.dismiss()
