@@ -100,7 +100,7 @@ class RouteEditorActivity : AwakeActivity() {
         val adapter = RouteEditorRecyclerViewAdapter(
             supportFragmentManager,
             itemTouchHelper,
-            getString(R.string.route_accessory_params),
+            getString(R.string.accessory_params),
             routeIndex
         )
         RoutesStore.liveAccessories(routeIndex).observe(this) {

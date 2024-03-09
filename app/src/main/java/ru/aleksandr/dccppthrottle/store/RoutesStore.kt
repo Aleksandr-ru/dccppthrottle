@@ -125,8 +125,7 @@ object RoutesStore : JsonStoreInterface {
             for (k in 0 until accJsonArray.length()) {
                 val accJsonObject = accJsonArray.getJSONObject(k)
                 val accItem = RouteStateAccessory(
-                    accJsonObject.getInt("address"),
-                    accJsonObject.getInt("delay")
+                    accJsonObject.getInt("address")
                 ).apply {
                     isOn = accJsonObject.getBoolean("isOn")
                 }
@@ -158,16 +157,16 @@ object RoutesStore : JsonStoreInterface {
     }
 
     data class RouteStateAccessory(
-        var address : Int,
-        var delay : Int = 0
+        var address : Int
     ) {
         var isOn : Boolean = false
+
+        val delay get() = AccessoriesStore.getByAddress(address)?.delay ?: 0
 
         override fun toString() = AccessoriesStore.getByAddress(address).toString()
 
         fun toJson() = JSONObject().apply {
             put("address", address)
-            put("delay", delay)
             put("isOn", isOn)
         }
     }

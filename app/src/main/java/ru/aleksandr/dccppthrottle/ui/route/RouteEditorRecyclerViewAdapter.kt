@@ -11,12 +11,13 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteEditorItemBinding
-import ru.aleksandr.dccppthrottle.dialogs.RouteAccEditDialog
+import ru.aleksandr.dccppthrottle.store.AccessoriesStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 import java.util.*
 
@@ -100,9 +101,7 @@ class RouteEditorRecyclerViewAdapter(
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_context_edit -> {
-                        RouteAccEditDialog.routeIndex = routeIndex
-                        RouteAccEditDialog.accessoryIndex = bindingAdapterPosition
-                        RouteAccEditDialog().show(fragmentManager, RouteAccEditDialog.TAG)
+                        editAccessoryDialog(routeIndex, bindingAdapterPosition)
                         true
                     }
                     R.id.action_context_delete -> {
@@ -121,6 +120,24 @@ class RouteEditorRecyclerViewAdapter(
 
         override fun toString(): String {
             return super.toString() + " '" + title.text + "'"
+        }
+
+        private fun editAccessoryDialog(routeIndex: Int, accessoryIndex: Int) {
+            val context = itemView.context
+            val items = AccessoriesStore.data.value?.map { it.toString() }?.toTypedArray()
+            AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.action_sel_acc))
+                .setItems(items) { dialog, index ->
+                    val addr = AccessoriesStore.getAddress(index)!!
+                    val acc = RoutesStore.RouteStateAccessory(addr)
+                    RoutesStore.replaceAccessory(routeIndex, accessoryIndex, acc)
+                    dialog.dismiss()
+                }
+                .setCancelable(true)
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                    dialog.cancel()
+                }
+                .show()
         }
     }
 }

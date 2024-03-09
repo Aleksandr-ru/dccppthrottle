@@ -33,6 +33,7 @@
     <string name="action_edit_loco">Edit locomotive</string>
     <string name="action_func_names">Function names</string>
     <string name="action_add_acc">Add accessory</string>
+    <string name="action_sel_acc">Select accessory</string>
     <string name="action_add_route">Add route</string>
     <string name="action_context_edit">Edit</string>
     <string name="action_context_delete">Delete</string>
@@ -132,7 +133,6 @@
 
     <string name="accessory_params">Address: %d, delay: %d ms.</string>
     <string name="route_params">Accessories: %d</string>
-    <string name="route_accessory_params">Address: %d, delay %d ms.</string>
 
     <string name="pref_key_screen_on" translatable="false">screen_always_on</string>
     <string name="pref_key_sort_locos" translatable="false">sort_locos</string>

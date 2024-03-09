@@ -70,7 +70,7 @@ class RoutesRecyclerViewAdapter(
             }
 
             button.setOnClickListener { btn ->
-                val route = RoutesStore.data.value!![bindingAdapterPosition]
+                val title = RoutesStore.data.value!![bindingAdapterPosition].title
                 val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
                 val progressView = ProgressBar(
                     itemView.context,
@@ -83,7 +83,7 @@ class RoutesRecyclerViewAdapter(
                 }
                 var job: Job? = null
                 val dialog = AlertDialog.Builder(itemView.context)
-                    .setTitle(route.title)
+                    .setTitle(title)
                     .setView(progressView)
                     .setCancelable(false)
                     .setNegativeButton(android.R.string.cancel) { _, _ ->

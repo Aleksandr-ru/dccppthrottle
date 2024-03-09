@@ -39,7 +39,8 @@ object MockStore {
 
     private val accessories = listOf(
         "Turnout",
-        "Signal"
+        "Signal",
+        "Servo"
     )
 
     private val routes = listOf(
@@ -90,7 +91,6 @@ object MockStore {
 
     fun randomRouteAccessory(): RoutesStore.RouteStateAccessory {
         val addr = AccessoriesStore.data.value!!.random().address
-        val delay = (1..10).random() * 100
-        return RoutesStore.RouteStateAccessory(addr, delay)
+        return RoutesStore.RouteStateAccessory(addr)
     }
 }

@@ -27,7 +27,7 @@
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginBottom="0dp"
-            android:text="Some accesory"
+            android:text="Some accessory"
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_marginEnd="@dimen/text_margin"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
-            android:text="Address: 234, delay: 500 ms." />
+            android:text="@string/accessory_params" />
 
     </LinearLayout>
 
