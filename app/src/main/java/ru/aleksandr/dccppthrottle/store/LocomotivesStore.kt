@@ -212,6 +212,7 @@ object LocomotivesStore : JsonStoreInterface {
                 }
             }
         })
+        hasUnsavedData = true
     }
 
     private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
