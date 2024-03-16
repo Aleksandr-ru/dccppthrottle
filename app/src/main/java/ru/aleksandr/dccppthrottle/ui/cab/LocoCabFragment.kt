@@ -8,12 +8,15 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.Utility.remap
@@ -72,6 +75,11 @@ class LocoCabFragment : Fragment() {
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
                         CommandStation.setLocomotiveFunction(slot, i, isChecked)
+                        val selfResetTime = loco.funcReset[i]
+                        if (isChecked && selfResetTime > 0) Handler(Looper.getMainLooper()).postDelayed({
+                            CommandStation.setLocomotiveFunction(slot, i, false)
+                            if (BuildConfig.DEBUG) button.isChecked = false
+                        }, selfResetTime.toLong())
                     }
                 }
             }

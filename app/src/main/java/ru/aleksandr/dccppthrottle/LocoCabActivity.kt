@@ -80,7 +80,7 @@ class LocoCabActivity : AwakeActivity(),
                 LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
                 true
             }
-            R.id.action_func_names -> {
+            R.id.action_func_editor -> {
                 FunctionsActivity.start(this, slot)
                 true
             }

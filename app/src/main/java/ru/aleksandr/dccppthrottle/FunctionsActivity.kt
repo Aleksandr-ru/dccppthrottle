@@ -10,7 +10,6 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.core.app.NavUtils
 import androidx.recyclerview.widget.RecyclerView
@@ -27,13 +26,13 @@ class FunctionsActivity : AwakeActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_functions)
 
-        slot = intent.getIntExtra(FunctionsActivity.ARG_SLOT, 0)
+        slot = intent.getIntExtra(ARG_SLOT, 0)
         val loco = LocomotivesStore.getBySlot(slot)!!
 
         val titleView = findViewById<TextView>(R.id.textViewTitle)
         titleView.text = loco.toString()
 
-        adapter = FunctionsRecyclerViewAdapter(loco.funcNames)
+        adapter = FunctionsRecyclerViewAdapter(loco.funcNames, loco.funcReset)
 
         val listView = findViewById<RecyclerView>(R.id.rvFunctions)
         listView.adapter = adapter
@@ -41,7 +40,8 @@ class FunctionsActivity : AwakeActivity() {
 
     override fun onPause() {
         super.onPause()
-        LocomotivesStore.setAllFuncNamesBySlot(slot, adapter.getValues())
+        LocomotivesStore.setAllFuncNamesBySlot(slot, adapter.getNameValues())
+        LocomotivesStore.setAllFuncResetBySlot(slot, adapter.getResetValues())
     }
 
     override fun onBackPressed() {

@@ -215,6 +215,22 @@ object LocomotivesStore : JsonStoreInterface {
         hasUnsavedData = true
     }
 
+    fun setAllFuncResetBySlot(slot: Int, allFunc: IntArray) {
+        if (allFunc.size != FUNCTIONS_COUNT) {
+            throw LocomotiveIncorrectFunctionsException()
+        }
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    for (i in 0 until FUNCTIONS_COUNT) {
+                        funcReset[i] = allFunc[i]
+                    }
+                }
+            }
+        })
+        hasUnsavedData = true
+    }
+
     private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
         return when (_sortOrder) {
             SORT_NAME -> {
@@ -266,6 +282,11 @@ object LocomotivesStore : JsonStoreInterface {
                     // backwards compatibility
                     funcNames[0] = "Lights"
                 }
+                jsonObject.optJSONArray("funcReset")?.let {
+                    (0 until it.length()).forEach { i ->
+                        funcReset[i] = it.getInt(i)
+                    }
+                }
             }
             list.add(item)
         }
@@ -281,6 +302,7 @@ object LocomotivesStore : JsonStoreInterface {
     ) {
         val functions = BooleanArray(FUNCTIONS_COUNT)
         val funcNames = Array<String>(FUNCTIONS_COUNT) { "" }
+        val funcReset = IntArray(FUNCTIONS_COUNT)
         var speed: Int = 0
         var reverse: Boolean = false
         var slot: Int = 0
