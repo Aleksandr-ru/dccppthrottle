@@ -284,7 +284,7 @@ object LocomotivesStore : JsonStoreInterface {
                 }
                 jsonObject.optJSONArray("funcReset")?.let {
                     (0 until it.length()).forEach { i ->
-                        funcReset[i] = it.getInt(i)
+                        funcReset[i] = it.optInt(i)
                     }
                 }
             }
@@ -316,6 +316,7 @@ object LocomotivesStore : JsonStoreInterface {
             put("maxSpeed", maxSpeed)
             put("slot", slot)
             put("funcNames", JSONArray(funcNames))
+            put("funcReset", JSONArray(funcReset))
         }
     }
 
