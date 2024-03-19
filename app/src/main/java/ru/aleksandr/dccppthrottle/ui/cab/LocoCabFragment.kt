@@ -78,7 +78,7 @@ class LocoCabFragment : Fragment() {
                         val selfResetTime = loco.funcReset[i]
                         if (isChecked && selfResetTime > 0) Handler(Looper.getMainLooper()).postDelayed({
                             CommandStation.setLocomotiveFunction(slot, i, false)
-                            if (BuildConfig.DEBUG) button.isChecked = false
+                            if (BuildConfig.DEBUG && !CommandStation.isConnected()) button.isChecked = false
                         }, selfResetTime.toLong())
                     }
                 }

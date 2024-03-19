@@ -65,6 +65,11 @@ object CommandStation {
         sendCommand(command)
     }
 
+    fun getTrackCurrent() {
+        val command = CurrentCommand()
+        sendCommand(command)
+    }
+
     fun setTrackPower(isOn: Boolean) {
         val power = if (isOn) 1 else 0
         val command = PowerCommand(power)
