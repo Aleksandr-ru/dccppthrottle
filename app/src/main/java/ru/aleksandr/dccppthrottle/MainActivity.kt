@@ -201,6 +201,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
             drawerLayout.closeDrawers()
         }
         if (doubleBack) {
+            CommandStation.setTrackPower(false)
             CommandStation.disconnect()
 
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
