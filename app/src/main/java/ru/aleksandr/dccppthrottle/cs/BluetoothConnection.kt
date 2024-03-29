@@ -7,6 +7,7 @@
 
 package ru.aleksandr.dccppthrottle.cs
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -103,6 +104,7 @@ class BluetoothConnection(context: Context) : Closeable {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private inner class ConnectThread(device: BluetoothDevice) : Thread() {
         private val mmSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
             val uuid = device.uuids.first().uuid
