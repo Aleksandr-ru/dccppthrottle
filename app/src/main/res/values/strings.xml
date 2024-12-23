@@ -97,6 +97,7 @@
     <string name="label_restore_summary">Select file to restore from</string>
     <string name="label_restore_complete">Success</string>
     <string name="label_restore_error">Error! %s</string>
+    <string name="label_f_per_row">Loco cab functions display</string>
 
     <string name="placeholder_route_name">Enter route name</string>
 
@@ -138,6 +139,7 @@
     <string name="route_params">Accessories: %d</string>
 
     <string name="pref_key_screen_on" translatable="false">screen_always_on</string>
+    <string name="pref_key_f_per_row" translatable="false">f_per_row</string>
     <string name="pref_key_sort_locos" translatable="false">sort_locos</string>
     <string name="pref_key_sort_acc" translatable="false">sort_accessories</string>
     <string name="pref_key_sort_routes" translatable="false">sort_routes</string>

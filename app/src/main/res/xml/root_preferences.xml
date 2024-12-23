@@ -10,6 +10,14 @@
             app:summaryOn="@string/label_keep_screen_on"
             app:key="@string/pref_key_screen_on" />
 
+        <ListPreference
+            app:title="@string/label_f_per_row"
+            app:defaultValue="4"
+            app:entries="@array/f_per_row_entries"
+            app:entryValues="@array/f_per_row_values"
+            app:key="@string/pref_key_f_per_row"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_pref_lists">

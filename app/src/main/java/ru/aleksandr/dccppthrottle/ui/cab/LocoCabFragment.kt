@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
@@ -27,7 +28,11 @@ import kotlin.math.roundToInt
 class LocoCabFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
-    private val F_PER_ROW = 4
+    //private val F_PER_ROW = 4
+    private val F_PER_ROW by lazy {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
+        prefs.getString(getString(R.string.pref_key_f_per_row), null)?.toInt() ?: 4
+    }
     private val SPEED_KEYSTEP = 5
 
     private var slot: Int = 0
