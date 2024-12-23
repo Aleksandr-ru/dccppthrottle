@@ -70,9 +70,9 @@ object CommandStation {
         sendCommand(command)
     }
 
-    fun setTrackPower(isOn: Boolean) {
+    fun setTrackPower(isOn: Boolean, join: Boolean = false) {
         val power = if (isOn) 1 else 0
-        val command = PowerCommand(power)
+        val command = PowerCommand(power, join)
         sendCommand(command)
     }
 
@@ -237,13 +237,15 @@ object CommandStation {
         override fun toString() = "<s>"
     }
 
-    private class PowerCommand(val p: Int) : Command() {
-        override val resultRegex = "<p(0|1)>"
+    private class PowerCommand(val p: Int, val join: Boolean = false) : Command() {
+        override val resultRegex = "<p(0|1)( JOIN)?>"
         override fun resultListener(groupValues: List<String>) {
             val power = groupValues[1].toInt() > 0
+            val joined = groupValues[2].isNotEmpty()
             MainStore.setTrackPower(power)
+            MainStore.setTrackJoin(joined)
         }
-        override fun toString() = "<$p>"
+        override fun toString() = if (join && p > 0) "<$p JOIN>" else "<$p>"
     }
 
     private class CurrentCommand() : Command() {

@@ -7,7 +7,13 @@
     <item
         android:id="@+id/power_switch_item"
         android:title="@string/menu_power"
-        app:actionLayout="@layout/switch_item"
+        app:actionLayout="@layout/switch_power"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/join_switch_item"
+        android:title="@string/menu_join"
+        app:actionLayout="@layout/switch_join"
         app:showAsAction="always" />
 
     <group android:checkableBehavior="single">

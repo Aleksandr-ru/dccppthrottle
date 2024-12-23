@@ -42,6 +42,7 @@
     <string name="action_turn_on">Turn ON</string>
 
     <string name="menu_power">Track power</string>
+    <string name="menu_join">Join MAIN to PROG</string>
     <string name="menu_locomotives">Locomotives</string>
     <string name="menu_accessories">Accessories</string>
     <string name="menu_routes">Routes</string>

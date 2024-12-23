@@ -17,6 +17,7 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
@@ -73,13 +74,22 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
             startActivity(intent)
         }
 
-        val menuItem = navigationView.menu.findItem(R.id.power_switch_item)
-        val powerSwitch = menuItem.actionView.findViewById<Switch>(R.id.power_switch)
-        powerSwitch.setOnClickListener {
-            CommandStation.setTrackPower(powerSwitch.isChecked)
+        val menuItemPower = navigationView.menu.findItem(R.id.power_switch_item)
+        val powerSwitch = menuItemPower.actionView.findViewById<Switch>(R.id.power_switch)
+        val menuItemJoin = navigationView.menu.findItem(R.id.join_switch_item)
+        val joinSwitch = menuItemJoin.actionView.findViewById<Switch>(R.id.join_switch)
+
+        val trackListener = View.OnClickListener {
+            CommandStation.setTrackPower(powerSwitch.isChecked, joinSwitch.isChecked)
         }
+        powerSwitch.setOnClickListener(trackListener)
+        joinSwitch.setOnClickListener(trackListener)
+
         MainStore.trackPower.observe(this) {
             powerSwitch.isChecked = it
+        }
+        MainStore.trackJoin.observe(this) {
+            joinSwitch.isChecked = it
         }
 
         val adapter = MainViewPagerAdapter(this)

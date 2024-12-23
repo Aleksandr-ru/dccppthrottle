@@ -24,6 +24,9 @@ object MainStore {
     private val _trackPower: MutableLiveData<Boolean> = MutableLiveData(false)
     val trackPower: LiveData<Boolean> = _trackPower
 
+    private val _trackJoin: MutableLiveData<Boolean> = MutableLiveData(false)
+    val trackJoin: LiveData<Boolean> = _trackJoin
+
     private val _trackCurrent: MutableLiveData<Map<String, Int>> = MutableLiveData(mapOf())
     val trackCurrent: LiveData<Map<String, Int>> = _trackCurrent
 
@@ -37,6 +40,10 @@ object MainStore {
 
     fun setTrackPower(value: Boolean) {
         _trackPower.postValue(value)
+    }
+
+    fun setTrackJoin(value: Boolean) {
+        _trackJoin.postValue(value)
     }
 
     fun setTrackCurrent(value: Map<String, Int>) {
