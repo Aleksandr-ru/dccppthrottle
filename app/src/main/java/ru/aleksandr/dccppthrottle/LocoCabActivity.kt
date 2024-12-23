@@ -61,7 +61,7 @@ class LocoCabActivity : AwakeActivity(),
         }
 
         val layout = findViewById<ConstraintLayout>(R.id.layoutCab)
-        val snackbar = Snackbar.make(layout, R.string.message_track_off, Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(layout, R.string.message_track_off, Snackbar.LENGTH_INDEFINITE)
             .setAction(R.string.action_turn_on) {
                 CommandStation.setTrackPower(true)
             }
