@@ -15,8 +15,10 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
@@ -56,6 +58,16 @@ class LocoCabActivity : AwakeActivity(),
             viewPager.currentItem = it
             slot = slots[it]
             setTitleForSlot()
+        }
+
+        val layout = findViewById<ConstraintLayout>(R.id.layoutCab)
+        val snackbar = Snackbar.make(layout, R.string.message_track_off, Snackbar.LENGTH_LONG)
+            .setAction(R.string.action_turn_on) {
+                CommandStation.setTrackPower(true)
+            }
+        MainStore.trackPower.observe(this) {
+            if (it) snackbar.dismiss()
+            else snackbar.show()
         }
     }
 

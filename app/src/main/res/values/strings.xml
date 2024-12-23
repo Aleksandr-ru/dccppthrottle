@@ -39,6 +39,7 @@
     <string name="action_context_delete">Delete</string>
     <string name="action_pom_value">Program CV value</string>
     <string name="action_pom_bit">Program CV bit</string>
+    <string name="action_turn_on">Turn ON</string>
 
     <string name="menu_power">Track power</string>
     <string name="menu_locomotives">Locomotives</string>
@@ -126,6 +127,7 @@
     <string name="message_backup_error">Backup failed!</string>
     <string name="message_restore_ok">Restore completed</string>
     <string name="message_restore_error">Restore failed!</string>
+    <string name="message_track_off">Track power is OFF</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>
