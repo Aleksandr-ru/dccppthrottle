@@ -11,6 +11,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.store.MainStore
 import ru.aleksandr.dccppthrottle.ui.prog.ProgFragment
 
 class ProgActivity : AwakeActivity() {
@@ -40,6 +42,18 @@ class ProgActivity : AwakeActivity() {
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // If you drive onto a programming track that is “joined” and enter a programming command,
+        // the track will automatically switch to a programming track.
+        // If you use a compatible Throttle, you can then send the join command again
+        // and drive off the track onto the rest of your layout!
+        // @see https://dcc-ex.com/reference/software/command-summary-consolidated.html#onoff-track-turn-power-on-or-off-to-the-main-and-prog-tracks
+        if (MainStore.trackPower.value == true && MainStore.trackJoin.value == true) {
+            CommandStation.setTrackPower(isOn = true, join = true)
         }
     }
 }
