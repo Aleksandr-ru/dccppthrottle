@@ -9,6 +9,7 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import ru.aleksandr.dccppthrottle.cs.CommandStation
@@ -16,6 +17,7 @@ import ru.aleksandr.dccppthrottle.store.MainStore
 import ru.aleksandr.dccppthrottle.ui.prog.ProgFragment
 
 class ProgActivity : AwakeActivity() {
+    private val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,10 @@ class ProgActivity : AwakeActivity() {
                 startActivity(myIntent)
                 true
             }
+            R.id.action_lp5_mapping -> {
+                DecoderActivity.start(this, item.itemId)
+                true
+            }
             else -> {
                 super.onOptionsItemSelected(item)
             }
@@ -53,6 +59,7 @@ class ProgActivity : AwakeActivity() {
         // and drive off the track onto the rest of your layout!
         // @see https://dcc-ex.com/reference/software/command-summary-consolidated.html#onoff-track-turn-power-on-or-off-to-the-main-and-prog-tracks
         if (MainStore.trackPower.value == true && MainStore.trackJoin.value == true) {
+            if (BuildConfig.DEBUG) Log.i(TAG, "Restoring track join")
             CommandStation.setTrackPower(isOn = true, join = true)
         }
     }

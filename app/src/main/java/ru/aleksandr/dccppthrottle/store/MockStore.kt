@@ -94,4 +94,10 @@ object MockStore {
         val addr = AccessoriesStore.data.value!!.random().address
         return RoutesStore.RouteStateAccessory(addr)
     }
+
+    fun randomLp5ControlCvValue(): Int {
+        return if ((1..10).random() > 8) {
+            1 shl ((0..7).random())
+        } else 0
+    }
 }

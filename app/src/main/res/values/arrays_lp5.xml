@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2024. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<resources>
+
+    <!-- Inputs, Control CV A-J   -->
+
+    <string-array name="lp5_control_cv_a">
+        <item>Locomotive drives</item>
+        <item>Locomotive is stopped</item>
+        <item>Direction is forward</item>
+        <item>Direction is reverse</item>
+        <item>Key F0 is On</item>
+        <item>Key F0 is Off</item>
+        <item>Key F1 is On</item>
+        <item>Key F1 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_b">
+        <item>Key F2 is On</item>
+        <item>Key F2 is Off</item>
+        <item>Key F3 is On</item>
+        <item>Key F3 is Off</item>
+        <item>Key F4 is On</item>
+        <item>Key F4 is Off</item>
+        <item>Key F5 is On</item>
+        <item>Key F5 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_c">
+        <item>Key F6 is On</item>
+        <item>Key F6 is Off</item>
+        <item>Key F7 is On</item>
+        <item>Key F7 is Off</item>
+        <item>Key F8 is On</item>
+        <item>Key F8 is Off</item>
+        <item>Key F9 is On</item>
+        <item>Key F9 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_d">
+        <item>Key F10 is On</item>
+        <item>Key F10 is Off</item>
+        <item>Key F11 is On</item>
+        <item>Key F11 is Off</item>
+        <item>Key F12 is On</item>
+        <item>Key F13 is On</item>
+        <item>Key F13 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_e">
+        <item>Key F14 is On</item>
+        <item>Key F14 is Off</item>
+        <item>Key F15 is On</item>
+        <item>Key F15 is Off</item>
+        <item>Key F16 is On</item>
+        <item>Key F16 is Off</item>
+        <item>Key F17 is On</item>
+        <item>Key F17 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_f">
+        <item>Key F18 is On</item>
+        <item>Key F18 is Off</item>
+        <item>Key F19 is On</item>
+        <item>Key F19 is Off</item>
+        <item>Key F20 is On</item>
+        <item>Key F20 is Off</item>
+        <item>Key F21 is On</item>
+        <item>Key F21 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_g">
+        <item>Key F22 is On</item>
+        <item>Key F22 is Off</item>
+        <item>Key F23 is On</item>
+        <item>Key F23 is Off</item>
+        <item>Key F24 is On</item>
+        <item>Key F24 is Off</item>
+        <item>Key F25 is On</item>
+        <item>Key F25 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_h">
+        <item>Key F26 is On</item>
+        <item>Key F26 is Off</item>
+        <item>Key F27 is On</item>
+        <item>Key F27 is Off</item>
+        <item>Key F28 is On</item>
+        <item>Key F28 is Off</item>
+        <item>Key F29 is On</item>
+        <item>Key F29 is Off</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_i">
+        <item>Key F30 is On</item>
+        <item>Key F30 is Off</item>
+        <item>Key F31 is On</item>
+        <item>Key F31 is Off</item>
+        <item>Wheel sensor is On</item>
+        <item>Wheel sensor is Off</item>
+<!--        Reserved 64-->
+<!--        Reserved 128-->
+    </string-array>
+    
+    <string-array name="lp5_control_cv_j">
+        <item>Sensor 1 is On</item>
+        <item>Sensor 1 is Off</item>
+        <item>Sensor 2 is On</item>
+        <item>Sensor 2 is Off</item>
+        <item>Sensor 3 is On</item>
+        <item>Sensor 3 is Off</item>
+        <item>Sensor 4 is On</item>
+        <item>Sensor 4 is Off</item>
+    </string-array>
+
+    <!-- Outputs, Control CV K-Q   -->
+
+    <string-array name="lp5_control_cv_k">
+        <item>Output Headlight On [Conf. 1]</item>
+        <item>Output Rearlight On [Conf. 1]</item>
+        <item>Output AUX1 On [Conf 1.]</item>
+        <item>Output AUX2 On [Conf 1.]</item>
+        <item>Output AUX3 On</item>
+        <item>Output AUX4 On</item>
+        <item>Output AUX5 On</item>
+        <item>Output AUX6 On</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_l">
+        <item>Output AUX7 On</item>
+        <item>Output AUX8 On</item>
+        <item>Output AUX9 On</item>
+        <item>Output AUX10 On</item>
+        <item>Output AUX11 On</item>
+        <item>Output AUX12 On</item>
+        <item>Output AUX13 On</item>
+        <item>Output AUX14 On</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_m">
+        <item>Output AUX15 On</item>
+        <item>Output AUX16 On</item>
+        <item>Output AUX17 On</item>
+        <item>Output AUX18 On</item>
+        <item>Output Headlight On [Conf. 2]</item>
+        <item>Output Rearlight On [Conf. 2]</item>
+        <item>Output AUX1 On [Conf 2.]</item>
+        <item>Output AUX2 On [Conf 2.]</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_n">
+        <item>Alternative Load</item>
+        <item>Shunting Mode On</item>
+        <item>Brake Function 1 An</item>
+        <item>Brake Function 2 An</item>
+        <item>Brake Function 3 An</item>
+        <item>Heavy Load</item>
+        <item>Uncoupling cycle</item>
+        <item>Drivehold</item>
+    </string-array>
+
+    <string-array name="lp5_control_cv_o">
+        <item>Fire box</item>
+        <item>Dimmer</item>
+        <item>Grade Crossing</item>
+        <item>Disable Acceleration&amp;Braking times</item>
+<!--        Reserved 16-->
+<!--        Reserved 32-->
+<!--        Reserved 64-->
+<!--        Reserved 128-->
+    </string-array>
+
+    <string-array name="lp5_control_cv_p">
+<!--        nothing!?-->
+    </string-array>
+
+    <string-array name="lp5_control_cv_q">
+        <item>Soundslot 1 („Virtual sound”)</item>
+    </string-array>
+</resources>
