@@ -290,8 +290,10 @@ class Lp5MappingFragment : Fragment() {
 
     private suspend fun checkManufacturer() {
         val cv8 = readCv(Lp5MappingViewModel.MANUFACTURER_CV)
-        if (!BuildConfig.DEBUG && cv8 != Lp5MappingViewModel.MANUFACTURER_ID_ESU) {
-            throw Exception(getString(R.string.message_wrong_manufacturer, cv8))
+        if (cv8 != Lp5MappingViewModel.MANUFACTURER_ID_ESU) {
+            val message = getString(R.string.message_wrong_manufacturer, cv8)
+            if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            else throw Exception(message)
         }
     }
 
