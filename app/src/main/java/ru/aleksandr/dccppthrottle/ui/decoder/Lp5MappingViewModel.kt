@@ -7,12 +7,10 @@
 
 package ru.aleksandr.dccppthrottle.ui.decoder
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.aleksandr.dccppthrottle.R
-import kotlin.math.pow
 
 class Lp5MappingViewModel : ViewModel() {
 
@@ -28,14 +26,6 @@ class Lp5MappingViewModel : ViewModel() {
     private val START_IDX = 3
     private val ROWS_IN_IDX = 16
     private val ROW_CV_BLOCK = 16
-
-//    val rowsCount get() = ROWS
-//    val columnsCount get() = COLS
-//    val inputsBlockSize get() = CONDITIONS
-//    val outputsBlockSize get() = OUTPUTS
-
-//    val inputsIndexCvValues get() = (START_IDX .. (START_IDX + 4))
-//    val outputsIndexCvValues get() = ((START_IDX + 5).. (START_IDX + 5 + 4))
 
     val inputColumnIndexes get() = (0 until INPUTS)
     val outputColumnIndexes get() = (INPUTS until COLS)
@@ -79,46 +69,6 @@ class Lp5MappingViewModel : ViewModel() {
     fun isBlank(rowIndex: Int): Boolean = !cvValues[rowIndex].any {
         it != 0
     }
-
-    fun inputsString(context: Context, rowIndex: Int): String {
-        val result = mutableListOf<String>()
-        for (ci in inputColumnIndexes) {
-            result += controlCvToStrings(context, ci, cvValues[rowIndex][ci])
-        }
-        return result.joinToString(", ")
-    }
-
-    fun outputsString(context: Context, rowIndex: Int): String {
-        val result = mutableListOf<String>()
-        for (ci in outputColumnIndexes) {
-            result += controlCvToStrings(context, ci, cvValues[rowIndex][ci])
-        }
-        return result.joinToString(", ")
-    }
-
-    private fun controlCvToStrings(context: Context, colIndex: Int, value: Int): List<String> {
-        val stringId = CONTROL_CV_STRING_ID[colIndex]
-        val stringList = getStringList(context, stringId)
-        return controlCvValueToStrings(value, stringList)
-    }
-
-    fun getStringList(context: Context, id: Int): List<String> {
-        return context.resources.getStringArray(id).toList()
-    }
-
-    private fun controlCvValueToStrings(value: Int, strings: List<String>): List<String> {
-        val result = mutableListOf<String>()
-        for (i in strings.indices) {
-            val ii = 2f.pow(i).toInt()
-            if (value and ii == ii) result.add(strings[i])
-        }
-        return result.toList()
-    }
-
-//    enum class ControlCv {
-//        A, B, C, D, E, F, G, H, I, J,
-//        K, L, M, N, O, P, Q
-//    }
 
     companion object {
         private const val INPUTS = 10 // Control CV A-J

@@ -402,7 +402,7 @@ class Lp5MappingFragment : Fragment() {
             layout.addView(textView)
 
             val stringArrayId = Lp5MappingViewModel.CONTROL_CV_STRING_ID[ci]
-            model.getStringList(context, stringArrayId).forEachIndexed { idx, str ->
+            resources.getStringArray(stringArrayId).forEachIndexed { idx, str ->
                 val switchView = SwitchCompat(context).apply {
                     text = str
                     if (cvValue > 0) {
