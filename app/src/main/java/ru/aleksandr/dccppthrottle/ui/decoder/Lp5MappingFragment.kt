@@ -29,6 +29,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
@@ -74,17 +75,7 @@ class Lp5MappingFragment : Fragment() {
         }
 
         emptyView.setOnClickListener {
-            AlertDialog.Builder(context)
-                .setTitle(R.string.title_dialog_read_strategy)
-                .setMessage(R.string.message_lp5_read_strategy)
-                .setPositiveButton(R.string.action_read_all) { _, _ ->
-                    readAllCVs()
-                }
-                .setNegativeButton(R.string.action_read_until_blank) { _, _ ->
-                    readUntilBlank()
-                }
-                .setNeutralButton(android.R.string.cancel, null)
-                .show()
+            showReloadDialog()
         }
 
         rvAdapter = Lp5MappingRecyclerViewAdapter(model)
@@ -111,13 +102,26 @@ class Lp5MappingFragment : Fragment() {
                     it + 1
                 ))
                 .setView(createEditRowDialog())
-                .setPositiveButton(R.string.action_write) { _, _ ->
-                    writeEditRowCVs()
-                }
+                .setPositiveButton(R.string.action_write) { _, _ -> writeEditRowCVs() }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
+
+        if ((savedInstanceState == null) && (model.loaded.value == true)) {
+            Snackbar.make(view, R.string.message_cvs_outdated, Snackbar.LENGTH_LONG)
+                .setAction(R.string.action_reload) {
+                    showReloadDialog()
+                }.show()
+        }
     }
+
+    private fun showReloadDialog() = AlertDialog.Builder(context)
+        .setTitle(R.string.title_dialog_read_strategy)
+        .setMessage(R.string.message_lp5_read_strategy)
+        .setPositiveButton(R.string.action_read_all) { _, _ -> readAllCVs() }
+        .setNegativeButton(R.string.action_read_until_blank) { _, _ -> readUntilBlank() }
+        .setNeutralButton(android.R.string.cancel, null)
+        .show()
 
     private fun createProgressView(context: Context?, maximum: Int) =
         ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
@@ -137,16 +141,15 @@ class Lp5MappingFragment : Fragment() {
             .setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
             .setView(progressView)
             .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                job?.cancel()
-//                Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             .show()
 
         model.setLoaded(false)
 
         job = lifecycleScope.launch {
             try {
+                checkManufacturer()
+
                 var idx = 0
 
                 // read conditions
@@ -203,16 +206,15 @@ class Lp5MappingFragment : Fragment() {
             .setTitle(getString(R.string.title_dialog_reading_cvs))
             .setView(progressView)
             .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                job?.cancel()
-//                Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             .show()
 
         model.setLoaded(false)
 
         job = lifecycleScope.launch {
             try {
+                checkManufacturer()
+
                 var idx = 0
                 for (ri in model.rowIndexes) {
                     // read conditions
@@ -266,7 +268,7 @@ class Lp5MappingFragment : Fragment() {
             }, 100)
         }
         else CommandStation.setCvProg(cv, value) { _, value ->
-            if (value < 0) throw Exception("Failed to write CV $cv")
+            if (value < 0) throw Exception(getString(R.string.message_write_cv_error, cv))
             cont.resume(value >= 0)
         }
     }
@@ -281,53 +283,17 @@ class Lp5MappingFragment : Fragment() {
             }, 100)
         }
         else CommandStation.getCvProg(cv) { _, value ->
-            if (value < 0) throw Exception("Failed to read CV $cv")
+            if (value < 0) throw Exception(getString(R.string.message_read_cv_error, cv))
             cont.resume(value)
         }
     }
 
-//    private fun createEditRowDialog(): View {
-//        val view = ScrollView(context)
-//        val layout = LinearLayout(context).apply {
-//            orientation = LinearLayout.VERTICAL
-//            val p = resources.getDimension(R.dimen.dialog_padding)
-//            setPadding(p.toInt())
-//        }
-//        view.addView(layout)
-//
-//        val m = resources.getDimension(R.dimen.text_margin)
-//
-//        for (ci in model.inputColumnIndexes + model.outputColumnIndexes) {
-//            val cvValue = model.getEditRowValue(ci)
-//
-//            val textView = TextView(context).apply {
-//                val letter = Lp5MappingViewModel.CONTROL_CV_LETTERS[ci]
-//                text = context.getString(R.string.label_lp5_control_cv_x, letter)
-//            }
-//            layout.addView(textView)
-//
-//            val stringArrayId = Lp5MappingViewModel.CONTROL_CV_STRING_ID[ci];
-//            model.getStringList(context!!, stringArrayId).forEachIndexed { idx, str ->
-//                val switchView = Switch(context).apply {
-//                    text = str
-//                    if (cvValue > 0) {
-//                        isChecked = (cvValue and 2f.pow(idx).toInt() == cvValue)
-//                    }
-//                    setPadding(m.toInt())
-//                    setOnCheckedChangeListener { _, chk ->
-//                        val oldValue = model.getEditRowValue(ci)
-//                        val newValue =
-//                            if (chk) oldValue or 2f.pow(idx).toInt()
-//                            else oldValue and 2f.pow(idx).toInt().inv()
-//                        model.setEditRowValue(ci, newValue)
-//                    }
-//                }
-//                layout.addView(switchView)
-//            }
-//        }
-//
-//        return view
-//    }
+    private suspend fun checkManufacturer() {
+        val cv8 = readCv(Lp5MappingViewModel.MANUFACTURER_CV)
+        if (!BuildConfig.DEBUG && cv8 != Lp5MappingViewModel.MANUFACTURER_ID_ESU) {
+            throw Exception(getString(R.string.message_wrong_manufacturer, cv8))
+        }
+    }
 
     private fun createEditRowDialog(): View {
         val context = context!!
@@ -430,10 +396,7 @@ class Lp5MappingFragment : Fragment() {
             .setTitle(getString(R.string.title_dialog_writing_cvs))
             .setView(progressView)
             .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ ->
-                job?.cancel()
-//                Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             .show()
 
         job = lifecycleScope.launch {

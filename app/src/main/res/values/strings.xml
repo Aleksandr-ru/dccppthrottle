@@ -52,6 +52,7 @@
     <string name="action_write">Write</string>
     <string name="action_quit">Quit</string>
     <string name="action_turn_on">Turn ON</string>
+    <string name="action_reload">Reload</string>
     <string name="action_read_all">Real all</string>
     <string name="action_read_until_blank">Read until blank</string>
 
@@ -146,10 +147,12 @@
     <string name="message_restore_ok">Restore completed</string>
     <string name="message_restore_error">Restore failed!</string>
     <string name="message_track_off">Track power is OFF</string>
+    <string name="message_cvs_outdated">CVs data may be outdated</string>
     <string name="message_lp5_read_strategy">
         Function mapping chart contains 72 rows and over 1000 CVs. It can take a long time to read it all.\n\n
         However mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time but there is a chance something left hidden.
     </string>
+    <string name="message_wrong_manufacturer">Incorrect manufacturer (CV8=%d)</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

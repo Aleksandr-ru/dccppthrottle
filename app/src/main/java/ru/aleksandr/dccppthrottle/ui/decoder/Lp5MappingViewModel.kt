@@ -76,6 +76,9 @@ class Lp5MappingViewModel : ViewModel() {
         const val COLS = INPUTS + OUTPUTS
         const val ROWS = 72
 
+        const val MANUFACTURER_ID_ESU = 151
+
+        const val MANUFACTURER_CV = 8
         const val INDEX_CV = 32
 
         val CONTROL_CV_LETTERS = ('A' .. 'Q').map { it }
