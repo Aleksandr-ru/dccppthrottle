@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/label_read_value" />
+            android:text="@string/action_read_value" />
 
         <TextView
             android:id="@+id/textCvValue"
@@ -84,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:text="@string/label_write_value" />
+            android:text="@string/action_write_value" />
 
     </LinearLayout>
 

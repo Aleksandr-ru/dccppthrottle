@@ -252,7 +252,7 @@ class ConnectActivity : AppCompatActivity() {
                     // their decision.
                     val layout = findViewById<ConstraintLayout>(androidx.constraintlayout.widget.R.id.layout)
                     Snackbar.make(layout, R.string.message_bluetooth_denied, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.label_quit) { finishAndRemoveTask() }
+                        .setAction(R.string.action_quit) { finishAndRemoveTask() }
                         .show()
                 }
                 return

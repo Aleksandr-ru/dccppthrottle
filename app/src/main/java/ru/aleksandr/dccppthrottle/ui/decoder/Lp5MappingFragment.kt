@@ -111,7 +111,7 @@ class Lp5MappingFragment : Fragment() {
                     it + 1
                 ))
                 .setView(createEditRowDialog())
-                .setPositiveButton(R.string.label_write) { _, _ ->
+                .setPositiveButton(R.string.action_write) { _, _ ->
                     writeEditRowCVs()
                 }
                 .setNegativeButton(android.R.string.cancel, null)
@@ -353,10 +353,10 @@ class Lp5MappingFragment : Fragment() {
 
         val tabs = TabLayout(context).apply {
             addTab(newTab().apply {
-                text = "Inputs"
+                text = getString(R.string.label_lp5_inputs)
             })
             addTab(newTab().apply {
-                text = "Outputs"
+                text = getString(R.string.label_lp5_outputs)
             })
 
             addOnTabSelectedListener(object : OnTabSelectedListener {

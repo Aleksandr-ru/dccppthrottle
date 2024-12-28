@@ -67,7 +67,7 @@ class PomBitDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(R.string.title_dialog_pom_bit)
                 .setCancelable(true)
-                .setPositiveButton(R.string.label_write) { dialog, _ ->
+                .setPositiveButton(R.string.action_write) { dialog, _ ->
                     val newCv = viewCv.value!!
                     val newValue = if (viewValue.isChecked) 1 else 0
                     listener.onPomBitDialogResult(this, newCv, selectedBit!!, newValue)
