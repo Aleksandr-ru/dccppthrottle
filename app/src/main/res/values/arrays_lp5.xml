@@ -183,4 +183,81 @@
     <string-array name="lp5_control_cv_q">
         <item>Soundslot 1 („Virtual sound”)</item>
     </string-array>
+
+    <!-- Outputs   -->
+
+    <string-array name="lp5_output_cvs">
+        <item>Mode Select</item>
+        <item>Switching-On/-Off Delay</item>
+        <item>Automatic Switch Off</item>
+        <item>Brightness</item>
+        <item>Special Function CV1</item>
+        <item>Special Function CV2</item>
+        <item>Special Function CV3</item>
+    </string-array>
+
+    <string-array name="lp5_outputs">
+        <item>Light front (Config. 1)</item>
+        <item>Light back (Config. 1)</item>
+        <item>AUX1 (Config. 1)</item>
+        <item>AUX2 (Config. 1)</item>
+        <item>AUX3</item>
+        <item>AUX4</item>
+        <item>AUX5</item>
+        <item>AUX6</item>
+        <item>AUX7</item>
+        <item>AUX8</item>
+        <item>AUX9</item>
+        <item>AUX10</item>
+        <item>AUX11</item>
+        <item>AUX12</item>
+        <item>AUX13</item>
+        <item>AUX14</item>
+        <item>AUX15</item>
+        <item>AUX16</item>
+        <item>AUX17</item>
+        <item>AUX18</item>
+        <item>Light front (Config. 2)</item>
+        <item>Light back (Config. 2)</item>
+        <item>AUX1 (Config. 2)</item>
+        <item>AUX2 (Config. 2)</item>
+    </string-array>
+
+    <!-- Lighting effects   -->
+
+    <string-array name="lp5_output_modes">
+        <item>Dimmable light</item>
+        <item>Dimmable light („Fade in/out”)</item>
+        <item>Firebox</item>
+        <item>Intelligent firebox</item>
+        <item>Single Strobe</item>
+        <item>Double Strobe</item>
+        <item>Redary Beacon</item>
+        <item>Strato Light</item>
+        <item>Ditch Light Type 1</item>
+        <item>Ditch Light Type 2</item>
+        <item>Oscillator</item>
+        <item>Flashing light</item>
+        <item>Mars Light</item>
+        <item>Gyra Light</item>
+        <item>FRED</item>
+        <item>Fluorescent lamp</item>
+        <item>Energy saving lamp</item>
+        <item>Single Strobe Random</item>
+        <item>Reserved (19)</item> <!-- 19 -->
+        <item>Reserved (20)</item> <!-- 20 -->
+        <item>ESU coupler (for compatibility)</item>
+        <item>Reserved (22)</item> <!-- 22 -->
+        <item>Fan control</item>
+        <item>Seuthe® Smoke unit</item>
+        <item>Reserved (25)</item> <!-- 25 -->
+        <item>Reserved (26)</item> <!-- 26 -->
+        <item>Servo1, Servo2, Servo3, Servo4, Servo5, Servo6</item>
+        <item>Conventional coupler function</item>
+        <item>ROCO® coupler function (**)</item>
+        <item>Panto control</item>
+        <item>PowerPack Control</item>
+        <item>Reserved (32)</item>
+        <item>Autocoupler coil#2</item>
+    </string-array>
 </resources>
