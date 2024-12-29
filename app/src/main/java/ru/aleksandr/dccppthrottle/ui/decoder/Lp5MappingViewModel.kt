@@ -18,6 +18,9 @@ class Lp5MappingViewModel : ViewModel() {
     private var _loaded = MutableLiveData(__loaded)
     val loaded: LiveData<Boolean> = _loaded
 
+    private var _reloadRowIndex = MutableLiveData<Int?>(null)
+    var reloadRowIndex: LiveData<Int?> = _reloadRowIndex
+
     private var _editRowIndex = MutableLiveData<Int?>(null)
     var editRowIndex: LiveData<Int?> = _editRowIndex
 
@@ -37,6 +40,10 @@ class Lp5MappingViewModel : ViewModel() {
             _editRowValues = cvValues[rowIndex].clone()
         }
         _editRowIndex.postValue(rowIndex)
+    }
+
+    fun reloadRow(rowIndex: Int?) {
+        _reloadRowIndex.postValue(rowIndex)
     }
 
     fun getEditRowValue(colIndex: Int) = _editRowValues[colIndex]

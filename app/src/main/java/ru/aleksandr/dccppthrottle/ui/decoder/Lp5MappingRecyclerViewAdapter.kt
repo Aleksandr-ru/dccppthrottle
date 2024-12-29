@@ -29,6 +29,11 @@ class Lp5MappingRecyclerViewAdapter(
            binding.root.setOnClickListener {
                 model.editRow(bindingAdapterPosition)
             }
+
+            binding.root.setOnLongClickListener {
+                model.reloadRow(bindingAdapterPosition)
+                true
+            }
         }
     }
 

@@ -93,7 +93,7 @@ class Lp5OutputsFragment : Fragment() {
 //                ))
 //                .setView(createEditRowDialog())
 //                .setPositiveButton(R.string.action_write) { _, _ -> writeEditRowCVs() }
-//                .setNegativeButton(android.R.string.cancel, null)
+//                .setNegativeButton(android.R.string.cancel) { _, _ -> model.editRow(null) }
 //                .show()
             Toast.makeText(context, "Outputs dialog not implemented", Toast.LENGTH_SHORT).show()
         }
@@ -140,12 +140,13 @@ class Lp5OutputsFragment : Fragment() {
                         dialog.incrementProgress()
                     }
                 }
-
+                rvAdapter.notifyDataSetChanged()
                 model.setLoaded(true)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    if (BuildConfig.DEBUG) Log.w(TAG, e)
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG) model.setLoaded(true)
@@ -162,8 +163,11 @@ class Lp5OutputsFragment : Fragment() {
             }, 100)
         }
         else CommandStation.setCvProg(cv, value) { _, value ->
-            if (value < 0) throw Exception(getString(R.string.message_write_cv_error, cv))
-            cont.resume(value >= 0)
+            if (value < 0) {
+                val ex = Exception(getString(R.string.message_write_cv_error, cv))
+                cont.cancel(ex)
+            }
+            else cont.resume(value >= 0)
         }
     }
 
@@ -177,8 +181,11 @@ class Lp5OutputsFragment : Fragment() {
             }, 100)
         }
         else CommandStation.getCvProg(cv) { _, value ->
-            if (value < 0) throw Exception(getString(R.string.message_read_cv_error, cv))
-            cont.resume(value)
+            if (value < 0) {
+                val ex = Exception(getString(R.string.message_read_cv_error, cv))
+                cont.cancel(ex)
+            }
+            else cont.resume(value)
         }
     }
 
@@ -193,6 +200,7 @@ class Lp5OutputsFragment : Fragment() {
             setTitle(R.string.title_dialog_writing_cvs)
             setMax(Lp5OutputsViewModel.COLS)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            setOnDismissListener { model.editRow(null) }
             show()
         }
 
@@ -212,7 +220,8 @@ class Lp5OutputsFragment : Fragment() {
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    if (BuildConfig.DEBUG) Log.w(TAG, e)
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 job?.cancel()
                 model.setLoaded(false)

@@ -157,6 +157,7 @@
         However mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time but there is a chance something left hidden.
     </string>
     <string name="message_wrong_manufacturer">Incorrect manufacturer (CV8=%d)</string>
+    <string name="message_lp5_read_row">Read CVs data from decoder?</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

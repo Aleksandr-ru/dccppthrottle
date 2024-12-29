@@ -103,7 +103,19 @@ class Lp5MappingFragment : Fragment() {
                 ))
                 .setView(createEditRowDialog())
                 .setPositiveButton(R.string.action_write) { _, _ -> writeEditRowCVs() }
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton(android.R.string.cancel) { _, _ -> model.editRow(null) }
+                .show()
+        }
+
+        model.reloadRowIndex.observe(viewLifecycleOwner) {
+            if (it != null) AlertDialog.Builder(context)
+                .setTitle(getString(
+                    R.string.title_dialog_lp5_row_x,
+                    it + 1
+                ))
+                .setMessage(R.string.message_lp5_read_row)
+                .setPositiveButton(R.string.action_reload) { _, _ -> readRowCVs() }
+                .setNegativeButton(android.R.string.cancel) { _, _ -> model.reloadRow(null) }
                 .show()
         }
 
@@ -174,12 +186,13 @@ class Lp5MappingFragment : Fragment() {
                         dialog.incrementProgress()
                     }
                 }
-
+                rvAdapter.notifyDataSetChanged()
                 model.setLoaded(true)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    if (BuildConfig.DEBUG) Log.w(TAG, e)
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 job?.cancel()
             }
@@ -233,14 +246,15 @@ class Lp5MappingFragment : Fragment() {
                         )
                         model.setCvValue(ri, ci, value)
                     }
-
+                    rvAdapter.notifyItemChanged(ri)
                     if (model.isBlank(ri)) break
                 }
                 model.setLoaded(true)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    if (BuildConfig.DEBUG) Log.w(TAG, e)
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG) model.setLoaded(true)
@@ -257,8 +271,11 @@ class Lp5MappingFragment : Fragment() {
             }, 100)
         }
         else CommandStation.setCvProg(cv, value) { _, value ->
-            if (value < 0) throw Exception(getString(R.string.message_write_cv_error, cv))
-            cont.resume(value >= 0)
+            if (value < 0) {
+                val ex = Exception(getString(R.string.message_write_cv_error, cv))
+                cont.cancel(ex)
+            }
+            else cont.resume(value >= 0)
         }
     }
 
@@ -272,8 +289,11 @@ class Lp5MappingFragment : Fragment() {
             }, 100)
         }
         else CommandStation.getCvProg(cv) { _, value ->
-            if (value < 0) throw Exception(getString(R.string.message_read_cv_error, cv))
-            cont.resume(value)
+            if (value < 0) {
+                val ex = Exception(getString(R.string.message_read_cv_error, cv))
+                cont.cancel(ex)
+            }
+            else cont.resume(value)
         }
     }
 
@@ -385,6 +405,7 @@ class Lp5MappingFragment : Fragment() {
             setTitle(R.string.title_dialog_writing_cvs)
             setMax(Lp5MappingViewModel.COLS)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            setOnDismissListener { model.editRow(null) }
             show()
         }
 
@@ -407,10 +428,51 @@ class Lp5MappingFragment : Fragment() {
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
                 }
                 job?.cancel()
                 model.setLoaded(false)
+            }
+            dialog.dismiss()
+        }
+    }
+
+    private fun readRowCVs() {
+        var job: Job? = null
+        val dialog = ProgressDialog(context!!).apply {
+            setTitle(R.string.title_dialog_reading_cvs)
+            setMax(Lp5MappingViewModel.COLS)
+            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            setOnDismissListener { model.reloadRow(null) }
+            show()
+        }
+
+        job = lifecycleScope.launch {
+            try {
+                checkManufacturer()
+
+                var idx = 0
+                val rowIndex = model.reloadRowIndex.value!!
+                for (ci in model.inputColumnIndexes + model.outputColumnIndexes) {
+                    val cvi = model.cvNumber(rowIndex, ci)
+                    if (cvi.first != idx) {
+                        idx = cvi.first
+                        writeCv(Lp5MappingViewModel.INDEX_CV, idx)
+                    }
+                    val value = readCv(cvi.second)
+                    if (BuildConfig.DEBUG) Log.d(TAG,
+                        "Row $rowIndex, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
+                    )
+                    model.setCvValue(rowIndex, ci, value)
+                    dialog.incrementProgress()
+                }
+                rvAdapter.notifyItemChanged(rowIndex)
+            }
+            catch (e: Exception) {
+                if (e !is CancellationException) {
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                }
+                job?.cancel()
             }
             dialog.dismiss()
         }

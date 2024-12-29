@@ -22,6 +22,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
@@ -212,7 +213,10 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         }
         if (doubleBack) {
             CommandStation.setTrackPower(false)
-            CommandStation.disconnect()
+            Handler(Looper.getMainLooper()).postDelayed({
+                //FIXME: wait until power command completes
+                CommandStation.disconnect()
+            }, 100)
 
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
             val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
