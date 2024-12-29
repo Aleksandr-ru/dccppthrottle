@@ -226,7 +226,7 @@
     <!-- Lighting effects   -->
 
     <string-array name="lp5_output_modes">
-        <item>No value</item>
+        <item>No value (0)</item>
         <item>Dimmable light</item>
         <item>Dimmable light („Fade in/out”)</item>
         <item>Firebox</item>

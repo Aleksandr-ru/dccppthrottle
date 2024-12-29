@@ -57,7 +57,7 @@ class Lp5OutputsRecyclerViewAdapter(
             outputView.text = outputNames[position]
             modeView.text = model.getCvValue(position, Lp5OutputsViewModel.COL_MODE).let {
                 if (it < modeNames.size) modeNames[it]
-                else modeNames[0]
+                else context.getString(R.string.label_unknown_x, it)
             }
             onOffDelayView.text = model.getCvValue(position, Lp5OutputsViewModel.COL_ONOFFDELAY).toString()
             autoOffView.text = model.getCvValue(position, Lp5OutputsViewModel.COL_AUTOOFF).toString()

@@ -114,6 +114,7 @@
     <string name="label_restore_complete">Success</string>
     <string name="label_restore_error">Error! %s</string>
     <string name="label_f_per_row">Loco cab functions display</string>
+    <string name="label_unknown_x">Unknown (%d)</string>
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_inputs">Inputs</string>
     <string name="label_lp5_outputs">Outputs</string>
