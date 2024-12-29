@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.aleksandr.dccppthrottle.R
+import java.lang.Exception
 
 class Lp5MappingViewModel : ViewModel() {
 
@@ -45,6 +46,8 @@ class Lp5MappingViewModel : ViewModel() {
     }
 
     fun cvNumber(rowIndex: Int, colIndex: Int): Pair<Int, Int> {
+        if (rowIndex > ROWS) throw Exception("Mapping row $rowIndex out of bounds")
+        if (colIndex > COLS) throw Exception("Mapping column $colIndex out of bounds")
         val num = START_CV + ROW_CV_BLOCK * (rowIndex % ROWS_IN_IDX) + colIndex % INPUTS
         val idx = START_IDX + rowIndex / ROWS_IN_IDX + 5 * (colIndex / INPUTS)
         return Pair(idx, num)
@@ -76,9 +79,6 @@ class Lp5MappingViewModel : ViewModel() {
         const val COLS = INPUTS + OUTPUTS
         const val ROWS = 72
 
-        const val MANUFACTURER_ID_ESU = 151
-
-        const val MANUFACTURER_CV = 8
         const val INDEX_CV = 32
 
         val CONTROL_CV_LETTERS = ('A' .. 'Q').map { it }

@@ -41,7 +41,8 @@ class ProgActivity : AwakeActivity() {
                 startActivity(myIntent)
                 true
             }
-            R.id.action_lp5_mapping -> {
+            R.id.action_lp5_mapping,
+            R.id.action_lp5_outputs -> {
                 DecoderActivity.start(this, item.itemId)
                 true
             }

@@ -36,6 +36,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.aleksandr.dccppthrottle.BuildConfig
+import ru.aleksandr.dccppthrottle.DecoderActivity
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
@@ -277,8 +278,8 @@ class Lp5MappingFragment : Fragment() {
     }
 
     private suspend fun checkManufacturer() {
-        val cv8 = readCv(Lp5MappingViewModel.MANUFACTURER_CV)
-        if (cv8 != Lp5MappingViewModel.MANUFACTURER_ID_ESU) {
+        val cv8 = readCv(DecoderActivity.MANUFACTURER_CV)
+        if (cv8 != DecoderActivity.MANUFACTURER_ID_ESU) {
             val message = getString(R.string.message_wrong_manufacturer, cv8)
             if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             else throw Exception(message)

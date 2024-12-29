@@ -7,10 +7,65 @@
 
 package ru.aleksandr.dccppthrottle.ui.decoder
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class Lp5OutputsViewModel: ViewModel() {
+
+    private var _loaded = MutableLiveData(__loaded)
+    val loaded: LiveData<Boolean> = _loaded
+
+    private var _editRowIndex = MutableLiveData<Int?>(null)
+    var editRowIndex: LiveData<Int?> = _editRowIndex
+
+    private var _editRowValues = Array(COLS) { 0 }
+
+    val columnIndexes get() = (0 until COLS)
+    val rowIndexes get() = (0 until ROWS)
+
+    fun editRow(rowIndex: Int?) {
+        if (rowIndex != null) {
+            _editRowValues = cvValues[rowIndex].clone()
+        }
+        _editRowIndex.postValue(rowIndex)
+    }
+
+    fun getEditRowValue(colIndex: Int) = _editRowValues[colIndex]
+
+    fun setEditRowValue(colIndex: Int, value: Int) {
+        _editRowValues[colIndex] = value
+    }
+    fun cvNumber(rowIndex: Int, colIndex: Int): Int = cvNumbers[rowIndex][colIndex]
+
+    fun getCvValue(rowIndex: Int, colIndex: Int): Int {
+        return cvValues[rowIndex][colIndex]
+    }
+
+    fun setCvValue(rowIndex: Int, colIndex: Int, value: Int) {
+        cvValues[rowIndex][colIndex] = value
+    }
+
+    fun setLoaded(value: Boolean) {
+        if (!value) cvValues.forEach {
+            it.fill(0)
+        }
+        __loaded = value
+        _loaded.postValue(__loaded)
+    }
+
     companion object {
+        const val COL_MODE = 0
+        const val COL_ONOFFDELAY = 1
+        const val COL_AUTOOFF = 2
+        const val COL_BRIGHTNESS = 3
+        const val COL_SPECIAL1 = 4
+        const val COL_SPECIAL2 = 5
+        const val COL_SPECIAL3 = 6
+
+        val INDEX_CV1 = Pair(31, 16)
+        val INDEX_CV2 = Pair(32, 0)
+
         private val cvNumbers = listOf(
             // Mode Select CV, Switching-On/-Off Delay, Automatic Switch Off, Brightness CV, Special Function CV1, Special Function CV2, Special Function CV3
             listOf(259, 260, 261, 262, 263, 264, 258), // Light front (Config. 1)
@@ -38,5 +93,11 @@ class Lp5OutputsViewModel: ViewModel() {
             listOf(435, 436, 437, 438, 439, 440, 434), // AUX1 (Config. 2)
             listOf(443, 444, 445, 446, 447, 448, 442), // AUX2 (Config. 2)
         )
+
+        val ROWS = cvNumbers.size
+        val COLS = cvNumbers[0].size
+
+        private val cvValues = List(ROWS) { Array(COLS) { 0 }}
+        private var __loaded = false
     }
 }

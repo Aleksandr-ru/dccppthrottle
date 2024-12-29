@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2024. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textOutput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Light front (Config. 1)"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/textMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:layout_marginRight="@dimen/cell_spacing"
+        android:layout_marginBottom="@dimen/cell_spacing"
+        android:layout_weight="3"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingBottom="@dimen/cell_padding"
+        android:text="Dimmable light"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_span="3">-->
+
+<!--            &lt;!&ndash; Lighting effect &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/textMode"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="@dimen/text_margin"-->
+<!--                android:layout_marginTop="@dimen/cell_spacing"-->
+<!--                android:layout_marginRight="@dimen/cell_spacing"-->
+<!--                android:layout_marginBottom="@dimen/cell_spacing"-->
+<!--                android:layout_weight="3"-->
+<!--                android:ellipsize="end"-->
+<!--                android:maxLines="1"-->
+<!--                android:padding="@dimen/cell_padding"-->
+<!--                android:text="Dimmable light"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />-->
+<!--        </TableRow>-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Switching-On/-Off Delay -->
+            <TextView
+                android:id="@+id/textOnOffDelay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <!-- Automatic Switch Off -->
+            <TextView
+                android:id="@+id/textAutoOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <!-- Brightness -->
+            <TextView
+                android:id="@+id/textBrightness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Special Function 1 -->
+            <TextView
+                android:id="@+id/textSpecial1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <!-- Special Function 2 -->
+            <TextView
+                android:id="@+id/textSpecial2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+            <!-- Special Function 3 -->
+            <TextView
+                android:id="@+id/textSpecial3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/cell_spacing"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/cell_padding"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+        </TableRow>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+    </TableLayout>
+</LinearLayout>

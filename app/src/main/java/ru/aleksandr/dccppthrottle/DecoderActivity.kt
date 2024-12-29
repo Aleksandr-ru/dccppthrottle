@@ -11,6 +11,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import ru.aleksandr.dccppthrottle.ui.decoder.Lp5MappingFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.Lp5OutputsFragment
 
 class DecoderActivity : AwakeActivity() {
 
@@ -23,6 +24,10 @@ class DecoderActivity : AwakeActivity() {
                     title = getString(R.string.title_fragment_lp5_mapping)
                     Lp5MappingFragment.newInstance()
                 }
+                R.id.action_lp5_outputs -> {
+                    title = getString(R.string.title_fragment_lp5_outputs)
+                    Lp5OutputsFragment.newInstance()
+                }
                 else -> throw Exception("Invalid menu id")
             }
             supportFragmentManager.beginTransaction()
@@ -33,6 +38,10 @@ class DecoderActivity : AwakeActivity() {
 
     companion object {
         private val MENU_ID = "menuid"
+
+        const val MANUFACTURER_CV = 8
+        const val MANUFACTURER_ID_ESU = 151
+
         @JvmStatic
         fun start(context: Context, menuId: Int) {
             val intent = Intent(context, DecoderActivity::class.java)

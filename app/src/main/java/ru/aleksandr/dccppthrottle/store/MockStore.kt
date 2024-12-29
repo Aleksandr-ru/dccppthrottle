@@ -100,4 +100,8 @@ object MockStore {
             1 shl ((0..7).random())
         } else 0
     }
+
+    fun randomLp5OutputCvValue(): Int {
+        return (0 .. 31).random()
+    }
 }

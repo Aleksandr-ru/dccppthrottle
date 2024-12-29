@@ -15,6 +15,7 @@
     <string name="title_fragment_accessories">Accessories</string>
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
+    <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>
@@ -67,6 +68,7 @@
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_lp5">ESU LokPilot 5</string>
     <string name="menu_lp5_mapping">Function mapping</string>
+    <string name="menu_lp5_outputs">Outputs configuration</string>
 
     <string name="label_f">F%d</string>
     <string name="label_f_named">F%d: %s</string>

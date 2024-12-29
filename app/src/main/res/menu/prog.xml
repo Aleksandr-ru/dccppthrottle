@@ -12,9 +12,11 @@
         <item
             android:enabled="false"
             android:title="@string/menu_lp5" />
-<!--        <item android:title="Output config" />-->
         <item
             android:id="@+id/action_lp5_mapping"
             android:title="@string/menu_lp5_mapping" />
+        <item
+            android:id="@+id/action_lp5_outputs"
+            android:title="@string/menu_lp5_outputs" />
     </group>
 </menu>
