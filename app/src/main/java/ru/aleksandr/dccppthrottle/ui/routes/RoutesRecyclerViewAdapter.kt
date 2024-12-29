@@ -7,12 +7,10 @@
 
 package ru.aleksandr.dccppthrottle.ui.routes
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +19,7 @@ import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.RouteEditorActivity
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteListItemBinding
+import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RoutesRecyclerViewAdapter(
@@ -71,29 +70,20 @@ class RoutesRecyclerViewAdapter(
             button.setOnClickListener { btn ->
                 val title = RoutesStore.data.value!![bindingAdapterPosition].title
                 val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
-                val view = LayoutInflater.from(itemView.context).inflate(R.layout.dialog_route_progress, null)
-                val progressView = view.findViewById<ProgressBar>(R.id.progressBar).apply {
-                    progress = 0
-                    max = accessories.size
-                }
-                val accTitleView = view.findViewById<TextView>(R.id.textAccessory).apply {
-                    text = ""
-                }
                 var job: Job? = null
-                val dialog = AlertDialog.Builder(itemView.context)
-                    .setTitle(title)
-                    .setView(view)
-                    .setCancelable(false)
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        job?.cancel()
-                    }.show()
+                val dialog = ProgressDialog(itemView.context).apply {
+                    setTitle(title)
+                    setMax(accessories.size)
+                    setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+                    show()
+                }
 
                 job = GlobalScope.launch {
                     accessories.forEach { acc ->
                         // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
                         // https://stackoverflow.com/a/60126585
-                        accTitleView.text = acc.toString()
-                        progressView.incrementProgressBy(1)
+                        dialog.setMessage(acc.toString())
+                        dialog.incrementProgress()
                         CommandStation.setAccessoryState(acc.address, acc.isOn)
                         delay(acc.delay.toLong())
                     }

@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +16,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
@@ -40,6 +38,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import kotlin.Exception
 import kotlin.coroutines.resume
@@ -123,26 +122,15 @@ class Lp5MappingFragment : Fragment() {
         .setNeutralButton(android.R.string.cancel, null)
         .show()
 
-    private fun createProgressView(context: Context?, maximum: Int) =
-        ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal).apply {
-            progress = 0
-            if (maximum > 0) max = maximum
-            else isIndeterminate = true
-            val p = resources.getDimension(R.dimen.dialog_padding)
-            setPadding(p.toInt())
-        }
-
     private fun readAllCVs() {
         val maxCvs = Lp5MappingViewModel.ROWS * Lp5MappingViewModel.COLS
-        val progressView = createProgressView(context, maxCvs)
-
         var job: Job? = null
-        val dialog = AlertDialog.Builder(context)
-            .setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
-            .setView(progressView)
-            .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            .show()
+        val dialog = ProgressDialog(context!!).apply {
+            setMax(maxCvs)
+            setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
+            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            show()
+        }
 
         model.setLoaded(false)
 
@@ -165,7 +153,7 @@ class Lp5MappingFragment : Fragment() {
                             "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
                         )
                         model.setCvValue(ri, ci, value)
-                        progressView.incrementProgressBy(1)
+                        dialog.incrementProgress()
                     }
                 }
 
@@ -182,7 +170,7 @@ class Lp5MappingFragment : Fragment() {
                             "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
                         )
                         model.setCvValue(ri, ci, value)
-                        progressView.incrementProgressBy(1)
+                        dialog.incrementProgress()
                     }
                 }
 
@@ -199,15 +187,13 @@ class Lp5MappingFragment : Fragment() {
     }
 
     private fun readUntilBlank() {
-        val progressView = createProgressView(context, 0)
-
         var job: Job? = null
-        val dialog = AlertDialog.Builder(context)
-            .setTitle(getString(R.string.title_dialog_reading_cvs))
-            .setView(progressView)
-            .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            .show()
+        val dialog = ProgressDialog(context!!).apply {
+            setMax(0)
+            setTitle(R.string.title_dialog_reading_cvs)
+            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            show()
+        }
 
         model.setLoaded(false)
 
@@ -217,6 +203,8 @@ class Lp5MappingFragment : Fragment() {
 
                 var idx = 0
                 for (ri in model.rowIndexes) {
+                    dialog.setMessage(getString(R.string.label_lp5_row_x, (ri + 1)))
+
                     // read conditions
                     for (ci in model.inputColumnIndexes) {
                         val cvi = model.cvNumber(ri, ci)
@@ -391,15 +379,13 @@ class Lp5MappingFragment : Fragment() {
     }
 
     private fun writeEditRowCVs() {
-        val progressView = createProgressView(context, Lp5MappingViewModel.COLS)
-
         var job: Job? = null
-        val dialog = AlertDialog.Builder(context)
-            .setTitle(getString(R.string.title_dialog_writing_cvs))
-            .setView(progressView)
-            .setCancelable(false)
-            .setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            .show()
+        val dialog = ProgressDialog(context!!).apply {
+            setTitle(R.string.title_dialog_writing_cvs)
+            setMax(Lp5MappingViewModel.COLS)
+            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+            show()
+        }
 
         job = lifecycleScope.launch {
             try {
@@ -414,7 +400,7 @@ class Lp5MappingFragment : Fragment() {
                     val value = model.getEditRowValue(ci)
                     writeCv(cvi.second, value)
                     model.setCvValue(rowIndex, ci, value)
-                    progressView.incrementProgressBy(1)
+                    dialog.incrementProgress()
                 }
                 rvAdapter.notifyItemChanged(rowIndex)
             }

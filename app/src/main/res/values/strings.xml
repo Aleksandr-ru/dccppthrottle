@@ -115,6 +115,7 @@
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_inputs">Inputs</string>
     <string name="label_lp5_outputs">Outputs</string>
+    <string name="label_lp5_row_x">Row %d</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
