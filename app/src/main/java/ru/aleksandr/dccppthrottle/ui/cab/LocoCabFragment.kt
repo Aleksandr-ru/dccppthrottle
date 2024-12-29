@@ -75,7 +75,7 @@ class LocoCabFragment : Fragment() {
                 textOff = text
                 tag = i
                 layoutParams = tableRowLayoutParams.apply {
-                    if (loco.funcNames[i].isNotEmpty()) span = 4
+                    if (loco.funcNames[i].isNotEmpty()) span = F_PER_ROW
                 }
                 setOnCheckedChangeListener { button, isChecked ->
                     if (button.isPressed) {
