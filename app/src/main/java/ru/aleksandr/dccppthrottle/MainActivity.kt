@@ -216,10 +216,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         }
         if (doubleBack) {
             CommandStation.setTrackPower(false)
-            Handler(Looper.getMainLooper()).postDelayed({
-                //FIXME: wait until power command completes
-                CommandStation.disconnect()
-            }, 100)
+            // disconnect is made in ConnectActivity.OnStart
 
             val prefKeyConnectStartup = getString(R.string.pref_key_connect_startup)
             val prefsEditor = PreferenceManager.getDefaultSharedPreferences(this).edit()
