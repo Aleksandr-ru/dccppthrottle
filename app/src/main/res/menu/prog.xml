@@ -2,21 +2,18 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/action_console"
-        android:title="@string/menu_console"
-        android:visible="true"
-        app:showAsAction="never" />
-
     <group>
         <item
             android:enabled="false"
+            app:showAsAction="never"
             android:title="@string/menu_lp5" />
         <item
             android:id="@+id/action_lp5_mapping"
+            app:showAsAction="never"
             android:title="@string/menu_lp5_mapping" />
         <item
             android:id="@+id/action_lp5_outputs"
+            app:showAsAction="never"
             android:title="@string/menu_lp5_outputs" />
     </group>
 </menu>

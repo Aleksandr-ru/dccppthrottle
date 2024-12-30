@@ -7,7 +7,6 @@
 
 package ru.aleksandr.dccppthrottle
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -36,18 +35,13 @@ class ProgActivity : AwakeActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_console -> {
-                val myIntent = Intent(this, ConsoleActivity::class.java)
-                startActivity(myIntent)
-                true
-            }
-            R.id.action_lp5_mapping,
-            R.id.action_lp5_outputs -> {
-                DecoderActivity.start(this, item.itemId)
-                true
+            android.R.id.home -> {
+                // BAck button pressed
+                super.onOptionsItemSelected(item)
             }
             else -> {
-                super.onOptionsItemSelected(item)
+                DecoderActivity.start(this, item.itemId)
+                true
             }
         }
     }
