@@ -186,15 +186,15 @@
 
     <!-- Outputs   -->
 
-    <string-array name="lp5_output_cvs">
-        <item>Mode Select</item>
-        <item>Switching-On/-Off Delay</item>
-        <item>Automatic Switch Off</item>
-        <item>Brightness</item>
-        <item>Special Function CV1</item>
-        <item>Special Function CV2</item>
-        <item>Special Function CV3</item>
-    </string-array>
+<!--    <string-array name="lp5_output_cvs">-->
+<!--        <item>Mode Select</item>-->
+<!--        <item>Switching-On/-Off Delay</item>-->
+<!--        <item>Automatic Switch Off</item>-->
+<!--        <item>Brightness</item>-->
+<!--        <item>Special Function CV1</item>-->
+<!--        <item>Special Function CV2</item>-->
+<!--        <item>Special Function CV3</item>-->
+<!--    </string-array>-->
 
     <string-array name="lp5_outputs">
         <item>Light front (Config. 1)</item>
@@ -246,19 +246,94 @@
         <item>Energy saving lamp</item>
         <item>Single Strobe Random</item>
         <item>Reserved (19)</item> <!-- 19 -->
-        <item>Reserved (20)</item> <!-- 20 -->
-        <item>ESU coupler (for compatibility)</item>
-        <item>Reserved (22)</item> <!-- 22 -->
+        <item>ESU coupler 1 (for compatibility)</item> <!-- 20 ? -->
+        <item>ESU coupler 2 (for compatibility)</item> <!-- 21 -->
+        <item>Smoke generator (sound-controlled)</item> <!-- 22 -->
         <item>Fan control</item>
         <item>Seuthe® Smoke unit</item>
         <item>Reserved (25)</item> <!-- 25 -->
         <item>Reserved (26)</item> <!-- 26 -->
-        <item>Servo1, Servo2, Servo3, Servo4, Servo5, Servo6</item>
+        <item>Servo 1-6</item>
         <item>Conventional coupler function</item>
         <item>ROCO® coupler function (**)</item>
         <item>Panto control</item>
         <item>PowerPack Control</item>
         <item>Reserved (32)</item>
         <item>Autocoupler coil#2</item>
+    </string-array>
+
+    <string-array name="lp5_output_modes_description">
+        <!-- 0 --> <item>No effect</item>
+        <!-- 1 --> <item>A normal continuous output. The brightness will be reduced to about 50% if the dimmer function is on.</item>
+        <!-- 2 --> <item>Here the output is switched on slowly and immitates the slow glowing of oil lamps or very old light bulbs. The brightness will be reduced to about 50% if the dimmer function is on.</item>
+        <!-- 3 --> <item>Simulates a normal fire box lighting effect.</item>
+        <!-- 4 --> <item>Simulates an “intelligent” fire box lighting effect, whose itensity changes if the Logic function “Firebox” is active.</item>
+        <!-- 5 --> <item>This is a single strobe light (short flashing) output. The frequency can be adjusted.</item>
+        <!-- 6 --> <item>DThis will result in two short flashes. The frequency can be adjusted.</item>
+        <!-- 7 --> <item>This effect should simulate a revolving reflector and bulb assignment of a very popular warning beacon atop many diesels of the 60’s and 70’s.</item>
+        <!-- 8 --> <item>This is the more modern version of the Redary beacon.</item>
+        <!-- 9 --> <item>The ditch light type 1 will revert to a steady On state when it is not flashing.</item>
+        <!-- 10 --> <item>The ditch light type 2 will revert to Off state when it is not flashing.</item>
+        <!-- 11 --> <item>A warning signal required in the USA.</item>
+        <!-- 12 --> <item>This is the “classical” flashing light. The frequency can be adjusted.</item>
+        <!-- 13 --> <item>This effect simulates the sweeping pattern of this well-known warning beacon in the USA.</item>
+        <!-- 14 --> <item>The Gyra Light is similar to the Mars Light, but is slower in motion.</item>
+        <!-- 15 --> <item>„Flashing End of Train Device“: simulates the flashing red light indicating the end of a train in America.</item>
+        <!-- 16 --> <item>Simulates the typical starting characteristics of a fluorescent lamp.</item>
+        <!-- 17 --> <item>Simulates the typical starting of modern energy saving lamps.</item>
+        <!-- 18 --> <item></item> <!-- Single Strobe Random -->
+        <!-- 19 --> <item></item> <!-- Reserved (19) -->
+        <!-- 20 --> <item>Only AUX7, AUX15</item> <!-- ESU coupler 1 (20)? -->
+        <!-- 21 --> <item>Only AUX8, AUX16</item> <!-- ESU coupler 2 (for compatibility) -->
+        <!-- 22 --> <item></item> <!-- Smoke generator (sound-controlled) -->
+        <!-- 23 --> <item>Here a small electric motor is slowly run up to high revs and then back down again. This is often used for fan motors that continue to run for a while.</item> <!-- Fan control -->
+        <!-- 24 --> <item>The intensity is reduced whenever the locomotive is stationary.</item> <!-- Seuthe® Smoke unit -->
+        <!-- 25 --> <item></item> <!-- Reserved (25) -->
+        <!-- 26 --> <item></item> <!-- Reserved (26) -->
+        <!-- 27 --> <item>An RC servo can be connected to this output. Not available for all outputs: Servo1 only AUX15, Servo2 only AUX16, Servo3 only AUX17, Servo4 only AUX18, Servo5 only AUX11, Servo6 only AUX12.</item> <!-- Servo1-6 -->
+        <!-- 28 --> <item>You can use this function to control Krois® couplers, also in connection with automatic pushing/removing.</item> <!-- Conventional coupler function -->
+        <!-- 29 --> <item>You can use this function to control ROCO® couplers, also in connection with automatic pushing/removing. Only AUX1[1], AUX1[2], AUX2[1], AUX2[2]</item> <!-- ROCO® coupler function (**) -->
+        <!-- 30 --> <item>This function is needed for ESU locomotives with functional pantographs. Only AUX9, AUX10 für Engineering Edition.</item> <!-- Panto control -->
+        <!-- 31 --> <item>Controls the charging and discharging of the external PowerPack. Must be selected when a PowerPack is connected.</item> <!-- PowerPack Control -->
+        <!-- 32 --> <item></item> <!-- Reserved (32) -->
+        <!-- 33 --> <item>This special function „Coupler“ provides a special high frequency PWM signal to avoid burning the copper windings of the coil. In this mode, the output turns on at 100% for 250 ms and then reduces the output power by switching to the PWM-signal.</item> <!-- Autocoupler coil#2 -->
+    </string-array>
+
+    <string-array name="lp5_output_modes_special">
+        <!-- Brightness, Special-1, Special-2, Special-3 -->
+        <!-- 0 --> <item></item> <item></item> <item></item> <item></item>
+        <!-- 1 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 2 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 3 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
+        <!-- 4 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
+        <!-- 5 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 6 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 7 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 8 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 9 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 10 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 11 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 12 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2</item> <item></item> <item></item>
+        <!-- 13 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 14 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 15 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 16 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item>
+        <!-- 17 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item>
+        <!-- 18 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item> <!-- Single Strobe Random -->
+        <!-- 19 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (19) -->
+        <!-- 20 --> <item></item> <item></item> <item></item> <item></item> <!-- ESU coupler 1 (20)? -->
+        <!-- 21 --> <item></item> <item></item> <item></item> <item></item> <!-- ESU coupler 2 (for compatibility) -->
+        <!-- 22 --> <item></item> <item></item> <item></item> <item></item> <!-- Smoke generator (sound-controlled) -->
+        <!-- 23 --> <item>Fan speed (0 – 31)</item> <item>Acceleration time (0 – 31)</item> <item>Braking time (0 – 31)</item> <item></item> <!-- Fan control -->
+        <!-- 24 --> <item>Intensity (0 – 31)</item> <item>Heater power at speed step 1 (0 – 31)</item> <item>Heater power Vmax (0 – 31)</item> <item></item> <!-- Seuthe® Smoke unit -->
+        <!-- 25 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (25) -->
+        <!-- 26 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (26) -->
+        <!-- 27 --> <item>Run time „A” (0 – 63)</item> <item>End position „A“ (0 – 63)</item> <item>End position „B“ (0 – 63)</item> <item>Run time „B” (0 – 63)</item> <!-- Servo1-6 -->
+        <!-- 28 --> <item></item> <item>Coupler strength (power) (0 - 31) </item> <item></item> <item></item> <!-- Conventional coupler function -->
+        <!-- 29 --> <item></item> <item></item> <item></item> <item></item> <!-- ROCO® coupler function (**) -->
+        <!-- 30 --> <item>End position Panto (0 – 15)</item> <item></item> <item></item> <item></item> <!-- Panto control -->
+        <!-- 31 --> <item></item> <item></item> <item></item> <item></item> <!-- PowerPack Control -->
+        <!-- 32 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (32) -->
+        <!-- 33 --> <item>PWM signal ratio between Off and On time from 0 (completely off) to 31 (connected through = 100% output).</item> <item></item> <item></item> <item></item> <!-- Autocoupler coil#2 -->
     </string-array>
 </resources>

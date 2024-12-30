@@ -119,6 +119,15 @@
     <string name="label_lp5_inputs">Inputs</string>
     <string name="label_lp5_outputs">Outputs</string>
     <string name="label_lp5_row_x">Row %d</string>
+    <string name="label_lp5_output_sw_on_delay">Switching-On Delay</string>
+    <string name="label_lp5_output_sw_off_delay">Switching-Off Delay</string>
+    <string name="label_lp5_output_auto_sw_off">Automatic Switch-Off</string>
+    <string name="label_lp5_output_brightness">Brightness</string>
+    <string name="label_lp5_output_special1">Special Function 1</string>
+    <string name="label_lp5_output_special2">Special Function 2</string>
+    <string name="label_lp5_output_special3">Special Function 3</string>
+    <string name="label_lp5_time_x_sec">Time = %.3f seconds</string>
+    <string name="label_lp5_same_as_swon_time">Same as Switch-On delay</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

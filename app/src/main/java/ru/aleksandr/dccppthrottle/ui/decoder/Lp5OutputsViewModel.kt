@@ -54,6 +54,12 @@ class Lp5OutputsViewModel: ViewModel() {
         _loaded.postValue(__loaded)
     }
 
+    fun switchOnOffToPair(value: Int): Pair<Int, Int> =
+        if (value > 255) Pair(0, 0)
+        else Pair(value and 0b00001111, value.shr(4))
+
+    fun pairToSwitchOnOff(pair: Pair<Int, Int>) = pair.second * 16 + pair.first
+
     companion object {
         const val COL_MODE = 0
         const val COL_ONOFFDELAY = 1
@@ -62,6 +68,9 @@ class Lp5OutputsViewModel: ViewModel() {
         const val COL_SPECIAL1 = 4
         const val COL_SPECIAL2 = 5
         const val COL_SPECIAL3 = 6
+
+        const val UNIT_SWONOFF = 0.04096
+        const val UNIT_AUTOOFF = 0.4
 
         val INDEX_CV1 = Pair(31, 16)
         val INDEX_CV2 = Pair(32, 0)

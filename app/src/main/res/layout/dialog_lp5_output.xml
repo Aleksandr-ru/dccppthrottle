@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dialog_padding"
+        android:orientation="vertical">
+
+        <!-- Mode   -->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/text_margin"-->
+<!--            android:text="Mode / Lighting effect"-->
+<!--            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />-->
+
+        <Spinner
+            android:id="@+id/spinnerMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textModeDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="Dimmable light: A normal continuous output. The brightness will be reduced to about 50% if the dimmer function is on." />
+
+        <!-- Switch-on/-off delay   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_sw_on_delay"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusSwitchOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="15"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textSwOnDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="0-6,144 seconds = value * 0,04096" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_sw_off_delay"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusSwitchOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="15"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textSwOffDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="Same as switch-on" />
+
+
+        <!-- Automatic Switch-Off -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_auto_sw_off"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusAutoOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textAutoOffDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="unit is 0.4 seconds" />
+
+        <!-- Brightness -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_brightness"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusBrightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="63"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textBrightnessDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="End position Panto" />
+
+        <!-- Special Function 1 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_special1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusSpecial1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="31"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textSpecial1Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="No description" />
+
+        <!-- Special Function 2 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_special2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusSpecial2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="31"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textSpecial2Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="No description" />
+
+        <!-- Special Function 3 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_output_special3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusSpecial3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="31"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:id="@+id/textSpecial3Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="No description" />
+    </LinearLayout>
+</ScrollView>
