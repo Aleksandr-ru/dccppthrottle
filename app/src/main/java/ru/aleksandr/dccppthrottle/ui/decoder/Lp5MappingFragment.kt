@@ -113,7 +113,7 @@ class Lp5MappingFragment : Fragment() {
                     R.string.title_dialog_lp5_row_x,
                     it + 1
                 ))
-                .setMessage(R.string.message_lp5_read_row)
+                .setMessage(R.string.message_lp5_reload_row)
                 .setPositiveButton(R.string.action_reload) { _, _ -> readRowCVs() }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> model.reloadRow(null) }
                 .show()
@@ -128,7 +128,7 @@ class Lp5MappingFragment : Fragment() {
     }
 
     private fun showReloadDialog() = AlertDialog.Builder(context)
-        .setTitle(R.string.title_dialog_read_strategy)
+        .setTitle(R.string.title_dialog_read_method)
         .setMessage(R.string.message_lp5_read_strategy)
         .setPositiveButton(R.string.action_read_all) { _, _ -> readAllCVs() }
         .setNegativeButton(R.string.action_read_until_blank) { _, _ -> readUntilBlank() }
