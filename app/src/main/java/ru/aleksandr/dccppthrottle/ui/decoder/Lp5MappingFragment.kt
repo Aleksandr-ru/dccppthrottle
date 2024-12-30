@@ -192,7 +192,7 @@ class Lp5MappingFragment : Fragment() {
             catch (e: Exception) {
                 if (e !is CancellationException) {
                     if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
             }
@@ -254,7 +254,7 @@ class Lp5MappingFragment : Fragment() {
             catch (e: Exception) {
                 if (e !is CancellationException) {
                     if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG) model.setLoaded(true)
@@ -428,7 +428,7 @@ class Lp5MappingFragment : Fragment() {
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
                 model.setLoaded(false)
@@ -470,7 +470,7 @@ class Lp5MappingFragment : Fragment() {
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
             }
