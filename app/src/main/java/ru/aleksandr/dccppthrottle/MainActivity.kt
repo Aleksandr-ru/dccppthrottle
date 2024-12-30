@@ -80,11 +80,14 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         val menuItemJoin = navigationView.menu.findItem(R.id.join_switch_item)
         val joinSwitch = menuItemJoin.actionView.findViewById<Switch>(R.id.join_switch)
 
-        val trackListener = View.OnClickListener {
-            CommandStation.setTrackPower(powerSwitch.isChecked, joinSwitch.isChecked)
+        powerSwitch.setOnClickListener() {
+            CommandStation.setTrackPower(powerSwitch.isChecked)
         }
-        powerSwitch.setOnClickListener(trackListener)
-        joinSwitch.setOnClickListener(trackListener)
+
+        joinSwitch.setOnClickListener() {
+            if (joinSwitch.isChecked) CommandStation.setTrackPower(true, joinSwitch.isChecked)
+            else CommandStation.setTrackPower(powerSwitch.isChecked, joinSwitch.isChecked)
+        }
 
         MainStore.trackPower.observe(this) {
             powerSwitch.isChecked = it
