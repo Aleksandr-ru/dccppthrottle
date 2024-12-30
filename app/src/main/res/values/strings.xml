@@ -153,8 +153,8 @@
     <string name="message_track_off">Track power is OFF</string>
     <string name="message_cvs_outdated">CVs data may be outdated</string>
     <string name="message_lp5_read_strategy">
-        Function mapping chart contains 72 rows and over 1000 CVs. It can take a long time to read it all.\n\n
-        However mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time but there is a chance something left hidden.
+        Function mapping chart contains 72 rows and over 1000 CVs. It can take a long time to read it all.
+        \n\nHowever mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time but there is a chance something left hidden.
     </string>
     <string name="message_wrong_manufacturer">Incorrect manufacturer (CV8=%d)</string>
     <string name="message_lp5_reload_row">Re-read CVs data from decoder?</string>

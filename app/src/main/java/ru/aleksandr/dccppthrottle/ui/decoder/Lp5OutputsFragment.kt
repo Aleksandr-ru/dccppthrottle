@@ -146,7 +146,7 @@ class Lp5OutputsFragment : Fragment() {
             catch (e: Exception) {
                 if (e !is CancellationException) {
                     if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG) model.setLoaded(true)
@@ -221,7 +221,7 @@ class Lp5OutputsFragment : Fragment() {
             catch (e: Exception) {
                 if (e !is CancellationException) {
                     if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
                 model.setLoaded(false)
