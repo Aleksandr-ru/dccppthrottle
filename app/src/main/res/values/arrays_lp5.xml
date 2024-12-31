@@ -157,9 +157,9 @@
     <string-array name="lp5_control_cv_n">
         <item>Alternative Load</item>
         <item>Shunting Mode On</item>
-        <item>Brake Function 1 An</item>
-        <item>Brake Function 2 An</item>
-        <item>Brake Function 3 An</item>
+        <item>Brake Function 1</item>
+        <item>Brake Function 2</item>
+        <item>Brake Function 3</item>
         <item>Heavy Load</item>
         <item>Uncoupling cycle</item>
         <item>Drivehold</item>
