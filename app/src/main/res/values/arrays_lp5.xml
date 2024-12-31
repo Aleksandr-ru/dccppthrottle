@@ -223,7 +223,7 @@
         <item>Intelligent firebox</item>
         <item>Single Strobe</item>
         <item>Double Strobe</item>
-        <item>Redary Beacon</item>
+        <item>Rotary Beacon</item> <!-- 7 -->
         <item>Strato Light</item>
         <item>Ditch Light Type 1</item>
         <item>Ditch Light Type 2</item>
@@ -231,7 +231,7 @@
         <item>Flashing light</item>
         <item>Mars Light</item>
         <item>Gyra Light</item>
-        <item>FRED</item>
+        <item>End of train flasher</item> <!-- 15 -->
         <item>Fluorescent lamp</item>
         <item>Energy saving lamp</item>
         <item>Single Strobe Random</item>
@@ -250,7 +250,7 @@
         <item>PowerPack Control</item>
         <item>Servo power</item> <!-- 32 -->
         <item>Autocoupler coil#2</item>
-        <item>Rseerved (34)</item>
+        <item>Reserved (34)</item> <!-- 34 -->
         <item>Trigger smoke chuff "Edge Toggle"</item>
     </string-array>
 
@@ -270,7 +270,7 @@
         <!-- 12 --> <item>This is the “classical” flashing light. The frequency can be adjusted.</item>
         <!-- 13 --> <item>This effect simulates the sweeping pattern of this well-known warning beacon in the USA.</item>
         <!-- 14 --> <item>The Gyra Light is similar to the Mars Light, but is slower in motion.</item>
-        <!-- 15 --> <item>„Flashing End of Train Device“: simulates the flashing red light indicating the end of a train in America.</item>
+        <!-- 15 --> <item>„Flashing End of Train Device“: simulates the flashing red light indicating the end of a train in America.</item> <!-- FRED -->
         <!-- 16 --> <item>Simulates the typical starting characteristics of a fluorescent lamp.</item>
         <!-- 17 --> <item>Simulates the typical starting of modern energy saving lamps.</item>
         <!-- 18 --> <item></item> <!-- Single Strobe Random -->
