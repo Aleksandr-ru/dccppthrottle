@@ -186,16 +186,6 @@
 
     <!-- Outputs   -->
 
-<!--    <string-array name="lp5_output_cvs">-->
-<!--        <item>Mode Select</item>-->
-<!--        <item>Switching-On/-Off Delay</item>-->
-<!--        <item>Automatic Switch Off</item>-->
-<!--        <item>Brightness</item>-->
-<!--        <item>Special Function CV1</item>-->
-<!--        <item>Special Function CV2</item>-->
-<!--        <item>Special Function CV3</item>-->
-<!--    </string-array>-->
-
     <string-array name="lp5_outputs">
         <item>Light front (Config. 1)</item>
         <item>Light back (Config. 1)</item>
@@ -226,7 +216,7 @@
     <!-- Lighting effects   -->
 
     <string-array name="lp5_output_modes">
-        <item>No value (0)</item>
+        <item>(Disabled)</item>
         <item>Dimmable light</item>
         <item>Dimmable light („Fade in/out”)</item>
         <item>Firebox</item>
@@ -245,21 +235,23 @@
         <item>Fluorescent lamp</item>
         <item>Energy saving lamp</item>
         <item>Single Strobe Random</item>
-        <item>Reserved (19)</item> <!-- 19 -->
-        <item>ESU coupler 1 (for compatibility)</item> <!-- 20 ? -->
-        <item>ESU coupler 2 (for compatibility)</item> <!-- 21 -->
-        <item>Smoke generator (sound-controlled)</item> <!-- 22 -->
+        <item>Brake light</item> <!-- 19 -->
+        <item>16 2/3 Hz flickering</item> <!-- 20 -->
+        <item>ESU coupler #1, #2 (for compatibility)</item> <!-- 21 -->
+        <item>Smoke unit (controlled by sound)</item> <!-- 22 -->
         <item>Fan control</item>
         <item>Seuthe® Smoke unit</item>
-        <item>Reserved (25)</item> <!-- 25 -->
-        <item>Reserved (26)</item> <!-- 26 -->
+        <item>Trigger smoke chuff</item> <!-- 25 -->
+        <item>External controlled smoke unit</item> <!-- 26 -->
         <item>Servo 1-6</item>
-        <item>Conventional coupler function</item>
-        <item>ROCO® coupler function (**)</item>
+        <item>Conventional coupler</item> <!-- 28 -->
+        <item>ROCO® coupler</item>
         <item>Panto control</item>
         <item>PowerPack Control</item>
-        <item>Reserved (32)</item>
+        <item>Servo power</item> <!-- 32 -->
         <item>Autocoupler coil#2</item>
+        <item>Rseerved (34)</item>
+        <item>Trigger smoke chuff "Edge Toggle"</item>
     </string-array>
 
     <string-array name="lp5_output_modes_description">
@@ -282,58 +274,62 @@
         <!-- 16 --> <item>Simulates the typical starting characteristics of a fluorescent lamp.</item>
         <!-- 17 --> <item>Simulates the typical starting of modern energy saving lamps.</item>
         <!-- 18 --> <item></item> <!-- Single Strobe Random -->
-        <!-- 19 --> <item></item> <!-- Reserved (19) -->
-        <!-- 20 --> <item>Only AUX7, AUX15</item> <!-- ESU coupler 1 (20)? -->
-        <!-- 21 --> <item>Only AUX8, AUX16</item> <!-- ESU coupler 2 (for compatibility) -->
+        <!-- 19 --> <item></item> <!-- Brake light -->
+        <!-- 20 --> <item></item> <!-- 16 2/3 Hz flickering -->
+        <!-- 21 --> <item>#1 Only AUX7, AUX15. #2 Only AUX8, AUX16.</item> <!-- ESU coupler 2 (for compatibility) -->
         <!-- 22 --> <item></item> <!-- Smoke generator (sound-controlled) -->
         <!-- 23 --> <item>Here a small electric motor is slowly run up to high revs and then back down again. This is often used for fan motors that continue to run for a while.</item> <!-- Fan control -->
         <!-- 24 --> <item>The intensity is reduced whenever the locomotive is stationary.</item> <!-- Seuthe® Smoke unit -->
-        <!-- 25 --> <item></item> <!-- Reserved (25) -->
-        <!-- 26 --> <item></item> <!-- Reserved (26) -->
+        <!-- 25 --> <item></item> <!-- Trigger smoke chuff -->
+        <!-- 26 --> <item></item> <!-- External controlled smoke unit -->
         <!-- 27 --> <item>An RC servo can be connected to this output. Not available for all outputs: Servo1 only AUX15, Servo2 only AUX16, Servo3 only AUX17, Servo4 only AUX18, Servo5 only AUX11, Servo6 only AUX12.</item> <!-- Servo1-6 -->
         <!-- 28 --> <item>You can use this function to control Krois® couplers, also in connection with automatic pushing/removing.</item> <!-- Conventional coupler function -->
-        <!-- 29 --> <item>You can use this function to control ROCO® couplers, also in connection with automatic pushing/removing. Only AUX1[1], AUX1[2], AUX2[1], AUX2[2]</item> <!-- ROCO® coupler function (**) -->
+        <!-- 29 --> <item>You can use this function to control ROCO® couplers, also in connection with automatic pushing/removing. Only AUX1[1], AUX1[2], AUX2[1], AUX2[2]</item> <!-- ROCO® coupler function -->
         <!-- 30 --> <item>This function is needed for ESU locomotives with functional pantographs. Only AUX9, AUX10 für Engineering Edition.</item> <!-- Panto control -->
         <!-- 31 --> <item>Controls the charging and discharging of the external PowerPack. Must be selected when a PowerPack is connected.</item> <!-- PowerPack Control -->
-        <!-- 32 --> <item></item> <!-- Reserved (32) -->
+        <!-- 32 --> <item></item> <!-- Servo power -->
         <!-- 33 --> <item>This special function „Coupler“ provides a special high frequency PWM signal to avoid burning the copper windings of the coil. In this mode, the output turns on at 100% for 250 ms and then reduces the output power by switching to the PWM-signal.</item> <!-- Autocoupler coil#2 -->
+        <!-- 34 --> <item></item> <!-- Reserved (34) -->
+        <!-- 35 --> <item></item> <!-- Trigger smoke chuff "Edge Toggle" -->
     </string-array>
 
     <string-array name="lp5_output_modes_special">
         <!-- Brightness, Special-1, Special-2, Special-3 -->
         <!-- 0 --> <item></item> <item></item> <item></item> <item></item>
-        <!-- 1 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 2 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item></item>
+        <!-- 1 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item>Class light logic</item>
+        <!-- 2 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item>Class light logic</item>
         <!-- 3 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
         <!-- 4 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
-        <!-- 5 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 6 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 7 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 8 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 9 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 10 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 11 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 12 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2</item> <item></item> <item></item>
-        <!-- 13 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 14 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 15 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade XING = 2, LED Mode = 128</item> <item></item> <item></item>
-        <!-- 16 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item>
-        <!-- 17 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item>
+        <!-- 5 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 6 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 7 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 8 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 9 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 10 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 11 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 12 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 13 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 14 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 15 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 16 --> <item>Brightness (0 – 31)</item> <item></item> <item>Startup time (255 means defective Neon lamp)</item> <item></item>
+        <!-- 17 --> <item>Brightness (0 – 31)</item> <item></item> <item>Startup time (255 means defective Neon lamp)</item> <item></item>
         <!-- 18 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item> <!-- Single Strobe Random -->
-        <!-- 19 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (19) -->
-        <!-- 20 --> <item></item> <item></item> <item></item> <item></item> <!-- ESU coupler 1 (20)? -->
+        <!-- 19 --> <item>Brightness (0 – 31)</item> <item></item> <item>Level  (0 - 127)</item> <item></item> <!-- Brake light -->
+        <!-- 20 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item> <!-- ESU coupler 1 (20)? -->
         <!-- 21 --> <item></item> <item></item> <item></item> <item></item> <!-- ESU coupler 2 (for compatibility) -->
-        <!-- 22 --> <item></item> <item></item> <item></item> <item></item> <!-- Smoke generator (sound-controlled) -->
-        <!-- 23 --> <item>Fan speed (0 – 31)</item> <item>Acceleration time (0 – 31)</item> <item>Braking time (0 – 31)</item> <item></item> <!-- Fan control -->
+        <!-- 22 --> <item>Fan control - 31, Heating control - 30</item> <item></item> <item></item> <item></item> <!-- Smoke generator (sound-controlled) -->
+        <!-- 23 --> <item>Fan speed (0 – 31)</item> <item>Acceleration rate (0 – 31)</item> <item>Braking rate (0 – 31)</item> <item></item> <!-- Fan control -->
         <!-- 24 --> <item>Intensity (0 – 31)</item> <item>Heater power at speed step 1 (0 – 31)</item> <item>Heater power Vmax (0 – 31)</item> <item></item> <!-- Seuthe® Smoke unit -->
-        <!-- 25 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (25) -->
-        <!-- 26 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (26) -->
+        <!-- 25 --> <item>Chuff power (0 – 31)</item> <item>Fan power (0 - 31)</item> <item>Timeout (0 - 255, unit 0,26s)</item> <item></item> <!-- Trigger smoke chuff -->
+        <!-- 26 --> <item>KM1 BR 41 / BR 44 = 0, KM1 (other) = 1, KISS = 2, ESU Smoke Unit (Gauge 0, G) = 3</item> <item></item> <item></item> <item></item> <!-- External controlled smoke unit -->
         <!-- 27 --> <item>Run time „A” (0 – 63)</item> <item>End position „A“ (0 – 63)</item> <item>End position „B“ (0 – 63)</item> <item>Run time „B” (0 – 63)</item> <!-- Servo1-6 -->
-        <!-- 28 --> <item></item> <item>Coupler strength (power) (0 - 31) </item> <item></item> <item></item> <!-- Conventional coupler function -->
-        <!-- 29 --> <item></item> <item></item> <item></item> <item></item> <!-- ROCO® coupler function (**) -->
+        <!-- 28 --> <item>Coupler strength (power) (0 - 31)</item> <item></item> <item></item> <item></item> <!-- Conventional coupler function -->
+        <!-- 29 --> <item></item> <item></item> <item></item> <item></item> <!-- ROCO® coupler function -->
         <!-- 30 --> <item>End position Panto (0 – 15)</item> <item></item> <item></item> <item></item> <!-- Panto control -->
         <!-- 31 --> <item></item> <item></item> <item></item> <item></item> <!-- PowerPack Control -->
-        <!-- 32 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (32) -->
-        <!-- 33 --> <item>PWM signal ratio between Off and On time from 0 (completely off) to 31 (connected through = 100% output).</item> <item></item> <item></item> <item></item> <!-- Autocoupler coil#2 -->
+        <!-- 32 --> <item></item> <item></item> <item></item> <item></item> <!-- Servo power -->
+        <!-- 33 --> <item>Coupler force (PWM signal ratio, 0 - 31)</item> <item></item> <item></item> <item></item> <!-- Autocoupler coil#2 -->
+        <!-- 34 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (34) -->
+        <!-- 35 --> <item></item> <item></item> <item></item> <item></item> <!-- Trigger smoke chuff "Edge Toggle" -->
     </string-array>
 </resources>

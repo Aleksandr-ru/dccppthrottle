@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/text_margin"
-            app:max="31"
+            app:max="255"
             app:min="0"
             app:nullable="false" />
 
@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/text_margin"
-            app:max="31"
+            app:max="255"
             app:min="0"
             app:nullable="false" />
 
@@ -209,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/text_margin"
-            app:max="31"
+            app:max="255"
             app:min="0"
             app:nullable="false" />
 
