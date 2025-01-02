@@ -216,61 +216,61 @@
     <!-- Lighting effects   -->
 
     <string-array name="lp5_output_modes">
-        <item>(Disabled)</item>
-        <item>Dimmable light</item>
-        <item>Dimmable light („Fade in/out”)</item>
-        <item>Firebox</item>
-        <item>Intelligent firebox</item>
-        <item>Single Strobe</item>
-        <item>Double Strobe</item>
-        <item>Rotary Beacon</item> <!-- 7 -->
-        <item>Strato Light</item>
-        <item>Ditch Light Type 1</item>
-        <item>Ditch Light Type 2</item>
-        <item>Oscillator</item>
-        <item>Flashing light</item>
-        <item>Mars Light</item>
-        <item>Gyra Light</item>
-        <item>End of train flasher</item> <!-- 15 -->
-        <item>Fluorescent lamp</item>
-        <item>Energy saving lamp</item>
-        <item>Single Strobe Random</item>
-        <item>Brake light</item> <!-- 19 -->
-        <item>16 2/3 Hz flickering</item> <!-- 20 -->
-        <item>ESU coupler #1, #2 (for compatibility)</item> <!-- 21 -->
-        <item>Smoke unit (controlled by sound)</item> <!-- 22 -->
-        <item>Fan control</item>
-        <item>Seuthe® Smoke unit</item>
-        <item>Trigger smoke chuff</item> <!-- 25 -->
-        <item>External controlled smoke unit</item> <!-- 26 -->
-        <item>Servo 1-6</item>
-        <item>Conventional coupler</item> <!-- 28 -->
-        <item>ROCO® coupler</item>
-        <item>Panto control</item>
-        <item>PowerPack Control</item>
-        <item>Servo power</item> <!-- 32 -->
-        <item>Autocoupler coil#2</item>
-        <item>Reserved (34)</item> <!-- 34 -->
-        <item>Trigger smoke chuff "Edge Toggle"</item>
+        <item>0 (Disabled)</item>
+        <item>1 Dimmable light</item>
+        <item>2 Dimmable light (Fade in/out)</item>
+        <item>3 Firebox</item>
+        <item>4 Intelligent firebox</item>
+        <item>5 Single Strobe</item>
+        <item>6 Double Strobe</item>
+        <item>7 Rotary Beacon</item> <!-- 7 -->
+        <item>8 Strato Light</item>
+        <item>9 Ditch Light Type 1</item>
+        <item>10 Ditch Light Type 2</item>
+        <item>11 Oscillator</item>
+        <item>12 Flashing light</item>
+        <item>13 Mars Light</item>
+        <item>14 Gyra Light</item>
+        <item>15 End of train flasher</item> <!-- 15 -->
+        <item>16 Fluorescent lamp</item>
+        <item>17 Energy saving lamp</item>
+        <item>18 Single Strobe Random</item>
+        <item>19 Brake light</item> <!-- 19 -->
+        <item>20 16 2/3 Hz flickering</item> <!-- 20 -->
+        <item>21 ESU coupler #1, #2 (for compatibility)</item> <!-- 21 -->
+        <item>22 Smoke unit (controlled by sound)</item> <!-- 22 -->
+        <item>23 Fan control</item>
+        <item>24 Seuthe Smoke unit</item>
+        <item>25 Trigger smoke chuff</item> <!-- 25 -->
+        <item>26 External controlled smoke unit</item> <!-- 26 -->
+        <item>27 Servo 1-6</item>
+        <item>28 Conventional coupler</item> <!-- 28 -->
+        <item>29 Roco coupler</item>
+        <item>30 Panto control</item>
+        <item>31 PowerPack Control</item>
+        <item>32 Servo power</item> <!-- 32 -->
+        <item>33 Autocoupler coil#2</item>
+        <item>34 (Reserved)</item> <!-- 34 -->
+        <item>35 Trigger smoke chuff \"Edge Toggle\"</item>
     </string-array>
 
     <string-array name="lp5_output_modes_description">
         <!-- 0 --> <item>No effect</item>
         <!-- 1 --> <item>A normal continuous output. The brightness will be reduced to about 50% if the dimmer function is on.</item>
-        <!-- 2 --> <item>Here the output is switched on slowly and immitates the slow glowing of oil lamps or very old light bulbs. The brightness will be reduced to about 50% if the dimmer function is on.</item>
+        <!-- 2 --> <item>Here the output is switched on slowly and imitates the slow glowing of oil lamps or very old light bulbs. The brightness will be reduced to about 50% if the dimmer function is on.</item>
         <!-- 3 --> <item>Simulates a normal fire box lighting effect.</item>
-        <!-- 4 --> <item>Simulates an “intelligent” fire box lighting effect, whose itensity changes if the Logic function “Firebox” is active.</item>
+        <!-- 4 --> <item>Simulates an \"intelligent\" fire box lighting effect, whose intensity changes if the Logic function "Firebox" is active.</item>
         <!-- 5 --> <item>This is a single strobe light (short flashing) output. The frequency can be adjusted.</item>
-        <!-- 6 --> <item>DThis will result in two short flashes. The frequency can be adjusted.</item>
-        <!-- 7 --> <item>This effect should simulate a revolving reflector and bulb assignment of a very popular warning beacon atop many diesels of the 60’s and 70’s.</item>
-        <!-- 8 --> <item>This is the more modern version of the Redary beacon.</item>
+        <!-- 6 --> <item>This will result in two short flashes. The frequency can be adjusted.</item>
+        <!-- 7 --> <item>This effect should simulate a revolving reflector and bulb assignment of a very popular warning beacon atop many diesels of the 60\'s and 70\'s.</item>
+        <!-- 8 --> <item>This is the more modern version of the Rotary beacon.</item>
         <!-- 9 --> <item>The ditch light type 1 will revert to a steady On state when it is not flashing.</item>
         <!-- 10 --> <item>The ditch light type 2 will revert to Off state when it is not flashing.</item>
         <!-- 11 --> <item>A warning signal required in the USA.</item>
-        <!-- 12 --> <item>This is the “classical” flashing light. The frequency can be adjusted.</item>
+        <!-- 12 --> <item>This is the \"classical\" flashing light. The frequency can be adjusted.</item>
         <!-- 13 --> <item>This effect simulates the sweeping pattern of this well-known warning beacon in the USA.</item>
         <!-- 14 --> <item>The Gyra Light is similar to the Mars Light, but is slower in motion.</item>
-        <!-- 15 --> <item>„Flashing End of Train Device“: simulates the flashing red light indicating the end of a train in America.</item> <!-- FRED -->
+        <!-- 15 --> <item>Flashing End of Train Device: simulates the flashing red light indicating the end of a train in America.</item> <!-- FRED -->
         <!-- 16 --> <item>Simulates the typical starting characteristics of a fluorescent lamp.</item>
         <!-- 17 --> <item>Simulates the typical starting of modern energy saving lamps.</item>
         <!-- 18 --> <item></item> <!-- Single Strobe Random -->
@@ -288,7 +288,7 @@
         <!-- 30 --> <item>This function is needed for ESU locomotives with functional pantographs. Only AUX9, AUX10 für Engineering Edition.</item> <!-- Panto control -->
         <!-- 31 --> <item>Controls the charging and discharging of the external PowerPack. Must be selected when a PowerPack is connected.</item> <!-- PowerPack Control -->
         <!-- 32 --> <item></item> <!-- Servo power -->
-        <!-- 33 --> <item>This special function „Coupler“ provides a special high frequency PWM signal to avoid burning the copper windings of the coil. In this mode, the output turns on at 100% for 250 ms and then reduces the output power by switching to the PWM-signal.</item> <!-- Autocoupler coil#2 -->
+        <!-- 33 --> <item>This special function \"Coupler\" provides a special high frequency PWM signal to avoid burning the copper windings of the coil. In this mode, the output turns on at 100% for 250 ms and then reduces the output power by switching to the PWM-signal.</item> <!-- Autocoupler coil#2 -->
         <!-- 34 --> <item></item> <!-- Reserved (34) -->
         <!-- 35 --> <item></item> <!-- Trigger smoke chuff "Edge Toggle" -->
     </string-array>
