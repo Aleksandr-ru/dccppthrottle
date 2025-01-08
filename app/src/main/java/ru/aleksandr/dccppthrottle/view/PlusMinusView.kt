@@ -97,10 +97,18 @@ class PlusMinusView : LinearLayout {
 
         plusButton.setOnClickListener {
             value = numberInput?.text.toString().toIntOrNull()?.plus(step) ?: (max ?: 1)
+            numberInput?.let {
+                it.requestFocus()
+                it.selectAll()
+            }
         }
 
         minusButton.setOnClickListener {
             value = numberInput?.text.toString().toIntOrNull()?.minus(step) ?: (min ?: 0)
+            numberInput?.let {
+                it.requestFocus()
+                it.selectAll()
+            }
         }
 
         numberInput?.let {
