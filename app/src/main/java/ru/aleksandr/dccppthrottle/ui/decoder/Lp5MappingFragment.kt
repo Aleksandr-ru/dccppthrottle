@@ -366,10 +366,10 @@ class Lp5MappingFragment : Fragment() {
         }
     }
 
-    private fun createEditRowDialogCheckboxes(layout: LinearLayout, rage: IntRange) {
+    private fun createEditRowDialogCheckboxes(layout: LinearLayout, range: IntRange) {
         val context = context!!
         val m = resources.getDimension(R.dimen.text_margin)
-        for (ci in rage) {
+        for (ci in range) {
             val cvValue = model.getEditRowValue(ci)
 
             val textView = TextView(context).apply {
@@ -383,7 +383,8 @@ class Lp5MappingFragment : Fragment() {
                 val switchView = SwitchCompat(context).apply {
                     text = str
                     if (cvValue > 0) {
-                        isChecked = (cvValue and 2f.pow(idx).toInt() == cvValue)
+                        val ii = 2f.pow(idx).toInt()
+                        isChecked = (cvValue and ii == ii)
                     }
                     setPadding(m.toInt(), m.toInt(), 0, m.toInt())
                     setOnCheckedChangeListener { _, chk ->

@@ -188,6 +188,26 @@ class Lp5OutputsFragment : Fragment() {
             val special2View = findViewById<PlusMinusView>(R.id.plusminusSpecial2)
             val special3View = findViewById<PlusMinusView>(R.id.plusminusSpecial3)
 
+            brightnessView.setOnChangeListener {
+                val value = it ?: 0
+                model.setEditRowValue(Lp5OutputsViewModel.COL_BRIGHTNESS, value)
+            }
+
+            special1View.setOnChangeListener {
+                val value = it ?: 0
+                model.setEditRowValue(Lp5OutputsViewModel.COL_SPECIAL1, value)
+            }
+
+            special2View.setOnChangeListener {
+                val value = it ?: 0
+                model.setEditRowValue(Lp5OutputsViewModel.COL_SPECIAL2, value)
+            }
+
+            special3View.setOnChangeListener {
+                val value = it ?: 0
+                model.setEditRowValue(Lp5OutputsViewModel.COL_SPECIAL3, value)
+            }
+
             val pair = model.switchOnOffToPair(model.getEditRowValue(Lp5OutputsViewModel.COL_ONOFFDELAY))
             swOnView.value = pair.first
             swOffView.value = pair.second
