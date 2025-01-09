@@ -231,6 +231,17 @@ object LocomotivesStore : JsonStoreInterface {
         hasUnsavedData = true
     }
 
+    fun setNamedOnlyBySlot(slot: Int, value: Boolean) {
+        _data.postValue(_data.value?.also {
+            it.map { item ->
+                item.takeIf { it.slot == slot }?.apply {
+                    namedOnly = value
+                }
+            }
+        })
+        hasUnsavedData = true
+    }
+
     private fun sort(list: MutableList<LocomotiveState>) : MutableList<LocomotiveState> {
         return when (_sortOrder) {
             SORT_NAME -> {
@@ -269,7 +280,7 @@ object LocomotivesStore : JsonStoreInterface {
                 jsonObject.getInt("address"),
                 jsonObject.optString("title").ifEmpty { null },
                 jsonObject.optInt("minSpeed", 1),
-                jsonObject.optInt("maxSpeed", 100)
+                jsonObject.optInt("maxSpeed", 100),
             ).apply {
                 slot = jsonObject.getInt("slot")
                 val names = jsonObject.optJSONArray("funcNames")
@@ -287,6 +298,7 @@ object LocomotivesStore : JsonStoreInterface {
                         funcReset[i] = it.optInt(i)
                     }
                 }
+                namedOnly = jsonObject.optBoolean("namedOnly", false)
             }
             list.add(item)
         }
@@ -303,6 +315,7 @@ object LocomotivesStore : JsonStoreInterface {
         val functions = BooleanArray(FUNCTIONS_COUNT)
         val funcNames = Array<String>(FUNCTIONS_COUNT) { "" }
         val funcReset = IntArray(FUNCTIONS_COUNT)
+        var namedOnly: Boolean = false
         var speed: Int = 0
         var reverse: Boolean = false
         var slot: Int = 0
@@ -317,6 +330,7 @@ object LocomotivesStore : JsonStoreInterface {
             put("slot", slot)
             put("funcNames", JSONArray(funcNames))
             put("funcReset", JSONArray(funcReset))
+            put("namedOnly", namedOnly)
         }
     }
 

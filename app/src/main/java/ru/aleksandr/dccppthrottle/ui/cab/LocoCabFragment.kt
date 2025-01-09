@@ -95,7 +95,7 @@ class LocoCabFragment : Fragment() {
             else index
         }
         val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
-            if (s.isNotEmpty()) null
+            if (s.isNotEmpty() || loco.namedOnly) null
             else index
         }
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)

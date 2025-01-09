@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) 2024. Aleksandr.ru
   ~ @link http://aleksandr.ru
@@ -24,6 +23,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Switch
+        android:id="@+id/swNamed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_only_named"
+        android:layout_margin="@dimen/text_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintBottom_toTopOf="@+id/rvFunctions"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFunctions"
         android:layout_width="match_parent"
@@ -34,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/swNamed"
         app:layoutManager="LinearLayoutManager"
         tools:listitem="@layout/fragment_function_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

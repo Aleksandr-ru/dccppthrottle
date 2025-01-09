@@ -82,6 +82,7 @@
     <string name="label_speed_limit">Speed limit</string>
     <string name="label_min">Min</string>
     <string name="label_max">Max</string>
+    <string name="label_only_named">Show named functions only</string>
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward</string>
     <string name="label_reverse">Reverse</string>
