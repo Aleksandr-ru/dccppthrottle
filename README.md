@@ -31,7 +31,7 @@ With the application you get a low-cost full featured DCC command station. You d
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/ru.aleksandr.dccppthrottle/)
 [<img src="https://i.ibb.co/q0mdc4Z/get-it-on-github.png" alt="Get it on GitHub" height="80">](https://github.com/Aleksandr-ru/dccppthrottle/releases)
 
---
+---
 
 ![](https://img.shields.io/f-droid/v/ru.aleksandr.dccppthrottle.svg?logo=F-Droid)
 ![](https://img.shields.io/github/v/release/Aleksandr-ru/dccppthrottle.svg?logo=github)
