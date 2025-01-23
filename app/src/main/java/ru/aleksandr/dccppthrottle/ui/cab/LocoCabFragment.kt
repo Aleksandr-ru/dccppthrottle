@@ -7,11 +7,13 @@
 
 package ru.aleksandr.dccppthrottle.ui.cab
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -22,6 +24,7 @@ import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.Utility.remap
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
+import ru.aleksandr.dccppthrottle.view.LockableScrollView
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -142,6 +145,18 @@ class LocoCabFragment : Fragment() {
                 CommandStation.setLocomotiveSpeed(slot, speed)
             }
         })
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            val scrollView = view as LockableScrollView
+            progressView.setOnTouchListener { _, ev ->
+                when (ev?.action) {
+                    MotionEvent.ACTION_DOWN -> scrollView.setScrollingEnabled(false)
+                    MotionEvent.ACTION_UP -> scrollView.setScrollingEnabled(true)
+                }
+                false
+            }
+            //TODO: same view for landscape and portrait
+        }
 
         val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
         revToggle.setOnCheckedChangeListener { button, isChecked ->
