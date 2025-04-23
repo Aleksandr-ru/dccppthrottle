@@ -16,6 +16,7 @@
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
+    <string name="title_fragment_xp4_outputs">Piko / Uhlenbrock outputs config</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>
@@ -50,6 +51,7 @@
     <string name="action_connect">Connect</string>
     <string name="action_read_value">Read value</string>
     <string name="action_write_value">Write value</string>
+    <string name="action_write_all">Write all values</string>
     <string name="action_write">Write</string>
     <string name="action_quit">Quit</string>
     <string name="action_turn_on">Turn ON</string>
@@ -67,8 +69,12 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_lp5">ESU LokPilot 5</string>
-    <string name="menu_lp5_mapping">Function mapping</string>
-    <string name="menu_lp5_outputs">Outputs configuration</string>
+    <string name="menu_xp4">Piko XP 4.1 / Uhlenbrock IntelliDrive 2</string>
+    <string name="menu_xp5">Piko SmartDecoder XP 5.1</string>
+    <string name="menu_decoder_mapping">Function mapping</string>
+    <string name="menu_decoder_outputs">Outputs configuration</string>
+    <string name="menu_decoder_mapping_simple">Simple function mapping</string>
+    <string name="menu_decoder_mapping_extended">Extended function mapping</string>
 
     <string name="label_f">F%d</string>
     <string name="label_f_named">F%d: %s</string>
@@ -116,6 +122,8 @@
     <string name="label_restore_error">Error! %s</string>
     <string name="label_f_per_row">Loco cab functions display</string>
     <string name="label_unknown_x">Unknown (%d)</string>
+    <string name="label_resulting_cv_x">Resulting CV value = %d</string>
+    <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_inputs">Inputs</string>
     <string name="label_lp5_outputs">Outputs</string>
@@ -129,6 +137,29 @@
     <string name="label_lp5_output_special3">Special Function 3</string>
     <string name="label_lp5_time_x_sec">Time = %.3f seconds</string>
     <string name="label_lp5_same_as_swon_time">Same as Switch-On delay</string>
+    <!-- Piko XP4 -->
+    <string name="label_xp4_time_x_sec">Time = %.3f seconds</string>
+    <string name="label_xp4_cv186">CV186 is used to specify which output should control this option.</string>
+    <string name="label_xp4_cv187">The value of CV187 determines how fast the fade function works.</string>
+    <string name="label_xp4_cv109">CV109 is used to specify which output the flasher option is connected to.</string>
+    <string name="label_xp4_cv110">Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
+    <string name="label_xp4_cv111">In CV111 the activation time is adjustable in 100millisecond steps.</string>
+    <string name="label_xp4_cv112">In CV112 the deactivation time in 100millisecond steps.</string>
+    <string name="label_xp4_cv189">The flash time is set via CV 189 in 5 millesecond steps.</string>
+    <string name="label_xp4_cv190">The maximum number of flashes is set in CV 190.</string>
+    <string name="label_xp4_cv184">The basic brightness is adjustable via CV184.</string>
+    <string name="label_xp4_cv185">The setting of CV185 determines how fast the final intensity of the brightness (PWM1 in CVs 116 – 123) is reached.</string>
+    <string name="label_xp4_cv182">Settings for the flicker rhythm, as well as for the intensity of brightness are entered in CV 182.</string>
+    <string name="label_xp4_cv182lo">Bits 0 – 3 change the flicker rhythm</string>
+    <string name="label_xp4_cv182hi">Bits 4 – 6 change the brightness</string>
+    <string name="label_xp4_cv182note">Since only one value can be programmed into a CV, the flicker effect results from the sum of the individual values of the flicker rhythm plus the sum of the individual values of the brightness settings (sum of bits 0 – 3 plus sum of bits 4 – 6). The combination of all bits results in a differing, random flicker effect.</string>
+    <string name="label_xp4_cv130output">CV130 determines which outputs from A1 to A7 are controlled by the smoke generator control</string>
+    <string name="label_xp4_cv130delay">And when to activate the startup delay </string>
+    <string name="label_xp4_no_smoke">No smoke generator operation</string>
+    <string name="label_xp4_cv131">The load threshold is entered into CV131 from a value range of 0 to 127. The larger the value is the slower the output responds to a load change.</string>
+    <string name="label_xp4_cv132">CV132 determines the PWM for normal running characteristics</string>
+    <string name="label_xp4_cv133">CV133 determines the PWM when the locomotive is idling</string>
+    <string name="label_xp4_cv134">Startup (activation) time is entered in CV 134</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
