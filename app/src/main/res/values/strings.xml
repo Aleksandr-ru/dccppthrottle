@@ -194,6 +194,8 @@
     <string name="label_xp4_cv163">CV163 Servo 2, position 1 (function key off)</string>
     <string name="label_xp4_cv164">CV164 Servo 2, position 2 (function key on)</string>
     <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
+    <string name="label_xp4_dimming2">Secondary dimming of the lighting and function outputs</string>
+    <string name="label_xp4_dimming2_desc">The lighting and function outputs can be set to alternative dimming settings (for example, a high beam). The settings for the alternative dimming values are stored in CVs 150 to 157 for A0 to A7. This settings can be activated in extended function mapping (CV96 = 1).</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

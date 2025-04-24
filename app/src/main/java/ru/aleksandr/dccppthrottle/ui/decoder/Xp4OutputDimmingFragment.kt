@@ -39,22 +39,28 @@ class Xp4OutputDimmingFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val table = view.findViewById<TableLayout>(R.id.tableLayout)
+        val table1 = view.findViewById<TableLayout>(R.id.tableLayout)
+        val table2 = view.findViewById<TableLayout>(R.id.tableLayout2)
         resources.getStringArray(R.array.xp4_outputs).withIndex().forEach { a ->
-            val v =
-                layoutInflater.inflate(R.layout.fragment_xp4_output_dimming_row, table, false)
-            v.findViewById<TextView>(R.id.textViewName).apply {
-                text = a.value
-            }
-            v.findViewById<PlusMinusView>(R.id.plusminusValue).apply {
-                model.loaded.observe(viewLifecycleOwner) {
-                    if (it) value = model.getCvValue(a.index + 116)
-                }
-                setOnChangeListener {
-                    if (it !== null) model.setCvValue(a.index + 116, it)
-                }
-            }
-            table.addView(v)
+            addTableRow(table1, a.value, a.index + 116)
+            addTableRow(table2, a.value, a.index + 150)
         }
+    }
+
+    private fun addTableRow(table: TableLayout, name: String, cv: Int) {
+        val v =
+            layoutInflater.inflate(R.layout.fragment_xp4_output_dimming_row, table, false)
+        v.findViewById<TextView>(R.id.textViewName).apply {
+            text = name
+        }
+        v.findViewById<PlusMinusView>(R.id.plusminusValue).apply {
+            model.loaded.observe(viewLifecycleOwner) {
+                if (it) value = model.getCvValue(cv)
+            }
+            setOnChangeListener {
+                if (it !== null) model.setCvValue(cv, it)
+            }
+        }
+        table.addView(v)
     }
 }

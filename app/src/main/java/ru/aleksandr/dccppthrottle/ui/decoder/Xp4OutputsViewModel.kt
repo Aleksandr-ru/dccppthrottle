@@ -51,6 +51,7 @@ class Xp4OutputsViewModel: ViewModel() {
         val cvNumbers = listOf(
             // Dimming the light and function outputs
             116, 117, 118, 119, 120, 121, 122, 123,
+            150, 151, 152, 153, 154, 155, 156, 157,
 
             // Fade-in/fade-out option for lighting and function outputs
             186, 187,
