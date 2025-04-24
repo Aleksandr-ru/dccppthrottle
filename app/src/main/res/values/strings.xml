@@ -16,7 +16,7 @@
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
-    <string name="title_fragment_xp4_outputs">Piko / Uhlenbrock outputs config</string>
+    <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>
