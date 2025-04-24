@@ -11,6 +11,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.HorizontalScrollView
 import androidx.core.view.children
 import com.google.android.material.chip.Chip
@@ -28,12 +29,20 @@ class ByteChipsView : HorizontalScrollView {
     private var _strings = (0..8).map { it.toString() }.toTypedArray()
 
     private var _value: Int = 0
+    private var _hidden: Int = 0
 
     var value: Int
         get() = _value
         set(value) {
             _value = value.toUByte().toInt()
             valueToChips()
+        }
+
+    var hiddenBits: Int
+        get() = _hidden
+        set(value) {
+            _hidden = value.toUByte().toInt()
+            hiddenToChips()
         }
 
     private var onChangeListener : ((Int) -> Unit)? = null
@@ -66,6 +75,9 @@ class ByteChipsView : HorizontalScrollView {
         if (a.hasValue(R.styleable.ByteChipsView_value)) {
             value = a.getInt(R.styleable.ByteChipsView_value, 0)
         }
+        if (a.hasValue(R.styleable.ByteChipsView_hiddenBits)) {
+            hiddenBits = a.getInt(R.styleable.ByteChipsView_hiddenBits, 0)
+        }
 
         chipsView = findViewById<ChipGroup>(R.id.chip_group).apply {
             children.withIndex().forEach { item ->
@@ -86,6 +98,7 @@ class ByteChipsView : HorizontalScrollView {
 
         a.recycle()
         valueToChips()
+        hiddenToChips()
     }
 
     override fun setEnabled(enabled: Boolean) {
@@ -117,5 +130,13 @@ class ByteChipsView : HorizontalScrollView {
 
         if (BuildConfig.DEBUG)
             Log.d(TAG, String.format("chipsToValue = %d", _value))
+    }
+
+    private fun hiddenToChips() {
+        chipsView?.children?.withIndex()?.forEach {
+            it.value.visibility =
+                if (_hidden.and(0b1 shl it.index) > 0) View.GONE
+                else View.VISIBLE
+        }
     }
 }

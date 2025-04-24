@@ -120,7 +120,7 @@ class Xp4OutputSmokeFragment() : Fragment() {
 
         model.loaded.observe(viewLifecycleOwner) {
             if (it) {
-                viewSpinner.setSelection(model.getCvValue(130) % 16)
+                viewSpinner.setSelection(model.getCvValue(130) % 8)
                 viewDelay.value = model.getCvValue(130) / 16
 
                 viewCv131value.value = model.getCvValue(131)

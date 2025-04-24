@@ -12,6 +12,7 @@
 
     <declare-styleable name="ByteChipsView">
         <attr name="value" />
+        <attr name="hiddenBits" format="integer" />
         <attr name="stringArray" format="reference" />
         <attr name="android:enabled" />
     </declare-styleable>

@@ -160,6 +160,19 @@
     <string name="label_xp4_cv132">CV132 determines the PWM for normal running characteristics</string>
     <string name="label_xp4_cv133">CV133 determines the PWM when the locomotive is idling</string>
     <string name="label_xp4_cv134">Startup (activation) time is entered in CV 134</string>
+    <string name="label_xp4_cv124">CV124 number of coupling operations (0 = no coupler)</string>
+    <string name="label_xp4_cv125">CV125 activation time for coupler operation with PWM from CV117 (A1) to CV123 (A7)</string>
+    <string name="label_xp4_cv126">CV126 coupler in open position time (holding time for coupler operation)</string>
+    <string name="label_xp4_cv127">CV127 deactivation time (pause time for coupler operation) (0 = no functioning)</string>
+    <string name="label_xp4_cv128">CV128 hold PWM</string>
+    <string name="label_xp4_cv129">CV129 Electric coupler function output</string>
+    <string name="label_xp4_shunting_tango">Switching (shunting) tango, automatic coupling/uncoupling maneuvers</string>
+    <string name="label_xp4_shunting_tango2">A switching (shunting) tango can only be carried out if the electric coupler control is activated in CV124 – 129. A switching tango is activated by one of the electric coupler outputs when the decoder speed step is at 0:\nHow a switching (shunting) tango works:\n1. The locomotive travels forward for a programmable length and speed (T1)\n2. The locomotive stops and switches its direction of travel\n3. The locomotive uncouples and moves backward at the same speed for the same length (T2)\n4. The locomotive stops and resumes the original direction of travel.</string>
+    <string name="label_xp4_shunting_tango3">Switching tango with automatic coupling and uncoupling</string>
+    <string name="label_xp4_shunting_tango4">Changing the function operation with two connected couplings on two outputs:\n\n1. For the front coupler drive, CV129 is the least significant CV for outputs A1 to A7. So, if A1 and A2 are both used, A1 is for the front coupler and A2 is for the rear coupler. If more (or less) than 2 outputs are used, there is still no difference in the sequence for the different directions of travel (see automatic uncoupling movements).\n\n2. If the locomotive is traveling forward and the front coupler drive is deactivated via a function key, the coupler drive is also deactivated when the direction of travel is reversed, and the locomotive is running in an automatic switching (shunting) sequence (coupling procedure). If the locomotive is traveling backwards and the rear coupler drive is deactivated, then the front coupler is activated. In either direction of travel, the electric coupler drive is controlled by its respective setting.\n\n3. The amount of time that the electric coupler drive is activated is adjusted via CVs 124–127 to correspond with the switching (shunting) tango scenario, controlled by CVs 136 and 137. The following rule applies: CV124 multiplied with the sum of CV125 + CV126 + CV127 always must be bigger than the sum of CV136 + CV137. In this case and in other circumstances, additions must be made to the right side of the inequality, because, when the model is running in a switching tango mode, the decoder only reverses the direction of travel when it senses the model is in idle.</string>
+    <string name="label_xp4_cv135">CV135 for switching (shunting) gear “switching tango” (speed steps). A CV value of 0 specifies that no switching tango takes place.</string>
+    <string name="label_xp4_cv136">CV136 for the pushing movement time T1</string>
+    <string name="label_xp4_cv137">CV137 for the reverse movement time T2</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
