@@ -42,6 +42,7 @@ class Xp4OutputServoFragment() : Fragment() {
 
         // 166
         view.findViewById<ByteChipsView>(R.id.byteChipsCv166)?.apply {
+            setChipText(0, getString(R.string.label_xp4_output_susi))
             setOnChangeListener {
                 model.setCvValue(166, it)
             }

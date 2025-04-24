@@ -116,6 +116,11 @@ class ByteChipsView : HorizontalScrollView {
         onChipCheckedListener = listener
     }
 
+    fun setChipText(index: Int, text: String) {
+        val chip = chipsView?.children?.elementAtOrNull(index) as Chip?
+        chip?.text = text
+    }
+
     private fun valueToChips() {
         changeListenerEnabled = false
         chipsView?.children?.withIndex()?.forEach {
