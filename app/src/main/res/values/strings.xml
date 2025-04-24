@@ -173,6 +173,14 @@
     <string name="label_xp4_cv135">CV135 for switching (shunting) gear “switching tango” (speed steps). A CV value of 0 specifies that no switching tango takes place.</string>
     <string name="label_xp4_cv136">CV136 for the pushing movement time T1</string>
     <string name="label_xp4_cv137">CV137 for the reverse movement time T2</string>
+    <string name="label_xp4_cv167">CV167 function key numbers (F0 - F28) for Servo 1 on SUSI-CLK</string>
+    <string name="label_xp4_cv168">CV168 function key numbers (F0 - F28) for Servo 2 on SUSI-Data</string>
+    <string name="label_xp4_cv160">CV160 Servo 1, position 1 (function key off)</string>
+    <string name="label_xp4_cv161">CV161 Servo 1, position 2 (function key on)</string>
+    <string name="label_xp4_cv162">CV162 Servo 1, circulation time</string>
+    <string name="label_xp4_cv163">CV163 Servo 2, position 1 (function key off)</string>
+    <string name="label_xp4_cv164">CV164 Servo 2, position 2 (function key on)</string>
+    <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

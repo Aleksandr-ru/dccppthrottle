@@ -45,7 +45,8 @@ class ByteChipsView : HorizontalScrollView {
             hiddenToChips()
         }
 
-    private var onChangeListener : ((Int) -> Unit)? = null
+    private var onChangeListener: ((Int) -> Unit)? = null
+    private var onChipCheckedListener: ((Int, Boolean) -> Unit)? = null
 
     constructor(context: Context) : super(context) {
         init(null, 0)
@@ -83,10 +84,11 @@ class ByteChipsView : HorizontalScrollView {
             children.withIndex().forEach { item ->
                 val chip = item.value as Chip
                 chip.text = _strings.getOrElse(item.index) { item.index.toString() }
-                chip.setOnCheckedChangeListener { btn, checked ->
+                chip.setOnCheckedChangeListener { _, checked ->
                     if (changeListenerEnabled) {
                         chipsToValue()
                         onChangeListener?.invoke(_value)
+                        onChipCheckedListener?.invoke(item.index, checked)
                     }
                 }
             }
@@ -106,8 +108,12 @@ class ByteChipsView : HorizontalScrollView {
         chipsView?.children?.forEach { it.isEnabled = enabled }
     }
 
-    fun setOnChangeListener(listener: ((Int) -> Unit)?) {
+    fun setOnChangeListener(listener: ((value: Int) -> Unit)?) {
         onChangeListener = listener
+    }
+
+    fun setOnChipCheckedListener(listener: ((index: Int, checked: Boolean) -> Unit)?) {
+        onChipCheckedListener = listener
     }
 
     private fun valueToChips() {

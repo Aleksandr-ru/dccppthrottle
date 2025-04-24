@@ -193,6 +193,7 @@ class Xp4OutputsFragment : DecoderFragment() {
             Xp4OutputsViewModel.IDX_FIREBOX -> Xp4OutputFireboxFragment()
             Xp4OutputsViewModel.IDX_SMOKE -> Xp4OutputSmokeFragment()
             Xp4OutputsViewModel.IDX_COUPLERS -> Xp4OutputCouplersFragment()
+            Xp4OutputsViewModel.IDX_SERVO -> Xp4OutputServoFragment()
             else -> WipFragment()
         }
     }

@@ -41,6 +41,7 @@ class Xp4OutputsViewModel: ViewModel() {
         const val IDX_FIREBOX = 5
         const val IDX_SMOKE = 6
         const val IDX_COUPLERS = 7
+        const val IDX_SERVO = 8
 
         const val UNIT_5MSEC = 0.005
         const val UNIT_10MSEC = 0.010
@@ -71,9 +72,9 @@ class Xp4OutputsViewModel: ViewModel() {
 
             // Control for electric couplers
             124, 125, 126, 127, 128, 129, 135, 136, 137,
-//
-//            // Servo control
-//            166, 167, 168, 160, 161, 162, 163, 164, 165
+
+            // Servo control
+            166, 167, 168, 160, 161, 162, 163, 164, 165
         )
         private val cvValues = Array(cvNumbers.size) { 0 }
         private var __loaded = false
