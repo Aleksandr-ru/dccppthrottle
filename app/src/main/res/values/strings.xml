@@ -16,6 +16,7 @@
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
+    <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
@@ -29,6 +30,7 @@
     <string name="title_dialog_reading_cvs">Reading CVs</string>
     <string name="title_dialog_writing_cvs">Writing CVs</string>
     <string name="title_dialog_lp5_row_x">Mapping row %d</string>
+    <string name="title_dialog_xp4_row_x">Mapping line %d</string>
     <string name="title_alert_permission_required">Permission required</string>
     <string name="title_pref_general">General</string>
     <string name="title_pref_lists">Lists</string>
@@ -123,10 +125,10 @@
     <string name="label_f_per_row">Loco cab functions display</string>
     <string name="label_unknown_x">Unknown (%d)</string>
     <string name="label_resulting_cv_x">Resulting CV value = %d</string>
+    <string name="label_inputs">Inputs</string>
+    <string name="label_outputs">Outputs</string>
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
-    <string name="label_lp5_inputs">Inputs</string>
-    <string name="label_lp5_outputs">Outputs</string>
     <string name="label_lp5_row_x">Row %d</string>
     <string name="label_lp5_output_sw_on_delay">Switching-On Delay</string>
     <string name="label_lp5_output_sw_off_delay">Switching-Off Delay</string>
@@ -138,6 +140,7 @@
     <string name="label_lp5_time_x_sec">Time = %.3f seconds</string>
     <string name="label_lp5_same_as_swon_time">Same as Switch-On delay</string>
     <!-- Piko XP4 -->
+    <string name="label_xp4_row_x">Line %d</string>
     <string name="label_xp4_output_susi">SUSI</string>
     <string name="label_xp4_time_x_sec">Time = %.3f seconds</string>
     <string name="label_xp4_cv186">CV186 is used to specify which output should control this option.</string>
@@ -231,10 +234,14 @@
     <string name="message_cvs_outdated">CVs data may be outdated</string>
     <string name="message_lp5_read_strategy">
         Function mapping chart contains 72 rows and over 1000 CVs. It can take a long time to read it all.
-        \n\nHowever mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time but there is a chance something left hidden.
+        \n\nHowever mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time, but there is a chance something left hidden.
+    </string>
+    <string name="message_xp4_read_strategy">
+        Extended function mapping banks contains 32 lines and over 500 CVs. It can take a long time to read it all.
+        \n\nHowever mostly configuration stored in several top rows followed one-by-one. Reading until a blank row can reduce time, but there is a chance something left hidden.
     </string>
     <string name="message_wrong_manufacturer">Incorrect manufacturer (CV8=%d)</string>
-    <string name="message_lp5_reload_row">Re-read CVs data from decoder?</string>
+    <string name="message_reload_cvs">Re-read CVs data from decoder?</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

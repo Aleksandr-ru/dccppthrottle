@@ -8,6 +8,8 @@
 
 <resources>
 
+    <!-- Outputs   -->
+
     <string-array name="xp4_output_tabs">
         <item>Dimming / PWM</item>
         <item>Fade-in/fade-out</item>
@@ -44,8 +46,6 @@
         <item>CV166 determines which output controls a servo. If the associated value is set, then a control signal for the servo is sent to the desired function output (A6 and/or A7, or SUSI). The following assignment applies to the connection pins of the SUSI interface: Servo1 = CLK, Servo2 = Data.</item>
     </string-array>
 
-    <!-- Outputs   -->
-
     <string-array name="xp4_outputs">
         <item>Light</item>
         <item>A1</item>
@@ -57,5 +57,154 @@
         <item>A7</item>
     </string-array>
 
+    <!-- Mapping   -->
 
+    <string-array name="xp4_mapping_bits">
+        <!-- Byte 1 -->
+        <item>Key F1 is On</item>
+        <item>Key F2 is On</item>
+        <item>Key F3 is On</item>
+        <item>Key F4 is On</item>
+        <item>Key F0 is On</item>
+        <item>not used</item>
+        <item>Model is moving</item> <!-- Fahr. / Lok fährt -->
+        <item>Moving forward</item> <!-- Vorw. / Fahrtrichtung Vorwärts -->
+        <!-- Byte 2 -->
+        <item>Key F5 is On</item>
+        <item>Key F6 is On</item>
+        <item>Key F7 is On</item>
+        <item>Key F8 is On</item>
+        <item>Key F9 is On</item>
+        <item>Key F10 is On</item>
+        <item>Key F11 is On</item>
+        <item>Key F12 is On</item>
+        <!-- Byte 3 -->
+        <item>Key F13 is On</item>
+        <item>Key F14 is On</item>
+        <item>Key F15 is On</item>
+        <item>Key F16 is On</item>
+        <item>Key F17 is On</item>
+        <item>Key F18 is On</item>
+        <item>Key F19 is On</item>
+        <item>Key F20 is On</item>
+        <!-- Byte 4 -->
+        <item>Key F21 is On</item>
+        <item>Key F22 is On</item>
+        <item>Key F23 is On</item>
+        <item>Key F24 is On</item>
+        <item>Key F25 is On</item>
+        <item>Key F26 is On</item>
+        <item>Key F27 is On</item>
+        <item>Key F28 is On</item>
+        <!-- Byte 5 -->
+        <item>Key F29 is On</item>
+        <item>Key F30 is On</item>
+        <item>Key F31 is On</item>
+        <item>Key F32 is On</item>
+        <item>Key F33 is On</item>
+        <item>Key F34 is On</item>
+        <item>Key F35 is On</item>
+        <item>Key F36 is On</item>
+        <!-- Byte 6 -->
+        <item>Key F37 is On</item>
+        <item>Key F38 is On</item>
+        <item>Key F39 is On</item>
+        <item>Key F40 is On</item>
+        <item>Key F41 is On</item>
+        <item>Key F42 is On</item>
+        <item>Key F43 is On</item>
+        <item>Key F44 is On</item>
+
+        <!-- Byte 7 -->
+        <item>Key F1 is Off</item>
+        <item>Key F2 is Off</item>
+        <item>Key F3 is Off</item>
+        <item>Key F4 is Off</item>
+        <item>Key F0 is Off</item>
+        <item>not used</item>
+        <item>Model is stopped</item> <!-- NOT Fahr. / Lok fährt -->
+        <item>Moving reverse</item> <!-- NOT Vorw. / Fahrtrichtung Vorwärts -->
+        <!-- Byte 8 -->
+        <item>Key F5 is Off</item>
+        <item>Key F6 is Off</item>
+        <item>Key F7 is Off</item>
+        <item>Key F8 is Off</item>
+        <item>Key F9 is Off</item>
+        <item>Key F10 is Off</item>
+        <item>Key F11 is Off</item>
+        <item>Key F12 is Off</item>
+        <!-- Byte 9 -->
+        <item>Key F13 is Off</item>
+        <item>Key F14 is Off</item>
+        <item>Key F15 is Off</item>
+        <item>Key F16 is Off</item>
+        <item>Key F17 is Off</item>
+        <item>Key F18 is Off</item>
+        <item>Key F19 is Off</item>
+        <item>Key F20 is Off</item>
+        <!-- Byte 10 -->
+        <item>Key F21 is Off</item>
+        <item>Key F22 is Off</item>
+        <item>Key F23 is Off</item>
+        <item>Key F24 is Off</item>
+        <item>Key F25 is Off</item>
+        <item>Key F26 is Off</item>
+        <item>Key F27 is Off</item>
+        <item>Key F28 is Off</item>
+        <!-- Byte 11 -->
+        <item>Key F29 is Off</item>
+        <item>Key F30 is Off</item>
+        <item>Key F31 is Off</item>
+        <item>Key F32 is Off</item>
+        <item>Key F33 is Off</item>
+        <item>Key F34 is Off</item>
+        <item>Key F35 is Off</item>
+        <item>Key F36 is Off</item>
+        <!-- Byte 12 -->
+        <item>Key F37 is Off</item>
+        <item>Key F38 is Off</item>
+        <item>Key F39 is Off</item>
+        <item>Key F40 is Off</item>
+        <item>Key F41 is Off</item>
+        <item>Key F42 is Off</item>
+        <item>Key F43 is Off</item>
+        <item>Key F44 is Off</item>
+
+        <!-- Byte 13 -->
+        <item>Output A1 On</item>
+        <item>Output A2 On</item>
+        <item>Output A3 On</item>
+        <item>Output A4 On</item>
+        <item>Output A5 On</item>
+        <item>Output A6 On</item>
+        <item>Output A7 On</item>
+        <item>Output A8 On</item>
+        <!-- Byte 14 -->
+        <item>Front light On</item>
+        <item>Rear light On</item>
+        <item>Output SUSI CLK</item> <!-- (activate A4 logic, CV50 Bit4 = 1) or (enable servo 1, CV166 Bit0 = 1) -->
+        <item>Output SUSI Data</item> <!-- (activate A3 logic, CV50 Bit4 = 1) or (activate Servo2, CV166 Bit0 = 1) -->
+        <item>OStartup, switch off braking delay 1</item>
+        <item>Start-up, switch on braking deceleration 2</item>
+        <item>Switch on start-up, braking deceleration 3</item>
+        <item>Switching (shunting) mode On</item>
+        <!-- Byte 15 -->
+        <item>Light output secondary dimming</item>
+        <item>Output A1 secondary dimming</item>
+        <item>Output A2 secondary dimming</item>
+        <item>Output A3 secondary dimming</item>
+        <item>Output A4 secondary dimming</item>
+        <item>Output A5 secondary dimming</item>
+        <item>Output A6 secondary dimming</item>
+        <item>Output A7 secondary dimming</item>
+        <!-- Byte 16 -->
+        <item>CROSS bit for PWM modulated outputs</item>
+        <item>Key F22 state to SUSI interface</item> <!-- CV159 must be set to SUSI to transfer F22 - F28, accordingly. -->
+        <item>Key F23 state to SUSI interface</item>
+        <item>Key F24 state to SUSI interface</item>
+        <item>Key F25 state to SUSI interface</item>
+        <item>Key F26 state to SUSI interface</item>
+        <item>Key F27 state to SUSI interface</item>
+        <item>Key F28 state to SUSI interface</item>
+    </string-array>
 </resources>

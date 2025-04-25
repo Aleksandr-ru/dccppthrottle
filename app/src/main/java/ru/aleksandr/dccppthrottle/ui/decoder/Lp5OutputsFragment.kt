@@ -9,7 +9,6 @@ package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +20,6 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,18 +28,14 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.aleksandr.dccppthrottle.BuildConfig
-import ru.aleksandr.dccppthrottle.DecoderActivity
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import kotlin.Exception
-import kotlin.coroutines.resume
 
-class Lp5OutputsFragment : Fragment() {
+class Lp5OutputsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Lp5OutputsViewModel>()
@@ -235,19 +229,13 @@ class Lp5OutputsFragment : Fragment() {
 
         job = lifecycleScope.launch {
             try {
-                val cv8 = readCv(DecoderActivity.MANUFACTURER_CV)
-                if (cv8 != DecoderActivity.MANUFACTURER_ID_ESU) {
-                    val message = getString(R.string.message_wrong_manufacturer, cv8)
-                    if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    else throw Exception(message)
-                }
-
+                checkManufacturer(MANUFACTURER_ID_ESU)
                 writeIndexCvs()
 
                 for (ri in model.rowIndexes) {
                     for (ci in model.columnIndexes) {
                         val cv = model.cvNumber(ri, ci)
-                        val value = readCv(cv)
+                        val value = readCv(cv, MockStore::randomLp5OutputCvValue)
                         if (BuildConfig.DEBUG) Log.d(TAG,
                             "Row $ri, col $ci, CV $cv = $value"
                         )
@@ -270,40 +258,6 @@ class Lp5OutputsFragment : Fragment() {
                 }
             }
             dialog.dismiss()
-        }
-    }
-
-    private suspend fun writeCv(cv: Int, value: Int): Boolean = suspendCancellableCoroutine { cont ->
-        if (BuildConfig.DEBUG && !CommandStation.isConnected()) {
-            Log.d(TAG, "Fake write CV $cv = $value")
-            Handler(Looper.getMainLooper()).postDelayed({
-                cont.resume(true)
-            }, 100)
-        }
-        else CommandStation.setCvProg(cv, value) { _, value ->
-            if (value < 0) {
-                val ex = Exception(getString(R.string.message_write_cv_error, cv))
-                cont.cancel(ex)
-            }
-            else cont.resume(value >= 0)
-        }
-    }
-
-
-    private suspend fun readCv(cv: Int): Int = suspendCancellableCoroutine { cont ->
-        if (BuildConfig.DEBUG && !CommandStation.isConnected()) {
-            val value = MockStore.randomLp5OutputCvValue()
-            Log.d(TAG, "Fake read CV $cv = $value")
-            Handler(Looper.getMainLooper()).postDelayed({
-                cont.resume(value)
-            }, 100)
-        }
-        else CommandStation.getCvProg(cv) { _, value ->
-            if (value < 0) {
-                val ex = Exception(getString(R.string.message_read_cv_error, cv))
-                cont.cancel(ex)
-            }
-            else cont.resume(value)
         }
     }
 

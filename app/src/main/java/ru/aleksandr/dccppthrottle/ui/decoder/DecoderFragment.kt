@@ -10,11 +10,13 @@ package ru.aleksandr.dccppthrottle.ui.decoder
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.store.MockStore
 import kotlin.coroutines.resume
 
 open class DecoderFragment : Fragment() {
@@ -52,5 +54,21 @@ open class DecoderFragment : Fragment() {
             }
             else cont.resume(value >= 0)
         }
+    }
+
+    protected suspend fun checkManufacturer(vararg values: Int) {
+        val cv8 = readCv(MANUFACTURER_CV, MockStore::randomDecoderManufacturer)
+        if (values.contains(cv8)) {
+            val message = getString(R.string.message_wrong_manufacturer, cv8)
+            if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+            else throw Exception(message)
+        }
+    }
+
+    companion object {
+        const val MANUFACTURER_CV = 8
+        const val MANUFACTURER_ID_ESU = 151
+        const val MANUFACTURER_ID_PIKO = 162
+        const val MANUFACTURER_ID_UHLENBROCK = 85
     }
 }

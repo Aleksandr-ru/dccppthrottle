@@ -27,7 +27,6 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import ru.aleksandr.dccppthrottle.BuildConfig
-import ru.aleksandr.dccppthrottle.DecoderActivity
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
@@ -121,12 +120,7 @@ class Xp4OutputsFragment : DecoderFragment() {
 
         job = lifecycleScope.launch {
             try {
-                val cv8 = readCv(DecoderActivity.MANUFACTURER_CV, MockStore::randomXp4OutputCvValue)
-                if (cv8 != DecoderActivity.MANUFACTURER_ID_PIKO && cv8 != DecoderActivity.MANUFACTURER_ID_UHLENBROCK) {
-                    val message = getString(R.string.message_wrong_manufacturer, cv8)
-                    if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    else throw Exception(message)
-                }
+                checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
 
                 for (cv in Xp4OutputsViewModel.cvNumbers) {
                     val value = readCv(cv, MockStore::randomXp4OutputCvValue)

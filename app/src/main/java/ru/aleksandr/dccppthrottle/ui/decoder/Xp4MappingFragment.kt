@@ -36,19 +36,18 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import kotlin.Exception
-import kotlin.math.pow
 
-class Lp5MappingFragment : DecoderFragment() {
+class Xp4MappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
-    private val model by activityViewModels<Lp5MappingViewModel>()
-    private lateinit var rvAdapter: Lp5MappingRecyclerViewAdapter
+    private val model by activityViewModels<Xp4MappingViewModel>()
+    private lateinit var rvAdapter: Xp4MappingRecyclerViewAdapter
 
     private lateinit var emptyView: TextView
     private lateinit var listView: RecyclerView
 
     companion object {
-        fun newInstance() = Lp5MappingFragment()
+        fun newInstance() = Xp4MappingFragment()
     }
 
     override fun onCreateView(
@@ -56,22 +55,22 @@ class Lp5MappingFragment : DecoderFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_lp5_mappng, container, false)
+        return inflater.inflate(R.layout.fragment_xp4_mappng, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(view) {
-            emptyView = findViewById(R.id.empty_view)
-            listView = findViewById(R.id.rv_lp5_mapping)
+            emptyView = findViewById(R.id.textEmpty)
+            listView = findViewById(R.id.rvMapping)
         }
 
         emptyView.setOnClickListener {
             showReloadDialog()
         }
 
-        rvAdapter = Lp5MappingRecyclerViewAdapter(model)
+        rvAdapter = Xp4MappingRecyclerViewAdapter(model)
         with(listView) {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
@@ -91,7 +90,7 @@ class Lp5MappingFragment : DecoderFragment() {
         model.editRowIndex.observe(viewLifecycleOwner) {
             if (it != null) AlertDialog.Builder(context)
                 .setTitle(getString(
-                    R.string.title_dialog_lp5_row_x,
+                    R.string.title_dialog_xp4_row_x,
                     it + 1
                 ))
                 .setView(createEditRowDialog())
@@ -103,7 +102,7 @@ class Lp5MappingFragment : DecoderFragment() {
         model.reloadRowIndex.observe(viewLifecycleOwner) {
             if (it != null) AlertDialog.Builder(context)
                 .setTitle(getString(
-                    R.string.title_dialog_lp5_row_x,
+                    R.string.title_dialog_xp4_row_x,
                     it + 1
                 ))
                 .setMessage(R.string.message_reload_cvs)
@@ -122,18 +121,24 @@ class Lp5MappingFragment : DecoderFragment() {
 
     private fun showReloadDialog() = AlertDialog.Builder(context)
         .setTitle(R.string.title_dialog_read_method)
-        .setMessage(R.string.message_lp5_read_strategy)
+        .setMessage(R.string.message_xp4_read_strategy)
         .setPositiveButton(R.string.action_read_all) { _, _ -> readAllCVs() }
-        .setNegativeButton(R.string.action_read_until_blank) { _, _ -> readUntilBlank() }
+        .setNegativeButton(R.string.action_read_until_blank) { _, _ -> readAllCVs(true) }
         .setNeutralButton(android.R.string.cancel, null)
         .show()
 
-    private fun readAllCVs() {
-        val maxCvs = Lp5MappingViewModel.ROWS * Lp5MappingViewModel.COLS
+    private fun readAllCVs(untilBlank: Boolean = false) {
+        val maxCvs = Xp4MappingViewModel.ROWS * Xp4MappingViewModel.COLS
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
-            setMax(maxCvs)
-            setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
+            if (untilBlank) {
+                setMax(0)
+                setTitle(R.string.title_dialog_reading_cvs)
+            }
+            else {
+                setMax(maxCvs)
+                setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
+            }
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             show()
         }
@@ -142,105 +147,28 @@ class Lp5MappingFragment : DecoderFragment() {
 
         job = lifecycleScope.launch {
             try {
-                checkManufacturer(MANUFACTURER_ID_ESU)
-
-                var idx = 0
-
-                // read conditions
+                checkManufacturer()
+                writeCv(Xp4MappingViewModel.INDEX_CV1, Xp4MappingViewModel.INDEX_CV1_VALUE)
+                var idx = -1
                 for (ri in model.rowIndexes) {
-                    for (ci in model.inputColumnIndexes) {
+                    if (untilBlank) dialog.setMessage(getString(R.string.label_xp4_row_x, (ri + 1)))
+
+                    for (ci in model.colIndexes) {
                         val cvi = model.cvNumber(ri, ci)
                         if (cvi.first != idx) {
                             idx = cvi.first
-                            writeCv(Lp5MappingViewModel.INDEX_CV, idx)
+                            writeCv(Xp4MappingViewModel.INDEX_CV2, idx)
                         }
-                        val value = readCv(cvi.second, MockStore::randomLp5ControlCvValue)
+                        val value = readCv(cvi.second, MockStore::randomXp4MappingCvValue)
                         if (BuildConfig.DEBUG) Log.d(TAG,
                             "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
                         )
                         model.setCvValue(ri, ci, value)
-                        dialog.incrementProgress()
-                    }
-                }
-
-                // read outputs
-                for (ri in model.rowIndexes) {
-                    for (ci in model.outputColumnIndexes) {
-                        val cvi = model.cvNumber(ri, ci)
-                        if (cvi.first != idx) {
-                            idx = cvi.first
-                            writeCv(Lp5MappingViewModel.INDEX_CV, idx)
-                        }
-                        val value = readCv(cvi.second, MockStore::randomLp5ControlCvValue)
-                        if (BuildConfig.DEBUG) Log.d(TAG,
-                            "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
-                        )
-                        model.setCvValue(ri, ci, value)
-                        dialog.incrementProgress()
-                    }
-                }
-                rvAdapter.notifyDataSetChanged()
-                model.setLoaded(true)
-            }
-            catch (e: Exception) {
-                if (e !is CancellationException) {
-                    if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-                }
-                job?.cancel()
-            }
-            dialog.dismiss()
-        }
-    }
-
-    private fun readUntilBlank() {
-        var job: Job? = null
-        val dialog = ProgressDialog(context!!).apply {
-            setMax(0)
-            setTitle(R.string.title_dialog_reading_cvs)
-            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            show()
-        }
-
-        model.setLoaded(false)
-
-        job = lifecycleScope.launch {
-            try {
-                checkManufacturer(MANUFACTURER_ID_ESU)
-
-                var idx = 0
-                for (ri in model.rowIndexes) {
-                    dialog.setMessage(getString(R.string.label_lp5_row_x, (ri + 1)))
-
-                    // read conditions
-                    for (ci in model.inputColumnIndexes) {
-                        val cvi = model.cvNumber(ri, ci)
-                        if (cvi.first != idx) {
-                            idx = cvi.first
-                            writeCv(Lp5MappingViewModel.INDEX_CV, idx)
-                        }
-                        val value = readCv(cvi.second, MockStore::randomLp5ControlCvValue)
-                        if (BuildConfig.DEBUG) Log.d(TAG,
-                            "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
-                        )
-                        model.setCvValue(ri, ci, value)
+                        if (!untilBlank) dialog.incrementProgress()
                     }
 
-                    // read outputs
-                    for (ci in model.outputColumnIndexes) {
-                        val cvi = model.cvNumber(ri, ci)
-                        if (cvi.first != idx) {
-                            idx = cvi.first
-                            writeCv(Lp5MappingViewModel.INDEX_CV, idx)
-                        }
-                        val value = readCv(cvi.second, MockStore::randomLp5ControlCvValue)
-                        if (BuildConfig.DEBUG) Log.d(TAG,
-                            "Row $ri, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
-                        )
-                        model.setCvValue(ri, ci, value)
-                    }
                     rvAdapter.notifyItemChanged(ri)
-                    if (model.isBlank(ri)) break
+                    if (untilBlank && model.isBlank(ri)) break
                 }
                 model.setLoaded(true)
             }
@@ -250,7 +178,7 @@ class Lp5MappingFragment : DecoderFragment() {
                     Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
                 }
                 job?.cancel()
-                if (BuildConfig.DEBUG) model.setLoaded(true)
+                if (BuildConfig.DEBUG && untilBlank) model.setLoaded(true)
             }
             dialog.dismiss()
         }
@@ -266,7 +194,7 @@ class Lp5MappingFragment : DecoderFragment() {
             setPadding(p.toInt())
         }
         inputsView.addView(inputsLayout)
-        createEditRowDialogCheckboxes(inputsLayout, model.inputColumnIndexes)
+        createEditRowDialogCheckboxes(inputsLayout, model.inputColumnIndexes, true)
 
         val outputsView = ScrollView(context).apply {
             visibility = View.GONE
@@ -316,36 +244,42 @@ class Lp5MappingFragment : DecoderFragment() {
         }
     }
 
-    private fun createEditRowDialogCheckboxes(layout: LinearLayout, range: IntRange) {
+    private fun createEditRowDialogCheckboxes(layout: LinearLayout, range: IntRange, reorder: Boolean = false) {
         val context = context!!
         val m = resources.getDimension(R.dimen.text_margin)
+        val stringArray = resources.getStringArray(R.array.xp4_mapping_bits)
+
+        val views = mutableListOf<SwitchCompat>()
+
         for (ci in range) {
             val cvValue = model.getEditRowValue(ci)
-
-            val textView = TextView(context).apply {
-                val letter = Lp5MappingViewModel.CONTROL_CV_LETTERS[ci]
-                text = context.getString(R.string.label_lp5_control_cv_x, letter)
-            }
-            layout.addView(textView)
-
-            val stringArrayId = Lp5MappingViewModel.CONTROL_CV_STRING_ID[ci]
-            resources.getStringArray(stringArrayId).forEachIndexed { idx, str ->
+            val bi = (ci * 8 until ci * 8 + 8)
+            stringArray.slice(bi).forEachIndexed { idx, str ->
                 val switchView = SwitchCompat(context).apply {
                     text = str
                     if (cvValue > 0) {
-                        val ii = 2f.pow(idx).toInt()
+                        val ii = 1 shl idx
                         isChecked = (cvValue and ii == ii)
                     }
                     setPadding(m.toInt(), m.toInt(), 0, m.toInt())
                     setOnCheckedChangeListener { _, chk ->
                         val oldValue = model.getEditRowValue(ci)
                         val newValue =
-                            if (chk) oldValue or 2f.pow(idx).toInt()
-                            else oldValue and 2f.pow(idx).toInt().inv()
+                            if (chk) oldValue or (1 shl idx)
+                            else oldValue and (1 shl idx).inv()
                         model.setEditRowValue(ci, newValue)
                     }
                 }
-                layout.addView(switchView)
+                if (reorder) views.add(switchView)
+                else layout.addView(switchView)
+            }
+        }
+        if (reorder) {
+            views.indices.forEach {
+                val idx =
+                    if (it % 2 == 0) it / 2
+                    else views.size / 2 + it / 2
+                layout.addView(views[idx])
             }
         }
     }
@@ -354,7 +288,7 @@ class Lp5MappingFragment : DecoderFragment() {
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setTitle(R.string.title_dialog_writing_cvs)
-            setMax(Lp5MappingViewModel.COLS)
+            setMax(Xp4MappingViewModel.COLS)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             setOnDismissListener { model.editRow(null) }
             show()
@@ -368,7 +302,7 @@ class Lp5MappingFragment : DecoderFragment() {
                     val cvi = model.cvNumber(rowIndex, ci)
                     if (cvi.first != idx) {
                         idx = cvi.first
-                        writeCv(Lp5MappingViewModel.INDEX_CV, idx)
+                        writeCv(Xp4MappingViewModel.INDEX_CV2, idx)
                     }
                     val value = model.getEditRowValue(ci)
                     writeCv(cvi.second, value)
@@ -392,7 +326,7 @@ class Lp5MappingFragment : DecoderFragment() {
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setTitle(R.string.title_dialog_reading_cvs)
-            setMax(Lp5MappingViewModel.COLS)
+            setMax(Xp4MappingViewModel.COLS)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             setOnDismissListener { model.reloadRow(null) }
             show()
@@ -400,17 +334,18 @@ class Lp5MappingFragment : DecoderFragment() {
 
         job = lifecycleScope.launch {
             try {
-                checkManufacturer(MANUFACTURER_ID_ESU)
+                checkManufacturer()
+                writeCv(Xp4MappingViewModel.INDEX_CV1, Xp4MappingViewModel.INDEX_CV1_VALUE)
 
-                var idx = 0
+                var idx = -1
                 val rowIndex = model.reloadRowIndex.value!!
                 for (ci in model.inputColumnIndexes + model.outputColumnIndexes) {
                     val cvi = model.cvNumber(rowIndex, ci)
                     if (cvi.first != idx) {
                         idx = cvi.first
-                        writeCv(Lp5MappingViewModel.INDEX_CV, idx)
+                        writeCv(Xp4MappingViewModel.INDEX_CV2, idx)
                     }
-                    val value = readCv(cvi.second, MockStore::randomLp5ControlCvValue)
+                    val value = readCv(cvi.second, MockStore::randomXp4MappingCvValue)
                     if (BuildConfig.DEBUG) Log.d(TAG,
                         "Row $rowIndex, col $ci, idx ${cvi.first}, CV ${cvi.second} = $value"
                     )

@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import ru.aleksandr.dccppthrottle.ui.decoder.Lp5MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Lp5OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.Xp4MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp4OutputsFragment
 
 class DecoderActivity : AwakeActivity() {
@@ -29,6 +30,10 @@ class DecoderActivity : AwakeActivity() {
                     title = getString(R.string.title_fragment_lp5_outputs)
                     Lp5OutputsFragment.newInstance()
                 }
+                R.id.action_xp4_mapping -> {
+                    title = getString(R.string.title_fragment_xp4_mapping)
+                    Xp4MappingFragment.newInstance()
+                }
                 R.id.action_xp4_outputs -> {
                     title = getString(R.string.title_fragment_xp4_outputs)
                     Xp4OutputsFragment.newInstance()
@@ -43,11 +48,6 @@ class DecoderActivity : AwakeActivity() {
 
     companion object {
         private val MENU_ID = "menuid"
-
-        const val MANUFACTURER_CV = 8
-        const val MANUFACTURER_ID_ESU = 151
-        const val MANUFACTURER_ID_PIKO = 162
-        const val MANUFACTURER_ID_UHLENBROCK = 85
 
         @JvmStatic
         fun start(context: Context, menuId: Int) {

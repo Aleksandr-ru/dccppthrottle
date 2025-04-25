@@ -7,6 +7,7 @@
 
 package ru.aleksandr.dccppthrottle.store
 
+import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 import kotlin.random.Random
 
 object MockStore {
@@ -107,5 +108,15 @@ object MockStore {
 
     fun randomXp4OutputCvValue(): Int {
         return (0 .. 63).random()
+    }
+
+    fun randomXp4MappingCvValue(): Int {
+        return if ((1..10).random() > 8) {
+            (0..255).random()
+        } else 0
+    }
+
+    fun randomDecoderManufacturer(): Int = DecoderFragment.run {
+        listOf(MANUFACTURER_ID_ESU, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK).random()
     }
 }
