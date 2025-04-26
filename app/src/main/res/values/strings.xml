@@ -60,6 +60,7 @@
     <string name="action_reload">Reload</string>
     <string name="action_read_all">Real all</string>
     <string name="action_read_until_blank">Read until blank</string>
+    <string name="action_enable">Enable</string>
 
     <string name="menu_power">Track power</string>
     <string name="menu_join">Join MAIN to PROG</string>
@@ -242,6 +243,7 @@
     </string>
     <string name="message_wrong_manufacturer">Incorrect manufacturer (CV8=%d)</string>
     <string name="message_reload_cvs">Re-read CVs data from decoder?</string>
+    <string name="message_xp4_mapping_ex_disabled">Extended function mapping is disabled (CV96 = %d)</string>
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>

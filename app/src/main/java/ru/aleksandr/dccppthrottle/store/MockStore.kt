@@ -119,4 +119,6 @@ object MockStore {
     fun randomDecoderManufacturer(): Int = DecoderFragment.run {
         listOf(MANUFACTURER_ID_ESU, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK).random()
     }
+
+    fun randomXp4cv96(): Int = (0..1).random()
 }

@@ -30,6 +30,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
@@ -142,12 +143,22 @@ class Xp4MappingFragment : DecoderFragment() {
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             show()
         }
+        var snackbar: Snackbar? = null
 
         model.setLoaded(false)
-
         job = lifecycleScope.launch {
             try {
                 checkManufacturer()
+
+                val cv96 = readCv(Xp4MappingViewModel.EXTENDED_MAPPING_CV, MockStore::randomXp4cv96)
+                if (cv96 != Xp4MappingViewModel.EXTENDED_MAPPING_CV_VALUE) {
+                    snackbar = Snackbar.make(
+                        view!!,
+                        getString(R.string.message_xp4_mapping_ex_disabled, cv96),
+                        Snackbar.LENGTH_INDEFINITE
+                    ).setAction(R.string.action_enable) { enableExtendedMapping() }
+                }
+
                 writeCv(Xp4MappingViewModel.INDEX_CV1, Xp4MappingViewModel.INDEX_CV1_VALUE)
                 var idx = -1
                 for (ri in model.rowIndexes) {
@@ -181,6 +192,31 @@ class Xp4MappingFragment : DecoderFragment() {
                 if (BuildConfig.DEBUG && untilBlank) model.setLoaded(true)
             }
             dialog.dismiss()
+            snackbar?.show()
+        }
+    }
+
+    private fun enableExtendedMapping() {
+//        var job: Job? = null
+//        val dialog = ProgressDialog(context!!).apply {
+//            setTitle(R.string.title_dialog_writing_cvs)
+//            setMax(0)
+//            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
+//            show()
+//        }
+//        job = lifecycleScope.launch {
+        lifecycleScope.launch {
+            try {
+                writeCv(Xp4MappingViewModel.EXTENDED_MAPPING_CV, Xp4MappingViewModel.EXTENDED_MAPPING_CV_VALUE)
+            }
+            catch (e: Exception) {
+                if (e !is CancellationException) {
+                    if (BuildConfig.DEBUG) Log.w(TAG, e)
+                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
+                }
+                cancel()
+            }
+//            dialog.dismiss()
         }
     }
 
