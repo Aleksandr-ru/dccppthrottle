@@ -144,20 +144,36 @@
     <string name="label_xp4_row_x">Line %d</string>
     <string name="label_xp4_output_susi">SUSI</string>
     <string name="label_xp4_time_x_sec">Time = %.3f seconds</string>
+    <string name="label_xp4_dimming">Dimming the light and function outputs</string>
+    <string name="label_xp4_dimming_desc">Light functions and function outputs A1 to A7 can be set to any desired level of dimming. These settings are stored in CVs 116 (light), 117 (A1) through 123 (A7).</string>
+    <string name="label_xp4_dimming2">Secondary dimming of the lighting and function outputs</string>
+    <string name="label_xp4_dimming2_desc">The lighting and function outputs can be set to alternative dimming settings (for example, a high beam). The settings for the alternative dimming values are stored in CVs 150 to 157 for A0 to A7. This settings can be activated in extended function mapping (CV96 = 1).</string>
+    <string name="label_xp4_fading">Fade-in/fade-out option for lighting and function outputs</string>
+    <string name="label_xp4_fading_desc">When the output is switched on or off, it will fade in or fade out softly.</string>
     <string name="label_xp4_cv186">CV186 is used to specify which output should control this option.</string>
     <string name="label_xp4_cv187">The value of CV187 determines how fast the fade function works.</string>
+    <string name="label_xp4_blinking">Blinking effects for lighting and function outputs</string>
+    <string name="label_xp4_blinking_desc">The model‘s decoder has a flashing option that can be assigned to the function outputs. Both the activation time and deactivation time of the flasher option can be set separately. CV109 is used to specify which output the flasher option is connected to. Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
     <string name="label_xp4_cv109">CV109 is used to specify which output the flasher option is connected to.</string>
     <string name="label_xp4_cv110">Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
     <string name="label_xp4_cv111">In CV111 the activation time is adjustable in 100millisecond steps.</string>
     <string name="label_xp4_cv112">In CV112 the deactivation time in 100millisecond steps.</string>
-    <string name="label_xp4_cv189">The flash time is set via CV 189 in 5 millesecond steps.</string>
+    <string name="label_xp4_neon">Switch-on effect for a neon light / fluorescent lamp</string>
+    <string name="label_xp4_neon_desc">The switch-on effect of a defective fluorescent lamp can also be assigned to light and function outputs. This effect consists of an adjustable number of flashes (a random flash up to the maximum number of flashes) and an adjustable flash time (i.e. how fast the flashes should follow each another).</string>
+    <string name="label_xp4_cv189">The flash time is set via CV 189 in 5 millisecond steps.</string>
     <string name="label_xp4_cv190">The maximum number of flashes is set in CV 190.</string>
+    <string name="label_xp4_esaving">Energy-saving lighting effect when switching on light and function outputs</string>
+    <string name="label_xp4_esaving_desc">When switching on an energy-saving lamp, it first displays a basic brightness, before it slowly reaches maximum brightness. This effect can be assigned to the decoder outputs as follows.</string>
     <string name="label_xp4_cv184">The basic brightness is adjustable via CV184.</string>
     <string name="label_xp4_cv185">The setting of CV185 determines how fast the final intensity of the brightness (PWM1 in CVs 116 – 123) is reached.</string>
+    <string name="label_xp4_firebox">Firebox flicker</string>
+    <string name="label_xp4_firebox_desc">Light outputs A1 to A7 can be assigned random flickering. This effect is typically used for the flickering inside a firebox.</string>
     <string name="label_xp4_cv182">Settings for the flicker rhythm, as well as for the intensity of brightness are entered in CV 182.</string>
     <string name="label_xp4_cv182lo">Bits 0 – 3 change the flicker rhythm</string>
     <string name="label_xp4_cv182hi">Bits 4 – 6 change the brightness</string>
     <string name="label_xp4_cv182note">Since only one value can be programmed into a CV, the flicker effect results from the sum of the individual values of the flicker rhythm plus the sum of the individual values of the brightness settings (sum of bits 0 – 3 plus sum of bits 4 – 6). The combination of all bits results in a differing, random flicker effect.</string>
+    <string name="label_xp4_smoke">Smoke Generator control</string>
+    <string name="label_xp4_smoke_desc">A smoke generator can be connected to function outputs A1 to A7, which are controlled by the load–dependent decoder. The physical smoke output from the generator is governed by PWM (Pulse Width Modulation) which is controlled by CV133. When the locomotive moves, the function output receives 100% of the PWM signal. The locomotive motor can be stopped for 0–15 seconds (startup delay) so that the smoke generator heats up when the locomotive is stationary. After the delay, the locomotive starts, and the output is activated to a full 100%. At this point the smoke output is fully controlled by PWM. When the load on the locomotive increases, the PWM adjusts the smoke output again to reflect the heavier load. The required load threshold can be set by the user.</string>
     <string name="label_xp4_cv130output">CV130 determines which outputs from A1 to A7 are controlled by the smoke generator control</string>
     <string name="label_xp4_cv130delay">And when to activate the startup delay </string>
     <string name="label_xp4_no_smoke">No smoke generator operation</string>
@@ -165,6 +181,8 @@
     <string name="label_xp4_cv132">CV132 determines the PWM for normal running characteristics</string>
     <string name="label_xp4_cv133">CV133 determines the PWM when the locomotive is idling</string>
     <string name="label_xp4_cv134">Startup (activation) time is entered in CV 134</string>
+    <string name="label_xp4_couplers">Control for electric couplers</string>
+    <string name="label_xp4_couplers_desc">Electric coupler drives consist of fine copper wire windings that are sensitive to constant current flow, and because of that they heat up rapidly. With the appropriate settings, the decoder will automatically shut off current to a coupler drive without having to shut off the drive via the function key. Also, the decoder uses an adjustable high PWM to ensure that the coupler drive is only activated for a moment to raise the coupler loop. After the loop is raised, only a small amount of current is needed to keep it in the raised position. The lower PWM and required hold time are adjustable. If the coupler does not couple or uncouple properly on the first attempt, the decoder can be programmed to make several more attempts. When adjusting coupling/uncoupling processes, the „as many as necessary; as few as possible“ rule applies. To prevent the coupler windings from burning up from constant current, an automatic shut-off time must be entered in 0.1 second increments, where the coupler drive will pause before carrying out another coupling operation.</string>
     <string name="label_xp4_cv124">CV124 number of coupling operations (0 = no coupler)</string>
     <string name="label_xp4_cv125">CV125 activation time for coupler operation with PWM from CV117 (A1) to CV123 (A7)</string>
     <string name="label_xp4_cv126">CV126 coupler in open position time (holding time for coupler operation)</string>
@@ -190,6 +208,9 @@
     <string name="label_xp4_cv135">CV135 for switching (shunting) gear “switching tango” (speed steps). A CV value of 0 specifies that no switching tango takes place.</string>
     <string name="label_xp4_cv136">CV136 for the pushing movement time T1</string>
     <string name="label_xp4_cv137">CV137 for the reverse movement time T2</string>
+    <string name="label_xp4_servo">Servo control</string>
+    <string name="label_xp4_servo_desc">Connecting a servo to the decoder requires electronics skill.</string>
+    <string name="label_xp4_cv166">CV166 determines which output controls a servo. If the associated value is set, then a control signal for the servo is sent to the desired function output (A6 and/or A7, or SUSI). The following assignment applies to the connection pins of the SUSI interface: Servo1 = CLK, Servo2 = Data.</string>
     <string name="label_xp4_cv167">CV167 function key numbers (F0 - F28) for Servo 1 on SUSI-CLK</string>
     <string name="label_xp4_cv168">CV168 function key numbers (F0 - F28) for Servo 2 on SUSI-Data</string>
     <string name="label_xp4_cv160">CV160 Servo 1, position 1 (function key off)</string>
@@ -198,8 +219,6 @@
     <string name="label_xp4_cv163">CV163 Servo 2, position 1 (function key off)</string>
     <string name="label_xp4_cv164">CV164 Servo 2, position 2 (function key on)</string>
     <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
-    <string name="label_xp4_dimming2">Secondary dimming of the lighting and function outputs</string>
-    <string name="label_xp4_dimming2_desc">The lighting and function outputs can be set to alternative dimming settings (for example, a high beam). The settings for the alternative dimming values are stored in CVs 150 to 157 for A0 to A7. This settings can be activated in extended function mapping (CV96 = 1).</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

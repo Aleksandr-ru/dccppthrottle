@@ -22,30 +22,6 @@
         <item>Servo control</item>
     </string-array>
 
-    <string-array name="xp4_output_titles">
-        <item>Dimming the light and function outputs</item>
-        <item>Fade-in/fade-out option for lighting and function outputs</item>
-        <item>Blinking effects for lighting and function outputs</item>
-        <item>Switch-on effect for a neon light / fluorescent lamp</item>
-        <item>Energy-saving lighting effect when switching on light and function outputs</item>
-        <item>Firebox flicker</item>
-        <item>Smoke Generator control</item>
-        <item>Control for electric couplers</item>
-        <item>Servo control</item>
-    </string-array>
-
-    <string-array name="xp4_output_description">
-        <item>Light functions and function outputs A1 to A7 can be set to any desired level of dimming. These settings are stored in CVs 116 (light), 117 (A1) through 123 (A7).</item>
-        <item>When the output is switched on or off, it will fade in or fade out softly.</item>
-        <item>The model‘s decoder has a flashing option that can be assigned to the function outputs. Both the activation time and deactivation time of the flasher option can be set separately. CV109 is used to specify which output the flasher option is connected to. Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</item>
-        <item>The switch-on effect of a defective fluorescent lamp can also be assigned to light and function outputs. This effect consists of an adjustable number of flashes (a random flash up to the maximum number of flashes) and an adjustable flash time (i.e. how fast the flashes should follow each another).</item>
-        <item>When switching on an energy-saving lamp, it first displays a basic brightness, before it slowly reaches maximum brightness. This effect can be assigned to the decoder outputs as follows.</item>
-        <item>Light outputs A1 to A7 can be assigned random flickering. This effect is typically used for the flickering inside a firebox.</item>
-        <item>A smoke generator can be connected to function outputs A1 to A7, which are controlled by the load–dependent decoder. The physical smoke output from the generator is governed by PWM (Pulse Width Modulation) which is controlled by CV133. When the locomotive moves, the function output receives 100% of the PWM signal. The locomotive motor can be stopped for 0–15 seconds (startup delay) so that the smoke generator heats up when the locomotive is stationary. After the delay, the locomotive starts, and the output is activated to a full 100%. At this point the smoke output is fully controlled by PWM. When the load on the locomotive increases, the PWM adjusts the smoke output again to reflect the heavier load. The required load threshold can be set by the user.</item>
-        <item>Electric coupler drives consist of fine copper wire windings that are sensitive to constant current flow, and because of that they heat up rapidly. With the appropriate settings, the decoder will automatically shut off current to a coupler drive without having to shut off the drive via the function key. Also, the decoder uses an adjustable high PWM to ensure that the coupler drive is only activated for a moment to raise the coupler loop. After the loop is raised, only a small amount of current is needed to keep it in the raised position. The lower PWM and required hold time are adjustable. If the coupler does not couple or uncouple properly on the first attempt, the decoder can be programmed to make several more attempts. When adjusting coupling/uncoupling processes, the „as many as necessary; as few as possible“ rule applies. To prevent the coupler windings from burning up from constant current, an automatic shut-off time must be entered in 0.1 second increments, where the coupler drive will pause before carrying out another coupling operation.</item>
-        <item>CV166 determines which output controls a servo. If the associated value is set, then a control signal for the servo is sent to the desired function output (A6 and/or A7, or SUSI). The following assignment applies to the connection pins of the SUSI interface: Servo1 = CLK, Servo2 = Data.</item>
-    </string-array>
-
     <string-array name="xp4_outputs">
         <item>Light</item>
         <item>A1</item>

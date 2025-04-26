@@ -15,17 +15,15 @@
         android:orientation="vertical"
         android:padding="@dimen/text_margin">
         <TextView
-            android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dimming the light and function outputs"
+            android:text="@string/label_xp4_couplers"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
-            android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="Light functions and function outputs A1 to A7 can be set to any desired level of dimming. These settings are stored in CVs 116 (light), 117 (A1) through 123 (A7)."/>
+            android:text="@string/label_xp4_couplers_desc"/>
 
         <!--        -->
 

@@ -24,18 +24,12 @@ class Xp4OutputEsavingFragment() : Fragment() {
     private val model by activityViewModels<Xp4OutputsViewModel>()
 
     private val layoutId = R.layout.fragment_xp4_output_esaving
-    private val idx = Xp4OutputsViewModel.IDX_ESAVING
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(layoutId, container, false).apply {
-        findViewById<TextView>(R.id.textViewTitle)?.text =
-            resources.getStringArray(R.array.xp4_output_titles)[idx]
-        findViewById<TextView>(R.id.textViewDescription)?.text =
-            resources.getStringArray(R.array.xp4_output_description)[idx]
-    }
+    ): View? = inflater.inflate(layoutId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
