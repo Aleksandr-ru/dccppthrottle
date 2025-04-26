@@ -36,7 +36,6 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import kotlin.Exception
-import kotlin.math.pow
 
 class Lp5MappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
@@ -333,15 +332,15 @@ class Lp5MappingFragment : DecoderFragment() {
                 val switchView = SwitchCompat(context).apply {
                     text = str
                     if (cvValue > 0) {
-                        val ii = 2f.pow(idx).toInt()
+                        val ii = 1 shl idx // 2f.pow(idx).toInt()
                         isChecked = (cvValue and ii == ii)
                     }
                     setPadding(m.toInt(), m.toInt(), 0, m.toInt())
                     setOnCheckedChangeListener { _, chk ->
                         val oldValue = model.getEditRowValue(ci)
                         val newValue =
-                            if (chk) oldValue or 2f.pow(idx).toInt()
-                            else oldValue and 2f.pow(idx).toInt().inv()
+                            if (chk) oldValue or (1 shl idx) // 2f.pow(idx).toInt()
+                            else oldValue and (1 shl idx).inv() // 2f.pow(idx).toInt().inv()
                         model.setEditRowValue(ci, newValue)
                     }
                 }

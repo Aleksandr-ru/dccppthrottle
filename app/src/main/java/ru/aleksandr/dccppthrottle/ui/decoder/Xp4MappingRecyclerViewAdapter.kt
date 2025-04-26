@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.databinding.FragmentXp4MappingItemBinding
-import kotlin.math.pow
 
 class Xp4MappingRecyclerViewAdapter(
     private val model: Xp4MappingViewModel
@@ -86,7 +85,7 @@ class Xp4MappingRecyclerViewAdapter(
     private fun mappingCvValueToStrings(value: Int, strings: List<String>): List<String> {
         val result = mutableListOf<String>()
         for (i in strings.indices) {
-            val ii = 2f.pow(i).toInt()
+            val ii = 1 shl i
             if (value and ii == ii) result.add(strings[i])
         }
         return result.toList()
