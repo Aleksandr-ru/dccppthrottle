@@ -148,7 +148,7 @@ class Xp4MappingFragment : DecoderFragment() {
         model.setLoaded(false)
         job = lifecycleScope.launch {
             try {
-                checkManufacturer()
+                checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
 
                 val cv96 = readCv(Xp4MappingViewModel.EXTENDED_MAPPING_CV, MockStore::randomXp4cv96)
                 if (cv96 != Xp4MappingViewModel.EXTENDED_MAPPING_CV_VALUE) {
@@ -190,6 +190,7 @@ class Xp4MappingFragment : DecoderFragment() {
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG && untilBlank) model.setLoaded(true)
+                else snackbar = null
             }
             dialog.dismiss()
             snackbar?.show()
@@ -370,7 +371,7 @@ class Xp4MappingFragment : DecoderFragment() {
 
         job = lifecycleScope.launch {
             try {
-                checkManufacturer()
+                checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
                 writeCv(Xp4MappingViewModel.INDEX_CV1, Xp4MappingViewModel.INDEX_CV1_VALUE)
 
                 var idx = -1

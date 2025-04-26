@@ -56,9 +56,9 @@ open class DecoderFragment : Fragment() {
         }
     }
 
-    protected suspend fun checkManufacturer(vararg values: Int) {
+    protected suspend fun checkManufacturer(vararg compatibleIds: Int) {
         val cv8 = readCv(MANUFACTURER_CV, MockStore::randomDecoderManufacturer)
-        if (values.contains(cv8)) {
+        if (!compatibleIds.contains(cv8)) {
             val message = getString(R.string.message_wrong_manufacturer, cv8)
             if (BuildConfig.DEBUG) Toast.makeText(context, message, Toast.LENGTH_LONG).show()
             else throw Exception(message)
