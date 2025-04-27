@@ -221,6 +221,12 @@
     <string name="label_xp4_cv163">CV163 Servo 2, position 1 (function key off)</string>
     <string name="label_xp4_cv164">CV164 Servo 2, position 2 (function key on)</string>
     <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
+    <!-- Piko XP5 -->
+    <string name="label_xp5_output_effect_ab">Effect A / B</string>
+    <string name="label_xp5_output_pwm">PWM</string>
+    <string name="label_xp5_output_flags">Flags</string>
+    <string name="label_xp5_output_p1">P1</string>
+    <string name="label_xp5_output_p2">P2</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
