@@ -18,6 +18,7 @@
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
+    <string name="title_fragment_xp5_outputs">SmartDecoder XP 5.1 outputs config</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>
@@ -131,6 +132,7 @@
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_row_x">Row %d</string>
+    <string name="label_lp5_output_onoff_delay">Switching-On/-Off Delay</string>
     <string name="label_lp5_output_sw_on_delay">Switching-On Delay</string>
     <string name="label_lp5_output_sw_off_delay">Switching-Off Delay</string>
     <string name="label_lp5_output_auto_sw_off">Automatic Switch-Off</string>
