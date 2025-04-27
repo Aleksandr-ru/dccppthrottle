@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dialog_padding"
+        android:orientation="vertical">
+
+        <!-- Effect  -->
+        <Spinner
+            android:id="@+id/spinnerEffect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textEffectDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="Dimmable light: A normal continuous output. The brightness will be reduced to about 50% if the dimmer function is on." />
+
+        <!-- PWM   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_output_pwm"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusPwm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="64"
+            app:min="0"
+            app:nullable="false" />
+
+        <!-- Flags   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_output_flags"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+            android:id="@+id/byteFlags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center_horizontal"
+            app:stringArray="@array/xp5_output_flags" />
+
+        <!-- Parameter 1   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_output_parameter1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusParam1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+        <TextView
+            android:id="@+id/textParam1Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="Steam at load (value about 55)" />
+
+        <!-- Parameter 2   -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_output_parameter2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusParam2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+        <TextView
+            android:id="@+id/textParam2Desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:gravity="center"
+            android:text="Load detection threshold (~20)" />
+
+    </LinearLayout>
+</ScrollView>

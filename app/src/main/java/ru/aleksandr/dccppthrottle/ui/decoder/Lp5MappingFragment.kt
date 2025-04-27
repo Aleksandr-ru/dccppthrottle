@@ -336,6 +336,7 @@ class Lp5MappingFragment : DecoderFragment() {
                         isChecked = (cvValue and ii == ii)
                     }
                     setPadding(m.toInt(), m.toInt(), 0, m.toInt())
+                    switchPadding = m.toInt()
                     setOnCheckedChangeListener { _, chk ->
                         val oldValue = model.getEditRowValue(ci)
                         val newValue =

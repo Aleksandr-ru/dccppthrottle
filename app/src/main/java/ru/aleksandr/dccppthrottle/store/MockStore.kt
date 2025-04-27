@@ -124,7 +124,7 @@ object MockStore {
 
     fun randomXp5OutputCvValue(): Int {
         return if ((1..10).random() > 3) {
-            (0..63).random()
+            (0..64).random()
         } else 0
     }
 }

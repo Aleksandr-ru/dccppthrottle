@@ -227,6 +227,8 @@
     <string name="label_xp5_output_flags">Flags</string>
     <string name="label_xp5_output_p1">P1</string>
     <string name="label_xp5_output_p2">P2</string>
+    <string name="label_xp5_output_parameter1">Parameter 1</string>
+    <string name="label_xp5_output_parameter2">Parameter 2</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

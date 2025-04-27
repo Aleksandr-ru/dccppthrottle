@@ -88,7 +88,7 @@ class Xp5OutputsFragment : DecoderFragment() {
                 val titles = resources.getStringArray(R.array.xp5_outputs)
                 AlertDialog.Builder(context)
                     .setTitle(titles[it])
-//                    .setView(createEditRowDialog())
+                    .setView(createEditRowDialog())
                     .setPositiveButton(R.string.action_write) { _, _ -> writeEditRowCVs() }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> model.editRow(null) }
                     .show()
@@ -103,8 +103,8 @@ class Xp5OutputsFragment : DecoderFragment() {
         }
     }
 
-//    private fun createEditRowDialog(): View {
-//        val view = layoutInflater.inflate(R.layout.dialog_xp5_output, null)
+    private fun createEditRowDialog(): View {
+        val view = layoutInflater.inflate(R.layout.dialog_xp5_output, null)
 //        with(view) {
 //            val spinnerView = findViewById<Spinner>(R.id.spinnerMode)
 //            val modeDescView = findViewById<TextView>(R.id.textModeDesc)
@@ -209,8 +209,8 @@ class Xp5OutputsFragment : DecoderFragment() {
 //            special2View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_SPECIAL2)
 //            special3View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_SPECIAL3)
 //        }
-//        return view!!
-//    }
+        return view!!
+    }
 
     private fun readAllCVs() {
         val maxCvs = Xp5OutputsViewModel.ROWS * Xp5OutputsViewModel.COLS

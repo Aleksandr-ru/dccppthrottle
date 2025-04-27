@@ -1,5 +1,7 @@
 <resources>
     <attr name="value" format="integer" />
+    <attr name="hiddenBits" format="integer" />
+    <attr name="stringArray" format="reference" />
 
     <declare-styleable name="PlusMinusView">
         <attr name="value" />
@@ -12,8 +14,15 @@
 
     <declare-styleable name="ByteChipsView">
         <attr name="value" />
-        <attr name="hiddenBits" format="integer" />
-        <attr name="stringArray" format="reference" />
+        <attr name="hiddenBits" />
+        <attr name="stringArray" />
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+    <declare-styleable name="ByteSwitchView">
+        <attr name="value" />
+        <attr name="hiddenBits" />
+        <attr name="stringArray" />
         <attr name="android:enabled" />
     </declare-styleable>
 </resources>
