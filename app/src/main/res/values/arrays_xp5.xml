@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<resources>
+    <!-- Outputs -->
+    <string-array name="xp5_outputs">
+        <item>Front light</item>
+        <item>Rear light</item>
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+        <item>A4</item>
+        <item>A5</item>
+        <item>A6</item>
+        <item>A7</item>
+    </string-array>
+
+    <string-array name="xp5_output_params">
+        <item>Effect A</item>
+        <item>PWM A</item>
+        <item>Flags A</item>
+        <item>Parameter 1 A</item>
+        <item>Parameter 2 A</item>
+        <item>Effect B</item>
+        <item>PWM B</item>
+        <item>Flags B</item>
+        <item>Parameter 1 B</item>
+        <item>Parameter 2 B</item>
+    </string-array>
+
+    <string-array name="xp5_output_effects">
+        <!-- format: <cv_value>: <name> -->
+        <item>0: no effect</item>
+        <item>1: Blinking-1</item>
+        <item>2: Blinking-2</item>
+        <item>3: Blinking-3</item>
+        <item>4: Blinking-4</item>
+        <item>10: Mars light</item>
+        <item>11: Gyro light</item>
+        <item>12: Flashing headlight</item>
+        <item>13: Step flashing</item>
+        <item>14: Flat Fade Out</item>
+        <item>15: Rotating beacon</item>
+        <item>16: Single flash repeating</item>
+        <item>17: Double flash repeating</item>
+        <item>18: Repeating multi-bltz</item>
+        <item>30: Single flash</item>
+        <item>31: Multiple Flash</item>
+        <item>32: Shift light</item>
+        <item>33: Random linear</item>
+        <item>34: Firebox</item>
+        <item>35: Fluorescent lamp</item>
+        <item>36: Fluorescent lamp defective</item>
+        <item>37: Energy-saving lamp</item>
+        <item>40: Smoke generator load-dependent</item>
+        <item>41: Smoke generator speed dependent</item>
+        <item>50: Servo1 configuration</item>
+        <item>51: Servo2 configuration</item>
+        <item>52: Servo3 configuration</item>
+        <item>53: Servo4 configuration</item>
+        <item>255: Output/Effect off</item>
+    </string-array>
+
+    <string-array name="xp5_output_flags">
+        <item>Auto-Off backwards</item>
+        <item>Auto-Off forwards</item>
+        <item>Auto-Off STOP</item>
+        <item>Auto-Off slow</item>
+        <item>Auto-Off Fast</item>
+        <item>Auto-On</item>
+        <item>Fade in</item>
+        <item>Fade out</item>
+    </string-array>
+
+    <string-array name="xp5_output_effects_param_desc">
+        <!-- Parameter 1, Parameter 2 -->
+        <!-- 0: no effect --> <item></item> <item></item>
+        <!-- 1: Blink1 --> <item></item> <item></item>
+        <!-- 2: Blink2 --> <item></item> <item></item>
+        <!-- 3: Blink3 --> <item></item> <item></item>
+        <!-- 4: Blinking4 --> <item></item> <item></item>
+        <!-- 10: Mars light --> <item></item> <item></item>
+        <!-- 11: Gyro light --> <item></item> <item></item>
+        <!-- 12: Flashing headlight --> <item></item> <item></item>
+        <!-- 13: Step flashing --> <item></item> <item></item>
+        <!-- 14: Flat Fade Out --> <item></item> <item></item>
+        <!-- 15: Rotating beacon --> <item></item> <item></item>
+        <!-- 16: Single flash repeating --> <item></item> <item></item>
+        <!-- 17: Double flash repeating --> <item></item> <item></item>
+        <!-- 18: Repeating multi-bltz --> <item></item> <item></item>
+        <!-- 30: Single flash --> <item></item> <item></item>
+        <!-- 31: Multiple Flash --> <item></item> <item></item>
+        <!-- 32: Shift light --> <item></item> <item></item>
+        <!-- 33: Random linear --> <item></item> <item></item>
+        <!-- 34: Firebox --> <item></item> <item></item>
+        <!-- 35: Fluorescent lamp --> <item></item> <item></item>
+        <!-- 36: Fluorescent lamp defective --> <item></item> <item></item>
+        <!-- 37: Energy-saving lamp --> <item></item> <item></item>
+        <!-- 40: Smoke generator load-dependent --> <item>Steam at load (value about 55)</item> <item>Load detection threshold (~20)</item>
+        <!-- 41: Smoke generator speed dependent --> <item>Increase when driving</item> <item>Speed for “travel”</item>
+        <!-- 50: Servo1 configuration --> <item></item> <item></item>
+        <!-- 51: Servo2 configuration --> <item></item> <item></item>
+        <!-- 52: Servo3 configuration --> <item></item> <item></item>
+        <!-- 53: Servo4 configuration --> <item></item> <item></item>
+        <!-- 255: Output/Effect off --> <item></item> <item></item>
+    </string-array>
+</resources>

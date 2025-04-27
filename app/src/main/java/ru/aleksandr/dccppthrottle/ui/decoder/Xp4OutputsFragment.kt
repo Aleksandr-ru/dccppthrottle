@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. Aleksandr.ru
+ * Copyright (c) 2025. Aleksandr.ru
  * @link http://aleksandr.ru
  *
  * If you're using this code, please keep above information.

@@ -33,17 +33,21 @@
             app:showAsAction="never"
             android:title="@string/menu_decoder_outputs" />
 
-<!--        <item-->
-<!--            android:enabled="false"-->
-<!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_xp5" />-->
+        <item
+            android:enabled="false"
+            app:showAsAction="never"
+            android:title="@string/menu_xp5" />
 <!--        <item-->
 <!--            android:id="@+id/action_xp5_mapping"-->
 <!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_decoder_mapping" />-->
+<!--            android:title="@string/menu_decoder_mapping_simple" />-->
+        <item
+            android:id="@+id/action_xp5_outputs"
+            app:showAsAction="never"
+            android:title="@string/menu_decoder_outputs" />
 <!--        <item-->
-<!--            android:id="@+id/action_xp5_outputs"-->
+<!--            android:id="@+id/action_xp5_effects"-->
 <!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_decoder_outputs" />-->
+<!--            android:title="Effects parameters" />-->
     </group>
 </menu>

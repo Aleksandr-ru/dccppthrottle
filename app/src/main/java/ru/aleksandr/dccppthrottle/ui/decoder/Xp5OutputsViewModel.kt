@@ -7,12 +7,14 @@
 
 package ru.aleksandr.dccppthrottle.ui.decoder
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import ru.aleksandr.dccppthrottle.R
 import java.lang.Exception
 
-class Xp4MappingViewModel : ViewModel() {
+class Xp5OutputsViewModel : ViewModel() {
 
     private var _loaded = MutableLiveData(__loaded)
     val loaded: LiveData<Boolean> = _loaded
@@ -26,11 +28,7 @@ class Xp4MappingViewModel : ViewModel() {
     private var _editRowValues = Array(COLS) { 0 }
 
     private val START_CV = 257
-    private val START_IDX = 0
-    private val ROWS_IN_IDX = 16
 
-    val inputColumnIndexes get() = (0 until INPUTS)
-    val outputColumnIndexes get() = (INPUTS until COLS)
     val rowIndexes get() = (0 until ROWS)
     val colIndexes get() = (0 until COLS)
 
@@ -51,12 +49,10 @@ class Xp4MappingViewModel : ViewModel() {
         _editRowValues[colIndex] = value
     }
 
-    fun cvNumber(rowIndex: Int, colIndex: Int): Pair<Int, Int> {
-        if (rowIndex > ROWS) throw Exception("Mapping row $rowIndex out of bounds")
-        if (colIndex > COLS) throw Exception("Mapping column $colIndex out of bounds")
-        val num = START_CV + (rowIndex % COLS) * COLS + colIndex
-        val idx = START_IDX + rowIndex / ROWS_IN_IDX
-        return Pair(idx, num)
+    fun cvNumber(rowIndex: Int, colIndex: Int): Int {
+        if (rowIndex > ROWS) throw Exception("Row $rowIndex out of bounds")
+        if (colIndex > COLS) throw Exception("Column $colIndex out of bounds")
+        return START_CV + rowIndex * COLS + colIndex
     }
 
     fun getCvValue(rowIndex: Int, colIndex: Int): Int {
@@ -75,21 +71,33 @@ class Xp4MappingViewModel : ViewModel() {
         _loaded.postValue(__loaded)
     }
 
-    fun isBlank(lineIndex: Int): Boolean = !cvValues[lineIndex].any {
-        it != 0
+    fun getEffectsMap(context: Context): Map<Int, String> {
+        val stringArray = context.resources.getStringArray(R.array.xp5_output_effects)
+        val regex = Regex("""^(\d+): (.+)$""")
+        return stringArray.mapNotNull { str ->
+            regex.matchEntire(str)?.let {
+                it.groupValues[1].toInt() to it.groupValues[2]
+            }
+        }.toMap()
     }
 
     companion object {
-        private const val INPUTS = 12 // Bytes 1-12
-        private const val OUTPUTS = 4 // Bytes 13-16
-        const val COLS = INPUTS + OUTPUTS
-        const val ROWS = 32
+        const val COLS = 10
+        const val ROWS = 9
 
-        const val INDEX_CV1 = 31
-        const val INDEX_CV1_VALUE = 8
-        const val INDEX_CV2 = 32
-        const val EXTENDED_MAPPING_CV = 96
-        const val EXTENDED_MAPPING_CV_VALUE = 1
+        const val COL_EFFECTA = 0
+        const val COL_PWMA = 1
+        const val COL_FLAGSA = 2
+        const val COL_PARAM1A = 3
+        const val COL_PARAM2A = 4
+        const val COL_EFFECTB = 5
+        const val COL_PWMB = 6
+        const val COL_FLAGSB = 7
+        const val COL_PARAM1B = 8
+        const val COL_PARAM2B = 9
+
+        val INDEX_CV1 = Pair(31, 18)
+        val INDEX_CV2 = Pair(32, 0)
 
         private var __loaded = false
         private val cvValues = List(ROWS) { Array(COLS) { 0 }}

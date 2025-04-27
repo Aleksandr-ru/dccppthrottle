@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.decoder.Xp5OutputsFragment">
+
+    <TableLayout
+        android:id="@+id/tableHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_xp5_output_effect_ab"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="@dimen/cell_spacing"
+                android:padding="@dimen/cell_padding" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_xp5_output_pwm"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="@dimen/cell_spacing"
+                android:padding="@dimen/cell_padding" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_xp5_output_flags"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="@dimen/cell_spacing"
+                android:padding="@dimen/cell_padding" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_xp5_output_p1"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="@dimen/cell_spacing"
+                android:padding="@dimen/cell_padding" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_xp5_output_p2"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_margin="@dimen/cell_spacing"
+                android:padding="@dimen/cell_padding" />
+        </TableRow>
+
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Special Function 1"-->
+<!--                android:maxLines="1"-->
+<!--                android:ellipsize="end"-->
+<!--                android:layout_margin="@dimen/cell_spacing"-->
+<!--                android:padding="@dimen/cell_padding" />-->
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Special Function 2"-->
+<!--                android:maxLines="1"-->
+<!--                android:ellipsize="end"-->
+<!--                android:layout_margin="@dimen/cell_spacing"-->
+<!--                android:padding="@dimen/cell_padding" />-->
+<!--            <TextView-->
+<!--                android:layout_weight="1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Special Function 3"-->
+<!--                android:maxLines="1"-->
+<!--                android:ellipsize="end"-->
+<!--                android:layout_margin="@dimen/cell_spacing"-->
+<!--                android:padding="@dimen/cell_padding" />-->
+<!--        </TableRow>-->
+
+    </TableLayout>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/tableHeader"
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOutputs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        tools:listitem="@layout/fragment_xp5_outputs_item" />
+
+    <TextView
+            android:id="@+id/textEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/text_margin"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/label_decoder_empty"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
