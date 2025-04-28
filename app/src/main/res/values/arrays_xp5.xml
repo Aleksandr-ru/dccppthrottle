@@ -34,7 +34,7 @@
 
     <string-array name="xp5_output_effects">
         <!-- format: <cv_value>: <name> -->
-        <item>0: no effect</item>
+        <item>0: No effect</item>
         <item>1: Blinking-1</item>
         <item>2: Blinking-2</item>
         <item>3: Blinking-3</item>
@@ -74,6 +74,38 @@
         <item>Auto-On</item>
         <item>Fade in</item>
         <item>Fade out</item>
+    </string-array>
+
+    <string-array name="xp5_output_effects_desc">
+        <!-- 0: no effect --> <item></item>
+        <!-- 1: Blink1 --> <item>The locomotive decoder has four flashing generators that can be assigned to the outputs. The respective flashing interval can be set in 20 ms increments using CVs 173 (Flasher 1)</item>
+        <!-- 2: Blink2 --> <item>The locomotive decoder has four flashing generators that can be assigned to the outputs. The respective flashing interval can be set in 20 ms increments using CVs 174 (Flasher 12)</item>
+        <!-- 3: Blink3 --> <item>The locomotive decoder has four flashing generators that can be assigned to the outputs. The respective flashing interval can be set in 20 ms increments using CVs 175 (Flasher 3)</item>
+        <!-- 4: Blinking4 --> <item>The locomotive decoder has four flashing generators that can be assigned to the outputs. The respective flashing interval can be set in 20 ms increments using CVs 176 (Flasher 4)</item>
+        <!-- 10: Mars light --> <item></item>
+        <!-- 11: Gyro light --> <item></item>
+        <!-- 12: Flashing headlight --> <item></item>
+        <!-- 13: Step flashing --> <item></item>
+        <!-- 14: Flat Fade Out --> <item></item>
+        <!-- 15: Rotating beacon --> <item></item>
+        <!-- 16: Single flash repeating --> <item></item>
+        <!-- 17: Double flash repeating --> <item></item>
+        <!-- 18: Repeating multi-bltz --> <item></item>
+        <!-- 30: Single flash --> <item></item>
+        <!-- 31: Multiple Flash --> <item></item>
+        <!-- 32: Shift light --> <item></item>
+        <!-- 33: Random linear --> <item></item>
+        <!-- 34: Firebox --> <item></item>
+        <!-- 35: Fluorescent lamp --> <item>The switch-on effect of a fluorescent lamp (multiple flashes before the output is fully switched on). The duration of the switch-on effect (start time) can be set in 100 ms increments in CV 172.</item>
+        <!-- 36: Fluorescent lamp defective --> <item>The switch-on effect of a defective fluorescent lamp. The duration of the switch-on effect (start time) can be set in 100 ms increments in CV 172. The flashing interval of the defective fluorescent lamp is fixed.</item>
+        <!-- 37: Energy-saving lamp --> <item>When an energy–saving lamp is switched on, it initially produces a starting brightness before slowly reaching maximum brightness. The starting brightness can be set in a range of 0 – 64 in CV170. The fade-in time to maximum brightness can be set in 100 ms increments in CV171.</item>
+        <!-- 40: Smoke generator load-dependent --> <item>An evaporator can be controlled in two different ways at any function output of the decoder.</item>
+        <!-- 41: Smoke generator speed dependent --> <item>An evaporator can be controlled in two different ways at any function output of the decoder.</item>
+        <!-- 50: Servo1 configuration --> <item></item>
+        <!-- 51: Servo2 configuration --> <item></item>
+        <!-- 52: Servo3 configuration --> <item></item>
+        <!-- 53: Servo4 configuration --> <item></item>
+        <!-- 255: Output/Effect off --> <item></item>
     </string-array>
 
     <string-array name="xp5_output_effects_param_desc">

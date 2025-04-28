@@ -25,6 +25,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -32,6 +34,7 @@ import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
+import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import kotlin.Exception
 
@@ -105,110 +108,114 @@ class Xp5OutputsFragment : DecoderFragment() {
 
     private fun createEditRowDialog(): View {
         val view = layoutInflater.inflate(R.layout.dialog_xp5_output, null)
-//        with(view) {
-//            val spinnerView = findViewById<Spinner>(R.id.spinnerMode)
-//            val modeDescView = findViewById<TextView>(R.id.textModeDesc)
-//            val brightnessDescView = findViewById<TextView>(R.id.textBrightnessDesc)
-//            val special1DescView = findViewById<TextView>(R.id.textSpecial1Desc)
-//            val special2DescView = findViewById<TextView>(R.id.textSpecial2Desc)
-//            val special3DescView = findViewById<TextView>(R.id.textSpecial3Desc)
-//
-//            val modes = resources.getStringArray(R.array.xp5_output_modes)
-//            val modesDesc = resources.getStringArray(R.array.xp5_output_modes_description)
-//            val specialDesc = resources.getStringArray(R.array.xp5_output_modes_special)
-//
-//            spinnerView.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, modes)
-//            spinnerView.onItemSelectedListener = object : OnItemSelectedListener {
-//                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                    modeDescView.text = modesDesc[position]
-//                    brightnessDescView.text = specialDesc[position * 4]
-//                    special1DescView.text = specialDesc[position * 4 + 1]
-//                    special2DescView.text = specialDesc[position * 4 + 2]
-//                    special3DescView.text = specialDesc[position * 4 + 3]
-//
-//                    model.setEditRowValue(Xp5OutputsViewModel.COL_MODE, position)
-//                }
-//
-//                override fun onNothingSelected(p0: AdapterView<*>?) {
-//                    // do nothing
-//                }
-//            }
-//            val selectedMode = model.getEditRowValue(Xp5OutputsViewModel.COL_MODE)
-//            if (selectedMode < modes.size) spinnerView.setSelection(selectedMode)
-//
-//            // duration counters
-//
-//            val swOnView = findViewById<PlusMinusView>(R.id.plusminusSwitchOn)
-//            val swOffView = findViewById<PlusMinusView>(R.id.plusminusSwitchOff)
-//            val autoOffView = findViewById<PlusMinusView>(R.id.plusminusAutoOff)
-//
-//            val swOnDescView = findViewById<TextView>(R.id.textSwOnDesc)
-//            val swOffDescView = findViewById<TextView>(R.id.textSwOffDesc)
-//            val autoOffDescView = findViewById<TextView>(R.id.textAutoOffDesc)
-//
-//            swOnView.setOnChangeListener {
-//                val seconds = Xp5OutputsViewModel.UNIT_SWONOFF * (it ?: 0)
-//                swOnDescView.text = getString(R.string.label_xp5_time_x_sec, seconds)
-//
-//                val pair = Pair(swOnView.value ?: 0, swOffView.value ?: 0)
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_ONOFFDELAY, model.pairToSwitchOnOff(pair))
-//            }
-//
-//            swOffView.setOnChangeListener {
-//                swOffDescView.text = if ((it ?: 0) > 0) {
-//                    val seconds = Xp5OutputsViewModel.UNIT_SWONOFF * (it ?: 0)
-//                    getString(R.string.label_xp5_time_x_sec, seconds)
-//                }
-//                else getString(R.string.label_xp5_same_as_swon_time)
-//
-//                val pair = Pair(swOnView.value ?: 0, swOffView.value ?: 0)
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_ONOFFDELAY, model.pairToSwitchOnOff(pair))
-//            }
-//
-//            autoOffView.setOnChangeListener {
-//                val value = it ?: 0
-//                val seconds = Xp5OutputsViewModel.UNIT_AUTOOFF * value
-//                autoOffDescView.text = getString(R.string.label_xp5_time_x_sec, seconds)
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_AUTOOFF, value)
-//            }
-//
-//            // numeric values
-//
-//            val brightnessView = findViewById<PlusMinusView>(R.id.plusminusBrightness)
-//            val special1View = findViewById<PlusMinusView>(R.id.plusminusSpecial1)
-//            val special2View = findViewById<PlusMinusView>(R.id.plusminusSpecial2)
-//            val special3View = findViewById<PlusMinusView>(R.id.plusminusSpecial3)
-//
-//            brightnessView.setOnChangeListener {
-//                val value = it ?: 0
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_BRIGHTNESS, value)
-//            }
-//
-//            special1View.setOnChangeListener {
-//                val value = it ?: 0
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_SPECIAL1, value)
-//            }
-//
-//            special2View.setOnChangeListener {
-//                val value = it ?: 0
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_SPECIAL2, value)
-//            }
-//
-//            special3View.setOnChangeListener {
-//                val value = it ?: 0
-//                model.setEditRowValue(Xp5OutputsViewModel.COL_SPECIAL3, value)
-//            }
-//
-//            val pair = model.switchOnOffToPair(model.getEditRowValue(Xp5OutputsViewModel.COL_ONOFFDELAY))
-//            swOnView.value = pair.first
-//            swOffView.value = pair.second
-//
-//            autoOffView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_AUTOOFF)
-//            brightnessView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_BRIGHTNESS)
-//            special1View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_SPECIAL1)
-//            special2View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_SPECIAL2)
-//            special3View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_SPECIAL3)
-//        }
+        with(view) {
+            val tabsView = findViewById<TabLayout>(R.id.tabLayout)
+            val spinnerView = findViewById<Spinner>(R.id.spinnerEffect)
+            val effectDescView = findViewById<TextView>(R.id.textEffectDesc)
+            val pwmView = findViewById<PlusMinusView>(R.id.plusminusPwm)
+            val flagsView = findViewById<ByteSwitchView>(R.id.byteFlags)
+            val param1View = findViewById<PlusMinusView>(R.id.plusminusParam1)
+            val param1DescView = findViewById<TextView>(R.id.textParam1Desc)
+            val param2View = findViewById<PlusMinusView>(R.id.plusminusParam2)
+            val param2DescView = findViewById<TextView>(R.id.textParam2Desc)
+
+            var effectA = false
+
+            val effects = model.getEffectsMap(context)
+            val effectsDesc = resources.getStringArray(R.array.xp5_output_effects_desc)
+            val paramsDesc = resources.getStringArray(R.array.xp5_output_effects_param_desc)
+            spinnerView.adapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                effects.values.toTypedArray()
+            )
+            spinnerView.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    effectDescView.text = effectsDesc.getOrElse(position) { "" }
+                    param1DescView.text = paramsDesc[position * 2]
+                    param2DescView.text = paramsDesc[position * 2 + 1]
+
+                    val cvValue = effects.keys.elementAt(position)
+                    if (effectA) model.setEditRowValue(Xp5OutputsViewModel.COL_EFFECTA, cvValue)
+                    else model.setEditRowValue(Xp5OutputsViewModel.COL_EFFECTB, cvValue)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    // do nothing
+                }
+
+            }
+
+            tabsView.selectTab(tabsView.getTabAt(1))
+            tabsView.addOnTabSelectedListener(object : OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+                    if (!effectA) {
+                        effectA = true
+                        spinnerView.setSelection(
+                            effects.keys.indexOf(
+                                model.getEditRowValue(
+                                    Xp5OutputsViewModel.COL_EFFECTA
+                                )
+                            ).takeIf { it >= 0 } ?: 0
+                        )
+                        pwmView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PWMA)
+                        flagsView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_FLAGSA)
+                        param1View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM1A)
+                        param2View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM2A)
+                    }
+                    else {
+                        effectA = false
+                        spinnerView.setSelection(
+                            effects.keys.indexOf(
+                                model.getEditRowValue(
+                                    Xp5OutputsViewModel.COL_EFFECTB
+                                )
+                            ).takeIf { it >= 0 } ?: 0
+                        )
+                        pwmView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PWMB)
+                        flagsView.value = model.getEditRowValue(Xp5OutputsViewModel.COL_FLAGSB)
+                        param1View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM1B)
+                        param2View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM2B)
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    // do nothing
+                }
+            })
+            tabsView.selectTab(tabsView.getTabAt(0))
+
+            pwmView.setOnChangeListener {
+                if (it != null) {
+                    if (effectA) model.setEditRowValue(Xp5OutputsViewModel.COL_PWMA, it)
+                    else model.setEditRowValue(Xp5OutputsViewModel.COL_PWMB, it)
+                }
+            }
+
+            flagsView.setOnChangeListener {
+                if (effectA) model.setEditRowValue(Xp5OutputsViewModel.COL_FLAGSA, it)
+                else model.setEditRowValue(Xp5OutputsViewModel.COL_FLAGSB, it)
+            }
+
+            param1View.setOnChangeListener {
+                if (it != null) {
+                    if (effectA) model.setEditRowValue(Xp5OutputsViewModel.COL_PARAM1A, it)
+                    else model.setEditRowValue(Xp5OutputsViewModel.COL_PARAM1B, it)
+                }
+            }
+
+            param2View.setOnChangeListener {
+                if (it != null) {
+                    if (effectA) model.setEditRowValue(Xp5OutputsViewModel.COL_PARAM2A, it)
+                    else model.setEditRowValue(Xp5OutputsViewModel.COL_PARAM2B, it)
+                }
+            }
+
+        }
         return view!!
     }
 

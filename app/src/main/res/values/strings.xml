@@ -223,8 +223,18 @@
     <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
     <!-- Piko XP5 -->
     <string name="label_xp5_output_effect_ab">Effect A / B</string>
+    <string name="label_xp5_output_effect_a">Effect A</string>
+    <string name="label_xp5_output_effect_b">Effect B</string>
     <string name="label_xp5_output_pwm">PWM</string>
+    <string name="label_xp5_output_pwm_desc1">The light and function outputs A1 to A7 can be set to any dimming level within a value range of 0 – 64.</string>
+    <string name="label_xp5_output_pwm_desc2">The factory setting for each function output is 64.</string>
     <string name="label_xp5_output_flags">Flags</string>
+    <string name="label_xp5_output_flags_desc1">Flags are options that allow an output to be automatically switched off under certain conditions and to be shown or hidden.</string>
+    <string name="label_xp5_output_flags_desc2">
+        The speed threshold for “Auto-Off Slow” or “Auto-Off Fast” can be set in CV179 “Speed Threshold” in a value range of 0 - 255.
+        \nThe fade-in and fade-out times are set via CVs 177 (fade-in time) and CV 178 (fade-out time) in steps of 20ms in a value range of 0 - 255.
+        \nIf an output has been switched off via an “Auto-Off” condition, Bit5 “Auto-On” can be used to decide whether this output is automatically switched on again when the switch-off condition is no longer met.
+    </string>
     <string name="label_xp5_output_p1">P1</string>
     <string name="label_xp5_output_p2">P2</string>
     <string name="label_xp5_output_parameter1">Parameter 1</string>
