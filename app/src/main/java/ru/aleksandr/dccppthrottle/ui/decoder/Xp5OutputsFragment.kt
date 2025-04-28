@@ -8,18 +8,22 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -109,6 +113,7 @@ class Xp5OutputsFragment : DecoderFragment() {
     private fun createEditRowDialog(): View {
         val view = layoutInflater.inflate(R.layout.dialog_xp5_output, null)
         with(view) {
+            val scrollView = findViewById<ScrollView>(R.id.scrollView)
             val tabsView = findViewById<TabLayout>(R.id.tabLayout)
             val spinnerView = findViewById<Spinner>(R.id.spinnerEffect)
             val effectDescView = findViewById<TextView>(R.id.textEffectDesc)
@@ -177,6 +182,14 @@ class Xp5OutputsFragment : DecoderFragment() {
                         param1View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM1B)
                         param2View.value = model.getEditRowValue(Xp5OutputsViewModel.COL_PARAM2B)
                     }
+
+                    scrollView.children.forEach {
+                        if (it.hasFocus()) it.clearFocus()
+                    }
+                    scrollView.scrollTo(0, 0)
+                    // https://stackoverflow.com/a/62061927
+                    val manager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                    manager?.hideSoftInputFromWindow(windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
