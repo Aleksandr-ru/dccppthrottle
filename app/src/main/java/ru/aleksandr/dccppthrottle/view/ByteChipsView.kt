@@ -83,7 +83,9 @@ class ByteChipsView : HorizontalScrollView {
         chipsView = findViewById<ChipGroup>(R.id.chip_group).apply {
             children.withIndex().forEach { item ->
                 val chip = item.value as Chip
-                chip.text = _strings.getOrElse(item.index) { item.index.toString() }
+                _strings.getOrNull(item.index)?.let {
+                    chip.text = it
+                }
                 chip.setOnCheckedChangeListener { _, checked ->
                     if (changeListenerEnabled) {
                         chipsToValue()

@@ -12,6 +12,7 @@ import android.content.Intent
 import android.os.Bundle
 import ru.aleksandr.dccppthrottle.ui.decoder.Lp5MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Lp5OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.Lp5SettingsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp4MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp4OutputsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp5OutputsFragment
@@ -30,6 +31,10 @@ class DecoderActivity : AwakeActivity() {
                 R.id.action_lp5_outputs -> {
                     title = getString(R.string.title_fragment_lp5_outputs)
                     Lp5OutputsFragment.newInstance()
+                }
+                R.id.action_lp5_settings -> {
+                    title = getString(R.string.title_fragment_lp5_settings)
+                    Lp5SettingsFragment.newInstance()
                 }
                 R.id.action_xp4_mapping -> {
                     title = getString(R.string.title_fragment_xp4_mapping)

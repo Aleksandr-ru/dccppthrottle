@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_lp5_cv29"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+            android:id="@+id/byteCv29"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center_horizontal"
+            app:stringArray="@array/lp5_cv29_bits"
+            app:hiddenBits="192"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_cv49"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+            android:id="@+id/byteCv49"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center_horizontal"
+            app:stringArray="@array/lp5_cv49_bits"
+            app:hiddenBits="70"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_lp5_cv124"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+            android:id="@+id/byteCv124"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center_horizontal"
+            app:stringArray="@array/lp5_cv124_bits"
+            />
+    </LinearLayout>
+</ScrollView>

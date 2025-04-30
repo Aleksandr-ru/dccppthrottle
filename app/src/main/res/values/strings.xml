@@ -16,6 +16,7 @@
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
+    <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
     <string name="title_fragment_xp5_outputs">SmartDecoder XP 5.1 outputs config</string>
@@ -79,6 +80,7 @@
     <string name="menu_decoder_outputs">Outputs configuration</string>
     <string name="menu_decoder_mapping_simple">Simple function mapping</string>
     <string name="menu_decoder_mapping_extended">Extended function mapping</string>
+    <string name="menu_decoder_settings">Settings</string>
 
     <string name="label_f">F%d</string>
     <string name="label_f_named">F%d: %s</string>
@@ -142,6 +144,18 @@
     <string name="label_lp5_output_special3">Special Function 3</string>
     <string name="label_lp5_time_x_sec">Time = %.3f seconds</string>
     <string name="label_lp5_same_as_swon_time">Same as Switch-On delay</string>
+    <string name="label_lp5_couplers">Automatic Coupler Function (Removing/Pushing)</string>
+    <string name="label_lp5_couplers_desc">LokPilot 5 decoders are able to do the automatic decoupling. When you push the function button the loco drives backwards against the train and then removes from it again.</string>
+    <string name="label_lp5_cv246">In CV 246 the speed that moves the loco will be stored (or defined) (0–255). If this value is 0, the automatic coupler function is not active.</string>
+    <string name="label_lp5_cv247">In CV 247 the time of removing is to be entered (The time the loco needs for moving away from the train).</string>
+    <string name="label_lp5_cv248">In CV 248 the time of pushing is to be entered (The time the loco needs for pushing against the train).</string>
+    <string name="label_lp5_tango">
+        The time of removing should be higher than the time of pushing to make sure that the loco stops in a safe distance away from the train.
+        \nThe function output of the option „coupler“ needs to be configurated correctly to make the automatic decoupling work.
+    </string>
+    <string name="label_lp5_cv29">Configuration register (CV 29)</string>
+    <string name="label_lp5_cv49">Extended Configuration #1 (CV 49)</string>
+    <string name="label_lp5_cv124">Extended Configuration #2 (CV 124)</string>
     <!-- Piko XP4 -->
     <string name="label_xp4_row_x">Line %d</string>
     <string name="label_xp4_output_susi">SUSI</string>

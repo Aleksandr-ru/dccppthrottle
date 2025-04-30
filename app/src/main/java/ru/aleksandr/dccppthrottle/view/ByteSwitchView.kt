@@ -84,8 +84,8 @@ class ByteSwitchView : LinearLayout {
         bits.withIndex().forEach { item ->
             addView(item.value)
             with(item.value) {
-                _strings.getOrNull(item.index)?.let {
-                    text = it
+                text = _strings.getOrNull(item.index).let {
+                    if (!it.isNullOrBlank()) it else "Bit.${item.index}"
                 }
                 setOnCheckedChangeListener { _, checked ->
                     if (changeListenerEnabled) {

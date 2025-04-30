@@ -106,6 +106,8 @@ object MockStore {
         return (0 .. 31).random()
     }
 
+    fun randomLp5SettingCvValue(): Int = (0..255).random()
+
     fun randomXp4OutputCvValue(): Int {
         return (0 .. 63).random()
     }

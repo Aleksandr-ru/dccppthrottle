@@ -243,7 +243,7 @@
         <item>24 Seuthe Smoke unit</item>
         <item>25 Trigger smoke chuff</item> <!-- 25 -->
         <item>26 External controlled smoke unit</item> <!-- 26 -->
-        <item>27 Servo 1-6</item>
+        <item>27 Servo 1–6</item>
         <item>28 Conventional coupler</item> <!-- 28 -->
         <item>29 Roco coupler</item>
         <item>30 Panto control</item>
@@ -300,36 +300,72 @@
         <!-- 2 --> <item>Brightness (0 – 31)</item> <item>Rule 17 Fw = 4, Rule 17 Rev = 8,  Dimmer = 16, LED Mode = 128</item> <item></item> <item>Class light logic</item>
         <!-- 3 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
         <!-- 4 --> <item>Brightness (0 – 31)</item> <item>LED Mode = 128</item> <item></item> <item></item>
-        <!-- 5 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 6 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 7 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 8 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 9 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 10 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 11 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 12 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 13 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 14 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
-        <!-- 15 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 - 63)</item>
+        <!-- 5 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 6 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 7 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 8 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 9 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 10 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 11 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 12 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 13 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 14 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
+        <!-- 15 --> <item>Brightness (0 – 31)</item> <item>Change Phase = 1, Grade crossing = 2, LED Mode = 128</item> <item></item> <item>Phase shift (0 – 63)</item>
         <!-- 16 --> <item>Brightness (0 – 31)</item> <item></item> <item>Startup time (255 means defective Neon lamp)</item> <item></item>
         <!-- 17 --> <item>Brightness (0 – 31)</item> <item></item> <item>Startup time (255 means defective Neon lamp)</item> <item></item>
         <!-- 18 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item> <!-- Single Strobe Random -->
-        <!-- 19 --> <item>Brightness (0 – 31)</item> <item></item> <item>Level  (0 - 127)</item> <item></item> <!-- Brake light -->
+        <!-- 19 --> <item>Brightness (0 – 31)</item> <item></item> <item>Level  (0 – 127)</item> <item></item> <!-- Brake light -->
         <!-- 20 --> <item>Brightness (0 – 31)</item> <item></item> <item></item> <item></item> <!-- ESU coupler 1 (20)? -->
         <!-- 21 --> <item></item> <item></item> <item></item> <item></item> <!-- ESU coupler 2 (for compatibility) -->
         <!-- 22 --> <item>Fan control - 31, Heating control - 30</item> <item></item> <item></item> <item></item> <!-- Smoke generator (sound-controlled) -->
         <!-- 23 --> <item>Fan speed (0 – 31)</item> <item>Acceleration rate (0 – 31)</item> <item>Braking rate (0 – 31)</item> <item></item> <!-- Fan control -->
         <!-- 24 --> <item>Intensity (0 – 31)</item> <item>Heater power at speed step 1 (0 – 31)</item> <item>Heater power Vmax (0 – 31)</item> <item></item> <!-- Seuthe® Smoke unit -->
-        <!-- 25 --> <item>Chuff power (0 – 31)</item> <item>Fan power (0 - 31)</item> <item>Timeout (0 - 255, unit 0,26s)</item> <item></item> <!-- Trigger smoke chuff -->
+        <!-- 25 --> <item>Chuff power (0 – 31)</item> <item>Fan power (0 – 31)</item> <item>Timeout (0 – 255, unit 0,26s)</item> <item></item> <!-- Trigger smoke chuff -->
         <!-- 26 --> <item>KM1 BR 41 / BR 44 = 0, KM1 (other) = 1, KISS = 2, ESU Smoke Unit (Gauge 0, G) = 3</item> <item></item> <item></item> <item></item> <!-- External controlled smoke unit -->
         <!-- 27 --> <item>Run time „A” (0 – 63)</item> <item>End position „A“ (0 – 63)</item> <item>End position „B“ (0 – 63)</item> <item>Run time „B” (0 – 63)</item> <!-- Servo1-6 -->
-        <!-- 28 --> <item>Coupler strength (power) (0 - 31)</item> <item></item> <item></item> <item></item> <!-- Conventional coupler function -->
+        <!-- 28 --> <item>Coupler strength (power) (0 – 31)</item> <item></item> <item></item> <item></item> <!-- Conventional coupler function -->
         <!-- 29 --> <item></item> <item></item> <item></item> <item></item> <!-- ROCO® coupler function -->
         <!-- 30 --> <item>End position Panto (0 – 15)</item> <item></item> <item></item> <item></item> <!-- Panto control -->
         <!-- 31 --> <item></item> <item></item> <item></item> <item></item> <!-- PowerPack Control -->
         <!-- 32 --> <item></item> <item></item> <item></item> <item></item> <!-- Servo power -->
-        <!-- 33 --> <item>Coupler force (PWM signal ratio, 0 - 31)</item> <item></item> <item></item> <item></item> <!-- Autocoupler coil#2 -->
+        <!-- 33 --> <item>Coupler force (PWM signal ratio, 0 – 31)</item> <item></item> <item></item> <item></item> <!-- Autocoupler coil#2 -->
         <!-- 34 --> <item></item> <item></item> <item></item> <item></item> <!-- Reserved (34) -->
         <!-- 35 --> <item></item> <item></item> <item></item> <item></item> <!-- Trigger smoke chuff "Edge Toggle" -->
+    </string-array>
+
+    <string-array name="lp5_conf_tabs">
+        <item>Configuration</item>
+        <item>Digital Couplers</item>
+    </string-array>
+
+    <string-array name="lp5_cv29_bits">
+        <item>Reversed direction of travel</item>
+        <item>28 or 128 speed steps DCC</item>
+        <item>Enable analog operation</item>
+        <item>Enable RailCom®</item>
+        <item>Speed curve through CV 67 – 94 (Multiprotocol)</item>
+        <item>Long addresses (CV 17 + 18)</item>
+    </string-array>
+
+    <string-array name="lp5_cv49_bits">
+        <item>Enable Load control (Back-EMF)</item>
+        <item>Reserved</item>
+        <item>Reserved</item>
+        <item>Märklin® Consecutive addresses, „low”-Bit</item>
+        <item>Enable DCC speed step detection</item>
+        <item>Enable LGB® function button mode</item>
+        <item>Reserved</item>
+        <item>Märklin® Consecutive addresses, „High”-Bit</item>
+    </string-array>
+
+    <string-array name="lp5_cv124_bits">
+        <item>Bi-directional bit: Keep driving direction when changing direction</item>
+        <item>Enable SUSI slave protocol</item>
+        <item>Enable prime mover startup delay</item>
+        <item>Enable SUSI serial protocol at AUX11, AUX12</item>
+        <item>Enable Wheel Sensor input at AUX10 (H0 only)</item>
+        <item>Overload Protection (Motor is switched off for a few seconds when blocked to avoid burnout)</item>
+        <item>Enable Automatic parking Brake (EMK Braking)</item>
+        <item>AUX3, AUX4 Power instead of Logic Level at 21MTC (only LokPilot 5 Fx)</item>
     </string-array>
 </resources>

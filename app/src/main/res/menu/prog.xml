@@ -15,6 +15,10 @@
             android:id="@+id/action_lp5_outputs"
             app:showAsAction="never"
             android:title="@string/menu_decoder_outputs" />
+        <item
+            android:id="@+id/action_lp5_settings"
+            app:showAsAction="never"
+            android:title="@string/menu_decoder_settings" />
 
         <item
             android:enabled="false"

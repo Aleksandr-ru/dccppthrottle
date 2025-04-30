@@ -32,10 +32,10 @@ import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 
 
-class Xp4OutputsFragment : DecoderFragment() {
+class Lp5SettingsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
-    private val model by activityViewModels<Xp4OutputsViewModel>()
+    private val model by activityViewModels<Lp5SettingsViewModel>()
 
     private lateinit var emptyView: TextView
     private lateinit var viewPager: ViewPager2
@@ -43,7 +43,7 @@ class Xp4OutputsFragment : DecoderFragment() {
     private lateinit var writeButton: Button
 
     companion object {
-        fun newInstance() = Xp4OutputsFragment()
+        fun newInstance() = Lp5SettingsFragment()
     }
 
     override fun onCreateView(
@@ -63,10 +63,10 @@ class Xp4OutputsFragment : DecoderFragment() {
             tabLayout = findViewById(R.id.tabLayout)
             writeButton = findViewById(R.id.buttonWrite)
         }
-
+        
         viewPager.adapter = SlidePagerAdapter(this)
 
-        val tabTitles = resources.getStringArray(R.array.xp4_output_tabs)
+        val tabTitles = resources.getStringArray(R.array.lp5_conf_tabs)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles.get(position)
         }.attach()
@@ -106,7 +106,7 @@ class Xp4OutputsFragment : DecoderFragment() {
     }
 
     private fun readAllCVs() {
-        val maxCvs = Xp4OutputsViewModel.cvNumbers.size
+        val maxCvs = Lp5SettingsViewModel.cvNumbers.size
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setMax(maxCvs)
@@ -121,8 +121,8 @@ class Xp4OutputsFragment : DecoderFragment() {
             try {
                 checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
 
-                for (cv in Xp4OutputsViewModel.cvNumbers) {
-                    val value = readCv(cv, MockStore::randomXp4OutputCvValue)
+                for (cv in Lp5SettingsViewModel.cvNumbers) {
+                    val value = readCv(cv, MockStore::randomLp5SettingCvValue)
                     model.setCvValue(cv, value)
                     dialog.incrementProgress()
                 }
@@ -146,14 +146,14 @@ class Xp4OutputsFragment : DecoderFragment() {
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setTitle(R.string.title_dialog_writing_cvs)
-            setMax(Xp4OutputsViewModel.cvNumbers.size)
+            setMax(Lp5SettingsViewModel.cvNumbers.size)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             show()
         }
 
         job = lifecycleScope.launch {
             try {
-                for (cv in Xp4OutputsViewModel.cvNumbers) {
+                for (cv in Lp5SettingsViewModel.cvNumbers) {
                     val value = model.getCvValue(cv)
                     writeCv(cv, value)
                     dialog.incrementProgress()
@@ -174,18 +174,11 @@ class Xp4OutputsFragment : DecoderFragment() {
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = resources.getStringArray(R.array.xp4_output_tabs).size
+        override fun getItemCount(): Int = resources.getStringArray(R.array.lp5_conf_tabs).size
 
         override fun createFragment(position: Int) = when(position) {
-            Xp4OutputsViewModel.IDX_DIMMING -> Xp4OutputDimmingFragment()
-            Xp4OutputsViewModel.IDX_FADING -> Xp4OutputFadingFragment()
-            Xp4OutputsViewModel.IDX_BLINKING -> Xp4OutputBlinkingFragment()
-            Xp4OutputsViewModel.IDX_NEON -> Xp4OutputNeonFragment()
-            Xp4OutputsViewModel.IDX_ESAVING -> Xp4OutputEsavingFragment()
-            Xp4OutputsViewModel.IDX_FIREBOX -> Xp4OutputFireboxFragment()
-            Xp4OutputsViewModel.IDX_SMOKE -> Xp4OutputSmokeFragment()
-            Xp4OutputsViewModel.IDX_COUPLERS -> Xp4OutputCouplersFragment()
-            Xp4OutputsViewModel.IDX_SERVO -> Xp4OutputServoFragment()
+            Lp5SettingsViewModel.IDX_CONF -> Lp5SettingConfFragment()
+            Lp5SettingsViewModel.IDX_COUPLERS -> Lp5SettingCouplersFragment()
             else -> WipFragment()
         }
     }
