@@ -40,7 +40,7 @@ class Lp5SettingsViewModel: ViewModel() {
 
         val cvNumbers = listOf(
             // Conf
-            29, 49, 124,
+            29, 49, 124, 101,
 
             // Couplers
             246, 247, 248,

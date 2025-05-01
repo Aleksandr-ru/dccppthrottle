@@ -72,5 +72,16 @@ class Lp5SettingCouplersFragment() : Fragment() {
                 if (it) value = model.getCvValue(248)
             }
         }
+
+        // 101
+        view.findViewById<PlusMinusView>(R.id.plusminusCv101)?.apply {
+            setOnChangeListener {
+                if (it !== null) model.setCvValue(101, it)
+            }
+            model.loaded.observe(viewLifecycleOwner) {
+                if (it) value = model.getCvValue(101)
+            }
+        }
+
     }
 }

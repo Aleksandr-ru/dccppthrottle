@@ -153,6 +153,8 @@
         The time of removing should be higher than the time of pushing to make sure that the loco stops in a safe distance away from the train.
         \nThe function output of the option „coupler“ needs to be configurated correctly to make the automatic decoupling work.
     </string>
+    <string name="label_lp5_shunting">Shunting Mode</string>
+    <string name="label_lp5_cv101">The shunting mode reduces the speed (ex factory: to about 50%) for each speed step. Thus, you have smoother control of your locomotive in the lower speed ranges, which is important for shunting, particularly in the 14-speed-step mode. In CV 101 you can set the trim value or shunting mode.</string>
     <string name="label_lp5_cv29">Configuration register (CV 29)</string>
     <string name="label_lp5_cv49">Extended Configuration #1 (CV 49)</string>
     <string name="label_lp5_cv124">Extended Configuration #2 (CV 124)</string>
