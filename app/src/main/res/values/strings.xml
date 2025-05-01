@@ -292,6 +292,36 @@
     <string name="label_xp5_swoff">Time-controlled switching off of the function outputs</string>
     <string name="label_xp5_swoff_desc">The front light (F0v) and rear light (F0h), as well as A1 - A7, can be automatically switched off after a configurable time has elapsed. The times can be individually set for each output.</string>
     <string name="label_xp5_swoff_item">CV%d -> Time for automatic shutdown %s</string>
+    <string name="label_xp5_coupling">Control of a digital coupling (A4 and A5)</string>
+    <string name="label_xp5_coupling_cv47">Digital couplers can only be connected to decoder outputs A4 and A5. If a shunting tango is also to be used, outputs A4 must be used for the front coupler and A5 for the rear coupler. Which of the two function outputs A4 and A5 should be activated for a digital coupler is set in CV47 using bits 2=1 (A4) and 3=1 (A5). If the front and rear digital couplers are accidentally connected to the wrong outputs—i.e., A4 to the rear and A5 to the front—this can be corrected using bit 4=1 in CV47.</string>
+    <string name="label_xp5_coupling_desc">
+        Digital couplers are made of the finest copper wire windings and are used for automatically coupling and uncoupling cars. These are generally sensitive to continuous current flow, as they become relatively hot as a result. With appropriate settings, the decoder can ensure that the function outputs are automatically deactivated after a set time (CV130).
+        \nAutomatically switch off without having to deactivate the function key. Furthermore, the decoder can ensure that the coupler is only controlled with a high PWM for a brief moment of activation to safely raise the coupler. After this moment, less energy is required to keep the coupler raised. This lower PWM can be set in CV 135.
+    </string>
+    <string name="label_xp5_cv130">CV130 -> Switch-on time</string>
+    <string name="label_xp5_cv135">CV135 -> Hold PWM</string>
+    <string name="label_xp5_tango">Shunting tango with automatic coupling and uncoupling</string>
+    <string name="label_xp5_tango_desc">
+        A shunting tango can only be activated if the electrical coupling control is activated via CV47.
+        \nA shunting tango is triggered by one of the coupling outputs when the decoder speed step = 0:
+        \n\nHow a shunting tango works during the uncoupling process: If the car is coupled to the rear coupling, for example, the locomotive must be facing forward in the direction of travel.
+        \n1. Locomotive travels at an adjustable speed for an adjustable time T1 against the current direction of travel (press, coupling released)
+        \n2. Locomotive stops and changes direction
+        \n3. Uncoupling process and the locomotive runs at the same speed level for an adjustable time T2 (moving away)
+        \n4. The locomotive stops and now the locomotive has returned to its original direction of travel.
+        \n\nHow a shunting tango works during the coupling process:
+        \nIf, for example, the car is to be coupled to the rear coupling, the locomotive must be facing backwards in the direction of travel.
+        \n1. Locomotive travels at an adjustable speed for an adjustable time T1 against the current direction of travel (coupling safely released)
+        \n2. Locomotive stops and changes direction
+        \n3. Lift the bar and the locomotive will run at the same speed for an adjustable time T2 for coupling
+        \n4. The locomotive stops and now the locomotive has returned to its original direction of travel.
+    </string>
+    <string name="label_xp5_cv131">CV131 for the speed level of the shunting tango</string>
+    <string name="label_xp5_cv131_note">The value 0 specifies that no shunting tango takes place</string>
+    <string name="label_xp5_cv132">CV132 for the pressing time T1</string>
+    <string name="label_xp5_cv133">CV133 for the pressing time T2 when coupling</string>
+    <string name="label_xp5_cv134">CV134 for the separation time T2 when uncoupling</string>
+    <string name="label_xp5_tango_note">The total duration of the coupling control may need to be adjusted via CV 130 to the times of the shunting tango in CVs 131 to 134.</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

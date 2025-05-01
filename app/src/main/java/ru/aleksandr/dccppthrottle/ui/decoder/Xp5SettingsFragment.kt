@@ -183,6 +183,7 @@ class Xp5SettingsFragment : DecoderFragment() {
             Xp5SettingsViewModel.IDX_LAMPS -> Xp5SettingLampsFragment()
             Xp5SettingsViewModel.IDX_SERVO -> Xp5SettingServoFragment()
             Xp5SettingsViewModel.IDX_SWOFF -> Xp5SettingSwoffFragment()
+            Xp5SettingsViewModel.IDX_COUPLING -> Xp5SettingCoplingFragment()
             else -> WipFragment()
         }
     }

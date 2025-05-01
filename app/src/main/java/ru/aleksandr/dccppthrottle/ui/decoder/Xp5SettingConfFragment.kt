@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 
@@ -47,8 +48,12 @@ class Xp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(47, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(47)
+//            model.loaded.observe(viewLifecycleOwner) {
+//                if (it) value = model.getCvValue(47)
+//            }
+            model.liveCvValue(47).observe(viewLifecycleOwner) {
+                if (BuildConfig.DEBUG) Log.d(TAG, "CV 47 live value = $it")
+                value = it
             }
         }
 
