@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -96,7 +95,7 @@ class Xp4OutputServoFragment() : Fragment() {
                     model.setCvValue(162, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv162)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -131,7 +130,7 @@ class Xp4OutputServoFragment() : Fragment() {
                     model.setCvValue(165, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv165)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {

@@ -20,6 +20,7 @@
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
     <string name="title_fragment_xp5_outputs">SmartDecoder XP 5.1 outputs config</string>
+    <string name="title_fragment_xp5_settings">SmartDecoder XP 5.1 settings</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
     <string name="title_dialog_locomotive_edit">Edit locomotive</string>
     <string name="title_dialog_accessory_add">Add accessory</string>
@@ -131,6 +132,7 @@
     <string name="label_resulting_cv_x">Resulting CV value = %d</string>
     <string name="label_inputs">Inputs</string>
     <string name="label_outputs">Outputs</string>
+    <string name="label_time_x_sec">Time = %.3f seconds</string>
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_row_x">Row %d</string>
@@ -142,7 +144,6 @@
     <string name="label_lp5_output_special1">Special Function 1</string>
     <string name="label_lp5_output_special2">Special Function 2</string>
     <string name="label_lp5_output_special3">Special Function 3</string>
-    <string name="label_lp5_time_x_sec">Time = %.3f seconds</string>
     <string name="label_lp5_same_as_swon_time">Same as Switch-On delay</string>
     <string name="label_lp5_couplers">Automatic Coupler Function (Removing/Pushing)</string>
     <string name="label_lp5_couplers_desc">LokPilot 5 decoders are able to do the automatic decoupling. When you push the function button the loco drives backwards against the train and then removes from it again.</string>
@@ -161,7 +162,6 @@
     <!-- Piko XP4 -->
     <string name="label_xp4_row_x">Line %d</string>
     <string name="label_xp4_output_susi">SUSI</string>
-    <string name="label_xp4_time_x_sec">Time = %.3f seconds</string>
     <string name="label_xp4_dimming">Dimming the light and function outputs</string>
     <string name="label_xp4_dimming_desc">Light functions and function outputs A1 to A7 can be set to any desired level of dimming. These settings are stored in CVs 116 (light), 117 (A1) through 123 (A7).</string>
     <string name="label_xp4_dimming2">Secondary dimming of the lighting and function outputs</string>
@@ -255,6 +255,43 @@
     <string name="label_xp5_output_p2">P2</string>
     <string name="label_xp5_output_parameter1">Parameter 1</string>
     <string name="label_xp5_output_parameter2">Parameter 2</string>
+    <string name="label_xp5_cv29">Configuration according to DCC standard</string>
+    <string name="label_xp5_cv47">Special function assignment</string>
+    <string name="label_xp5_cv62">Controller configuration motor control</string>
+    <string name="label_xp5_fading">Softly fade in and out light and function outputs</string>
+    <string name="label_xp5_fading_desc">When the output is switched on or off, it fades in or out smoothly.</string>
+    <string name="label_xp5_cv177">CV177 -> Fade-in time</string>
+    <string name="label_xp5_cv178">CV177 -> Fade-out time</string>
+    <string name="label_xp5_fading_note">Which output should receive these blend functions is set using the flags in outputs configuration.</string>
+    <string name="label_xp5_flashing">Flashing of the light and function outputs</string>
+    <string name="label_xp5_flashing_desc">The locomotive decoder has four flashing generators that can be assigned to the outputs</string>
+    <string name="label_xp5_cv173">CV 173 Flasher 1 flashing interval</string>
+    <string name="label_xp5_cv174">CV 174 Flasher 2 flashing interval</string>
+    <string name="label_xp5_cv175">CV 175 Flasher 3 flashing interval</string>
+    <string name="label_xp5_cv176">CV 176 Flasher 4 flashing interval</string>
+    <string name="label_xp5_flashing_note">If an output is to use one of these flashing generators, this effect is assigned to the desired output using effect Blinking 1 – 4.</string>
+    <string name="label_xp5_neon">Switch-on effect of a fluorescent lamp, defective fluorescent lamp</string>
+    <string name="label_xp5_neon_desc">The switch-on effect of a fluorescent lamp (multiple flashes before the output is fully switched on) or a defective fluorescent lamp can also be output to the light and function outputs.</string>
+    <string name="label_xp5_cv172">The duration of the switch-on effect (start time) can be set in CV 172</string>
+    <string name="label_xp5_neon_note">The flashing interval of the defective fluorescent lamp is fixed. </string>
+    <string name="label_xp5_esaving">Energy-saving lamp effect when switching on the light and function outputs</string>
+    <string name="label_xp5_esaving_desc">When an energy-saving lamp is switched on, it initially produces a starting brightness before slowly reaching maximum brightness.</string>
+    <string name="label_xp5_cv170">The starting brightness can be set in CV170</string>
+    <string name="label_xp5_cv171">The fade-in time to maximum brightness can be set in 100 ms increments in CV171</string>
+    <string name="label_xp5_servo_desc">
+        The use of a servo on the decoder requires electronic expertise due to the servo circuit to be created.
+        \nA maximum of four servo circuits can be operated on the PIKO SmartDecoder XP. The settings for the two stop positions and the speed can be adjusted using three CVs each.
+    </string>
+    <string name="label_xp5_servo1">Servo configuration 1</string>
+    <string name="label_xp5_servo2">Servo configuration 2</string>
+    <string name="label_xp5_servo3">Servo configuration 3</string>
+    <string name="label_xp5_servo4">Servo configuration 4</string>
+    <string name="label_xp5_servo_speed">Speed. The higher the value, the higher the speed</string>
+    <string name="label_xp5_servo_left">Left stop value 128 = 1ms servo pulse</string>
+    <string name="label_xp5_servo_right">Right stop value 128 = 2ms servo pulse</string>
+    <string name="label_xp5_swoff">Time-controlled switching off of the function outputs</string>
+    <string name="label_xp5_swoff_desc">The front light (F0v) and rear light (F0h), as well as A1 - A7, can be automatically switched off after a configurable time has elapsed. The times can be individually set for each output.</string>
+    <string name="label_xp5_swoff_item">CV%d -> Time for automatic shutdown %s</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

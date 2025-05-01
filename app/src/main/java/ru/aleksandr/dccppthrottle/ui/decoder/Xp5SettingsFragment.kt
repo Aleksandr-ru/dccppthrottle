@@ -32,10 +32,10 @@ import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 
 
-class Lp5SettingsFragment : DecoderFragment() {
+class Xp5SettingsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
-    private val model by activityViewModels<Lp5SettingsViewModel>()
+    private val model by activityViewModels<Xp5SettingsViewModel>()
 
     private lateinit var emptyView: TextView
     private lateinit var viewPager: ViewPager2
@@ -43,7 +43,7 @@ class Lp5SettingsFragment : DecoderFragment() {
     private lateinit var writeButton: Button
 
     companion object {
-        fun newInstance() = Lp5SettingsFragment()
+        fun newInstance() = Xp5SettingsFragment()
     }
 
     override fun onCreateView(
@@ -66,7 +66,7 @@ class Lp5SettingsFragment : DecoderFragment() {
         
         viewPager.adapter = SlidePagerAdapter(this)
 
-        val tabTitles = resources.getStringArray(R.array.lp5_conf_tabs)
+        val tabTitles = resources.getStringArray(R.array.xp5_conf_tabs)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles.get(position)
         }.attach()
@@ -106,7 +106,7 @@ class Lp5SettingsFragment : DecoderFragment() {
     }
 
     private fun readAllCVs() {
-        val maxCvs = Lp5SettingsViewModel.cvNumbers.size
+        val maxCvs = Xp5SettingsViewModel.cvNumbers.size
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setMax(maxCvs)
@@ -121,7 +121,7 @@ class Lp5SettingsFragment : DecoderFragment() {
             try {
                 checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
 
-                for (cv in Lp5SettingsViewModel.cvNumbers) {
+                for (cv in Xp5SettingsViewModel.cvNumbers) {
                     val value = readCv(cv, MockStore::randomDecoderSettingCvValue)
                     model.setCvValue(cv, value)
                     dialog.incrementProgress()
@@ -146,14 +146,14 @@ class Lp5SettingsFragment : DecoderFragment() {
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setTitle(R.string.title_dialog_writing_cvs)
-            setMax(Lp5SettingsViewModel.cvNumbers.size)
+            setMax(Xp5SettingsViewModel.cvNumbers.size)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             show()
         }
 
         job = lifecycleScope.launch {
             try {
-                for (cv in Lp5SettingsViewModel.cvNumbers) {
+                for (cv in Xp5SettingsViewModel.cvNumbers) {
                     val value = model.getCvValue(cv)
                     writeCv(cv, value)
                     dialog.incrementProgress()
@@ -174,11 +174,15 @@ class Lp5SettingsFragment : DecoderFragment() {
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = resources.getStringArray(R.array.lp5_conf_tabs).size
+        override fun getItemCount(): Int = resources.getStringArray(R.array.xp5_conf_tabs).size
 
         override fun createFragment(position: Int) = when(position) {
-            Lp5SettingsViewModel.IDX_CONF -> Lp5SettingConfFragment()
-            Lp5SettingsViewModel.IDX_COUPLERS -> Lp5SettingCouplersFragment()
+            Xp5SettingsViewModel.IDX_CONF -> Xp5SettingConfFragment()
+            Xp5SettingsViewModel.IDX_FADING -> Xp5SettingFadingFragment()
+            Xp5SettingsViewModel.IDX_FLASHING -> Xp5SettingFlashingFragment()
+            Xp5SettingsViewModel.IDX_LAMPS -> Xp5SettingLampsFragment()
+            Xp5SettingsViewModel.IDX_SERVO -> Xp5SettingServoFragment()
+            Xp5SettingsViewModel.IDX_SWOFF -> Xp5SettingSwoffFragment()
             else -> WipFragment()
         }
     }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="CV180 -> Time for automatic shutdown F0v"/>
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/text_margin"
+        app:max="255"
+        app:min="0"
+        app:nullable="false" />
+    <TextView
+        android:id="@+id/textDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:layout_gravity="center"
+        android:text="in 0.5 second increments"/>
+</LinearLayout>

@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                     model.setCvValue(125, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv125)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -66,7 +65,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                     model.setCvValue(126, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv126)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -81,7 +80,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                     model.setCvValue(127, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv127)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -126,7 +125,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                     model.setCvValue(136, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv136)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -141,7 +140,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                     model.setCvValue(137, it)
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv137)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {

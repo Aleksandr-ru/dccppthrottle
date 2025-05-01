@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_xp5_servo_desc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_speed"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv202"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_left"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv203"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_left"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv204"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_speed"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv208"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_left"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv209"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_right"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv210"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_speed"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv214"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_left"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv215"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_right"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv216"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_speed"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv220"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_left"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv221"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_servo_right"/>
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusCv222"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+    </LinearLayout>
+</ScrollView>

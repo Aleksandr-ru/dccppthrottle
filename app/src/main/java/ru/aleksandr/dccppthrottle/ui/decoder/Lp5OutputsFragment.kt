@@ -9,7 +9,6 @@ package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -151,7 +150,7 @@ class Lp5OutputsFragment : DecoderFragment() {
 
             swOnView.setOnChangeListener {
                 val seconds = Lp5OutputsViewModel.UNIT_SWONOFF * (it ?: 0)
-                swOnDescView.text = getString(R.string.label_lp5_time_x_sec, seconds)
+                swOnDescView.text = getString(R.string.label_time_x_sec, seconds)
 
                 val pair = Pair(swOnView.value ?: 0, swOffView.value ?: 0)
                 model.setEditRowValue(Lp5OutputsViewModel.COL_ONOFFDELAY, model.pairToSwitchOnOff(pair))
@@ -160,7 +159,7 @@ class Lp5OutputsFragment : DecoderFragment() {
             swOffView.setOnChangeListener {
                 swOffDescView.text = if ((it ?: 0) > 0) {
                     val seconds = Lp5OutputsViewModel.UNIT_SWONOFF * (it ?: 0)
-                    getString(R.string.label_lp5_time_x_sec, seconds)
+                    getString(R.string.label_time_x_sec, seconds)
                 }
                 else getString(R.string.label_lp5_same_as_swon_time)
 
@@ -171,7 +170,7 @@ class Lp5OutputsFragment : DecoderFragment() {
             autoOffView.setOnChangeListener {
                 val value = it ?: 0
                 val seconds = Lp5OutputsViewModel.UNIT_AUTOOFF * value
-                autoOffDescView.text = getString(R.string.label_lp5_time_x_sec, seconds)
+                autoOffDescView.text = getString(R.string.label_time_x_sec, seconds)
                 model.setEditRowValue(Lp5OutputsViewModel.COL_AUTOOFF, value)
             }
 

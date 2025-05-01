@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
@@ -72,7 +70,7 @@ class Xp4OutputSmokeFragment() : Fragment() {
 
                 val seconds = Xp4OutputsViewModel.UNIT_200MSEC * it
                 view.findViewById<TextView>(R.id.textDelay)?.text =
-                    getString(R.string.label_xp4_time_x_sec, seconds)
+                    getString(R.string.label_time_x_sec, seconds)
             }
         }
 
@@ -83,7 +81,7 @@ class Xp4OutputSmokeFragment() : Fragment() {
 
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv131)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
         }
@@ -107,7 +105,7 @@ class Xp4OutputSmokeFragment() : Fragment() {
 
                     val seconds = Xp4OutputsViewModel.UNIT_100MSEC * it
                     view.findViewById<TextView>(R.id.textCv134)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
         }

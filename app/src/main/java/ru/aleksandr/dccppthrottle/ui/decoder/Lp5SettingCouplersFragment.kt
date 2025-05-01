@@ -8,7 +8,6 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
                     model.setCvValue(247, it)
                     val seconds = Lp5SettingsViewModel.UNIT_16MSEC * it
                     view.findViewById<TextView>(R.id.textCv247)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {
@@ -65,7 +64,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
                     model.setCvValue(248, it)
                     val seconds = Lp5SettingsViewModel.UNIT_16MSEC * it
                     view.findViewById<TextView>(R.id.textCv248)?.text =
-                        getString(R.string.label_xp4_time_x_sec, seconds)
+                        getString(R.string.label_time_x_sec, seconds)
                 }
             }
             model.loaded.observe(viewLifecycleOwner) {

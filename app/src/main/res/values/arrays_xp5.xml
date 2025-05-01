@@ -140,4 +140,47 @@
         <!-- 53: Servo4 configuration --> <item></item> <item></item>
         <!-- 255: Output/Effect off --> <item></item> <item></item>
     </string-array>
+
+    <string-array name="xp5_conf_tabs">
+        <item>Configuration</item>
+        <item>Fade in/out</item>
+        <item>Flashing</item>
+        <item>Lamps</item>
+        <item>Servo control</item>
+        <item>Switching off</item>
+        <item>Digital coupling</item>
+    </string-array>
+
+    <string-array name="xp5_cv29_bits">
+        <item>Opposite direction of travel</item>
+        <item>28 speed steps</item>
+        <item>Automatic analog/digital switching</item>
+        <item>RailCom® switched on</item>
+        <item>Use characteristic curve from CV 67 – 94</item>
+        <item>Long address (CV 17/18)</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="xp5_cv47_bits">
+        <item>SUSI On (Off = SUSI as Logic1 and Logic2)</item>
+        <item>SUSI as Servo1 and Servo2 (if SUSI On)</item>
+        <item>A4 for digital coupling</item>
+        <item>A5 for digital coupling</item>
+        <item>Swap coupling outputs A4 and A5</item>
+        <item>Use wheel sensor</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="xp5_cv62_bits">
+        <item>For poorly running motor types/bell-armature motors</item>
+        <item></item>
+        <item>For poorly running engines without flywheel</item>
+        <item>Min./Max. adaptive</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>

@@ -183,4 +183,37 @@
         <item>Key F27 state to SUSI interface</item>
         <item>Key F28 state to SUSI interface</item>
     </string-array>
+
+    <string-array name="xp4_cv29_bits">
+        <item>Opposite direction of travel</item>
+        <item>28 Speed steps</item>
+        <item>Automatic digital-to-analog changeover</item>
+        <item>RailCom® turned on</item>
+        <item>Characteristic curve from CV 67 – 94 in use</item>
+        <item>Long address (CV 17/18)</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="xp4_cv50_bits">
+        <item>Motorola 2nd address used</item>
+        <item>Motorola 3rd address used</item>
+        <item>Swap light outputs</item>
+        <item>Frequency light, A1 to A5 = 24KHz</item>
+        <item>SUSI = A3/A4 logic level</item>
+        <item>SUSI DATA = Input 1, CLK = Input 2 (Uhlenbrock only)</item>
+        <item>A8 = Input 3 (Uhlenbrock only)</item>
+        <item>Intellimatic = On (Uhlenbrock only)</item>
+    </string-array>
+
+    <string-array name="xp4_cv51_bits">
+        <item>Motor control On</item>
+        <item>Motor control SX Controller instead of PID Controller</item>
+        <item>Dynamic cycle of motor control</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>

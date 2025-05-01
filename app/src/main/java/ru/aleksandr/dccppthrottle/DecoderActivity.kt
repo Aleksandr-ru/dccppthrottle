@@ -16,6 +16,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.Lp5SettingsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp4MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp4OutputsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.Xp5OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.Xp5SettingsFragment
 
 class DecoderActivity : AwakeActivity() {
 
@@ -47,6 +48,10 @@ class DecoderActivity : AwakeActivity() {
                 R.id.action_xp5_outputs -> {
                     title = getString(R.string.title_fragment_xp5_outputs)
                     Xp5OutputsFragment.newInstance()
+                }
+                R.id.action_xp5_settings -> {
+                    title = getString(R.string.title_fragment_xp5_settings)
+                    Xp5SettingsFragment.newInstance()
                 }
                 else -> throw Exception("Invalid menu id")
             }

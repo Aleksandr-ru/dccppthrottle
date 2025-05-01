@@ -8,21 +8,20 @@
 package ru.aleksandr.dccppthrottle.ui.decoder
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.view.ByteChipsView
-import ru.aleksandr.dccppthrottle.view.PlusMinusView
+import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 
-class Xp4OutputFadingFragment() : Fragment() {
+class Xp5SettingConfFragment() : Fragment() {
     private val TAG = javaClass.simpleName
-    private val model by activityViewModels<Xp4OutputsViewModel>()
+    private val model by activityViewModels<Xp5SettingsViewModel>()
 
-    private val layoutId = R.layout.fragment_xp4_output_fading
+    private val layoutId = R.layout.fragment_xp5_setting_conf
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,27 +32,35 @@ class Xp4OutputFadingFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ByteChipsView>(R.id.byteChipsOutputs)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(186)
-            }
+        // 29
+        view.findViewById<ByteSwitchView>(R.id.byteCv29)?.apply {
             setOnChangeListener {
-                model.setCvValue(186, it)
+                model.setCvValue(29, it)
+            }
+            model.loaded.observe(viewLifecycleOwner) {
+                if (it) value = model.getCvValue(29)
             }
         }
 
-        view.findViewById<PlusMinusView>(R.id.plusminusDelay)?.apply {
+        // 47
+        view.findViewById<ByteSwitchView>(R.id.byteCv47)?.apply {
             setOnChangeListener {
-                if (it !== null) {
-                    model.setCvValue(187, it)
-                    val seconds = Xp4OutputsViewModel.UNIT_10MSEC * it
-                    view.findViewById<TextView>(R.id.textDelay)?.text =
-                        getString(R.string.label_time_x_sec, seconds)
-                }
+                model.setCvValue(47, it)
             }
             model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(187)
+                if (it) value = model.getCvValue(47)
             }
         }
+
+        // 62
+        view.findViewById<ByteSwitchView>(R.id.byteCv62)?.apply {
+            setOnChangeListener {
+                model.setCvValue(62, it)
+            }
+            model.loaded.observe(viewLifecycleOwner) {
+                if (it) value = model.getCvValue(62)
+            }
+        }
+
     }
 }
