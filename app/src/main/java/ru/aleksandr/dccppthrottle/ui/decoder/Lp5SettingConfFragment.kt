@@ -37,9 +37,6 @@ class Lp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(29, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(29)
-            }
             model.liveCvValue(29).observe(viewLifecycleOwner) { value = it }
         }
 

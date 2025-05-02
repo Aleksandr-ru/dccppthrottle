@@ -35,8 +35,8 @@ class Xp4OutputEsavingFragment() : Fragment() {
 
         // 183
         view.findViewById<ByteChipsView>(R.id.byteChipsCv183)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(183)
+            setOnChangeListener {
+                model.setCvValue(183, it)
             }
             model.liveCvValue(183).observe(viewLifecycleOwner) { value = it }
         }
