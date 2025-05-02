@@ -50,9 +50,7 @@ class Xp5SettingSwoffFragment() : Fragment() {
                             getString(R.string.label_time_x_sec, seconds)
                     }
                 }
-                model.loaded.observe(viewLifecycleOwner) {
-                    if (it) value = model.getCvValue(cv)
-                }
+                model.liveCvValue(cv).observe(viewLifecycleOwner) { value = it }
             }
             listView.addView(listItem)
         }

@@ -56,7 +56,7 @@
     <string name="action_connect">Connect</string>
     <string name="action_read_value">Read value</string>
     <string name="action_write_value">Write value</string>
-    <string name="action_write_all">Write all values</string>
+    <string name="action_write_changed">Write changed values</string>
     <string name="action_write">Write</string>
     <string name="action_quit">Quit</string>
     <string name="action_turn_on">Turn ON</string>

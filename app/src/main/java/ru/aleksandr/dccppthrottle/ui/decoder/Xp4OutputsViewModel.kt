@@ -7,31 +7,35 @@
 
 package ru.aleksandr.dccppthrottle.ui.decoder
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+class Xp4OutputsViewModel: CvListModel(
+    // Dimming the light and function outputs
+    116, 117, 118, 119, 120, 121, 122, 123,
+    150, 151, 152, 153, 154, 155, 156, 157,
 
-class Xp4OutputsViewModel: ViewModel() {
+    // Fade-in/fade-out option for lighting and function outputs
+    186, 187,
 
-    private var _loaded = MutableLiveData(__loaded)
-    val loaded: LiveData<Boolean> = _loaded
+    // Blinking effects for lighting and function outputs
+    109, 110, 111, 112,
 
-    fun getCvValue(cv: Int): Int {
-        val idx = cvNumbers.indexOf(cv)
-        return cvValues[idx]
-    }
+    // Switch-on effect for a neon light / fluorescent lamp
+    188, 189, 190,
 
-    fun setCvValue(cv: Int, value: Int) {
-        val idx = cvNumbers.indexOf(cv)
-        cvValues[idx] = value
-    }
+    //Energy-saving lighting effect when switching on light and function outputs
+    183, 184, 185,
 
-    fun setLoaded(value: Boolean) {
-        if (!value) cvValues.fill(0)
-        __loaded = value
-        _loaded.postValue(__loaded)
-    }
+    // Firebox flicker
+    181, 182,
 
+    // Smoke Generator control
+    130, 131, 132, 133, 134,
+
+    // Control for electric couplers
+    124, 125, 126, 127, 128, 129, 135, 136, 137,
+
+    // Servo control
+    166, 167, 168, 160, 161, 162, 163, 164, 165
+) {
     companion object {
         const val IDX_DIMMING = 0
         const val IDX_FADING = 1
@@ -47,37 +51,5 @@ class Xp4OutputsViewModel: ViewModel() {
         const val UNIT_10MSEC = 0.010
         const val UNIT_100MSEC = 0.100
         const val UNIT_200MSEC = 0.200
-
-        val cvNumbers = listOf(
-            // Dimming the light and function outputs
-            116, 117, 118, 119, 120, 121, 122, 123,
-            150, 151, 152, 153, 154, 155, 156, 157,
-
-            // Fade-in/fade-out option for lighting and function outputs
-            186, 187,
-
-            // Blinking effects for lighting and function outputs
-            109, 110, 111, 112,
-
-            // Switch-on effect for a neon light / fluorescent lamp
-            188, 189, 190,
-
-            //Energy-saving lighting effect when switching on light and function outputs
-            183, 184, 185,
-
-            // Firebox flicker
-            181, 182,
-
-            // Smoke Generator control
-            130, 131, 132, 133, 134,
-
-            // Control for electric couplers
-            124, 125, 126, 127, 128, 129, 135, 136, 137,
-
-            // Servo control
-            166, 167, 168, 160, 161, 162, 163, 164, 165
-        )
-        private val cvValues = Array(cvNumbers.size) { 0 }
-        private var __loaded = false
     }
 }

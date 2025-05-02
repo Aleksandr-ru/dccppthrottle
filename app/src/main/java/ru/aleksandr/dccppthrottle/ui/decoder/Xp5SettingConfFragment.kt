@@ -38,9 +38,7 @@ class Xp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(29, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(29)
-            }
+            model.liveCvValue(29).observe(viewLifecycleOwner) { value = it }
         }
 
         // 47
@@ -48,9 +46,6 @@ class Xp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(47, it)
             }
-//            model.loaded.observe(viewLifecycleOwner) {
-//                if (it) value = model.getCvValue(47)
-//            }
             model.liveCvValue(47).observe(viewLifecycleOwner) {
                 if (BuildConfig.DEBUG) Log.d(TAG, "CV 47 live value = $it")
                 value = it
@@ -62,9 +57,7 @@ class Xp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(62, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(62)
-            }
+            model.liveCvValue(62).observe(viewLifecycleOwner) { value = it }
         }
 
     }

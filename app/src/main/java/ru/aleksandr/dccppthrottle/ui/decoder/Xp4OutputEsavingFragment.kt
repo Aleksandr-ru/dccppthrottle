@@ -33,26 +33,25 @@ class Xp4OutputEsavingFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 183
         view.findViewById<ByteChipsView>(R.id.byteChipsCv183)?.apply {
             model.loaded.observe(viewLifecycleOwner) {
                 if (it) value = model.getCvValue(183)
             }
-            setOnChangeListener {
-                model.setCvValue(183, it)
-            }
+            model.liveCvValue(183).observe(viewLifecycleOwner) { value = it }
         }
 
+        // 184
         view.findViewById<PlusMinusView>(R.id.plusminusCv184)?.apply {
             setOnChangeListener {
                 if (it !== null) {
                     model.setCvValue(184, it)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(184)
-            }
+            model.liveCvValue(184).observe(viewLifecycleOwner) { value = it }
         }
 
+        // 185
         view.findViewById<PlusMinusView>(R.id.plusminusCv185)?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -62,9 +61,7 @@ class Xp4OutputEsavingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(185)
-            }
+            model.liveCvValue(185).observe(viewLifecycleOwner) { value = it }
         }
     }
 }

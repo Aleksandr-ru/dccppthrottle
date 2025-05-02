@@ -56,9 +56,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(130)
-            }
+            model.liveCvValue(130).observe(viewLifecycleOwner) { value = it }
         }
 
         // 135
@@ -68,9 +66,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                     model.setCvValue(135, it)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(135)
-            }
+            model.liveCvValue(135).observe(viewLifecycleOwner) { value = it }
         }
 
         // 131
@@ -80,9 +76,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                     model.setCvValue(131, it)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(131)
-            }
+            model.liveCvValue(131).observe(viewLifecycleOwner) { value = it }
         }
 
         // 132
@@ -95,9 +89,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(132)
-            }
+            model.liveCvValue(132).observe(viewLifecycleOwner) { value = it }
         }
 
         // 133
@@ -110,9 +102,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(133)
-            }
+            model.liveCvValue(133).observe(viewLifecycleOwner) { value = it }
         }
 
         // 134
@@ -125,9 +115,7 @@ class Xp5SettingCoplingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(134)
-            }
+            model.liveCvValue(134).observe(viewLifecycleOwner) { value = it }
         }
 
     }

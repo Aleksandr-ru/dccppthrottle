@@ -33,15 +33,15 @@ class Xp4OutputFadingFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 186
         view.findViewById<ByteChipsView>(R.id.byteChipsOutputs)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(186)
-            }
             setOnChangeListener {
                 model.setCvValue(186, it)
             }
+            model.liveCvValue(186).observe(viewLifecycleOwner) { value = it }
         }
 
+        // 187
         view.findViewById<PlusMinusView>(R.id.plusminusDelay)?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -51,9 +51,8 @@ class Xp4OutputFadingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(187)
-            }
+            model.liveCvValue(187).observe(viewLifecycleOwner) { value = it }
         }
+
     }
 }

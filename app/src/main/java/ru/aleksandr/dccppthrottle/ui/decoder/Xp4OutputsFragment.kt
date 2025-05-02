@@ -76,10 +76,14 @@ class Xp4OutputsFragment : DecoderFragment() {
         }
 
         writeButton.setOnClickListener {
-            val job = writeAllCVs()
+            val job = writeChangedCVs()
             job.invokeOnCompletion {
                 if (!job.isCancelled) activity?.onBackPressed()
             }
+        }
+
+        model.hasChanges.observe(viewLifecycleOwner) {
+            writeButton.isEnabled = it
         }
 
         model.loaded.observe(viewLifecycleOwner) {
@@ -98,6 +102,7 @@ class Xp4OutputsFragment : DecoderFragment() {
         }
 
         if ((savedInstanceState == null) && (model.loaded.value == true)) {
+            model.discardChanges()
             Snackbar.make(view, R.string.message_cvs_outdated, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_reload) {
                     readAllCVs()
@@ -106,7 +111,7 @@ class Xp4OutputsFragment : DecoderFragment() {
     }
 
     private fun readAllCVs() {
-        val maxCvs = Xp4OutputsViewModel.cvNumbers.size
+        val maxCvs = model.cvNumbers.size
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setMax(maxCvs)
@@ -121,9 +126,9 @@ class Xp4OutputsFragment : DecoderFragment() {
             try {
                 checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
 
-                for (cv in Xp4OutputsViewModel.cvNumbers) {
+                for (cv in model.cvNumbers) {
                     val value = readCv(cv, MockStore::randomXp4OutputCvValue)
-                    model.setCvValue(cv, value)
+                    model.setCvValue(cv, value, true)
                     dialog.incrementProgress()
                 }
                 model.setLoaded(true)
@@ -142,22 +147,23 @@ class Xp4OutputsFragment : DecoderFragment() {
         }
     }
 
-    private fun writeAllCVs(): Job {
+    private fun writeChangedCVs(): Job {
+        val changes = model.getChanges()
         var job: Job? = null
         val dialog = ProgressDialog(context!!).apply {
             setTitle(R.string.title_dialog_writing_cvs)
-            setMax(Xp4OutputsViewModel.cvNumbers.size)
+            setMax(model.cvNumbers.size)
             setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
             show()
         }
 
         job = lifecycleScope.launch {
             try {
-                for (cv in Xp4OutputsViewModel.cvNumbers) {
-                    val value = model.getCvValue(cv)
-                    writeCv(cv, value)
+                changes.forEach {
+                    writeCv(it.key, it.value)
                     dialog.incrementProgress()
                 }
+                model.commitChanges()
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {

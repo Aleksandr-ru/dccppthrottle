@@ -35,18 +35,18 @@ class Xp4OutputFireboxFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 181
         view.findViewById<ByteChipsView>(R.id.byteChipsCv181)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(181)
-            }
             setOnChangeListener {
                 model.setCvValue(181, it)
             }
+            model.liveCvValue(181).observe(viewLifecycleOwner) { value = it }
         }
 
         val viewHi = view.findViewById<PlusMinusView>(R.id.plusminusCv182hi)
         val viewLo = view.findViewById<PlusMinusView>(R.id.plusminusCv182lo)
         val viewRes = view.findViewById<TextView>(R.id.textCv182)
+        // 182-lo
         viewLo?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -72,16 +72,15 @@ class Xp4OutputFireboxFragment() : Fragment() {
                     viewRes.text = getString(R.string.label_resulting_cv_x, model.getCvValue(182))
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (BuildConfig.DEBUG) Log.d(TAG, String.format(
-                    "CV182=%d, lo=%d",
-                    model.getCvValue(182),
-                    model.getCvValue(182).and(0b00001111)
-                ))
-                if (it) value = model.getCvValue(182).and(0b00001111)
+            model.liveCvValue(182).observe(viewLifecycleOwner) {
+                if (BuildConfig.DEBUG) Log.d(TAG,
+                    String.format("CV182=%d, lo=%d", it, it.and(0b00001111))
+                )
+                value = it.and(0b00001111)
             }
         }
 
+        // 182-hi
         viewHi?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -97,13 +96,11 @@ class Xp4OutputFireboxFragment() : Fragment() {
                     viewRes.text = getString(R.string.label_resulting_cv_x, model.getCvValue(182))
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (BuildConfig.DEBUG) Log.d(TAG, String.format(
-                    "CV182=%d, hi=%d",
-                    model.getCvValue(182),
-                    model.getCvValue(182).shr(4).and(0b0111)
-                ))
-                if (it) value = model.getCvValue(182).shr(4).and(0b0111)
+            model.liveCvValue(182).observe(viewLifecycleOwner) {
+                if (BuildConfig.DEBUG) Log.d(TAG,
+                    String.format("CV182=%d, hi=%d", it, it.shr(4).and(0b0111))
+                )
+                value = it.shr(4).and(0b0111)
             }
         }
     }

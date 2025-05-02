@@ -43,9 +43,7 @@ class Xp5SettingFlashingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(173)
-            }
+            model.liveCvValue(173).observe(viewLifecycleOwner) { value = it }
         }
 
         // 174
@@ -58,9 +56,7 @@ class Xp5SettingFlashingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(174)
-            }
+            model.liveCvValue(174).observe(viewLifecycleOwner) { value = it }
         }
 
         // 175
@@ -73,9 +69,7 @@ class Xp5SettingFlashingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(175)
-            }
+            model.liveCvValue(175).observe(viewLifecycleOwner) { value = it }
         }
 
         // 176
@@ -88,11 +82,8 @@ class Xp5SettingFlashingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(176)
-            }
+            model.liveCvValue(176).observe(viewLifecycleOwner) { value = it }
         }
-
 
     }
 }

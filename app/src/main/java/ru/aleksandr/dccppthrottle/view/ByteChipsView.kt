@@ -89,8 +89,8 @@ class ByteChipsView : HorizontalScrollView {
                 chip.setOnCheckedChangeListener { _, checked ->
                     if (changeListenerEnabled) {
                         chipsToValue()
-                        onChangeListener?.invoke(_value)
                         onChipCheckedListener?.invoke(item.index, checked)
+                        onChangeListener?.invoke(_value)
                     }
                 }
             }

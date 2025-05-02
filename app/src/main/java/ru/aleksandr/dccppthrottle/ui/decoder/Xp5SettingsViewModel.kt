@@ -7,42 +7,32 @@
 
 package ru.aleksandr.dccppthrottle.ui.decoder
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.distinctUntilChanged
-import androidx.lifecycle.map
+class Xp5SettingsViewModel: CvListModel(
+    // Conf
+    29, 47, 62,
 
-class Xp5SettingsViewModel: ViewModel() {
+    // Fading
+    177, 178,
 
-    private var _loaded = MutableLiveData(__loaded)
-    val loaded: LiveData<Boolean> = _loaded
+    // Flashing
+    173, 174, 175, 176,
 
-    private var _cvValues = MutableLiveData(cvValues)
+    // fluorescent lamp, Energy-saving lamp
+    172, 170, 171,
 
-    fun getCvValue(cv: Int): Int {
-        val idx = cvNumbers.indexOf(cv)
-        return cvValues[idx]
-    }
+    // servo
+    202, 203, 204,
+    208, 209, 210,
+    214, 215, 216,
+    220, 221, 222,
 
-    fun setCvValue(cv: Int, value: Int) {
-        val idx = cvNumbers.indexOf(cv)
-        val postValue = cvValues[idx] != value
-        cvValues[idx] = value
-        if (postValue) _cvValues.postValue(cvValues)
-    }
+    // switching off
+    180, 181, 182, 183, 184, 185, 186, 187, 188,
 
-    fun setLoaded(value: Boolean) {
-        if (!value) cvValues.fill(0)
-        __loaded = value
-        _loaded.postValue(__loaded)
-    }
-
-    fun liveCvValue(cv: Int): LiveData<Int> = _cvValues.map {
-        val idx = cvNumbers.indexOf(cv)
-        it[idx]
-    }.distinctUntilChanged()
-
+    // coupling
+    130, 135,
+    131, 132, 133, 134,
+) {
     companion object {
         const val IDX_CONF = 0
         const val IDX_FADING = 1
@@ -55,34 +45,5 @@ class Xp5SettingsViewModel: ViewModel() {
         const val UNIT_20MSEC = 0.020
         const val UNIT_100MSEC = 0.100
         const val UNIT_05SEC = 0.500
-
-        val cvNumbers = listOf(
-            // Conf
-            29, 47, 62,
-
-            // Fading
-            177, 178,
-
-            // Flashing
-            173, 174, 175, 176,
-
-            // fluorescent lamp, Energy-saving lamp
-            172, 170, 171,
-
-            // servo
-            202, 203, 204,
-            208, 209, 210,
-            214, 215, 216,
-            220, 221, 222,
-
-            // switching off
-            180, 181, 182, 183, 184, 185, 186, 187, 188,
-
-            // coupling
-            130, 135,
-            131, 132, 133, 134,
-        )
-        private val cvValues = Array(cvNumbers.size) { 0 }
-        private var __loaded = false
     }
 }

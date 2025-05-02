@@ -38,9 +38,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(124, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(124)
-            }
+            model.liveCvValue(124).observe(viewLifecycleOwner) { value = it }
         }
 
         // 125
@@ -53,9 +51,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(125)
-            }
+            model.liveCvValue(125).observe(viewLifecycleOwner) { value = it }
         }
 
         // 126
@@ -68,9 +64,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(126)
-            }
+            model.liveCvValue(126).observe(viewLifecycleOwner) { value = it }
         }
 
         // 127
@@ -83,9 +77,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(127)
-            }
+            model.liveCvValue(127).observe(viewLifecycleOwner) { value = it }
         }
 
         // 128
@@ -93,9 +85,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(128, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(128)
-            }
+            model.liveCvValue(128).observe(viewLifecycleOwner) { value = it }
         }
 
         // 129
@@ -103,9 +93,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(129, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(129)
-            }
+            model.liveCvValue(129).observe(viewLifecycleOwner) { value = it }
         }
 
         // 135
@@ -113,9 +101,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(135, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(135)
-            }
+            model.liveCvValue(135).observe(viewLifecycleOwner) { value = it }
         }
 
         // 136
@@ -128,9 +114,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(136)
-            }
+            model.liveCvValue(136).observe(viewLifecycleOwner) { value = it }
         }
 
         // 137
@@ -143,9 +127,7 @@ class Xp4OutputCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(137)
-            }
+            model.liveCvValue(137).observe(viewLifecycleOwner) { value = it }
         }
     }
 }

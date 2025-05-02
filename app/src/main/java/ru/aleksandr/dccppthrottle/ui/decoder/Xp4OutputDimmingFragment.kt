@@ -48,12 +48,10 @@ class Xp4OutputDimmingFragment() : Fragment() {
             text = name
         }
         v.findViewById<PlusMinusView>(R.id.plusminusValue).apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(cv)
-            }
             setOnChangeListener {
                 if (it !== null) model.setCvValue(cv, it)
             }
+            model.liveCvValue(cv).observe(viewLifecycleOwner) { value = it }
         }
         table.addView(v)
     }

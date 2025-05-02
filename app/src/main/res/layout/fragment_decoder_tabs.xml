@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/action_write_all" />
+        android:text="@string/action_write_changed" />
 
     <TextView
         android:id="@+id/empty_view"

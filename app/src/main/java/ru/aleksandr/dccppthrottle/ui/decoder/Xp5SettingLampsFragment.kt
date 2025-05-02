@@ -43,9 +43,7 @@ class Xp5SettingLampsFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(172)
-            }
+            model.liveCvValue(172).observe(viewLifecycleOwner) { value = it }
         }
 
         // 170
@@ -55,9 +53,7 @@ class Xp5SettingLampsFragment() : Fragment() {
                     model.setCvValue(170, it)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(170)
-            }
+            model.liveCvValue(170).observe(viewLifecycleOwner) { value = it }
         }
 
         // 171
@@ -70,11 +66,8 @@ class Xp5SettingLampsFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(171)
-            }
+            model.liveCvValue(171).observe(viewLifecycleOwner) { value = it }
         }
-
 
     }
 }

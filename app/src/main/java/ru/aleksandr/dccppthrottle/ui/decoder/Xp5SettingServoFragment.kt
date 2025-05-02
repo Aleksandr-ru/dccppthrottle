@@ -38,9 +38,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(202, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(202)
-            }
+            model.liveCvValue(202).observe(viewLifecycleOwner) { value = it }
         }
 
         // 203
@@ -48,9 +46,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(203, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(203)
-            }
+            model.liveCvValue(203).observe(viewLifecycleOwner) { value = it }
         }
 
         // 204
@@ -58,9 +54,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(204, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(204)
-            }
+            model.liveCvValue(204).observe(viewLifecycleOwner) { value = it }
         }
 
         // servo 2
@@ -69,9 +63,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(208, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(208)
-            }
+            model.liveCvValue(208).observe(viewLifecycleOwner) { value = it }
         }
 
         // 209
@@ -79,9 +71,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(209, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(209)
-            }
+            model.liveCvValue(209).observe(viewLifecycleOwner) { value = it }
         }
 
         // 210
@@ -89,9 +79,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(210, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(210)
-            }
+            model.liveCvValue(210).observe(viewLifecycleOwner) { value = it }
         }
 
         // servo 3
@@ -100,9 +88,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(214, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(214)
-            }
+            model.liveCvValue(214).observe(viewLifecycleOwner) { value = it }
         }
 
         // 215
@@ -110,9 +96,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(215, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(215)
-            }
+            model.liveCvValue(215).observe(viewLifecycleOwner) { value = it }
         }
 
         // 216
@@ -120,9 +104,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(216, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(216)
-            }
+            model.liveCvValue(216).observe(viewLifecycleOwner) { value = it }
         }
 
         // servo 4
@@ -131,9 +113,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(220, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(220)
-            }
+            model.liveCvValue(220).observe(viewLifecycleOwner) { value = it }
         }
 
         // 221
@@ -141,9 +121,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(221, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(221)
-            }
+            model.liveCvValue(221).observe(viewLifecycleOwner) { value = it }
         }
 
         // 222
@@ -151,9 +129,7 @@ class Xp5SettingServoFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(222, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(222)
-            }
+            model.liveCvValue(222).observe(viewLifecycleOwner) { value = it }
         }
 
     }

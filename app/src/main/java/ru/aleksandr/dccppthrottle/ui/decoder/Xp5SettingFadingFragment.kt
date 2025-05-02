@@ -42,9 +42,7 @@ class Xp5SettingFadingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(177)
-            }
+            model.liveCvValue(177).observe(viewLifecycleOwner) { value = it }
         }
 
         view.findViewById<PlusMinusView>(R.id.plusminusCv178)?.apply {
@@ -56,9 +54,7 @@ class Xp5SettingFadingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(178)
-            }
+            model.liveCvValue(178).observe(viewLifecycleOwner) { value = it }
         }
 
     }

@@ -40,6 +40,7 @@ class Lp5SettingConfFragment() : Fragment() {
             model.loaded.observe(viewLifecycleOwner) {
                 if (it) value = model.getCvValue(29)
             }
+            model.liveCvValue(29).observe(viewLifecycleOwner) { value = it }
         }
 
         // 49
@@ -47,9 +48,7 @@ class Lp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(49, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(49)
-            }
+            model.liveCvValue(49).observe(viewLifecycleOwner) { value = it }
         }
 
         // 124
@@ -57,9 +56,7 @@ class Lp5SettingConfFragment() : Fragment() {
             setOnChangeListener {
                 model.setCvValue(124, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(124)
-            }
+            model.liveCvValue(124).observe(viewLifecycleOwner) { value = it }
         }
     }
 }

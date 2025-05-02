@@ -34,20 +34,17 @@ class Xp4OutputBlinkingFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<ByteChipsView>(R.id.byteChipsCv109)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(109)
-            }
             setOnChangeListener {
                 model.setCvValue(109, it)
             }
+            model.liveCvValue(109).observe(viewLifecycleOwner) { value = it }
         }
+
         view.findViewById<ByteChipsView>(R.id.byteChipsCv110)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(110)
-            }
             setOnChangeListener {
                 model.setCvValue(110, it)
             }
+            model.liveCvValue(110).observe(viewLifecycleOwner) { value = it }
         }
 
         view.findViewById<PlusMinusView>(R.id.plusminusCv111)?.apply {
@@ -59,10 +56,9 @@ class Xp4OutputBlinkingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(111)
-            }
+            model.liveCvValue(111).observe(viewLifecycleOwner) { value = it }
         }
+
         view.findViewById<PlusMinusView>(R.id.plusminusCv112)?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -72,9 +68,8 @@ class Xp4OutputBlinkingFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(112)
-            }
+            model.liveCvValue(112).observe(viewLifecycleOwner) { value = it }
         }
+
     }
 }

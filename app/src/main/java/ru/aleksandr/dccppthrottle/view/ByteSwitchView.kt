@@ -90,8 +90,8 @@ class ByteSwitchView : LinearLayout {
                 setOnCheckedChangeListener { _, checked ->
                     if (changeListenerEnabled) {
                         bitsToValue()
-                        onChangeListener?.invoke(_value)
                         onBitCheckedListener?.invoke(item.index, checked)
+                        onChangeListener?.invoke(_value)
                     }
                 }
             }

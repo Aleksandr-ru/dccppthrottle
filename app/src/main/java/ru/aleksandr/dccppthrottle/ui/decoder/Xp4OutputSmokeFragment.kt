@@ -42,8 +42,12 @@ class Xp4OutputSmokeFragment() : Fragment() {
         val viewSpinner = view.findViewById<Spinner>(R.id.spinnerOutput).apply {
             adapter =
                 ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, outputs)
+
+            model.liveCvValue(130).observe(viewLifecycleOwner) { setSelection(it % 8) }
         }
-        val viewDelay = view.findViewById<PlusMinusView>(R.id.plusminusDelay)
+        val viewDelay = view.findViewById<PlusMinusView>(R.id.plusminusDelay).apply {
+            model.liveCvValue(130).observe(viewLifecycleOwner) { value = it  / 16 }
+        }
         val viewRes = view.findViewById<TextView>(R.id.textCv130)
 
         viewSpinner.onItemSelectedListener = object : OnItemSelectedListener {
@@ -74,7 +78,7 @@ class Xp4OutputSmokeFragment() : Fragment() {
             }
         }
 
-        val viewCv131value = view.findViewById<PlusMinusView>(R.id.plusminusCv131).apply {
+        view.findViewById<PlusMinusView>(R.id.plusminusCv131).apply {
             setOnChangeListener {
                 if (it !== null) {
                     model.setCvValue(131, it)
@@ -84,21 +88,24 @@ class Xp4OutputSmokeFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
+            model.liveCvValue(131).observe(viewLifecycleOwner) { value = it }
         }
 
-        val viewCv132 = view.findViewById<PlusMinusView>(R.id.plusminusCv132).apply {
+        view.findViewById<PlusMinusView>(R.id.plusminusCv132).apply {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(132, it)
             }
+            model.liveCvValue(132).observe(viewLifecycleOwner) { value = it }
         }
 
-        val viewCv133 = view.findViewById<PlusMinusView>(R.id.plusminusCv133).apply {
+        view.findViewById<PlusMinusView>(R.id.plusminusCv133).apply {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(133, it)
             }
+            model.liveCvValue(133).observe(viewLifecycleOwner) { value = it }
         }
 
-        val viewCv134value = view.findViewById<PlusMinusView>(R.id.plusminusCv134).apply {
+        view.findViewById<PlusMinusView>(R.id.plusminusCv134).apply {
             setOnChangeListener {
                 if (it !== null) {
                     model.setCvValue(134, it)
@@ -108,18 +115,8 @@ class Xp4OutputSmokeFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
+            model.liveCvValue(134).observe(viewLifecycleOwner) { value = it }
         }
 
-        model.loaded.observe(viewLifecycleOwner) {
-            if (it) {
-                viewSpinner.setSelection(model.getCvValue(130) % 8)
-                viewDelay.value = model.getCvValue(130) / 16
-
-                viewCv131value.value = model.getCvValue(131)
-                viewCv132.value = model.getCvValue(132)
-                viewCv133.value = model.getCvValue(133)
-                viewCv134value.value = model.getCvValue(134)
-            }
-        }
     }
 }

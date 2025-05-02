@@ -37,9 +37,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(246, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(246)
-            }
+            model.liveCvValue(246).observe(viewLifecycleOwner) { value = it }
         }
 
         // 247
@@ -52,9 +50,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(247)
-            }
+            model.liveCvValue(247).observe(viewLifecycleOwner) { value = it }
         }
 
         // 248
@@ -67,9 +63,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(248)
-            }
+            model.liveCvValue(248).observe(viewLifecycleOwner) { value = it }
         }
 
         // 101
@@ -77,9 +71,7 @@ class Lp5SettingCouplersFragment() : Fragment() {
             setOnChangeListener {
                 if (it !== null) model.setCvValue(101, it)
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(101)
-            }
+            model.liveCvValue(101).observe(viewLifecycleOwner) { value = it }
         }
 
     }

@@ -33,15 +33,15 @@ class Xp4OutputNeonFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 188
         view.findViewById<ByteChipsView>(R.id.byteChipsCv188)?.apply {
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(188)
-            }
             setOnChangeListener {
                 model.setCvValue(188, it)
             }
+            model.liveCvValue(188).observe(viewLifecycleOwner) { value = it }
         }
 
+        // 189
         view.findViewById<PlusMinusView>(R.id.plusminusCv189)?.apply {
             setOnChangeListener {
                 if (it !== null) {
@@ -51,20 +51,17 @@ class Xp4OutputNeonFragment() : Fragment() {
                         getString(R.string.label_time_x_sec, seconds)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(189)
-            }
+            model.liveCvValue(189).observe(viewLifecycleOwner) { value = it }
         }
 
+        // 190
         view.findViewById<PlusMinusView>(R.id.plusminusCv190)?.apply {
             setOnChangeListener {
                 if (it !== null) {
                     model.setCvValue(190, it)
                 }
             }
-            model.loaded.observe(viewLifecycleOwner) {
-                if (it) value = model.getCvValue(190)
-            }
+            model.liveCvValue(190).observe(viewLifecycleOwner) { value = it }
         }
     }
 }
