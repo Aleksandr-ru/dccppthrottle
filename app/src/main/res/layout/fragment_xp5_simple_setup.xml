@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_xp5_simple_mapping"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_simple_desc"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchCv96"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_simple_enable" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_simple_swoff"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp5_simple_swoff_desc"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin">
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_xp5_cv97"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_xp5_cv98"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="@dimen/text_margin">
+                <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+                    android:id="@+id/byteCv97"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginEnd="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+                    android:id="@+id/byteCv98"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_marginStart="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+</ScrollView>

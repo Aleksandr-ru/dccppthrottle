@@ -45,10 +45,10 @@
             android:enabled="false"
             app:showAsAction="never"
             android:title="@string/menu_xp5" />
-<!--        <item-->
-<!--            android:id="@+id/action_xp5_mapping"-->
-<!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_decoder_mapping_simple" />-->
+        <item
+            android:id="@+id/action_xp5_mapping_simple"
+            app:showAsAction="never"
+            android:title="@string/menu_decoder_mapping_simple" />
         <item
             android:id="@+id/action_xp5_outputs"
             app:showAsAction="never"

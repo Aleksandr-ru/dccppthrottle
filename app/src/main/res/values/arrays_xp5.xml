@@ -183,4 +183,23 @@
         <item></item>
         <item></item>
     </string-array>
+
+    <!-- Simple function mapping -->
+
+    <string-array name="xp5_simple_keys">
+        <item>F0 Forward</item>
+        <item>F0 Reverse</item>
+        <item>F1</item>
+        <item>F2</item>
+        <item>F3</item>
+        <item>F4</item>
+        <item>F5</item>
+        <item>F6</item>
+        <item>F7</item>
+        <item>F8</item>
+        <item>F9</item>
+        <item>F10</item>
+        <item>F11</item>
+        <item>F12</item>
+    </string-array>
 </resources>

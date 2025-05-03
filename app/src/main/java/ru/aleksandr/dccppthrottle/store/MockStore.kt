@@ -108,6 +108,8 @@ object MockStore {
 
     fun randomDecoderSettingCvValue(): Int = (0..255).random()
 
+    fun randomSimpleMappingCvValue(): Int = (0..255).random()
+
     fun randomXp4OutputCvValue(): Int {
         return (0 .. 63).random()
     }

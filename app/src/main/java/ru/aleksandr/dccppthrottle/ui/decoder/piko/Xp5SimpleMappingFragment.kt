@@ -31,13 +31,12 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.WipFragment
 
 
-class Xp5SettingsFragment : DecoderFragment() {
+class Xp5SimpleMappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
-    private val model by activityViewModels<Xp5SettingsViewModel>()
+    private val model by activityViewModels<Xp5SimpleMappingViewModel>()
 
     private lateinit var emptyView: TextView
     private lateinit var viewPager: ViewPager2
@@ -45,7 +44,7 @@ class Xp5SettingsFragment : DecoderFragment() {
     private lateinit var writeButton: Button
 
     companion object {
-        fun newInstance() = Xp5SettingsFragment()
+        fun newInstance() = Xp5SimpleMappingFragment()
     }
 
     override fun onCreateView(
@@ -68,9 +67,11 @@ class Xp5SettingsFragment : DecoderFragment() {
         
         viewPager.adapter = SlidePagerAdapter(this)
 
-        val tabTitles = resources.getStringArray(R.array.xp5_conf_tabs)
+        val tabTitles = resources.getStringArray(R.array.xp5_simple_keys).toMutableList().also {
+            it.add(0, getString(R.string.label_setup))
+        }.toList()
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitles.get(position)
+            tab.text = tabTitles[position]
         }.attach()
 
         emptyView.setOnClickListener {
@@ -129,7 +130,7 @@ class Xp5SettingsFragment : DecoderFragment() {
                 checkManufacturer(MANUFACTURER_ID_PIKO)
 
                 for (cv in model.cvNumbers) {
-                    val value = readCv(cv, MockStore::randomDecoderSettingCvValue)
+                    val value = readCv(cv, MockStore::randomSimpleMappingCvValue)
                     model.setCvValue(cv, value, true)
                     dialog.incrementProgress()
                 }
@@ -182,17 +183,11 @@ class Xp5SettingsFragment : DecoderFragment() {
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = resources.getStringArray(R.array.xp5_conf_tabs).size
+        override fun getItemCount(): Int = resources.getStringArray(R.array.xp5_simple_keys).size + 1
 
         override fun createFragment(position: Int) = when(position) {
-            Xp5SettingsViewModel.IDX_CONF -> Xp5SettingConfFragment()
-            Xp5SettingsViewModel.IDX_FADING -> Xp5SettingFadingFragment()
-            Xp5SettingsViewModel.IDX_FLASHING -> Xp5SettingFlashingFragment()
-            Xp5SettingsViewModel.IDX_LAMPS -> Xp5SettingLampsFragment()
-            Xp5SettingsViewModel.IDX_SERVO -> Xp5SettingServoFragment()
-            Xp5SettingsViewModel.IDX_SWOFF -> Xp5SettingSwoffFragment()
-            Xp5SettingsViewModel.IDX_COUPLING -> Xp5SettingCoplingFragment()
-            else -> WipFragment()
+            0 -> Xp5SimpleSetupFragment()
+            else -> Xp5SimpleKeyFragment.newInstance(position -1)
         }
     }
 }

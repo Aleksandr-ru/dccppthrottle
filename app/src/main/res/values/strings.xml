@@ -19,6 +19,7 @@
     <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
+    <string name="title_fragment_xp5_mapping_simple">SmartDecoder XP 5.1 simple function mapping</string>
     <string name="title_fragment_xp5_outputs">SmartDecoder XP 5.1 outputs config</string>
     <string name="title_fragment_xp5_settings">SmartDecoder XP 5.1 settings</string>
     <string name="title_dialog_locomotive_add">Add locomotive</string>
@@ -132,6 +133,7 @@
     <string name="label_resulting_cv_x">Resulting CV value = %d</string>
     <string name="label_inputs">Inputs</string>
     <string name="label_outputs">Outputs</string>
+    <string name="label_setup">Setup</string>
     <string name="label_time_x_sec">Time = %.3f seconds</string>
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
@@ -322,6 +324,15 @@
     <string name="label_xp5_cv133">CV133 for the pressing time T2 when coupling</string>
     <string name="label_xp5_cv134">CV134 for the separation time T2 when uncoupling</string>
     <string name="label_xp5_tango_note">The total duration of the coupling control may need to be adjusted via CV 130 to the times of the shunting tango in CVs 131 to 134.</string>
+    <string name="label_xp5_simple_mapping">Simple Function Mapping</string>
+    <string name="label_xp5_simple_desc">In simple function mapping, the assignments of switching tasks such as lighting and special function outputs can be freely assigned to the function keys F0 to F12 of the digital command station.</string>
+    <string name="label_xp5_simple_enable">Enable simple function mapping (CV96 = 1)</string>
+    <string name="label_xp5_simple_swoff">Switch off function outputs depending on the direction of travel</string>
+    <string name="label_xp5_simple_swoff_desc">CVs 97 (forward direction) and 98 (reverse direction) can be used to specify which function outputs A1 - A7 should be turned off. If such an output is turned on via a function key, it will be automatically turned off in the desired direction of travel.</string>
+    <string name="label_xp5_cv97">Forward (CV 97)</string>
+    <string name="label_xp5_cv98">Reverse (CV 98)</string>
+    <string name="label_xp5_key_x_cv_y">Key %s (CV %d)</string>
+    <string name="label_xp5_simple_key_desc">The value written to a CV in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
