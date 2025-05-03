@@ -10,13 +10,13 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import ru.aleksandr.dccppthrottle.ui.decoder.Lp5MappingFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Lp5OutputsFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Lp5SettingsFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Xp4MappingFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Xp4OutputsFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Xp5OutputsFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.Xp5SettingsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.esu.Lp5MappingFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.esu.Lp5OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.esu.Lp5SettingsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp4MappingFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp4OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp5OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp5SettingsFragment
 
 class DecoderActivity : AwakeActivity() {
 

@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.decoder.Lp5MappingFragment">
+    tools:context=".ui.decoder.esu.Lp5MappingFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_lp5_mapping"
