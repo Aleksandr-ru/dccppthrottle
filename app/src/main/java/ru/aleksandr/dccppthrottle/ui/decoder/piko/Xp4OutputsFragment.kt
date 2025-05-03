@@ -8,28 +8,19 @@
 package ru.aleksandr.dccppthrottle.ui.decoder.piko
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
-import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.WipFragment
 
@@ -74,11 +65,11 @@ class Xp4OutputsFragment : DecoderFragment() {
         }.attach()
 
         emptyView.setOnClickListener {
-            readAllCVs()
+            readModelCVs(model, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
         }
 
         writeButton.setOnClickListener {
-            val job = writeChangedCVs()
+            val job = writeChangedCVs(model)
             job.invokeOnCompletion {
                 if (!job.isCancelled) activity?.onBackPressed()
             }
@@ -107,78 +98,9 @@ class Xp4OutputsFragment : DecoderFragment() {
             model.discardChanges()
             Snackbar.make(view, R.string.message_cvs_outdated, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_reload) {
-                    readAllCVs()
+                    readModelCVs(model, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
                 }.show()
         }
-    }
-
-    private fun readAllCVs() {
-        val maxCvs = model.cvNumbers.size
-        var job: Job? = null
-        val dialog = ProgressDialog(context!!).apply {
-            setMax(maxCvs)
-            setTitle(getString(R.string.title_dialog_reading_x_cvs, maxCvs))
-            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            show()
-        }
-
-        model.setLoaded(false)
-
-        job = lifecycleScope.launch {
-            try {
-                checkManufacturer(MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
-
-                for (cv in model.cvNumbers) {
-                    val value = readCv(cv, MockStore::randomXp4OutputCvValue)
-                    model.setCvValue(cv, value, true)
-                    dialog.incrementProgress()
-                }
-                model.setLoaded(true)
-            }
-            catch (e: Exception) {
-                if (e !is CancellationException) {
-                    if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-                }
-                job?.cancel()
-                if (BuildConfig.DEBUG) {
-                    model.setLoaded(true)
-                }
-            }
-            dialog.dismiss()
-        }
-    }
-
-    private fun writeChangedCVs(): Job {
-        val changes = model.getChanges()
-        var job: Job? = null
-        val dialog = ProgressDialog(context!!).apply {
-            setTitle(R.string.title_dialog_writing_cvs)
-            setMax(model.cvNumbers.size)
-            setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-            show()
-        }
-
-        job = lifecycleScope.launch {
-            try {
-                changes.forEach {
-                    writeCv(it.key, it.value)
-                    dialog.incrementProgress()
-                }
-                model.commitChanges()
-            }
-            catch (e: Exception) {
-                if (e !is CancellationException) {
-                    if (BuildConfig.DEBUG) Log.w(TAG, e)
-                    Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
-                }
-                job?.cancel()
-                model.setLoaded(false)
-            }
-            dialog.dismiss()
-        }
-
-        return job
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
