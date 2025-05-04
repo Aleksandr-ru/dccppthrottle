@@ -184,6 +184,10 @@
         <item>Key F28 state to SUSI interface</item>
     </string-array>
 
+    <string-array name="xp4_conf_tabs">
+        <item>Configuration</item>
+    </string-array>
+
     <string-array name="xp4_cv29_bits">
         <item>Opposite direction of travel</item>
         <item>28 Speed steps</item>
@@ -208,7 +212,7 @@
 
     <string-array name="xp4_cv51_bits">
         <item>Motor control On</item>
-        <item>Motor control SX Controller instead of PID Controller</item>
+        <item>Motor control SX Controller instead of PID</item>
         <item>Dynamic cycle of motor control</item>
         <item></item>
         <item></item>

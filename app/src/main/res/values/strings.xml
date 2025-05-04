@@ -20,6 +20,7 @@
     <string name="title_fragment_xp4_mapping_simple">XP 4.1 / IntelliDrive 2 simple function mapping</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
+    <string name="title_fragment_xp4_settings">XP 4.1 / IntelliDrive 2 settings</string>
     <string name="title_fragment_xp5_mapping_simple">SmartDecoder XP 5.1 simple function mapping</string>
     <string name="title_fragment_xp5_outputs">SmartDecoder XP 5.1 outputs config</string>
     <string name="title_fragment_xp5_settings">SmartDecoder XP 5.1 settings</string>
@@ -255,6 +256,9 @@
     <string name="label_xp4_key_x_cv_y">Function key %s (CV %d)</string>
     <string name="label_xp4_simple_key_desc">The value written to a CV contained in a mapped function determines what that function key can activate.</string>
     <string name="label_xp4_simple_shift">Since only 8 outputs (bits 0 – 7) can be activated with a CV, there are two more CVs with which the bitwise meaning in CVs 33 to 46 can be changed. CV100 changes the bitwise meaning in CVs 33–38 and CV101 in CVs 39–46. Each bit in CV100 / 101 alters the meaning of the bits in any of CVs 33–46.</string>
+    <string name="label_xp4_cv29">Configuration according to DCC rules (CV 29)</string>
+    <string name="label_xp4_cv50">Decoder Configuration 1 (CV 50)</string>
+    <string name="label_xp4_cv51">Decoder Configuration 2 (CV 51)</string>
     <!-- Piko XP5 -->
     <string name="label_xp5_output_effect_ab">Effect A / B</string>
     <string name="label_xp5_output_effect_a">Effect A</string>
@@ -273,9 +277,9 @@
     <string name="label_xp5_output_p2">P2</string>
     <string name="label_xp5_output_parameter1">Parameter 1</string>
     <string name="label_xp5_output_parameter2">Parameter 2</string>
-    <string name="label_xp5_cv29">Configuration according to DCC standard</string>
-    <string name="label_xp5_cv47">Special function assignment</string>
-    <string name="label_xp5_cv62">Controller configuration motor control</string>
+    <string name="label_xp5_cv29">Configuration according to DCC standard (CV 29)</string>
+    <string name="label_xp5_cv47">Special function assignment (CV 47)</string>
+    <string name="label_xp5_cv62">Controller configuration motor control (CV 62)</string>
     <string name="label_xp5_fading">Softly fade in and out light and function outputs</string>
     <string name="label_xp5_fading_desc">When the output is switched on or off, it fades in or out smoothly.</string>
     <string name="label_xp5_cv177">CV177 -> Fade-in time</string>

@@ -36,10 +36,10 @@
             android:id="@+id/action_xp4_outputs"
             app:showAsAction="never"
             android:title="@string/menu_decoder_outputs" />
-<!--        <item-->
-<!--            android:id="@+id/action_xp4_settings"-->
-<!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_decoder_settings" />-->
+        <item
+            android:id="@+id/action_xp4_settings"
+            app:showAsAction="never"
+            android:title="@string/menu_decoder_settings" />
 
         <item
             android:enabled="false"
