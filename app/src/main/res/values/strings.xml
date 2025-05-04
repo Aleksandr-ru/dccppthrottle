@@ -17,6 +17,7 @@
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
+    <string name="title_fragment_xp4_mapping_simple">XP 4.1 / IntelliDrive 2 simple function mapping</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
     <string name="title_fragment_xp5_mapping_simple">SmartDecoder XP 5.1 simple function mapping</string>
@@ -65,6 +66,7 @@
     <string name="action_read_all">Real all</string>
     <string name="action_read_until_blank">Read until blank</string>
     <string name="action_enable">Enable</string>
+    <string name="action_shift">Shift</string>
 
     <string name="menu_power">Track power</string>
     <string name="menu_join">Join MAIN to PROG</string>
@@ -239,6 +241,20 @@
     <string name="label_xp4_cv163">CV163 Servo 2, position 1 (function key off)</string>
     <string name="label_xp4_cv164">CV164 Servo 2, position 2 (function key on)</string>
     <string name="label_xp4_cv165">CV165 Servo 2, circulation time</string>
+    <string name="label_xp4_simple_mapping">Simple function mapping</string>
+    <string name="label_xp4_simple_desc">In simple function mapping, you can freely assign switchable functions such as lighting, special function outputs, switching (shunting) mode, and switchable acceleration and deceleration rates to function keys F0 to F12 of your DCC system.</string>
+    <string name="label_xp4_simple_enable">Enable simple function mapping (CV96 = 0)</string>
+    <string name="label_xp4_simple_lighting">Activating front and rear train lighting</string>
+    <string name="label_xp4_simple_lighting_desc">Function numbers entered in these CVs must be set using Function Mapping so that they do not activate any other outputs. Care must also be taken to ensure that the taillight outputs used are not switched on or off via function mapping by other function keys. For example, function mapping CVs of function keys used must be set to zero. In order for the light to switch off properly, both CVs 107 and 108 must always be programmed as desired. If CVs 107 or 108 are programmed with a value of 0, the function is considered deactivated.</string>
+    <string name="label_xp4_simple_swoff">Switching function outputs off depending on direction of travel</string>
+    <string name="label_xp4_simple_swoff_desc">It is possible to specify which function output in A1 - A7 should be switched off. If such an output is switched on via a function key, it is automatically switched off in the desired direction of travel.</string>
+    <string name="label_xp4_cv113">Forward (CV 113)</string>
+    <string name="label_xp4_cv114">Reverse (CV 114)</string>
+    <string name="label_xp4_cv107">CV107 for red lighting on the front</string>
+    <string name="label_xp4_cv108">CV108 for red lighting on the rear</string>
+    <string name="label_xp4_key_x_cv_y">Function key %s (CV %d)</string>
+    <string name="label_xp4_simple_key_desc">The value written to a CV contained in a mapped function determines what that function key can activate.</string>
+    <string name="label_xp4_simple_shift">Since only 8 outputs (bits 0 – 7) can be activated with a CV, there are two more CVs with which the bitwise meaning in CVs 33 to 46 can be changed. CV100 changes the bitwise meaning in CVs 33–38 and CV101 in CVs 39–46. Each bit in CV100 / 101 alters the meaning of the bits in any of CVs 33–46.</string>
     <!-- Piko XP5 -->
     <string name="label_xp5_output_effect_ab">Effect A / B</string>
     <string name="label_xp5_output_effect_a">Effect A</string>
@@ -336,6 +352,8 @@
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>
+    <string name="placeholder_output_deactivated">Output deactivated</string>
+    <string name="placeholder_f_key_deactivated">Function key deactivated</string>
 
     <string name="message_connecting_to">Connecting to %s…</string>
     <string name="message_connect_failed">Connection fail!</string>

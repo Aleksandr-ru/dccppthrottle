@@ -216,4 +216,37 @@
         <item></item>
         <item></item>
     </string-array>
+
+    <!-- Simple function mapping -->
+
+    <string-array name="xp4_simple_keys">
+        <item>F0 Forward</item>
+        <item>F0 Reverse</item>
+        <item>F1</item>
+        <item>F2</item>
+        <item>F3</item>
+        <item>F4</item>
+        <item>F5</item>
+        <item>F6</item>
+        <item>F7</item>
+        <item>F8</item>
+        <item>F9</item>
+        <item>F10</item>
+        <item>F11</item>
+        <item>F12</item>
+    </string-array>
+
+    <string-array name="xp4_simple_outputs">
+        <item>Front light output</item>
+        <item>Rear light output</item>
+        <item>Function output A1</item>
+        <item>Function output A2</item>
+        <item>Function output A3</item>
+        <item>Function output A4</item>
+        <item>Switching (shunting)</item>
+        <item>Startup/brake delay</item>
+        <item>Function output A5</item>
+        <item>Function output A6</item>
+        <item>Function output A7</item>
+    </string-array>
 </resources>

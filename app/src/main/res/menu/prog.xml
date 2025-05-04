@@ -24,10 +24,10 @@
             android:enabled="false"
             app:showAsAction="never"
             android:title="@string/menu_xp4" />
-<!--        <item-->
-<!--            android:id="@+id/action_xp4_mapping_simple"-->
-<!--            app:showAsAction="never"-->
-<!--            android:title="@string/menu_decoder_mapping_simple" />-->
+        <item
+            android:id="@+id/action_xp4_mapping_simple"
+            app:showAsAction="never"
+            android:title="@string/menu_decoder_mapping_simple" />
         <item
             android:id="@+id/action_xp4_mapping"
             app:showAsAction="never"

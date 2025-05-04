@@ -16,6 +16,6 @@ class Xp5SimpleMappingViewModel: CvListModel(
     // function mapping
     33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46,
 
-    // witch off function outputs depending on the direction of travel
+    // Switch off function outputs depending on the direction of travel
     97, 98,
 ) {}

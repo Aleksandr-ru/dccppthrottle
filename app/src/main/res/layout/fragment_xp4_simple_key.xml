@@ -18,13 +18,13 @@
             android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_xp5_key_x_cv_y"
+            android:text="@string/label_xp4_key_x_cv_y"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="@string/label_xp5_simple_key_desc"/>
+            android:text="@string/label_xp4_simple_key_desc"/>
 
         <ru.aleksandr.dccppthrottle.view.ByteSwitchView
             android:id="@+id/byteView"
@@ -33,5 +33,25 @@
             android:layout_marginTop="@dimen/text_margin"
             android:layout_gravity="center_horizontal" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:weightSum="2">
+            <ToggleButton
+                android:id="@+id/toggleShift"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textOff="@string/action_shift"
+                android:textOn="@string/action_shift" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp4_simple_shift"/>
     </LinearLayout>
 </ScrollView>

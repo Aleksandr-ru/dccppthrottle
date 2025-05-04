@@ -7,7 +7,8 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,33 +18,76 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_xp5_simple_mapping"
+            android:text="@string/label_xp4_simple_mapping"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="@string/label_xp5_simple_desc"/>
+            android:text="@string/label_xp4_simple_desc"/>
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchCv96"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="@string/label_xp5_simple_enable" />
-
+            android:text="@string/label_xp4_simple_enable" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="@string/label_xp5_simple_swoff"
+            android:text="@string/label_xp4_simple_lighting"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
-            android:text="@string/label_xp5_simple_swoff_desc"/>
+            android:text="@string/label_xp4_simple_lighting_desc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp4_cv107"/>
+        <Spinner
+            android:id="@+id/spinnerCv107output"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"/>
+        <Spinner
+            android:id="@+id/spinnerCv107key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp4_cv108"/>
+        <Spinner
+            android:id="@+id/spinnerCv108output"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"/>
+        <Spinner
+            android:id="@+id/spinnerCv108key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp4_simple_swoff"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_xp4_simple_swoff_desc"/>
 
         <TableLayout
             android:layout_width="match_parent"
@@ -55,26 +99,28 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/label_xp5_cv97"
+                    android:text="@string/label_xp4_cv113"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/label_xp5_cv98"
+                    android:text="@string/label_xp4_cv114"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </TableRow>
             <TableRow
                 android:layout_marginTop="@dimen/text_margin">
                 <ru.aleksandr.dccppthrottle.view.ByteSwitchView
-                    android:id="@+id/byteCv97"
+                    android:id="@+id/byteCv113"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_margin"
                     android:layout_marginEnd="@dimen/text_margin"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    app:stringArray="@array/xp4_outputs"
+                    app:hiddenBits="1" />
 
                 <View
                     android:layout_width="1dp"
@@ -82,13 +128,15 @@
                     android:background="?android:attr/listDivider" />
 
                 <ru.aleksandr.dccppthrottle.view.ByteSwitchView
-                    android:id="@+id/byteCv98"
+                    android:id="@+id/byteCv114"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_margin"
                     android:layout_marginStart="@dimen/text_margin"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    app:stringArray="@array/xp4_outputs"
+                    app:hiddenBits="1" />
             </TableRow>
         </TableLayout>
 
