@@ -4,6 +4,10 @@ Rich set of features to control model railroad layout:
 - Routes (groups of accessories with states);
 - Read/write CVs and CV bits.
 
-ESU LokPilot 5 decoder helper: outputs config and mapping.
-
 Finger-friendly navigation, swipe between lists and locomotives in cab.
+
+Decoder helper: settings and mapping for
+- ESU LokPilot 5
+- Uhlenbrock IntelliDrive 2
+- Piko SmartDecoder XP 4.1
+- Piko SmartDecoder XP 5.1
