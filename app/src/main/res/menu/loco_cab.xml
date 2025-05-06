@@ -30,8 +30,13 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_console"
-        android:title="@string/menu_console"
+        android:id="@+id/action_dual_left"
+        android:title="@string/menu_dual_left"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_dual_right"
+        android:title="@string/menu_dual_right"
         android:visible="true"
         app:showAsAction="never" />
 </menu>

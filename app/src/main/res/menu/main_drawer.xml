@@ -21,6 +21,9 @@
             android:id="@+id/nav_locomotives"
             android:title="@string/menu_locomotives" />
         <item
+            android:id="@+id/nav_dual_cab"
+            android:title="@string/menu_dual_cab" />
+        <item
             android:id="@+id/nav_accessories"
             android:title="@string/menu_accessories" />
         <item

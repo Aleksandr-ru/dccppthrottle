@@ -43,7 +43,7 @@ class LocoCabActivity : AwakeActivity(),
 
         val slots = LocomotivesStore.getSlots()
 
-        val adapter = LocoCabViewPagerAdapter(this, slots)
+        val adapter = LocoCabViewPagerAdapter(this, R.layout.fragment_loco_cab, slots)
         val viewPager = findViewById<ViewPager2>(R.id.pager)
         viewPager.adapter = adapter
 
@@ -104,9 +104,16 @@ class LocoCabActivity : AwakeActivity(),
                 PomBitDialog().show(supportFragmentManager, PomBitDialog.TAG)
                 true
             }
-            R.id.action_console -> {
-                val myIntent = Intent(this, ConsoleActivity::class.java)
-                startActivity(myIntent)
+            R.id.action_dual_left -> {
+//                val myIntent = Intent(this, ConsoleActivity::class.java)
+//                startActivity(myIntent)
+                Toast.makeText(this, "Oops!", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_dual_right -> {
+//                val myIntent = Intent(this, ConsoleActivity::class.java)
+//                startActivity(myIntent)
+                Toast.makeText(this, "Oops!", Toast.LENGTH_SHORT).show()
                 true
             }
             else -> {

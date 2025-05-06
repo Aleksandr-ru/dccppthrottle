@@ -13,11 +13,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class LocoCabViewPagerAdapter(
     fragment: FragmentActivity,
+    private val layoutId: Int,
     private val values: List<Int>
 ) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = values.size
 
     override fun createFragment(position: Int): Fragment {
-        return LocoCabFragment.newInstance(values[position])
+        return LocoCabFragment.newInstance(layoutId, values[position])
     }
 }

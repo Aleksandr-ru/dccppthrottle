@@ -17,12 +17,10 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
@@ -140,6 +138,11 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         return when (item.itemId) {
             R.id.nav_locomotives -> {
                 viewPager.currentItem = POSITION_LOCOMOTIVES
+                false
+            }
+            R.id.nav_dual_cab -> {
+                val myIntent = Intent(this, DualCabActivity::class.java)
+                startActivity(myIntent)
                 false
             }
             R.id.nav_accessories -> {

@@ -34,7 +34,8 @@ class LocoCabFragment : Fragment() {
     //private val F_PER_ROW = 4
     private val F_PER_ROW by lazy {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
-        prefs.getString(getString(R.string.pref_key_f_per_row), null)?.toInt() ?: 4
+        if (isSingle()) prefs.getString(getString(R.string.pref_key_f_per_row), null)?.toInt() ?: 4
+        else 2
     }
     private val SPEED_KEYSTEP = 5
 
@@ -42,9 +43,14 @@ class LocoCabFragment : Fragment() {
     private var minSpeed = 1
     private var maxSpeed = 100
 
+    private var layoutId: Int = 0
+    private fun isSingle() = layoutId == R.layout.fragment_loco_cab
+    private fun isDual() = layoutId == R.layout.fragment_dual_cab
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            layoutId = it.getInt(ARG_LAYOUT)
             slot = it.getInt(ARG_SLOT)
         }
     }
@@ -52,10 +58,7 @@ class LocoCabFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loco_cab, container, false)
-    }
+    ): View? = inflater.inflate(layoutId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // https://stackoverflow.com/a/2397869
@@ -120,7 +123,8 @@ class LocoCabFragment : Fragment() {
 
         val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
         val progressView = view.findViewById<SeekBar>(R.id.seekBar)
-        val strStop = getString(R.string.speed_stop)
+        val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
+
         progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var speed = 0
 
@@ -128,17 +132,23 @@ class LocoCabFragment : Fragment() {
                 if (value > 0) {
                     val scaledValue = remap(value.toFloat(), 1F, 100F, minSpeed.toFloat(), maxSpeed.toFloat())
                     speed = scaledValue.roundToInt()
-                    speedView.text = "$speed%"
+                    speedView?.text = "$speed%"
                 }
                 else {
                     speed = 0
-                    speedView.text = strStop
+                    speedView?.text = getString(R.string.speed_stop)
                 }
+
+                if (isDual()) revToggle.text =
+                    if (speed > 0)
+                        if (revToggle.isChecked) getString(R.string.speed_rev, speed)
+                        else getString(R.string.speed_fwd, speed)
+                    else
+                        if (revToggle.isChecked) getString(R.string.label_reverse)
+                        else getString(R.string.label_forward)
             }
 
-            override fun onStartTrackingTouch(bar: SeekBar?) {
-                // "Required but not yet implemented"
-            }
+            override fun onStartTrackingTouch(bar: SeekBar?) { /* do nothing */ }
 
             override fun onStopTrackingTouch(bar: SeekBar?) {
                 //Log.i(TAG, "Speed to CS: $speed")
@@ -158,7 +168,6 @@ class LocoCabFragment : Fragment() {
             //TODO: same view for landscape and portrait
         }
 
-        val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
         revToggle.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed) {
                 CommandStation.setLocomotiveSpeed(slot, 0, isChecked)
@@ -180,7 +189,7 @@ class LocoCabFragment : Fragment() {
 
             revToggle.isChecked = item.reverse
             titleView.text = item.toString()
-            addrView.text = item.address.toString()
+            addrView?.text = item.address.toString()
 
             for ((index, button) in functionViews.withIndex()) {
                 button.isChecked = item.functions[index]
@@ -188,6 +197,7 @@ class LocoCabFragment : Fragment() {
         }
     }
 
+    // called from LocoCabActivity only
     fun onKeyDown(keyCode: Int): Boolean {
         val progressView = view?.findViewById<SeekBar>(R.id.seekBar)
         if (progressView != null && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
@@ -205,12 +215,14 @@ class LocoCabFragment : Fragment() {
 
     companion object {
 
+        const val ARG_LAYOUT = "layout"
         const val ARG_SLOT = "slot"
 
         @JvmStatic
-        fun newInstance(slot: Int) =
+        fun newInstance(layout: Int, slot: Int) =
             LocoCabFragment().apply {
                 arguments = Bundle().apply {
+                    putInt(ARG_LAYOUT, layout)
                     putInt(ARG_SLOT, slot)
                 }
             }

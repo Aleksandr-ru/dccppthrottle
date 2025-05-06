@@ -5,6 +5,7 @@
     <string name="app_website" translatable="false">https://aleksandr.ru/my/dccppthrottle</string>
 
     <string name="title_activity_cab">#%d %s</string>
+    <string name="title_activity_dual_cab">Dual locomotive cab</string>
     <string name="title_activity_functions">Functions editor</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>
@@ -72,6 +73,9 @@
     <string name="menu_power">Track power</string>
     <string name="menu_join">Join MAIN to PROG</string>
     <string name="menu_locomotives">Locomotives</string>
+    <string name="menu_dual_cab">Dual cab</string>
+    <string name="menu_dual_left">To dual cab - Left</string>
+    <string name="menu_dual_right">To dual cab - Right</string>
     <string name="menu_accessories">Accessories</string>
     <string name="menu_routes">Routes</string>
     <string name="menu_programming">Programming</string>
@@ -107,6 +111,7 @@
     <string name="label_accessory">Accessory</string>
     <string name="label_accessories">Accessories</string>
     <string name="label_locomotives_empty">Empty, tap to assign</string>
+    <string name="label_dual_cab_empty">Please enable 2 or more locomotives</string>
     <string name="label_accessories_empty">No accessories, tap to add</string>
     <string name="label_routes_empty">No routes defined, tap to add</string>
     <string name="label_bluetooth_empty">No bluetooth devices</string>
@@ -402,8 +407,8 @@
 
     <string name="dcc_addr">DCC: %d</string>
     <string name="speed_stop">STOP</string>
-    <string name="speed_fwd">F %d%%</string>
-    <string name="speed_rev">R %d%%</string>
+    <string name="speed_fwd">Fwd %d%%</string>
+    <string name="speed_rev">Rev %d%%</string>
 
     <string name="accessory_params">Address: %d, delay: %d ms.</string>
     <string name="route_params">Accessories: %d</string>
