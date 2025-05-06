@@ -35,8 +35,10 @@ class Xp5SimpleSetupFragment() : Fragment() {
         // 96
         view.findViewById<SwitchCompat>(R.id.switchCv96)?.apply {
             setOnCheckedChangeListener { button, checked ->
-                val value = if (checked) 1 else 6
-                model.setCvValue(96, value)
+                if (button.isPressed) {
+                    val value = if (checked) 1 else 6
+                    model.setCvValue(96, value)
+                }
             }
             model.liveCvValue(96).observe(viewLifecycleOwner) { isChecked = it == 1 }
         }

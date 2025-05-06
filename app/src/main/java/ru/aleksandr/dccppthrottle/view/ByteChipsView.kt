@@ -24,7 +24,6 @@ class ByteChipsView : HorizontalScrollView {
     private val TAG = javaClass.simpleName
 
     private var chipsView: ChipGroup? = null
-    private var changeListenerEnabled = true
 
     private var _strings = (0..8).map { it.toString() }.toTypedArray()
 
@@ -86,8 +85,8 @@ class ByteChipsView : HorizontalScrollView {
                 _strings.getOrNull(item.index)?.let {
                     chip.text = it
                 }
-                chip.setOnCheckedChangeListener { _, checked ->
-                    if (changeListenerEnabled) {
+                chip.setOnCheckedChangeListener { button, checked ->
+                    if (button.isPressed) {
                         chipsToValue()
                         onChipCheckedListener?.invoke(item.index, checked)
                         onChangeListener?.invoke(_value)
@@ -124,13 +123,11 @@ class ByteChipsView : HorizontalScrollView {
     }
 
     private fun valueToChips() {
-        changeListenerEnabled = false
         chipsView?.children?.withIndex()?.forEach {
             val chip = it.value as Chip
             val test = (1 shl it.index)
             chip.isChecked = (_value.and(test) == test)
         }
-        changeListenerEnabled = true
     }
 
     private fun chipsToValue() {

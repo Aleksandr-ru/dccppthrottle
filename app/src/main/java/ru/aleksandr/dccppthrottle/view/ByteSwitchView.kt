@@ -29,8 +29,6 @@ class ByteSwitchView : LinearLayout {
         }
     }
 
-    private var changeListenerEnabled = true
-
     private var _strings = (0..8).map { String.format("Bit.%d", it) }.toTypedArray()
 
     private var _value: Int = 0
@@ -87,8 +85,8 @@ class ByteSwitchView : LinearLayout {
                 text = _strings.getOrNull(item.index).let {
                     if (!it.isNullOrBlank()) it else "Bit.${item.index}"
                 }
-                setOnCheckedChangeListener { _, checked ->
-                    if (changeListenerEnabled) {
+                setOnCheckedChangeListener { button, checked ->
+                    if (button.isPressed) {
                         bitsToValue()
                         onBitCheckedListener?.invoke(item.index, checked)
                         onChangeListener?.invoke(_value)
@@ -129,12 +127,10 @@ class ByteSwitchView : LinearLayout {
     }
 
     private fun valueToBits() {
-        changeListenerEnabled = false
         bits.withIndex().forEach {
             val test = (1 shl it.index)
             it.value.isChecked = (_value.and(test) == test)
         }
-        changeListenerEnabled = true
     }
 
     private fun bitsToValue() {

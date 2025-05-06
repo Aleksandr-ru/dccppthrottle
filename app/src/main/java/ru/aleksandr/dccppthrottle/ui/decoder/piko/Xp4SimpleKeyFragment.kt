@@ -63,17 +63,19 @@ class Xp4SimpleKeyFragment() : Fragment() {
         val shiftMap = Xp4SimpleMappingViewModel.shiftMap[keyIndex]
 
         val toggleShift = view.findViewById<ToggleButton>(R.id.toggleShift)!!.apply {
-            setOnCheckedChangeListener { _, checked ->
-                val value = if (checked) {
-                    model.getCvValue(shiftMap.first).or(1 shl shiftMap.second)
+            setOnCheckedChangeListener { button, checked ->
+                if (button.isPressed) {
+                    val value = if (checked) {
+                        model.getCvValue(shiftMap.first).or(1 shl shiftMap.second)
+                    } else {
+                        model.getCvValue(shiftMap.first).and((1 shl shiftMap.second).inv())
+                    }
+                    if (BuildConfig.DEBUG) Log.d(
+                        TAG,
+                        "Shift for CV $cv: CV ${shiftMap.first}.${shiftMap.second}=$checked, value=$value"
+                    )
+                    model.setCvValue(shiftMap.first, value)
                 }
-                else {
-                    model.getCvValue(shiftMap.first).and((1 shl shiftMap.second).inv())
-                }
-                if (BuildConfig.DEBUG) Log.d(TAG,
-                    "Shift for CV $cv: CV ${shiftMap.first}.${shiftMap.second}=$checked, value=$value"
-                )
-                model.setCvValue(shiftMap.first, value)
             }
         }
 
