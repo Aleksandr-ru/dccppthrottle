@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@android:id/background">
+    <item android:id="@android:id/background"
+        android:top="30dp"
+        android:bottom="30dp">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
             <gradient
@@ -13,8 +15,16 @@
                 />
         </shape>
     </item>
+    <item android:id="@android:id/background"
+        android:drawable="@drawable/seekbar_dashes">
+    </item>
+<!--    <item android:id="@android:id/background"-->
+<!--        android:drawable="@drawable/seekbar_dashes2">-->
+<!--    </item>-->
 
-    <item android:id="@android:id/progress">
+    <item android:id="@android:id/progress"
+        android:top="30dp"
+        android:bottom="30dp">
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="16dp"/>
