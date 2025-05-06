@@ -179,11 +179,11 @@
     <string name="label_xp4_blinking_desc">The model‘s decoder has a flashing option that can be assigned to the function outputs. Both the activation time and deactivation time of the flasher option can be set separately. CV109 is used to specify which output the flasher option is connected to. Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
     <string name="label_xp4_cv109">CV109 is used to specify which output the flasher option is connected to.</string>
     <string name="label_xp4_cv110">Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
-    <string name="label_xp4_cv111">In CV111 the activation time is adjustable in 100millisecond steps.</string>
-    <string name="label_xp4_cv112">In CV112 the deactivation time in 100millisecond steps.</string>
+    <string name="label_xp4_cv111">In CV111 the activation time is adjustable</string>
+    <string name="label_xp4_cv112">In CV112 the deactivation time</string>
     <string name="label_xp4_neon">Switch-on effect for a neon light / fluorescent lamp</string>
     <string name="label_xp4_neon_desc">The switch-on effect of a defective fluorescent lamp can also be assigned to light and function outputs. This effect consists of an adjustable number of flashes (a random flash up to the maximum number of flashes) and an adjustable flash time (i.e. how fast the flashes should follow each another).</string>
-    <string name="label_xp4_cv189">The flash time is set via CV 189 in 5 millisecond steps.</string>
+    <string name="label_xp4_cv189">The flash time is set via CV 189</string>
     <string name="label_xp4_cv190">The maximum number of flashes is set in CV 190.</string>
     <string name="label_xp4_esaving">Energy-saving lighting effect when switching on light and function outputs</string>
     <string name="label_xp4_esaving_desc">When switching on an energy-saving lamp, it first displays a basic brightness, before it slowly reaches maximum brightness. This effect can be assigned to the decoder outputs as follows.</string>
