@@ -4,7 +4,7 @@
     <string name="app_version" translatable="false">%s (%d)</string>
     <string name="app_website" translatable="false">https://aleksandr.ru/my/dccppthrottle</string>
 
-    <string name="title_activity_cab">Loco #%d</string>
+    <string name="title_activity_cab">#%d %s</string>
     <string name="title_activity_functions">Functions editor</string>
     <string name="title_activity_route">Edit route</string>
     <string name="title_activity_prog">Prog. track</string>

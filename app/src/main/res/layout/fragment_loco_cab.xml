@@ -18,6 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Locomotive title"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:layout_marginBottom="@dimen/text_margin"/>
 

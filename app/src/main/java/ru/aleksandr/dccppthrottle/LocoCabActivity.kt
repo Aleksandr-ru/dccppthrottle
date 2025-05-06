@@ -57,7 +57,9 @@ class LocoCabActivity : AwakeActivity(),
         MainStore.cabViewPagerPosition.observe(this) {
             viewPager.currentItem = it
             slot = slots[it]
-            setTitleForSlot()
+
+            val loco = LocomotivesStore.getBySlot(slot)
+            title = getString(R.string.title_activity_cab, slot, loco.toString())
         }
 
         val layout = findViewById<ConstraintLayout>(R.id.layoutCab)
@@ -69,10 +71,6 @@ class LocoCabActivity : AwakeActivity(),
             if (it) snackbar.dismiss()
             else snackbar.show()
         }
-    }
-
-    fun setTitleForSlot() {
-        title = getString(R.string.title_activity_cab, slot)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
