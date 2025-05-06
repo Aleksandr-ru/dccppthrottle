@@ -160,7 +160,7 @@
         <item>Rear light On</item>
         <item>Output SUSI CLK</item> <!-- (activate A4 logic, CV50 Bit4 = 1) or (enable servo 1, CV166 Bit0 = 1) -->
         <item>Output SUSI Data</item> <!-- (activate A3 logic, CV50 Bit4 = 1) or (activate Servo2, CV166 Bit0 = 1) -->
-        <item>OStartup, switch off braking delay 1</item>
+        <item>Startup, switch off braking delay 1</item>
         <item>Start-up, switch on braking deceleration 2</item>
         <item>Switch on start-up, braking deceleration 3</item>
         <item>Switching (shunting) mode On</item>
