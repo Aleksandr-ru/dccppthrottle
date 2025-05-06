@@ -41,22 +41,31 @@
                 />
         </shape>
     </item>
-    <item
-        android:top="20dp"
-        android:bottom="20dp"
-        android:left="13dp"
-        android:right="18dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/gray_400"/>
-        </shape>
-    </item>
-    <item
-        android:top="20dp"
-        android:bottom="20dp"
-        android:left="18dp"
-        android:right="13dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/gray_400"/>
-        </shape>
-    </item>
+<!--    <item-->
+<!--        android:top="20dp"-->
+<!--        android:bottom="20dp"-->
+<!--        android:left="13dp"-->
+<!--        android:right="18dp">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@color/gray_400"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    <item-->
+<!--        android:top="20dp"-->
+<!--        android:bottom="20dp"-->
+<!--        android:left="18dp"-->
+<!--        android:right="13dp">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <solid android:color="@color/gray_400"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+        <item
+            android:top="20dp"
+            android:bottom="20dp"
+            android:left="16dp"
+            android:right="15dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/gray_400"/>
+            </shape>
+        </item>
 </layer-list>
