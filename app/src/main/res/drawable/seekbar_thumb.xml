@@ -9,4 +9,54 @@
                 android:height="80dp"/>
         </shape>
     </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <size
+                android:width="32dp"
+                android:height="80dp"/>
+            <gradient
+                android:angle="0"
+                android:startColor="#33000000"
+                android:centerColor="#11000000"
+                android:endColor="#11000000"
+                android:centerY="0.2"
+                android:type="linear"
+                />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp"/>
+            <size
+                android:width="32dp"
+                android:height="80dp"/>
+            <gradient
+                android:angle="90"
+                android:startColor="#33000000"
+                android:centerColor="#11000000"
+                android:endColor="#11000000"
+                android:centerY="0.05"
+                android:type="linear"
+                />
+        </shape>
+    </item>
+    <item
+        android:top="20dp"
+        android:bottom="20dp"
+        android:left="13dp"
+        android:right="18dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray_400"/>
+        </shape>
+    </item>
+    <item
+        android:top="20dp"
+        android:bottom="20dp"
+        android:left="18dp"
+        android:right="13dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/gray_400"/>
+        </shape>
+    </item>
 </layer-list>

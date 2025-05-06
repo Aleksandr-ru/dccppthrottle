@@ -3,14 +3,6 @@
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
             <corners android:radius="5dp" />
-<!--            <gradient-->
-<!--                android:angle="270"-->
-<!--                android:startColor="@color/material_dynamic_neutral_variant80"-->
-<!--                android:centerColor="@color/material_dynamic_neutral_variant30"-->
-<!--                android:endColor="@color/material_dynamic_neutral_variant80"-->
-<!--                android:centerY="0.2"-->
-<!--                android:type="linear"-->
-<!--                />-->
             <gradient
                 android:angle="270"
                 android:startColor="#33000000"
