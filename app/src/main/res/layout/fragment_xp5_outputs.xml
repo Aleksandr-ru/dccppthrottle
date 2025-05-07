@@ -25,8 +25,8 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_weight="6"
-                android:layout_width="wrap_content"
+                android:layout_weight="4"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/label_xp5_output_effect_ab"
                 android:maxLines="1"
@@ -35,75 +35,45 @@
                 android:padding="@dimen/cell_padding" />
             <TextView
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/label_xp5_output_pwm"
+                android:gravity="center"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_margin="@dimen/cell_spacing"
                 android:padding="@dimen/cell_padding" />
             <TextView
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/label_xp5_output_flags"
+                android:gravity="center"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_margin="@dimen/cell_spacing"
                 android:padding="@dimen/cell_padding" />
             <TextView
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/label_xp5_output_p1"
+                android:gravity="center"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_margin="@dimen/cell_spacing"
                 android:padding="@dimen/cell_padding" />
             <TextView
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/label_xp5_output_p2"
+                android:gravity="center"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:layout_margin="@dimen/cell_spacing"
                 android:padding="@dimen/cell_padding" />
         </TableRow>
-
-<!--        <TableRow-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <TextView-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Special Function 1"-->
-<!--                android:maxLines="1"-->
-<!--                android:ellipsize="end"-->
-<!--                android:layout_margin="@dimen/cell_spacing"-->
-<!--                android:padding="@dimen/cell_padding" />-->
-<!--            <TextView-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Special Function 2"-->
-<!--                android:maxLines="1"-->
-<!--                android:ellipsize="end"-->
-<!--                android:layout_margin="@dimen/cell_spacing"-->
-<!--                android:padding="@dimen/cell_padding" />-->
-<!--            <TextView-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Special Function 3"-->
-<!--                android:maxLines="1"-->
-<!--                android:ellipsize="end"-->
-<!--                android:layout_margin="@dimen/cell_spacing"-->
-<!--                android:padding="@dimen/cell_padding" />-->
-<!--        </TableRow>-->
-
     </TableLayout>
 
     <View

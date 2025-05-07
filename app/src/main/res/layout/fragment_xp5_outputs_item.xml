@@ -36,12 +36,12 @@
 
             <TextView
                 android:id="@+id/textEffectA"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:ellipsize="end"
-                android:gravity="left"
+                android:gravity="start"
                 android:maxLines="1"
                 android:padding="@dimen/cell_padding"
                 android:text="Blinking-4"
@@ -49,7 +49,7 @@
 
             <TextView
                 android:id="@+id/textPwmA"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/textFlagsA"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -75,7 +75,7 @@
 
             <TextView
                 android:id="@+id/textParameter1A"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -88,7 +88,7 @@
 
             <TextView
                 android:id="@+id/textParameter2A"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -111,12 +111,12 @@
 
             <TextView
                 android:id="@+id/textEffectB"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:ellipsize="end"
-                android:gravity="left"
+                android:gravity="start"
                 android:maxLines="1"
                 android:padding="@dimen/cell_padding"
                 android:text="Energy-saving lamp"
@@ -124,7 +124,7 @@
 
             <TextView
                 android:id="@+id/textPwmB"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -137,7 +137,7 @@
 
             <TextView
                 android:id="@+id/textFlagsB"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -150,7 +150,7 @@
 
             <TextView
                 android:id="@+id/textParameter1B"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
@@ -163,7 +163,7 @@
 
             <TextView
                 android:id="@+id/textParameter2B"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/cell_spacing"
                 android:layout_weight="1"
