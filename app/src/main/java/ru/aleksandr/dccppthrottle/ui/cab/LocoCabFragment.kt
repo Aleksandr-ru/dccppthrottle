@@ -45,7 +45,6 @@ class LocoCabFragment : Fragment() {
 
     private var layoutId: Int = 0
     private fun isSingle() = layoutId == R.layout.fragment_loco_cab
-    private fun isDual() = layoutId == R.layout.fragment_dual_cab
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,69 +60,15 @@ class LocoCabFragment : Fragment() {
     ): View? = inflater.inflate(layoutId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // https://stackoverflow.com/a/2397869
-        val tableLayoutParams = TableLayout.LayoutParams(
-            TableLayout.LayoutParams.MATCH_PARENT,
-            TableLayout.LayoutParams.WRAP_CONTENT
-        )
-        val tableRowLayoutParams = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT,
-            TableRow.LayoutParams.WRAP_CONTENT
-        ).apply {
-            weight = 1F
-        }
-        val loco = LocomotivesStore.getBySlot(slot)!!
-        val functionViews = Array<ToggleButton>(LocomotivesStore.FUNCTIONS_COUNT) { i ->
-            ToggleButton(view.context).apply {
-                text = if (loco.funcNames[i].isEmpty()) getString(R.string.label_f, i)
-                        else getString(R.string.label_f_named, i, loco.funcNames[i])
-                textOn = text
-                textOff = text
-                tag = i
-                layoutParams = tableRowLayoutParams.apply {
-                    if (loco.funcNames[i].isNotEmpty()) span = F_PER_ROW
-                }
-                setOnCheckedChangeListener { button, isChecked ->
-                    if (button.isPressed) {
-                        CommandStation.setLocomotiveFunction(slot, i, isChecked)
-                        val selfResetTime = loco.funcReset[i]
-                        if (isChecked && selfResetTime > 0) Handler(Looper.getMainLooper()).postDelayed({
-                            CommandStation.setLocomotiveFunction(slot, i, false)
-                            if (BuildConfig.DEBUG && !CommandStation.isConnected()) button.isChecked = false
-                        }, selfResetTime.toLong())
-                    }
-                }
-            }
-        }
-
-        val named = loco.funcNames.mapIndexedNotNull { index, s ->
-            if (s.isEmpty()) null
-            else index
-        }
-        val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
-            if (s.isNotEmpty() || loco.namedOnly) null
-            else index
-        }
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
-        val rows = named.size + ceil(unnamed.size.toDouble() / F_PER_ROW.toDouble()).toInt()
-        var i = 0
-        for (r in 0 until rows) {
-            val tableRow = TableRow(view.context).apply {
-                layoutParams = tableLayoutParams
-            }
-            for (b in 0 until F_PER_ROW) {
-                val f = if (i < named.size) named[i] else unnamed[i - named.size]
-                tableRow.addView(functionViews[f], b)
-                i++
-                if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
-                else if (i <= named.size) break // big button
-            }
-            tableLayout.addView(tableRow, r)
-        }
+        val functionViews = createFunctionViews(tableLayout)
 
-        val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
         val progressView = view.findViewById<SeekBar>(R.id.seekBar)
         val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
+        val titleView = view.findViewById<TextView>(R.id.textViewTitle)
+        // optional views
+        val speedView = view.findViewById<TextView>(R.id.textViewSpeed)
+        val addrView = view.findViewById<TextView>(R.id.textViewAddr)
 
         progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var speed = 0
@@ -132,14 +77,14 @@ class LocoCabFragment : Fragment() {
                 if (value > 0) {
                     val scaledValue = remap(value.toFloat(), 1F, 100F, minSpeed.toFloat(), maxSpeed.toFloat())
                     speed = scaledValue.roundToInt()
-                    speedView?.text = "$speed%"
+                    speedView?.text = getString(R.string.speed_percent, speed)
                 }
                 else {
                     speed = 0
                     speedView?.text = getString(R.string.speed_stop)
                 }
 
-                if (isDual()) revToggle.text =
+                if (!isSingle()) revToggle.text =
                     if (speed > 0)
                         if (revToggle.isChecked) getString(R.string.speed_rev, speed)
                         else getString(R.string.speed_fwd, speed)
@@ -174,9 +119,6 @@ class LocoCabFragment : Fragment() {
             }
         }
 
-        val addrView = view.findViewById<TextView>(R.id.textViewAddr)
-        val titleView = view.findViewById<TextView>(R.id.textViewTitle)
-
         LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
             minSpeed = item.minSpeed
             maxSpeed = item.maxSpeed
@@ -195,6 +137,70 @@ class LocoCabFragment : Fragment() {
                 button.isChecked = item.functions[index]
             }
         }
+    }
+
+    private fun createFunctionViews(tableLayout: TableLayout): List<ToggleButton> {
+        // https://stackoverflow.com/a/2397869
+        val tableLayoutParams = TableLayout.LayoutParams(
+            TableLayout.LayoutParams.MATCH_PARENT,
+            TableLayout.LayoutParams.WRAP_CONTENT
+        )
+        val tableRowLayoutParams = TableRow.LayoutParams(
+            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.WRAP_CONTENT
+        ).apply {
+            weight = 1F
+        }
+        val loco = LocomotivesStore.getBySlot(slot)!!
+        val functionViews = List(LocomotivesStore.FUNCTIONS_COUNT) { i ->
+            ToggleButton(tableLayout.context).apply {
+                text = if (loco.funcNames[i].isEmpty()) getString(R.string.label_f, i)
+                else getString(R.string.label_f_named, i, loco.funcNames[i])
+                textOn = text
+                textOff = text
+                tag = i
+                layoutParams = tableRowLayoutParams.apply {
+                    if (loco.funcNames[i].isNotEmpty()) span = F_PER_ROW
+                }
+                setOnCheckedChangeListener { button, isChecked ->
+                    if (button.isPressed) {
+                        CommandStation.setLocomotiveFunction(slot, i, isChecked)
+                        val selfResetTime = loco.funcReset[i]
+                        if (isChecked && selfResetTime > 0) Handler(Looper.getMainLooper()).postDelayed({
+                            CommandStation.setLocomotiveFunction(slot, i, false)
+                            if (BuildConfig.DEBUG && !CommandStation.isConnected()) button.isChecked = false
+                        }, selfResetTime.toLong())
+                    }
+                }
+            }
+        }
+
+        val named = loco.funcNames.mapIndexedNotNull { index, s ->
+            if (s.isEmpty()) null
+            else index
+        }
+        val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
+            if (s.isNotEmpty() || loco.namedOnly) null
+            else index
+        }
+
+        val rows = named.size + ceil(unnamed.size.toDouble() / F_PER_ROW.toDouble()).toInt()
+        var i = 0
+        for (r in 0 until rows) {
+            val tableRow = TableRow(tableLayout.context).apply {
+                layoutParams = tableLayoutParams
+            }
+            for (b in 0 until F_PER_ROW) {
+                val f = if (i < named.size) named[i] else unnamed[i - named.size]
+                tableRow.addView(functionViews[f], b)
+                i++
+                if (i >= LocomotivesStore.FUNCTIONS_COUNT) break
+                else if (i <= named.size) break // big button
+            }
+            tableLayout.addView(tableRow, r)
+        }
+
+        return functionViews
     }
 
     // called from LocoCabActivity only

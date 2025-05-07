@@ -141,8 +141,7 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
                 false
             }
             R.id.nav_dual_cab -> {
-                val myIntent = Intent(this, DualCabActivity::class.java)
-                startActivity(myIntent)
+                DualCabActivity.start(this)
                 false
             }
             R.id.nav_accessories -> {

@@ -21,6 +21,9 @@ object MainStore {
     private val _cabViewPagerPosition: MutableLiveData<Int> = MutableLiveData(0)
     val cabViewPagerPosition: LiveData<Int> = _cabViewPagerPosition
 
+    private val _dualCabViewPagerPosition: MutableLiveData<Pair<Int, Int>> = MutableLiveData(Pair(0, 1))
+    val dualCabViewPagerPosition: LiveData<Pair<Int, Int>> = _dualCabViewPagerPosition
+
     private val _trackPower: MutableLiveData<Boolean> = MutableLiveData(false)
     val trackPower: LiveData<Boolean> = _trackPower
 
@@ -36,6 +39,18 @@ object MainStore {
 
     fun setCabViewPagerPosition(value: Int) {
         _cabViewPagerPosition.postValue(value)
+    }
+
+    fun setDualCabPositionLeft(value: Int) {
+        _dualCabViewPagerPosition.postValue(
+            Pair(value, _dualCabViewPagerPosition.value!!.second)
+        )
+    }
+
+    fun setDualCabPositionRight(value: Int) {
+        _dualCabViewPagerPosition.postValue(
+            Pair(_dualCabViewPagerPosition.value!!.first, value)
+        )
     }
 
     fun setTrackPower(value: Boolean) {

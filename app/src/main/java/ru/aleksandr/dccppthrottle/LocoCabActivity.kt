@@ -46,6 +46,9 @@ class LocoCabActivity : AwakeActivity(),
         val adapter = LocoCabViewPagerAdapter(this, R.layout.fragment_loco_cab, slots)
         val viewPager = findViewById<ViewPager2>(R.id.pager)
         viewPager.adapter = adapter
+        MainStore.cabViewPagerPosition.value?.let {
+            viewPager.setCurrentItem(it, false)
+        }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -55,9 +58,7 @@ class LocoCabActivity : AwakeActivity(),
         })
 
         MainStore.cabViewPagerPosition.observe(this) {
-            viewPager.currentItem = it
             slot = slots[it]
-
             val loco = LocomotivesStore.getBySlot(slot)
             title = getString(R.string.title_activity_cab, slot, loco.toString())
         }
@@ -105,15 +106,11 @@ class LocoCabActivity : AwakeActivity(),
                 true
             }
             R.id.action_dual_left -> {
-//                val myIntent = Intent(this, ConsoleActivity::class.java)
-//                startActivity(myIntent)
-                Toast.makeText(this, "Oops!", Toast.LENGTH_SHORT).show()
+                DualCabActivity.start(this, MainStore.cabViewPagerPosition.value, null)
                 true
             }
             R.id.action_dual_right -> {
-//                val myIntent = Intent(this, ConsoleActivity::class.java)
-//                startActivity(myIntent)
-                Toast.makeText(this, "Oops!", Toast.LENGTH_SHORT).show()
+                DualCabActivity.start(this, null, MainStore.cabViewPagerPosition.value)
                 true
             }
             else -> {

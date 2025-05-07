@@ -409,6 +409,7 @@
     <string name="speed_stop">STOP</string>
     <string name="speed_fwd">Fwd %d%%</string>
     <string name="speed_rev">Rev %d%%</string>
+    <string name="speed_percent">%d%%</string>
 
     <string name="accessory_params">Address: %d, delay: %d ms.</string>
     <string name="route_params">Accessories: %d</string>

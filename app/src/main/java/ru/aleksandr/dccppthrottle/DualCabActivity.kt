@@ -7,6 +7,8 @@
 
 package ru.aleksandr.dccppthrottle
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -34,33 +36,33 @@ class DualCabActivity : AwakeActivity() {
         val activity = this
         val pagerLeft = findViewById<ViewPager2>(R.id.pagerLeft).apply {
             adapter = LocoCabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            MainStore.dualCabViewPagerPosition.value?.let {
+                if (it.first < slots.size)
+                    setCurrentItem(it.first, false)
+            }
 
-//            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//                override fun onPageSelected(position: Int) {
-//                    super.onPageSelected(position)
-//                    MainStore.setCabViewPagerPosition(position)
-//                }
-//            })
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    MainStore.setDualCabPositionLeft(position)
+                }
+            })
         }
 
         val pagerRight = findViewById<ViewPager2>(R.id.pagerRight).apply {
             adapter = LocoCabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            MainStore.dualCabViewPagerPosition.value?.let {
+                if (it.second < slots.size)
+                    setCurrentItem(it.second, false)
+            }
 
-//            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//                override fun onPageSelected(position: Int) {
-//                    super.onPageSelected(position)
-//                    MainStore.setCabViewPagerPosition(position)
-//                }
-//            })
+            registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    MainStore.setDualCabPositionRight(position)
+                }
+            })
         }
-
-//        MainStore.cabViewPagerPosition.observe(this) {
-//            viewPager.currentItem = it
-//            slot = slots[it]
-//
-//            val loco = LocomotivesStore.getBySlot(slot)
-//            title = getString(R.string.title_activity_cab, slot, loco.toString())
-//        }
 
         val layout = findViewById<LinearLayout>(R.id.layoutDualCab)
         val snackbar = Snackbar.make(layout, R.string.message_track_off, Snackbar.LENGTH_INDEFINITE)
@@ -98,11 +100,17 @@ class DualCabActivity : AwakeActivity() {
         }
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun start(context: Context, slot: Int) {
-//            val intent = Intent(context, DualCabActivity::class.java)
-//            context.startActivity(intent)
-//        }
-//    }
+    companion object {
+        @JvmStatic
+        fun start(context: Context, leftPosition: Int? = null, rightPosition: Int? = null) {
+            leftPosition?.let {
+                MainStore.setDualCabPositionLeft(it)
+            }
+            rightPosition?.let {
+                MainStore.setDualCabPositionRight(it)
+            }
+            val intent = Intent(context, DualCabActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
 }
