@@ -28,7 +28,7 @@ import ru.aleksandr.dccppthrottle.view.LockableScrollView
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
-class LocoCabFragment : Fragment() {
+class CabFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
     //private val F_PER_ROW = 4
@@ -226,7 +226,7 @@ class LocoCabFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(layout: Int, slot: Int) =
-            LocoCabFragment().apply {
+            CabFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_LAYOUT, layout)
                     putInt(ARG_SLOT, slot)

@@ -21,7 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MainStore
-import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
+import ru.aleksandr.dccppthrottle.ui.cab.CabViewPagerAdapter
 
 class DualCabActivity : AwakeActivity() {
 
@@ -35,7 +35,7 @@ class DualCabActivity : AwakeActivity() {
 
         val activity = this
         val pagerLeft = findViewById<ViewPager2>(R.id.pagerLeft).apply {
-            adapter = LocoCabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
             MainStore.dualCabViewPagerPosition.value?.let {
                 if (it.first < slots.size)
                     setCurrentItem(it.first, false)
@@ -50,7 +50,7 @@ class DualCabActivity : AwakeActivity() {
         }
 
         val pagerRight = findViewById<ViewPager2>(R.id.pagerRight).apply {
-            adapter = LocoCabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
             MainStore.dualCabViewPagerPosition.value?.let {
                 if (it.second < slots.size)
                     setCurrentItem(it.second, false)

@@ -10,7 +10,6 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -25,8 +24,8 @@ import ru.aleksandr.dccppthrottle.dialogs.PomBitDialog
 import ru.aleksandr.dccppthrottle.dialogs.PomValueDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MainStore
-import ru.aleksandr.dccppthrottle.ui.cab.LocoCabFragment
-import ru.aleksandr.dccppthrottle.ui.cab.LocoCabViewPagerAdapter
+import ru.aleksandr.dccppthrottle.ui.cab.CabFragment
+import ru.aleksandr.dccppthrottle.ui.cab.CabViewPagerAdapter
 
 class LocoCabActivity : AwakeActivity(),
     PomValueDialog.PomValueDialogListener,
@@ -43,7 +42,7 @@ class LocoCabActivity : AwakeActivity(),
 
         val slots = LocomotivesStore.getSlots()
 
-        val adapter = LocoCabViewPagerAdapter(this, R.layout.fragment_loco_cab, slots)
+        val adapter = CabViewPagerAdapter(this, R.layout.fragment_loco_cab, slots)
         val viewPager = findViewById<ViewPager2>(R.id.pager)
         viewPager.adapter = adapter
         MainStore.cabViewPagerPosition.value?.let {
@@ -138,7 +137,7 @@ class LocoCabActivity : AwakeActivity(),
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             // https://stackoverflow.com/a/61178226
             val viewPager = findViewById<ViewPager2>(R.id.pager)
-            val fragment = supportFragmentManager.findFragmentByTag("f" + viewPager.currentItem) as LocoCabFragment?
+            val fragment = supportFragmentManager.findFragmentByTag("f" + viewPager.currentItem) as CabFragment?
             return fragment?.onKeyDown(keyCode) ?: false
         }
         return super.onKeyDown(keyCode, event)
