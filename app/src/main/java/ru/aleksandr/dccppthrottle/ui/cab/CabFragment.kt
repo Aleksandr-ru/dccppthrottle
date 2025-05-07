@@ -32,7 +32,6 @@ import kotlin.math.roundToInt
 class CabFragment : Fragment() {
     private val TAG = javaClass.simpleName
 
-    //private val F_PER_ROW = 4
     private val F_PER_ROW by lazy {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
         if (isSingle()) prefs.getString(getString(R.string.pref_key_f_per_row), null)?.toInt() ?: 4
@@ -156,12 +155,13 @@ class CabFragment : Fragment() {
         }
         val loco = LocomotivesStore.getBySlot(slot)!!
         val functionViews = List(LocomotivesStore.FUNCTIONS_COUNT) { i ->
-            ToggleButton(tableLayout.context).apply {
-                text = if (loco.funcNames[i].isEmpty()) getString(R.string.label_f, i)
-                else getString(R.string.label_f_named, i, loco.funcNames[i])
+            ToggleButton(context).apply {
+                text =
+                    if (loco.funcNames[i].isEmpty()) getString(R.string.label_f, i)
+                    else getString(R.string.label_f_named, i, loco.funcNames[i])
                 textOn = text
                 textOff = text
-                tag = i
+
                 layoutParams = tableRowLayoutParams.apply {
                     if (loco.funcNames[i].isNotEmpty()) span = F_PER_ROW
                 }
@@ -190,7 +190,7 @@ class CabFragment : Fragment() {
         val rows = named.size + ceil(unnamed.size.toDouble() / F_PER_ROW.toDouble()).toInt()
         var i = 0
         for (r in 0 until rows) {
-            val tableRow = TableRow(tableLayout.context).apply {
+            val tableRow = TableRow(context).apply {
                 layoutParams = tableLayoutParams
             }
             for (b in 0 until F_PER_ROW) {

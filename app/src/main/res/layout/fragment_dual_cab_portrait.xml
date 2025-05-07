@@ -11,7 +11,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".ui.cab.CabFragment"
-    android:layout_margin="@dimen/text_margin"
+    android:padding="@dimen/text_margin"
     android:orientation="vertical">
 
     <TextView
@@ -57,9 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_margin"
-        android:stretchColumns="*"
-        android:paddingBottom="@dimen/text_margin"
-        android:layout_marginBottom="@dimen/text_margin">
+        android:stretchColumns="*">
         <!-- F buttons -->
     </TableLayout>
 
