@@ -9,6 +9,7 @@ package ru.aleksandr.dccppthrottle
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +36,7 @@ class DualCabActivity : AwakeActivity() {
 
         val activity = this
         val pagerLeft = findViewById<ViewPager2>(R.id.pagerLeft).apply {
-            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab_left, slots)
             MainStore.dualCabViewPagerPosition.value?.let {
                 if (it.first < slots.size)
                     setCurrentItem(it.first, false)
@@ -50,7 +51,7 @@ class DualCabActivity : AwakeActivity() {
         }
 
         val pagerRight = findViewById<ViewPager2>(R.id.pagerRight).apply {
-            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab, slots)
+            adapter = CabViewPagerAdapter(activity, R.layout.fragment_dual_cab_right, slots)
             MainStore.dualCabViewPagerPosition.value?.let {
                 if (it.second < slots.size)
                     setCurrentItem(it.second, false)
@@ -62,6 +63,16 @@ class DualCabActivity : AwakeActivity() {
                     MainStore.setDualCabPositionRight(position)
                 }
             })
+        }
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            MainStore.dualCabViewPagerPosition.observe(this) {
+                val locoLeft = LocomotivesStore.getBySlot(slots[it.first])
+                title = if (it.first != it.second) {
+                    val locoRight = LocomotivesStore.getBySlot(slots[it.second])
+                    locoLeft.toString() + " + " + locoRight.toString()
+                } else locoLeft.toString()
+            }
         }
 
         val layout = findViewById<LinearLayout>(R.id.layoutDualCab)
@@ -78,7 +89,13 @@ class DualCabActivity : AwakeActivity() {
             pagerLeft.visibility = View.GONE
             pagerRight.visibility = View.GONE
             findViewById<View>(R.id.divider)?.visibility = View.GONE
-            findViewById<TextView>(R.id.empty_view)?.visibility = View.VISIBLE
+            findViewById<TextView>(R.id.empty_view)?.apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    MainStore.setMainViewPagerPosition(MainActivity.POSITION_LOCOMOTIVES)
+                    onBackPressed()
+                }
+            }
         }
     }
 

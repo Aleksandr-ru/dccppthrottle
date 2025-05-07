@@ -109,7 +109,12 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
                 MainStore.setMainViewPagerPosition(position)
             }
         })
+        MainStore.mainViewPagerPosition.value?.let {
+            // initial
+            viewPager.setCurrentItem(it, false)
+        }
         MainStore.mainViewPagerPosition.observe(this) {
+            // from menu
             viewPager.currentItem = it
         }
     }

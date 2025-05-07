@@ -7,6 +7,7 @@
 
 package ru.aleksandr.dccppthrottle.ui.cab
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -59,6 +60,7 @@ class CabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(layoutId, container, false)
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
         val functionViews = createFunctionViews(tableLayout)
@@ -102,13 +104,14 @@ class CabFragment : Fragment() {
         })
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            val scrollView = view as LockableScrollView
-            progressView.setOnTouchListener { _, ev ->
-                when (ev?.action) {
-                    MotionEvent.ACTION_DOWN -> scrollView.setScrollingEnabled(false)
-                    MotionEvent.ACTION_UP -> scrollView.setScrollingEnabled(true)
+            (view as LockableScrollView).apply {
+                progressView.setOnTouchListener { _, ev ->
+                    when (ev?.action) {
+                        MotionEvent.ACTION_DOWN -> setScrollingEnabled(false)
+                        MotionEvent.ACTION_UP -> setScrollingEnabled(true)
+                    }
+                    false
                 }
-                false
             }
             //TODO: same view for landscape and portrait
         }
