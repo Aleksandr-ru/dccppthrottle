@@ -10,6 +10,10 @@
             app:summaryOn="@string/label_keep_screen_on"
             app:key="@string/pref_key_screen_on" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_pref_cab">
+
         <ListPreference
             app:title="@string/label_f_per_row"
             app:defaultValue="4"
@@ -17,6 +21,12 @@
             app:entryValues="@array/f_per_row_values"
             app:key="@string/pref_key_f_per_row"
             app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreferenceCompat
+            app:title="@string/label_only_named"
+            app:summaryOff="@string/label_only_named_off"
+            app:summaryOn="@string/label_only_named_on"
+            app:key="@string/pref_key_only_named" />
 
     </PreferenceCategory>
 

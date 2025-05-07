@@ -40,6 +40,7 @@
     <string name="title_dialog_xp4_row_x">Mapping line %d</string>
     <string name="title_alert_permission_required">Permission required</string>
     <string name="title_pref_general">General</string>
+    <string name="title_pref_cab">Cab(s)</string>
     <string name="title_pref_lists">Lists</string>
     <string name="title_pref_cs">Command station</string>
 
@@ -103,7 +104,6 @@
     <string name="label_speed_limit">Speed limit</string>
     <string name="label_min">Min</string>
     <string name="label_max">Max</string>
-    <string name="label_only_named">Show only named functions in cab</string>
     <string name="label_speed">Speed</string>
     <string name="label_forward">Forward</string>
     <string name="label_reverse">Reverse</string>
@@ -136,7 +136,10 @@
     <string name="label_restore_summary">Select file to restore from</string>
     <string name="label_restore_complete">Success</string>
     <string name="label_restore_error">Error! %s</string>
-    <string name="label_f_per_row">Loco cab functions display</string>
+    <string name="label_f_per_row">Single cab functions display</string>
+    <string name="label_only_named">Show only named functions</string>
+    <string name="label_only_named_off">All functions are displayed in cabs</string>
+    <string name="label_only_named_on">And up to F12 if no names</string>
     <string name="label_unknown_x">Unknown (%d)</string>
     <string name="label_resulting_cv_x">Resulting CV value = %d</string>
     <string name="label_inputs">Inputs</string>
@@ -416,6 +419,7 @@
 
     <string name="pref_key_screen_on" translatable="false">screen_always_on</string>
     <string name="pref_key_f_per_row" translatable="false">f_per_row</string>
+    <string name="pref_key_only_named" translatable="false">only_named</string>
     <string name="pref_key_sort_locos" translatable="false">sort_locos</string>
     <string name="pref_key_sort_acc" translatable="false">sort_accessories</string>
     <string name="pref_key_sort_routes" translatable="false">sort_routes</string>

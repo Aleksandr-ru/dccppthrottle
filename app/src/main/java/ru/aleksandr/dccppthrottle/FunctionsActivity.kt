@@ -10,7 +10,6 @@ package ru.aleksandr.dccppthrottle
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Switch
 import android.widget.TextView
 import androidx.core.app.NavUtils
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +20,6 @@ class FunctionsActivity : AwakeActivity() {
 
     private val TAG = javaClass.simpleName
     private var slot: Int = 0
-    private lateinit var swNamed: Switch
     private lateinit var adapter: FunctionsRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,9 +32,6 @@ class FunctionsActivity : AwakeActivity() {
         val titleView = findViewById<TextView>(R.id.textViewTitle)
         titleView.text = loco.toString()
 
-        swNamed = findViewById<Switch>(R.id.swNamed)
-        swNamed.isChecked = loco.namedOnly
-
         adapter = FunctionsRecyclerViewAdapter(loco.funcNames, loco.funcReset)
 
         val listView = findViewById<RecyclerView>(R.id.rvFunctions)
@@ -47,7 +42,6 @@ class FunctionsActivity : AwakeActivity() {
         super.onPause()
         LocomotivesStore.setAllFuncNamesBySlot(slot, adapter.getNameValues())
         LocomotivesStore.setAllFuncResetBySlot(slot, adapter.getResetValues())
-        LocomotivesStore.setNamedOnlyBySlot(slot, swNamed.isChecked)
     }
 
     override fun onBackPressed() {

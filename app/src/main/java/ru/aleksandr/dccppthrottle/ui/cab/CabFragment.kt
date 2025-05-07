@@ -21,6 +21,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.BuildConfig
+import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.Utility.remap
@@ -121,6 +122,12 @@ class CabFragment : Fragment() {
             }
         }
 
+        if (!isSingle()) titleView.setOnClickListener {
+            context?.let {
+                LocoCabActivity.start(it, slot)
+            }
+        }
+
         LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
             minSpeed = item.minSpeed
             maxSpeed = item.maxSpeed
@@ -178,12 +185,20 @@ class CabFragment : Fragment() {
             }
         }
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val namedOnly = prefs.getBoolean(getString(R.string.pref_key_only_named), false)
+
         val named = loco.funcNames.mapIndexedNotNull { index, s ->
             if (s.isEmpty()) null
             else index
         }
+//        val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
+//            if (s.isNotEmpty() || loco.namedOnly) null
+//            else index
+//        }
         val unnamed = loco.funcNames.mapIndexedNotNull { index, s ->
-            if (s.isNotEmpty() || loco.namedOnly) null
+            if (s.isNotEmpty()) null
+            else if (namedOnly && (named.size > 1 || named.size <= 1 && index > 12)) null
             else index
         }
 
