@@ -148,7 +148,7 @@ class CabFragment : Fragment() {
             TableLayout.LayoutParams.WRAP_CONTENT
         )
         val tableRowLayoutParams = TableRow.LayoutParams(
-            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.MATCH_PARENT, // 0dp, see fragment_dual_cab_portrait.xml comment
             TableRow.LayoutParams.WRAP_CONTENT
         ).apply {
             weight = 1F

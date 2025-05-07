@@ -61,4 +61,24 @@
         <!-- F buttons -->
     </TableLayout>
 
+<!-- This example is not scrolling up on click   -->
+<!-- Important: ToggleButton.layout_width="0dp"   -->
+<!--    <TableLayout-->
+<!--        android:id="@+id/tableLayout2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="@dimen/text_margin"-->
+<!--        android:stretchColumns="*">-->
+<!--        <TableRow-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <ToggleButton-->
+<!--                android:id="@+id/toggleButton2"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="ToggleButton" />-->
+<!--        </TableRow>-->
+<!--    </TableLayout>-->
+
 </LinearLayout>
