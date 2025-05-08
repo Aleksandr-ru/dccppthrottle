@@ -7,4 +7,36 @@
         android:title="@string/action_stop"
         android:visible="true"
         app:showAsAction="always" />
+
+    <item
+        android:title="@string/action_left"
+        android:enabled="false"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit_loco_left"
+        android:title="@string/action_edit_loco"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_func_editor_left"
+        android:title="@string/action_func_editor"
+        android:visible="true"
+        app:showAsAction="never" />
+
+    <item
+        android:title="@string/action_right"
+        android:enabled="false"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_edit_loco_right"
+        android:title="@string/action_edit_loco"
+        android:visible="true"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_func_editor_right"
+        android:title="@string/action_func_editor"
+        android:visible="true"
+        app:showAsAction="never" />
 </menu>

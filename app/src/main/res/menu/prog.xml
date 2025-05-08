@@ -6,56 +6,56 @@
         <item
             android:enabled="false"
             app:showAsAction="never"
-            android:title="@string/menu_lp5" />
+            android:title="@string/action_decoder_lp5" />
         <item
             android:id="@+id/action_lp5_mapping"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_mapping" />
+            android:title="@string/action_decoder_mapping" />
         <item
             android:id="@+id/action_lp5_outputs"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_outputs" />
+            android:title="@string/action_decoder_outputs" />
         <item
             android:id="@+id/action_lp5_settings"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_settings" />
+            android:title="@string/action_decoder_settings" />
 
         <item
             android:enabled="false"
             app:showAsAction="never"
-            android:title="@string/menu_xp4" />
+            android:title="@string/action_decoder_xp4" />
         <item
             android:id="@+id/action_xp4_mapping_simple"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_mapping_simple" />
+            android:title="@string/action_decoder_mapping_simple" />
         <item
             android:id="@+id/action_xp4_mapping"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_mapping_extended" />
+            android:title="@string/action_decoder_mapping_extended" />
         <item
             android:id="@+id/action_xp4_outputs"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_outputs" />
+            android:title="@string/action_decoder_outputs" />
         <item
             android:id="@+id/action_xp4_settings"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_settings" />
+            android:title="@string/action_decoder_settings" />
 
         <item
             android:enabled="false"
             app:showAsAction="never"
-            android:title="@string/menu_xp5" />
+            android:title="@string/action_decoder_xp5" />
         <item
             android:id="@+id/action_xp5_mapping_simple"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_mapping_simple" />
+            android:title="@string/action_decoder_mapping_simple" />
         <item
             android:id="@+id/action_xp5_outputs"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_outputs" />
+            android:title="@string/action_decoder_outputs" />
         <item
             android:id="@+id/action_xp5_settings"
             app:showAsAction="never"
-            android:title="@string/menu_decoder_settings" />
+            android:title="@string/action_decoder_settings" />
     </group>
 </menu>

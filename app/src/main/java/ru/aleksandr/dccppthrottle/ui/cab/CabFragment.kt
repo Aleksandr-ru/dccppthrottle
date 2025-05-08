@@ -12,6 +12,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -21,7 +22,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import ru.aleksandr.dccppthrottle.BuildConfig
-import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.Utility.remap
@@ -32,6 +32,9 @@ import kotlin.math.roundToInt
 
 class CabFragment : Fragment() {
     private val TAG = javaClass.simpleName
+
+    private var functionViews: List<ToggleButton> = listOf()
+    private var funcNamesStr = ""
 
     private val F_PER_ROW by lazy {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this.context)
@@ -63,8 +66,6 @@ class CabFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayout)
-        val functionViews = createFunctionViews(tableLayout)
-
         val progressView = view.findViewById<SeekBar>(R.id.seekBar)
         val revToggle = view.findViewById<ToggleButton>(R.id.toggleReverse)
         val titleView = view.findViewById<TextView>(R.id.textViewTitle)
@@ -122,12 +123,6 @@ class CabFragment : Fragment() {
             }
         }
 
-        if (!isSingle()) titleView.setOnClickListener {
-            context?.let {
-                LocoCabActivity.start(it, slot)
-            }
-        }
-
         LocomotivesStore.liveSlot(slot).observe(viewLifecycleOwner) { item ->
             minSpeed = item.minSpeed
             maxSpeed = item.maxSpeed
@@ -142,6 +137,15 @@ class CabFragment : Fragment() {
             titleView.text = item.toString()
             addrView?.text = item.address.toString()
 
+            val newFuncStr = item.funcNames.filterNot { it.isEmpty() }.joinToString()
+            if (newFuncStr != funcNamesStr) {
+                if (BuildConfig.DEBUG) Log.d(TAG,
+                    "Recreate fKeys: $funcNamesStr -> $newFuncStr"
+                )
+                tableLayout.removeAllViews()
+                functionViews = createFunctionViews(tableLayout)
+                funcNamesStr = newFuncStr
+            }
             for ((index, button) in functionViews.withIndex()) {
                 button.isChecked = item.functions[index]
             }

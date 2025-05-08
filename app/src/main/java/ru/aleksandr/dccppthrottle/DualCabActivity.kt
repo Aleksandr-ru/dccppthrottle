@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
 import ru.aleksandr.dccppthrottle.store.MainStore
 import ru.aleksandr.dccppthrottle.ui.cab.CabViewPagerAdapter
@@ -109,6 +110,36 @@ class DualCabActivity : AwakeActivity() {
             R.id.action_stop -> {
                 Toast.makeText(this, R.string.message_stop_all, Toast.LENGTH_SHORT).show()
                 CommandStation.emergencyStop()
+                true
+            }
+            R.id.action_edit_loco_left -> {
+                MainStore.dualCabViewPagerPosition.value?.let {
+                    val slot = LocomotivesStore.getSlots()[it.first]
+                    LocomotiveDialog.storeIndex = LocomotivesStore.getIndexBySlot(slot)
+                    LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
+                }
+                true
+            }
+            R.id.action_func_editor_left -> {
+                MainStore.dualCabViewPagerPosition.value?.let {
+                    val slot = LocomotivesStore.getSlots()[it.first]
+                    FunctionsActivity.start(this, slot)
+                }
+                true
+            }
+            R.id.action_edit_loco_right -> {
+                MainStore.dualCabViewPagerPosition.value?.let {
+                    val slot = LocomotivesStore.getSlots()[it.second]
+                    LocomotiveDialog.storeIndex = LocomotivesStore.getIndexBySlot(slot)
+                    LocomotiveDialog().show(supportFragmentManager, LocomotiveDialog.TAG)
+                }
+                true
+            }
+            R.id.action_func_editor_right -> {
+                MainStore.dualCabViewPagerPosition.value?.let {
+                    val slot = LocomotivesStore.getSlots()[it.second]
+                    FunctionsActivity.start(this, slot)
+                }
                 true
             }
             else -> {
