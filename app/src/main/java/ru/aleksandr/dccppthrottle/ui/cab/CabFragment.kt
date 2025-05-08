@@ -137,7 +137,10 @@ class CabFragment : Fragment() {
             titleView.text = item.toString()
             addrView?.text = item.address.toString()
 
-            val newFuncStr = item.funcNames.filterNot { it.isEmpty() }.joinToString()
+            val newFuncStr = item.funcNames.mapIndexed { index, name ->
+                name.takeIf { name.isNotEmpty() } ?: "F$index"
+            }.joinToString()
+
             if (newFuncStr != funcNamesStr) {
                 if (BuildConfig.DEBUG) Log.d(TAG,
                     "Recreate fKeys: $funcNamesStr -> $newFuncStr"
