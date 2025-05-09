@@ -50,8 +50,10 @@ class Xp5SimpleKeyFragment() : Fragment() {
             slice(start until size)
         }
 
-        val title = getString(R.string.label_xp5_key_x_cv_y, keyNames[keyIndex], cv)
-        view.findViewById<TextView>(R.id.textViewTitle)?.text = title
+        view.findViewById<TextView>(R.id.textViewTitle)?.text =
+            getString(R.string.label_xp5_key_x, keyNames[keyIndex])
+        view.findViewById<TextView>(R.id.textViewDesc)?.text =
+            getString(R.string.label_xp5_simple_key_cv, cv)
 
         view.findViewById<ByteSwitchView>(R.id.byteView)?.apply {
             for (i in 0 .. 7) {

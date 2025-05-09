@@ -186,7 +186,7 @@
     <string name="label_xp4_cv186">CV186 is used to specify which output should control this option.</string>
     <string name="label_xp4_cv187">The value of CV187 determines how fast the fade function works.</string>
     <string name="label_xp4_blinking">Blinking effects for lighting and function outputs</string>
-    <string name="label_xp4_blinking_desc">The model‘s decoder has a flashing option that can be assigned to the function outputs. Both the activation time and deactivation time of the flasher option can be set separately. CV109 is used to specify which output the flasher option is connected to. Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
+    <string name="label_xp4_blinking_desc">The model‘s decoder has a flashing option that can be assigned to the function outputs. Both the activation time and deactivation time of the flasher option can be set separately.</string>
     <string name="label_xp4_cv109">CV109 is used to specify which output the flasher option is connected to.</string>
     <string name="label_xp4_cv110">Furthermore, the setting of CV110 determines which output will activate the flasher option, when, for example, the model reverses direction.</string>
     <string name="label_xp4_cv111">In CV111 the activation time is adjustable</string>
@@ -206,7 +206,7 @@
     <string name="label_xp4_cv182hi">Bits 4 – 6 change the brightness</string>
     <string name="label_xp4_cv182note">Since only one value can be programmed into a CV, the flicker effect results from the sum of the individual values of the flicker rhythm plus the sum of the individual values of the brightness settings (sum of bits 0 – 3 plus sum of bits 4 – 6). The combination of all bits results in a differing, random flicker effect.</string>
     <string name="label_xp4_smoke">Smoke Generator control</string>
-    <string name="label_xp4_smoke_desc">A smoke generator can be connected to function outputs A1 to A7, which are controlled by the load–dependent decoder. The physical smoke output from the generator is governed by PWM (Pulse Width Modulation) which is controlled by CV133. When the locomotive moves, the function output receives 100% of the PWM signal. The locomotive motor can be stopped for 0–15 seconds (startup delay) so that the smoke generator heats up when the locomotive is stationary. After the delay, the locomotive starts, and the output is activated to a full 100%. At this point the smoke output is fully controlled by PWM. When the load on the locomotive increases, the PWM adjusts the smoke output again to reflect the heavier load. The required load threshold can be set by the user.</string>
+    <string name="label_xp4_smoke_desc">A smoke generator can be connected to function outputs A1 to A7, which are controlled by the load-dependent decoder. The physical smoke output from the generator is governed by PWM (Pulse Width Modulation). When the locomotive moves, the function output receives 100% of the PWM signal. The locomotive motor can be stopped for 0–15 seconds (startup delay) so that the smoke generator heats up when the locomotive is stationary. After the delay, the locomotive starts, and the output is activated to a full 100%. At this point the smoke output is fully controlled by PWM. When the load on the locomotive increases, the PWM adjusts the smoke output again to reflect the heavier load. The required load threshold can be set by the user.</string>
     <string name="label_xp4_cv130output">CV130 determines which outputs from A1 to A7 are controlled by the smoke generator control</string>
     <string name="label_xp4_cv130delay">And when to activate the startup delay </string>
     <string name="label_xp4_no_smoke">No smoke generator operation</string>
@@ -242,7 +242,6 @@
     <string name="label_xp4_cv136">CV136 for the pushing movement time T1</string>
     <string name="label_xp4_cv137">CV137 for the reverse movement time T2</string>
     <string name="label_xp4_servo">Servo control</string>
-    <string name="label_xp4_servo_desc">Connecting a servo to the decoder requires electronics skill.</string>
     <string name="label_xp4_cv166">CV166 determines which output controls a servo. If the associated value is set, then a control signal for the servo is sent to the desired function output (A6 and/or A7, or SUSI). The following assignment applies to the connection pins of the SUSI interface: Servo1 = CLK, Servo2 = Data.</string>
     <string name="label_xp4_cv167">CV167 function key numbers (F0 - F28) for Servo 1 on SUSI-CLK</string>
     <string name="label_xp4_cv168">CV168 function key numbers (F0 - F28) for Servo 2 on SUSI-Data</string>
@@ -263,8 +262,8 @@
     <string name="label_xp4_cv114">Reverse (CV 114)</string>
     <string name="label_xp4_cv107">CV107 for red lighting on the front</string>
     <string name="label_xp4_cv108">CV108 for red lighting on the rear</string>
-    <string name="label_xp4_key_x_cv_y">Function key %s (CV %d)</string>
-    <string name="label_xp4_simple_key_desc">The value written to a CV contained in a mapped function determines what that function key can activate.</string>
+    <string name="label_xp4_key_x">Function key %s</string>
+    <string name="label_xp4_simple_key_cv">The value written to CV %d contained in a mapped function determines what that function key can activate.</string>
     <string name="label_xp4_simple_shift">Since only 8 outputs (bits 0 – 7) can be activated with a CV, there are two more CVs with which the bitwise meaning in CVs 33 to 46 can be changed. CV100 changes the bitwise meaning in CVs 33–38 and CV101 in CVs 39–46. Each bit in CV100 / 101 alters the meaning of the bits in any of CVs 33–46.</string>
     <string name="label_xp4_cv29">Configuration according to DCC rules (CV 29)</string>
     <string name="label_xp4_cv50">Decoder Configuration 1 (CV 50)</string>
@@ -310,10 +309,7 @@
     <string name="label_xp5_esaving_desc">When an energy-saving lamp is switched on, it initially produces a starting brightness before slowly reaching maximum brightness.</string>
     <string name="label_xp5_cv170">The starting brightness can be set in CV170</string>
     <string name="label_xp5_cv171">The fade-in time to maximum brightness can be set in 100 ms increments in CV171</string>
-    <string name="label_xp5_servo_desc">
-        The use of a servo on the decoder requires electronic expertise due to the servo circuit to be created.
-        \nA maximum of four servo circuits can be operated on the PIKO SmartDecoder XP. The settings for the two stop positions and the speed can be adjusted using three CVs each.
-    </string>
+    <string name="label_xp5_servo_desc">A maximum of four servo circuits can be operated on the PIKO SmartDecoder XP 5.1. The settings for the two stop positions and the speed can be adjusted using three CVs each.</string>
     <string name="label_xp5_servo1">Servo configuration 1</string>
     <string name="label_xp5_servo2">Servo configuration 2</string>
     <string name="label_xp5_servo3">Servo configuration 3</string>
@@ -325,10 +321,10 @@
     <string name="label_xp5_swoff_desc">The front light (F0v) and rear light (F0h), as well as A1 - A7, can be automatically switched off after a configurable time has elapsed. The times can be individually set for each output.</string>
     <string name="label_xp5_swoff_item">CV%d -> Time for automatic shutdown %s</string>
     <string name="label_xp5_coupling">Control of a digital coupling (A4 and A5)</string>
-    <string name="label_xp5_coupling_cv47">Digital couplers can only be connected to decoder outputs A4 and A5. If a shunting tango is also to be used, outputs A4 must be used for the front coupler and A5 for the rear coupler. Which of the two function outputs A4 and A5 should be activated for a digital coupler is set in CV47 using bits 2=1 (A4) and 3=1 (A5). If the front and rear digital couplers are accidentally connected to the wrong outputs—i.e., A4 to the rear and A5 to the front—this can be corrected using bit 4=1 in CV47.</string>
+    <string name="label_xp5_coupling_cv47">Digital couplers can only be connected to decoder outputs A4 and A5. If a shunting tango is also to be used, outputs A4 must be used for the front coupler and A5 for the rear coupler. Which of the two function outputs A4 and A5 should be activated for a digital coupler is set in CV47. If the front and rear digital couplers are accidentally connected to the wrong outputs — i.e., A4 to the rear and A5 to the front — this can be corrected using swap outputs.</string>
     <string name="label_xp5_coupling_desc">
-        Digital couplers are made of the finest copper wire windings and are used for automatically coupling and uncoupling cars. These are generally sensitive to continuous current flow, as they become relatively hot as a result. With appropriate settings, the decoder can ensure that the function outputs are automatically deactivated after a set time (CV130).
-        \nAutomatically switch off without having to deactivate the function key. Furthermore, the decoder can ensure that the coupler is only controlled with a high PWM for a brief moment of activation to safely raise the coupler. After this moment, less energy is required to keep the coupler raised. This lower PWM can be set in CV 135.
+        Digital couplers are made of the finest copper wire windings and are used for automatically coupling and uncoupling cars. These are generally sensitive to continuous current flow, as they become relatively hot as a result. With appropriate settings, the decoder can ensure that the function outputs are automatically deactivated after a set time (CV130). Automatically switch off without having to deactivate the function key.
+        \nFurthermore, the decoder can ensure that the coupler is only controlled with a high PWM for a brief moment of activation to safely raise the coupler. After this moment, less energy is required to keep the coupler raised. This lower PWM can be set in CV 135.
     </string>
     <string name="label_xp5_cv130">CV130 -> Switch-on time</string>
     <string name="label_xp5_cv135">CV135 -> Hold PWM</string>
@@ -361,8 +357,8 @@
     <string name="label_xp5_simple_swoff_desc">CVs 97 (forward direction) and 98 (reverse direction) can be used to specify which function outputs A1 - A7 should be turned off. If such an output is turned on via a function key, it will be automatically turned off in the desired direction of travel.</string>
     <string name="label_xp5_cv97">Forward (CV 97)</string>
     <string name="label_xp5_cv98">Reverse (CV 98)</string>
-    <string name="label_xp5_key_x_cv_y">Key %s (CV %d)</string>
-    <string name="label_xp5_simple_key_desc">The value written to a CV in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
+    <string name="label_xp5_key_x">Key %s</string>
+    <string name="label_xp5_simple_key_cv">The value written to CV %d in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

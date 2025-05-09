@@ -50,8 +50,10 @@ class Xp4SimpleKeyFragment() : Fragment() {
         val keyNames = resources.getStringArray(R.array.xp4_simple_keys)
         val outputNames = resources.getStringArray(R.array.xp4_simple_outputs)
 
-        val title = getString(R.string.label_xp4_key_x_cv_y, keyNames[keyIndex], cv)
-        view.findViewById<TextView>(R.id.textViewTitle)?.text = title
+        view.findViewById<TextView>(R.id.textViewTitle)?.text =
+            getString(R.string.label_xp4_key_x, keyNames[keyIndex])
+        view.findViewById<TextView>(R.id.textViewDesc)?.text =
+            getString(R.string.label_xp4_simple_key_cv, cv)
 
         val byteOutputs = view.findViewById<ByteSwitchView>(R.id.byteView)!!.apply {
             setOnChangeListener {
