@@ -22,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.*
@@ -163,6 +164,8 @@ class SettingsActivity : AwakeActivity() {
             val keySortAcc = getString(R.string.pref_key_sort_acc)
             val keySortRoutes = getString(R.string.pref_key_sort_routes)
             val keySpeedSteps = getString(R.string.pref_key_speed_steps)
+            val keyPower = getString(R.string.pref_key_power_startup)
+            val keyJoin = getString(R.string.pref_key_join_startup)
             if (pref != null && key != null) when(key) {
                 keyScreenOn -> {
                     val screenOn = pref.getBoolean(key, false)
@@ -190,6 +193,14 @@ class SettingsActivity : AwakeActivity() {
                         CommandStation.emergencyStop()
                         CommandStation.setSpeedSteps(it)
                     }
+                }
+                keyPower -> {
+                    val keyVal = pref.getBoolean(key, false)
+                    if (!keyVal) findPreference<SwitchPreferenceCompat>(keyJoin)?.isChecked = false
+                }
+                keyJoin -> {
+                    val keyVal = pref.getBoolean(key, false)
+                    if (keyVal) findPreference<SwitchPreferenceCompat>(keyPower)?.isChecked = true
                 }
                 else -> {}
             }

@@ -264,16 +264,12 @@ class ConnectActivity : AppCompatActivity() {
     }
 
     private fun startCommandStation(connection: BluetoothConnection, deviceName: String) {
-        val keyPower = getString(R.string.pref_key_power_startup)
-        val keySortLocos = getString(R.string.pref_key_sort_locos)
-        val keySortAcc = getString(R.string.pref_key_sort_acc)
-        val keySortRoutes = getString(R.string.pref_key_sort_routes)
-
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val powerOn = prefs.getBoolean(keyPower, false)
-        val locoSortOrder = prefs.getString(keySortLocos, LocomotivesStore.SORT_UNSORTED)
-        val accSortOrder = prefs.getString(keySortAcc, AccessoriesStore.SORT_UNSORTED)
-        val routeSortOrder = prefs.getString(keySortRoutes, RoutesStore.SORT_UNSORTED)
+        val powerOn = prefs.getBoolean(getString(R.string.pref_key_power_startup), false)
+        val powerJoin = prefs.getBoolean(getString(R.string.pref_key_join_startup), false)
+        val locoSortOrder = prefs.getString(getString(R.string.pref_key_sort_locos), LocomotivesStore.SORT_UNSORTED)
+        val accSortOrder = prefs.getString(getString(R.string.pref_key_sort_acc), AccessoriesStore.SORT_UNSORTED)
+        val routeSortOrder = prefs.getString(getString(R.string.pref_key_sort_routes), RoutesStore.SORT_UNSORTED)
 
         try {
             loadStoreFromFile(LocomotivesStore, locoSortOrder)
@@ -301,7 +297,15 @@ class ConnectActivity : AppCompatActivity() {
             }
         }
         CommandStation.unassignAll()
-        CommandStation.setTrackPower(powerOn)
+
+        CommandStation.setTrackPower(powerOn, powerJoin)
+        if (powerOn && powerJoin) {
+            Toast.makeText(this, R.string.message_cs_power_join, Toast.LENGTH_SHORT).show()
+        }
+        else if (powerOn) {
+            Toast.makeText(this, R.string.message_cs_power_on, Toast.LENGTH_SHORT).show()
+        }
+
         // locomotives list is not right in place yet
         Handler(Looper.getMainLooper()).post {
             LocomotivesStore.getSlots().sorted().forEach {

@@ -86,6 +86,10 @@
             app:key="@string/pref_key_power_startup"
             app:title="@string/label_power_at_start" />
 
+        <SwitchPreferenceCompat
+            app:key="@string/pref_key_join_startup"
+            app:title="@string/label_join_at_start" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
