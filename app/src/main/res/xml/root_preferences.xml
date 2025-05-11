@@ -80,15 +80,21 @@
 
         <SwitchPreferenceCompat
             app:key="@string/pref_key_connect_startup"
-            app:title="@string/label_connect_at_start" />
+            app:title="@string/label_connect_at_start"
+            android:summaryOff="@string/label_connect_at_start_off"
+            android:summaryOn="@string/label_connect_at_start_on" />
 
         <SwitchPreferenceCompat
             app:key="@string/pref_key_power_startup"
-            app:title="@string/label_power_at_start" />
+            app:title="@string/label_power_at_start"
+            android:summaryOn="@string/label_power_at_start_on"
+            android:summaryOff="@string/label_power_at_start_off" />
 
         <SwitchPreferenceCompat
             app:key="@string/pref_key_join_startup"
-            app:title="@string/label_join_at_start" />
+            app:title="@string/label_join_at_start"
+            android:summaryOn="@string/label_join_at_start_on"
+            android:summaryOff="@string/label_join_at_start_off" />
 
     </PreferenceCategory>
 

@@ -99,8 +99,14 @@
     <string name="label_f0_default">Lights</string>
     <string name="label_f_self_reset">Self reset (ms.)</string>
     <string name="label_connect_at_start">Connect at startup</string>
+    <string name="label_connect_at_start_on">Connect to last used device</string>
+    <string name="label_connect_at_start_off">Use connect screen</string>
     <string name="label_power_at_start">Power-on track at startup</string>
+    <string name="label_power_at_start_on">Tracks powered when connected</string>
+    <string name="label_power_at_start_off">Track power turned on manually</string>
     <string name="label_join_at_start">Join MAIN to PROG at startup</string>
+    <string name="label_join_at_start_on">Tracks joined when connected</string>
+    <string name="label_join_at_start_off">Tracks separated</string>
     <string name="label_name">Name</string>
     <string name="label_name_optional">Name (optional)</string>
     <string name="label_address">Address</string>
