@@ -229,8 +229,10 @@ object CommandStation {
 
     private class StatusCommand() : Command() {
         override val resultRegex = "<i(.+)>"
+        //todo: resultListener for multiple lines
         override fun resultListener(groupValues: List<String>) {
-            // <iDCC-EX V-3.0.4 / MEGA / STANDARD_MOTOR_SHIELD G-75ab2ab>
+            // <p0>
+            // <iDCC-EX V-4.1.3 / UNO / STANDARD_MOTOR_SHIELD G-a26d988>
             if (BuildConfig.DEBUG) Log.i(TAG, groupValues[1])
             statusCallback?.invoke(groupValues[1])
         }

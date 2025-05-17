@@ -295,22 +295,19 @@ class ConnectActivity : AppCompatActivity() {
             if (!it.startsWith("DCC-EX")) {
                 Toast.makeText(this, R.string.message_cs_not_supported, Toast.LENGTH_LONG).show()
             }
-        }
-        CommandStation.unassignAll()
-
-        CommandStation.setTrackPower(powerOn, powerJoin)
-        if (powerOn && powerJoin) {
-            Toast.makeText(this, R.string.message_cs_power_join, Toast.LENGTH_SHORT).show()
-        }
-        else if (powerOn) {
-            Toast.makeText(this, R.string.message_cs_power_on, Toast.LENGTH_SHORT).show()
-        }
-
-        // locomotives list is not right in place yet
-        Handler(Looper.getMainLooper()).post {
-            LocomotivesStore.getSlots().sorted().forEach {
-                // assign loco - take slot
-                CommandStation.stopLocomotive(it)
+            else {
+                CommandStation.unassignAll()
+                CommandStation.setTrackPower(powerOn, powerJoin)
+                if (powerOn && powerJoin) {
+                    Toast.makeText(this, R.string.message_cs_power_join, Toast.LENGTH_SHORT).show()
+                }
+                else if (powerOn) {
+                    Toast.makeText(this, R.string.message_cs_power_on, Toast.LENGTH_SHORT).show()
+                }
+                LocomotivesStore.getSlots().sorted().forEach {
+                    // assign loco - take slot
+                    CommandStation.stopLocomotive(it)
+                }
             }
         }
     }
