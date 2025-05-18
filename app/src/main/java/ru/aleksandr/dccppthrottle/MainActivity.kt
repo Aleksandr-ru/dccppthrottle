@@ -88,10 +88,8 @@ class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedLis
         }
 
         MainStore.trackPower.observe(this) {
-            powerSwitch.isChecked = it
-        }
-        MainStore.trackJoin.observe(this) {
-            joinSwitch.isChecked = it
+            powerSwitch.isChecked = it.first
+            joinSwitch.isChecked = it.second
         }
 
         val adapter = MainViewPagerAdapter(this)

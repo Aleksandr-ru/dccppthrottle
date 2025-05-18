@@ -24,11 +24,8 @@ object MainStore {
     private val _dualCabViewPagerPosition: MutableLiveData<Pair<Int, Int>> = MutableLiveData(Pair(0, 1))
     val dualCabViewPagerPosition: LiveData<Pair<Int, Int>> = _dualCabViewPagerPosition
 
-    private val _trackPower: MutableLiveData<Boolean> = MutableLiveData(false)
-    val trackPower: LiveData<Boolean> = _trackPower
-
-    private val _trackJoin: MutableLiveData<Boolean> = MutableLiveData(false)
-    val trackJoin: LiveData<Boolean> = _trackJoin
+    private val _trackPower: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData(Pair(false, false))
+    val trackPower: LiveData<Pair<Boolean, Boolean>> = _trackPower
 
     private val _trackCurrent: MutableLiveData<Map<String, Int>> = MutableLiveData(mapOf())
     val trackCurrent: LiveData<Map<String, Int>> = _trackCurrent
@@ -53,12 +50,8 @@ object MainStore {
         )
     }
 
-    fun setTrackPower(value: Boolean) {
-        _trackPower.postValue(value)
-    }
-
-    fun setTrackJoin(value: Boolean) {
-        _trackJoin.postValue(value)
+    fun setTrackPower(power: Boolean, join: Boolean) {
+        _trackPower.postValue(Pair(power, join))
     }
 
     fun setTrackCurrent(value: Map<String, Int>) {

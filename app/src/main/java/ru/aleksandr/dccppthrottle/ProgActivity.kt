@@ -53,7 +53,7 @@ class ProgActivity : AwakeActivity() {
         // If you use a compatible Throttle, you can then send the join command again
         // and drive off the track onto the rest of your layout!
         // @see https://dcc-ex.com/reference/software/command-summary-consolidated.html#onoff-track-turn-power-on-or-off-to-the-main-and-prog-tracks
-        if (MainStore.trackPower.value == true && MainStore.trackJoin.value == true) {
+        if (MainStore.trackPower.value == Pair(true, true)) {
             if (BuildConfig.DEBUG) Log.i(TAG, "Restoring track join")
             CommandStation.setTrackPower(isOn = true, join = true)
         }

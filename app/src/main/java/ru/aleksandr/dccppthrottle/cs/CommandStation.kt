@@ -244,8 +244,7 @@ object CommandStation {
         override fun resultListener(groupValues: List<String>) {
             val power = groupValues[1].toInt() > 0
             val joined = groupValues[2].isNotEmpty()
-            MainStore.setTrackPower(power)
-            MainStore.setTrackJoin(joined)
+            MainStore.setTrackPower(power, joined)
         }
         override fun toString() = if (join && p > 0) "<$p JOIN>" else "<$p>"
     }
