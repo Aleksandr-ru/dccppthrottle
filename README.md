@@ -18,6 +18,7 @@ Detailed hardware setup guide in [English](https://aleksandr-ru.translate.goog/b
 ## Application features
 
 - Locomotives library and control panel (cab)
+- Dual cab to drive 2 locomotives simultaneously
 - Accessories library with control from the list
 - Routes (groups of accessories with states)
 - Finger-friendly navigation for lists and locomotive cabs
