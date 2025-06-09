@@ -31,7 +31,7 @@ object MockStore {
         "BR 78 (Piko new)",
         "D.141 (Piko new)",
         "M 152 (Roco)",
-        "BR 174 (Roco)"
+        "VT 174 (Roco)"
     )
 
     private val funcs = listOf(
