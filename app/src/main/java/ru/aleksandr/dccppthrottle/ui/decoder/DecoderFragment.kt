@@ -146,5 +146,6 @@ open class DecoderFragment : Fragment() {
         const val MANUFACTURER_ID_ESU = 151
         const val MANUFACTURER_ID_PIKO = 162
         const val MANUFACTURER_ID_UHLENBROCK = 85
+        const val MANUFACTURER_ID_MODELLDEPO = 255
     }
 }

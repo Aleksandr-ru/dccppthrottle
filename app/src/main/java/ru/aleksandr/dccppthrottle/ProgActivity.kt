@@ -36,7 +36,7 @@ class ProgActivity : AwakeActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                // BAck button pressed
+                // Back button pressed
                 super.onOptionsItemSelected(item)
             }
             else -> {

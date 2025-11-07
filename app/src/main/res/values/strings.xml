@@ -18,6 +18,9 @@
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
+    <string name="title_fragment_sw2_mapping">SmartWagon2 function mapping</string>
+    <string name="title_fragment_sw2_outputs">SmartWagon2 outputs config</string>
+    <string name="title_fragment_sw2_settings">SmartWagon2 settings</string>
     <string name="title_fragment_xp4_mapping_simple">XP 4.1 / IntelliDrive 2 simple function mapping</string>
     <string name="title_fragment_xp4_mapping">XP 4.1 / IntelliDrive 2 extended function mapping</string>
     <string name="title_fragment_xp4_outputs">XP 4.1 / IntelliDrive 2 outputs config</string>
@@ -77,6 +80,7 @@
     <string name="action_decoder_lp5">ESU LokPilot 5</string>
     <string name="action_decoder_xp4">Piko XP 4.1 / Uhlenbrock IntelliDrive 2</string>
     <string name="action_decoder_xp5">Piko SmartDecoder XP 5.1</string>
+    <string name="action_decoder_sw2">Modelldepo SmartWagon2</string>
     <string name="action_decoder_mapping">Function mapping</string>
     <string name="action_decoder_outputs">Outputs configuration</string>
     <string name="action_decoder_mapping_simple">Simple function mapping</string>
@@ -366,6 +370,11 @@
     <string name="label_xp5_cv98">Reverse (CV 98)</string>
     <string name="label_xp5_key_x">Key %s</string>
     <string name="label_xp5_simple_key_cv">The value written to CV %d in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
+    <!-- Modelldepo SmartWagon2 -->
+    <string name="label_sw2_key_x_pressed">Key %s pressed</string>
+    <string name="label_sw2_mapping_key_desc">Enabled channels when this conditions</string> <!-- Включенные каналы для данного состояния -->
+    <string name="label_sw2_forward_cv_x">Forward (CV%d)</string>
+    <string name="label_sw2_reverse_cv_x">Reverse (CV%d)</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

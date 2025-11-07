@@ -23,6 +23,23 @@
         <item
             android:enabled="false"
             app:showAsAction="never"
+            android:title="@string/action_decoder_sw2" />
+        <item
+            android:id="@+id/action_sw2_mapping"
+            app:showAsAction="never"
+            android:title="@string/action_decoder_mapping" />
+        <item
+            android:id="@+id/action_sw2_outputs"
+            app:showAsAction="never"
+            android:title="@string/action_decoder_outputs" />
+        <item
+            android:id="@+id/action_sw2_settings"
+            app:showAsAction="never"
+            android:title="@string/action_decoder_settings" />
+
+        <item
+            android:enabled="false"
+            app:showAsAction="never"
             android:title="@string/action_decoder_xp4" />
         <item
             android:id="@+id/action_xp4_mapping_simple"

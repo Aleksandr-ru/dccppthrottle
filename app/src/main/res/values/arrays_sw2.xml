@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<resources>
+    <!-- Outputs -->
+    <string-array name="sw2_outputs">
+        <item>HL1</item> <!-- 1 -->
+        <item>HL2</item> <!-- 2 -->
+        <item>Channel 3</item>
+        <item>Channel 4</item>
+        <item>Channel 5</item>
+        <item>Channel 6</item>
+        <item>Channel 7</item>
+        <item>Channel 8</item>
+        <item>Channel 9</item>
+        <item>Channel 10</item>
+        <item>Channel 11</item>
+        <item>Channel 12</item>
+        <item>AUX1</item> <!-- 13 -->
+    </string-array>
+
+    <!-- Function mapping -->
+
+    <string-array name="sw2_mapping_keys">
+        <item>Stopped</item>
+        <item>Moving</item>
+        <item>F0</item>
+        <item>F1</item>
+        <item>F2</item>
+        <item>F3</item>
+        <item>F4</item>
+        <item>F5</item>
+        <item>F6</item>
+        <item>F7</item>
+        <item>F8</item>
+        <item>F9</item>
+        <item>F10</item>
+        <item>F11</item>
+        <item>F12</item>
+    </string-array>
+</resources>
