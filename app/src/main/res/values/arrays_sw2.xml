@@ -23,6 +23,14 @@
         <item>AUX1</item> <!-- 13 -->
     </string-array>
 
+    <string-array name="sw2_output_effects">
+        <!-- format: <cv_value>: <name> -->
+        <item>0: Continues current</item> <!-- 0 - Эффекты выключены. Continues current -->
+        <item>1: Adjustable brightness</item> <!-- 1 – continues с регулировкой напряжения (яркости) -->
+        <item>5: Fade in/out</item> <!-- 5 – плавное включение/выключение с регулировкой яркости (CV31). -->
+        <item>55: Fluorescent lamp</item> <!-- 55 – люминесцентная лампа -->
+    </string-array>
+
     <!-- Function mapping -->
 
     <string-array name="sw2_mapping_keys">

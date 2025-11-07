@@ -13,58 +13,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 
-
-class Sw2MappingFragment : DecoderFragment() {
+class Sw2OutputsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
-    private val model by activityViewModels<Sw2MappingViewModel>()
+    private val model by activityViewModels<Sw2OutputsViewModel>()
+    private lateinit var rvAdapter: Sw2OutputsRecyclerViewAdapter
 
     private lateinit var emptyView: TextView
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
+    private lateinit var listView: RecyclerView
     private lateinit var writeButton: Button
 
     companion object {
-        fun newInstance() = Sw2MappingFragment()
+        fun newInstance() = Sw2OutputsFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_decoder_tabs, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_sw2_outputs, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         with(view) {
-            emptyView = findViewById(R.id.empty_view)
-            viewPager = findViewById(R.id.pager)
-            tabLayout = findViewById(R.id.tabLayout)
+            emptyView = findViewById(R.id.textEmpty)
+            listView = findViewById(R.id.rvOutputs)
             writeButton = findViewById(R.id.buttonWrite)
         }
-        
-        viewPager.adapter = SlidePagerAdapter(this)
-
-        val tabTitles = resources.getStringArray(R.array.sw2_mapping_keys)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTitles[position]
-        }.attach()
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_MODELLDEPO)
+        }
+
+        rvAdapter = Sw2OutputsRecyclerViewAdapter(model, viewLifecycleOwner)
+        with(listView) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = rvAdapter
         }
 
         writeButton.setOnClickListener {
@@ -81,29 +73,21 @@ class Sw2MappingFragment : DecoderFragment() {
         model.loaded.observe(viewLifecycleOwner) {
             if (it) {
                 emptyView.visibility = View.GONE
-                tabLayout.visibility = View.VISIBLE
-                viewPager.visibility = View.VISIBLE
+                listView.visibility = View.VISIBLE
                 writeButton.visibility = View.VISIBLE
             }
             else {
                 emptyView.visibility = View.VISIBLE
-                tabLayout.visibility = View.GONE
-                viewPager.visibility = View.GONE
+                listView.visibility = View.GONE
                 writeButton.visibility = View.GONE
             }
         }
 
         if ((savedInstanceState == null) && (model.loaded.value == true)) {
-            model.discardChanges()
             Snackbar.make(view, R.string.message_cvs_outdated, Snackbar.LENGTH_LONG)
                 .setAction(R.string.action_reload) {
                     readModelCVs(model, MANUFACTURER_ID_MODELLDEPO)
                 }.show()
         }
-    }
-
-    private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
-        override fun getItemCount(): Int = resources.getStringArray(R.array.sw2_mapping_keys).size
-        override fun createFragment(position: Int) = Sw2MappingKeyFragment.newInstance(position)
     }
 }

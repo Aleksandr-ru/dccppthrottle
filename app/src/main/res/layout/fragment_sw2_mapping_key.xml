@@ -19,7 +19,7 @@
             android:id="@+id/textViewTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_sw2_key_x_pressed"
+            android:text="@string/label_sw2_key_x_on"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
             android:layout_width="match_parent"

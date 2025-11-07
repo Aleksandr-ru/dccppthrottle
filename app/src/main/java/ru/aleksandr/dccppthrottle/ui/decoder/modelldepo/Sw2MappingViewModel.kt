@@ -9,6 +9,6 @@ package ru.aleksandr.dccppthrottle.ui.decoder.modelldepo
 
 import ru.aleksandr.dccppthrottle.ui.decoder.CvListModel
 
-val cvs = (165 .. 224).toList().toIntArray()
-
-class Sw2MappingViewModel: CvListModel(*cvs) {}
+class Sw2MappingViewModel: CvListModel(
+    *(165 .. 224).toList().toIntArray()
+) {}

@@ -371,10 +371,13 @@
     <string name="label_xp5_key_x">Key %s</string>
     <string name="label_xp5_simple_key_cv">The value written to CV %d in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
     <!-- Modelldepo SmartWagon2 -->
-    <string name="label_sw2_key_x_pressed">Key %s pressed</string>
+    <string name="label_sw2_key_x_on">Key %s is on</string>
     <string name="label_sw2_mapping_key_desc">Enabled channels when this conditions</string> <!-- Включенные каналы для данного состояния -->
     <string name="label_sw2_forward_cv_x">Forward (CV%d)</string>
     <string name="label_sw2_reverse_cv_x">Reverse (CV%d)</string>
+    <string name="label_sw2_day_brightness">Day (max) brightness</string>
+    <string name="label_sw2_night_brightness">Night brightness</string>
+    <string name="label_sw2_fade_speed">Fade in/out speed</string>
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

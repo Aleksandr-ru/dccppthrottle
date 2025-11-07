@@ -48,7 +48,7 @@ class Sw2MappingKeyFragment() : Fragment() {
         val outputNames = resources.getStringArray(R.array.sw2_outputs)
 
         view.findViewById<TextView>(R.id.textViewTitle)?.text = if (keyIndex > 1)
-            getString(R.string.label_sw2_key_x_pressed, keyNames[keyIndex])
+            getString(R.string.label_sw2_key_x_on, keyNames[keyIndex])
         else
             keyNames[keyIndex]
 

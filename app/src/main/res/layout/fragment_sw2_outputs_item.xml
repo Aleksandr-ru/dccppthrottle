@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textOutput"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Output A1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <Spinner
+        android:id="@+id/spinnerEffect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/label_sw2_day_brightness"/>
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusDayBrightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_margin"
+        app:max="128"
+        app:min="0"
+        app:nullable="false" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/label_sw2_night_brightness"/>
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusNightBrightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_margin"
+        app:max="128"
+        app:min="0"
+        app:nullable="false" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/label_sw2_fade_speed"/>
+    <ru.aleksandr.dccppthrottle.view.PlusMinusView
+        style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+        android:id="@+id/plusminusFadeSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/text_margin"
+        app:max="64"
+        app:min="1"
+        app:nullable="false" />
+</LinearLayout>
