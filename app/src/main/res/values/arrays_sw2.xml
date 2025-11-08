@@ -50,4 +50,27 @@
         <item>F11</item>
         <item>F12</item>
     </string-array>
+
+    <!-- Settings -->
+
+    <string-array name="sw2_conf_tabs">
+        <item>Configuration</item>
+        <item>Mode 1</item>
+        <item>Mode 2</item>
+        <item>Mode 3</item>
+        <item>Mode 4</item>
+        <item>Mode 5</item>
+    </string-array>
+
+    <string-array name="sw2_cv29_bits">
+        <item>Opposite direction of travel</item> <!-- Реверсивное направление движения -->
+        <item>28/128 speed steps</item> <!-- Формат команд 28/128 Speed Step -->
+        <item></item>
+        <item>RailCom enabled</item> <!-- Разрешение работы RailCom -->
+        <item></item>
+        <item>Long address (CV 17/18)</item> <!--  -->
+        <item></item>
+        <item></item>
+    </string-array>
+
 </resources>

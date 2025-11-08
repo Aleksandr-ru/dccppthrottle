@@ -378,6 +378,8 @@
     <string name="label_sw2_day_brightness">Day (max) brightness</string>
     <string name="label_sw2_night_brightness">Night brightness</string>
     <string name="label_sw2_fade_speed">Fade in/out speed</string>
+    <string name="label_sw2_cv29">CV29</string>
+    <string name="label_sw2_cv29_desc">Direction bit is used in Function mapping</string> <!-- Бит направления используется в Function mapping -->
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

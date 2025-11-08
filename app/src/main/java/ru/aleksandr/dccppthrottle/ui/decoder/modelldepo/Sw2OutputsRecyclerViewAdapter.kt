@@ -31,12 +31,6 @@ class Sw2OutputsRecyclerViewAdapter(
         val dayBrightnessView: PlusMinusView = binding.plusminusDayBrightness
         val nightBrightnessView: PlusMinusView = binding.plusminusNightBrightness
         val fadeSpeedView: PlusMinusView = binding.plusminusFadeSpeed
-
-        init {
-           binding.root.setOnClickListener {
-//                model.editRow(bindingAdapterPosition)
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(

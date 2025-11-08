@@ -15,6 +15,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.esu.Lp5OutputsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.esu.Lp5SettingsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.modelldepo.Sw2MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.modelldepo.Sw2OutputsFragment
+import ru.aleksandr.dccppthrottle.ui.decoder.modelldepo.Sw2SettingsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp4MappingFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp4OutputsFragment
 import ru.aleksandr.dccppthrottle.ui.decoder.piko.Xp4SettingsFragment
@@ -50,9 +51,10 @@ class DecoderActivity : AwakeActivity() {
                     title = getString(R.string.title_fragment_sw2_outputs)
                     Sw2OutputsFragment.newInstance()
                 }
-//                R.id.action_sw2_settings -> {
-//                    title = getString(R.string.title_fragment_sw2_settings)
-//                }
+                R.id.action_sw2_settings -> {
+                    title = getString(R.string.title_fragment_sw2_settings)
+                    Sw2SettingsFragment.newInstance()
+                }
                 R.id.action_xp4_mapping_simple -> {
                     title = getString(R.string.title_fragment_xp4_mapping_simple)
                     Xp4SimpleMappingFragment.newInstance()
