@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<resources>
+    <string name="label_time_from_to_sec_xx">Время от %.2f до %.2f секунд</string>
+
+    <!-- Modelldepo SmartWagon2 -->
+    <string name="label_sw2_key_x_on">Кнопка %s включена</string>
+    <string name="label_sw2_mapping_key_desc">Включенные каналы для данного состояния</string>
+    <string name="label_sw2_forward_cv_x">Вперед (CV%d)</string>
+    <string name="label_sw2_reverse_cv_x">Назад (CV%d)</string>
+    <string name="label_sw2_effect_cv_x">Световой эффект (CV%d)</string>
+    <string name="label_sw2_day_brightness_cv_x">Дневаня (максимальная) яркость (CV%d, игнорируется для эффекта \"Continues current\")</string>
+    <string name="label_sw2_night_brightness_cv_x">Вечерняя яркость (CV%d, должно быть меньше значения для дневной яркости)</string>
+    <string name="label_sw2_fade_speed_cv_x">Скорость изменения яркости (CV%d, только для эффекта \"Плавное включение/выключение\")</string>
+    <string name="label_sw2_cv_x">CV%d</string>
+    <string name="label_sw2_cv29">CV29</string>
+    <string name="label_sw2_cv29_desc">Бит направления используется в Function mapping</string>
+    <string name="label_sw2_mode_desc">
+        Декодер SmartWagon2 имеет 5 режимов имитации присутствия пассажиров, каждый из которых включается одной кнопкой, их настройка идентична.
+        \n\nЕсли нажаты сразу несколько функциональных кнопок, включающих разные режимы, то будет выбран режим, включенный последним.
+    </string>
+    <string name="label_sw2_cv_mode_key_x">Функциональная кнопка, включающая режим (CV%d)</string>
+    <string name="label_sw2_mode_channels_before">
+        Каналы, управляемые режимом
+        \n\nЧтобы автоматическое управление стало возможным - канал должен быть предварительно включен соответствующим битом в карте выходов.
+    </string>
+    <string name="label_sw2_mode_channels_after">Выкл – запрещает автоматическое управление. При этом канал управляется вручную в соответствии с картой выходов.</string>
+    <string name="label_sw2_mode_brightness_x">Яркость и способ перехода (CV%d)</string>
+    <string name="label_sw2_mode_num_ch_x">Количество каналов (CV%d)</string>
+    <string name="label_sw2_mode_num_ch_desc">Количество каналов из числа управляемых этим режимом находящихся во включенном состоянии</string>
+    <string name="label_sw2_mode_timer_x">Таймер режима (CV%d)</string>
+    <string name="label_sw2_mode_timer_desc">Оопределяет интервалы между включениями/выключениями каналов. Для реалистичности интервалы будут иметь случайный разброс.</string>
+
+</resources>

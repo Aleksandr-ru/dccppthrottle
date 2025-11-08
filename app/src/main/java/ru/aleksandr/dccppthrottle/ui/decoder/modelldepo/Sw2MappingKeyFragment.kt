@@ -81,7 +81,7 @@ class Sw2MappingKeyFragment() : Fragment() {
 
 
         view.findViewById<TextView>(R.id.textViewReverseCv1).text =
-            getString(R.string.label_sw2_forward_cv_x, cv + 2)
+            getString(R.string.label_sw2_reverse_cv_x, cv + 2)
 
         view.findViewById<ByteSwitchView>(R.id.byteReverseCv1)?.apply {
 //            outputNames.slice(0 .. 7).withIndex().forEach {
@@ -94,7 +94,7 @@ class Sw2MappingKeyFragment() : Fragment() {
         }
 
         view.findViewById<TextView>(R.id.textViewReverseCv2).text =
-            getString(R.string.label_sw2_forward_cv_x, cv + 3)
+            getString(R.string.label_sw2_reverse_cv_x, cv + 3)
 
         view.findViewById<ByteSwitchView>(R.id.byteReverseCv2)?.apply {
             outputNames.slice(8 .. 12).withIndex().forEach {

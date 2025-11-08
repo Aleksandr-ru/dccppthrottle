@@ -98,7 +98,7 @@ class Sw2SettingsModeFragment() : Fragment() {
             model.liveCvValue(cvs[Sw2SettingsViewModel.CV_INDEX_CHANNELS1]).observe(viewLifecycleOwner) { value = it }
         }
 
-        view.findViewById<ByteSwitchView>(R.id.byteModeChCv1)?.apply {
+        view.findViewById<ByteSwitchView>(R.id.byteModeChCv2)?.apply {
             outputNames.slice(8 .. 12).withIndex().forEach {
                 setBitText(it.index, it.value)
             }
@@ -109,7 +109,7 @@ class Sw2SettingsModeFragment() : Fragment() {
         }
 
 
-        view.findViewById<TextView>(R.id.textModeChCv2).text =
+        view.findViewById<TextView>(R.id.textBrightness).text =
             getString(R.string.label_sw2_mode_brightness_x, cvs[Sw2SettingsViewModel.CV_INDEX_BRIGHTNESS])
 
         view.findViewById<ByteSwitchView>(R.id.byteModeBrightnessCv)?.apply {

@@ -11,32 +11,32 @@
     <string-array name="sw2_outputs">
         <item>HL1</item> <!-- 1 -->
         <item>HL2</item> <!-- 2 -->
-        <item>Channel 3</item>
-        <item>Channel 4</item>
-        <item>Channel 5</item>
-        <item>Channel 6</item>
-        <item>Channel 7</item>
-        <item>Channel 8</item>
-        <item>Channel 9</item>
-        <item>Channel 10</item>
-        <item>Channel 11</item>
-        <item>Channel 12</item>
+        <item>Канал 3</item>
+        <item>Канал 4</item>
+        <item>Канал 5</item>
+        <item>Канал 6</item>
+        <item>Канал 7</item>
+        <item>Канал 8</item>
+        <item>Канал 9</item>
+        <item>Канал 10</item>
+        <item>Канал 11</item>
+        <item>Канал 12</item>
         <item>AUX1</item> <!-- 13 -->
     </string-array>
 
     <string-array name="sw2_output_effects">
         <!-- format: <cv_value>: <name> -->
-        <item>0: Continues current</item> <!-- 0 - Эффекты выключены. Continues current -->
-        <item>1: Adjustable brightness</item> <!-- 1 – continues с регулировкой напряжения (яркости) -->
-        <item>5: Fade in/out</item> <!-- 5 – плавное включение/выключение с регулировкой яркости (CV31). -->
-        <item>55: Fluorescent lamp</item> <!-- 55 – люминесцентная лампа -->
+        <item>0: Эффекты выключены. Continues current</item>
+        <item>1: Continues с регулировкой яркости</item>
+        <item>5: Плавное включение/выключение</item>
+        <item>55: Kюминесцентная лампа</item>
     </string-array>
 
     <!-- Function mapping -->
 
     <string-array name="sw2_mapping_keys">
-        <item>Stopped</item>
-        <item>Moving</item>
+        <item>Стоим</item>
+        <item>Едем</item>
         <item>F0</item>
         <item>F1</item>
         <item>F2</item>
@@ -55,19 +55,19 @@
     <!-- Settings -->
 
     <string-array name="sw2_conf_tabs">
-        <item>Configuration</item>
-        <item>Mode 1</item>
-        <item>Mode 2</item>
-        <item>Mode 3</item>
-        <item>Mode 4</item>
-        <item>Mode 5</item>
+        <item>Конфигурация</item>
+        <item>Режим 1</item>
+        <item>Режим 2</item>
+        <item>Режим 3</item>
+        <item>Режим 4</item>
+        <item>Режим 5</item>
     </string-array>
 
     <string-array name="sw2_cv29_bits">
-        <item>Opposite direction of travel</item> <!-- Реверсивное направление движения -->
-        <item>28/128 speed steps</item> <!-- Формат команд 28/128 Speed Step -->
+        <item>Реверсивное направление движения</item>
+        <item>Формат команд 28/128 Speed Step</item>
         <item></item>
-        <item>RailCom enabled</item> <!-- Разрешение работы RailCom -->
+        <item>Разрешение работы RailCom</item>
         <item></item>
         <item>Long address (CV 17/18)</item> <!--  -->
         <item></item>
@@ -75,7 +75,7 @@
     </string-array>
 
     <string-array name="sw2_mode_keys">
-        <item>Disabled</item>
+        <item>Режим не используется</item>
         <item>F1</item>
         <item>F2</item>
         <item>F3</item>
@@ -91,8 +91,8 @@
     </string-array>
 
     <string-array name="sw2_mode_brightness_bits">
-        <item>Day brightness (off = night)</item>
-        <item>Do not use timer</item>
+        <item>Дневное освещение (выкл = вечернее)</item>
+        <item>Изменение яркости каналов без таймера</item>
         <item></item>
         <item></item>
         <item></item>
@@ -100,5 +100,4 @@
         <item></item>
         <item></item>
     </string-array>
-
 </resources>

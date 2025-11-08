@@ -101,6 +101,7 @@
             android:text="@string/label_sw2_mode_channels_after" />
 
         <TextView
+            android:id="@+id/textBrightness"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
