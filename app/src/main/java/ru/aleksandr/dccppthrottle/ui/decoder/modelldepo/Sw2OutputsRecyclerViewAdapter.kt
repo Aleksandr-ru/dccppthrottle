@@ -27,9 +27,13 @@ class Sw2OutputsRecyclerViewAdapter(
 
     inner class ViewHolder(binding: FragmentSw2OutputsItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val outputView: TextView = binding.textOutput
+        val effectText: TextView = binding.textEffect
         val effectView: Spinner = binding.spinnerEffect
+        val dayRightnessText: TextView = binding.textDayBrightness
         val dayBrightnessView: PlusMinusView = binding.plusminusDayBrightness
+        val nightBrightnessText: TextView = binding.textNightBrightness
         val nightBrightnessView: PlusMinusView = binding.plusminusNightBrightness
+        val fadeSpeedText: TextView = binding.textFadeSpeed
         val fadeSpeedView: PlusMinusView = binding.plusminusFadeSpeed
     }
 
@@ -52,6 +56,7 @@ class Sw2OutputsRecyclerViewAdapter(
 
             effectView.apply {
                 val cv = 30 + position
+                effectText.text = context.getString(R.string.label_sw2_effect_cv_x, cv)
 
                 adapter = ArrayAdapter(
                     context,
@@ -79,6 +84,8 @@ class Sw2OutputsRecyclerViewAdapter(
 
             dayBrightnessView.apply {
                 val cv = 46 + position
+                dayRightnessText.text = context.getString(R.string.label_sw2_day_brightness_cv_x, cv)
+
                 setOnChangeListener {
                     if (it !== null) {
                         model.setCvValue(cv, it)
@@ -89,6 +96,8 @@ class Sw2OutputsRecyclerViewAdapter(
 
             nightBrightnessView.apply {
                 val cv = 62 + position
+                nightBrightnessText.text = context.getString(R.string.label_sw2_night_brightness_cv_x, cv)
+
                 setOnChangeListener {
                     if (it !== null) {
                         model.setCvValue(cv, it)
@@ -99,6 +108,8 @@ class Sw2OutputsRecyclerViewAdapter(
 
             fadeSpeedView.apply {
                 val cv = 78 + position
+                fadeSpeedText.text = context.getString(R.string.label_sw2_fade_speed_cv_x, cv)
+
                 setOnChangeListener {
                     if (it !== null) {
                         model.setCvValue(cv, it)

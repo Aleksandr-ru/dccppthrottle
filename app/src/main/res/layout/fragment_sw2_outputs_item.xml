@@ -10,68 +10,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/text_margin">
 
     <TextView
         android:id="@+id/textOutput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Output A1"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+    <TextView
+        android:id="@+id/textEffect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_sw2_effect_cv_x"/>
     <Spinner
         android:id="@+id/spinnerEffect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin" />
+        android:layout_marginTop="@dimen/text_margin" />
 
     <TextView
+        android:id="@+id/textDayBrightness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/label_sw2_day_brightness"/>
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_sw2_day_brightness_cv_x" />
     <ru.aleksandr.dccppthrottle.view.PlusMinusView
         style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
         android:id="@+id/plusminusDayBrightness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
         app:max="128"
         app:min="0"
         app:nullable="false" />
 
     <TextView
+        android:id="@+id/textNightBrightness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/label_sw2_night_brightness"/>
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_sw2_night_brightness_cv_x"/>
     <ru.aleksandr.dccppthrottle.view.PlusMinusView
         style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
         android:id="@+id/plusminusNightBrightness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
         app:max="128"
         app:min="0"
         app:nullable="false" />
 
     <TextView
+        android:id="@+id/textFadeSpeed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/label_sw2_fade_speed"/>
+        android:layout_marginTop="@dimen/text_margin"
+        android:text="@string/label_sw2_fade_speed_cv_x"/>
     <ru.aleksandr.dccppthrottle.view.PlusMinusView
         style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
         android:id="@+id/plusminusFadeSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
         app:max="64"
         app:min="1"
         app:nullable="false" />

@@ -376,9 +376,10 @@
     <string name="label_sw2_mapping_key_desc">Enabled channels when this conditions</string> <!-- Включенные каналы для данного состояния -->
     <string name="label_sw2_forward_cv_x">Forward (CV%d)</string>
     <string name="label_sw2_reverse_cv_x">Reverse (CV%d)</string>
-    <string name="label_sw2_day_brightness">Day (max) brightness</string>
-    <string name="label_sw2_night_brightness">Night brightness</string>
-    <string name="label_sw2_fade_speed">Fade in/out speed</string>
+    <string name="label_sw2_effect_cv_x">Lighting effect (CV%d)</string>
+    <string name="label_sw2_day_brightness_cv_x">Day (max) brightness (CV%d, ignored for \"Continues current\" effect)</string>
+    <string name="label_sw2_night_brightness_cv_x">Night brightness (CV%d, must be lower than day brightness)</string>
+    <string name="label_sw2_fade_speed_cv_x">Fade in/out speed (CV%d)</string>
     <string name="label_sw2_cv_x">CV%d</string>
     <string name="label_sw2_cv29">CV29</string>
     <string name="label_sw2_cv29_desc">Direction bit is used in Function mapping</string> <!-- Бит направления используется в Function mapping -->
