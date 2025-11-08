@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2025. Aleksandr.ru
+  ~ @link http://aleksandr.ru
+  ~
+  ~ If you're using this code, please keep above information.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mode 1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_desc" />
+
+
+        <TextView
+            android:id="@+id/textCvModeKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_cv_mode_key_x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <Spinner
+            android:id="@+id/spinnerCvModeKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_channels_before"/>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin">
+            <TableRow>
+                <TextView
+                    android:id="@+id/textModeChCv1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_sw2_cv_x"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:id="@+id/textModeChCv2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/label_sw2_cv_x"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </TableRow>
+            <TableRow
+                android:layout_marginTop="@dimen/text_margin">
+                <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+                    android:id="@+id/byteModeChCv1"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal"
+                    app:stringArray="@array/sw2_outputs" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/listDivider" />
+
+                <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+                    android:id="@+id/byteModeChCv2"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/text_margin"
+                    android:layout_gravity="center_horizontal"
+                    app:hiddenBits="224" />
+            </TableRow>
+        </TableLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_channels_after" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_brightness_x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.ByteSwitchView
+            android:id="@+id/byteModeBrightnessCv"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center_horizontal"
+            app:stringArray="@array/sw2_mode_brightness_bits"
+            app:hiddenBits="252" />
+
+        <TextView
+            android:id="@+id/textNumCh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_num_ch_x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusNumChCv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="13"
+            app:min="0"
+            app:nullable="false" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_num_ch_desc" />
+
+        <TextView
+            android:id="@+id/textModeTimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_timer_x"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_sw2_mode_timer_desc" />
+        <ru.aleksandr.dccppthrottle.view.PlusMinusView
+            style="@style/Widget.Theme.DCCppThrottle.PlusMinusView"
+            android:id="@+id/plusminusModeTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/text_margin"
+            app:max="255"
+            app:min="0"
+            app:nullable="false" />
+        <TextView
+            android:id="@+id/textModeTimerDelay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_gravity="center"
+            android:text="@string/label_time_from_to_sec_xx"/>
+    </LinearLayout>
+</ScrollView>

@@ -159,6 +159,7 @@
     <string name="label_outputs">Outputs</string>
     <string name="label_setup">Setup</string>
     <string name="label_time_x_sec">Time = %.3f seconds</string>
+    <string name="label_time_from_to_sec_xx">Time from %.2f to %.2f seconds</string>
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
     <string name="label_lp5_row_x">Row %d</string>
@@ -378,8 +379,28 @@
     <string name="label_sw2_day_brightness">Day (max) brightness</string>
     <string name="label_sw2_night_brightness">Night brightness</string>
     <string name="label_sw2_fade_speed">Fade in/out speed</string>
+    <string name="label_sw2_cv_x">CV%d</string>
     <string name="label_sw2_cv29">CV29</string>
     <string name="label_sw2_cv29_desc">Direction bit is used in Function mapping</string> <!-- Бит направления используется в Function mapping -->
+    <string name="label_sw2_mode_desc">
+        The SmartWagon2 decoder has 5 modes of passenger presence simulation, each activated by a function key, and settings are identical.
+        \n\nIf several function keys for different modes activated simultaneously, the most recent mode will be selected.
+    <!--    Декодер SmartWagon2 имеет 5 режимов имитации присутствия пассажиров, каждый из которых включается одной кнопкой, их настройка идентична.
+        \n\nЕсли нажаты сразу несколько функциональных кнопок, включающих разные режимы, то будет выбран режим, включенный последним. -->
+    </string>
+    <string name="label_sw2_cv_mode_key_x">Function key to turn on the mode (CV%d)</string> <!-- Функциональная кнопка, включающая режим -->
+    <string name="label_sw2_mode_channels_before">
+        Channels controlled by the mode
+        \n\nFor automatic control the channel must be initially enabled by the corresponding bit in Function mapping.
+    <!--    Каналы, управляемые режимом
+        \n\nЧтобы автоматическое управление стало возможным - канал должен быть предварительно включен соответствующим битом в карте выходов.-->
+    </string>
+    <string name="label_sw2_mode_channels_after">Нуль – запрещает. При этом канал управляется вручную в соответствии с картой выходов.</string>
+    <string name="label_sw2_mode_brightness_x">Brightness and transition (CV%d)</string> <!-- Яркость и способ перехода -->
+    <string name="label_sw2_mode_num_ch_x">Number of channels (CV%d)</string> <!-- Количество каналов -->
+    <string name="label_sw2_mode_num_ch_desc">Number of channels controlled by the mode which are in On state simultaneously</string> <!-- Количество каналов из числа управляемых этим режимом находящихся во включенном состоянии -->
+    <string name="label_sw2_mode_timer_x">Mode timer (CV%d)</string> <!-- Таймер режима -->
+    <string name="label_sw2_mode_timer_desc">Determines intervals between channels On and Off state. To be more realistic, interval has a random spread.</string> <!-- определяет интервалы между включениями/выключениями каналов. Для реалистичности интервалы будут иметь случайный разброс -->
 
     <string name="placeholder_route_name">Enter route name</string>
     <string name="placeholder_no_value">No value</string>

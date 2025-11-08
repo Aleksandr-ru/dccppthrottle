@@ -25,6 +25,13 @@ class Sw2SettingsViewModel: CvListModel(
             listOf(150, 151, 152, 154, 155, 156)
         )
 
+        const val CV_INDEX_MODEKEY = 0
+        const val CV_INDEX_CHANNELS1 = 1
+        const val CV_INDEX_CHANNELS2 = 2
+        const val CV_INDEX_BRIGHTNESS = 3
+        const val CV_INDEX_NUM_CH = 4
+        const val CV_INDEX_TIMER = 5
+
         const val UNIT_420MSEC = 0.420
     }
 }

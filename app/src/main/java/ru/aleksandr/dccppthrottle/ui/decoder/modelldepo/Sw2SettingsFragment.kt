@@ -22,7 +22,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
-import ru.aleksandr.dccppthrottle.ui.decoder.WipFragment
 
 
 class Sw2SettingsFragment : DecoderFragment() {
@@ -108,7 +107,7 @@ class Sw2SettingsFragment : DecoderFragment() {
 
         override fun createFragment(position: Int) = when(position) {
             0 -> Sw2SettingConfFragment()
-            else -> WipFragment()
+            else -> Sw2SettingsModeFragment.newInstance(position - 1)
         }
     }
 }

@@ -73,4 +73,31 @@
         <item></item>
     </string-array>
 
+    <string-array name="sw2_mode_keys">
+        <item>Disabled</item>
+        <item>F1</item>
+        <item>F2</item>
+        <item>F3</item>
+        <item>F4</item>
+        <item>F5</item>
+        <item>F6</item>
+        <item>F7</item>
+        <item>F8</item>
+        <item>F9</item>
+        <item>F10</item>
+        <item>F11</item>
+        <item>F12</item>
+    </string-array>
+
+    <string-array name="sw2_mode_brightness_bits">
+        <item>Day brightness (off = night)</item> <!-- дневное освещение -->
+        <item>Do not use times</item> <!-- каналы переключаются на заданную битом 0 яркость сразу без таймера -->
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
+
 </resources>
