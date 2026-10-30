@@ -7,159 +7,143 @@
 
 package ru.aleksandr.dccppthrottle.ui.locomotives
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.ProgressBar
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
-import ru.aleksandr.dccppthrottle.cs.CommandStation
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.LocoCabActivity
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.Utility.remap
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.store.LocomotivesStore
-import ru.aleksandr.dccppthrottle.store.LocomotivesStore.LocomotiveState
-import kotlin.math.roundToInt
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListItemBinding as FragmentLocoBinding
 
-class LocoRecyclerViewAdapter(
+internal object LocoListDiff : DiffUtil.ItemCallback<LocoListItem>() {
+    override fun areItemsTheSame(oldItem: LocoListItem, newItem: LocoListItem) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: LocoListItem, newItem: LocoListItem) = oldItem == newItem
+    override fun getChangePayload(oldItem: LocoListItem, newItem: LocoListItem) = newItem.changesFrom(oldItem)
+}
+
+internal class LocoRecyclerViewAdapter(
     private val fragmentManager: FragmentManager
-) : RecyclerView.Adapter<LocoRecyclerViewAdapter.ViewHolder>() {
-    private var values: List<LocomotiveState> = listOf()
-
-    fun replaceValues(newValues: List<LocomotiveState>) {
-        values = newValues
-        // notifyDataSetChanged()
-        // Cannot call this method while RecyclerView is computing a layout or scrolling
+) : ListAdapter<LocoListItem, LocoRecyclerViewAdapter.ViewHolder>(LocoListDiff) {
+    init {
+        setHasStableIds(true)
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            FragmentLocoBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-    }
+    override fun getItemId(position: Int) = getItem(position).id
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
+        FragmentLocoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
+        holder.bind(getItem(position), LocoListItem.ALL)
+    }
 
-        if (item.slot > 0) {
-            holder.itemView.alpha = 1F
-            holder.switch.isChecked = true
-            holder.switch.isEnabled = true
-            holder.slot.text = "#" + item.slot
-        }
-        else {
-            holder.itemView.alpha = 0.5F
-            holder.switch.isChecked = false
-            holder.switch.isEnabled = LocomotivesStore.hasFreeSlots()
-            holder.slot.text = ""
-        }
-        holder.title.text = item.toString()
-        holder.address.text = holder.itemView.context.getString(R.string.dcc_addr, item.address)
-        holder.progress.progress =
-            if (item.speed == 0) 0
-            else remap(
-                item.speed.toFloat(),
-                item.minSpeed.toFloat(),
-                item.maxSpeed.toFloat(),
-                1F,
-                100F
-            ).roundToInt()
-
-        if (item.speed > 0) {
-            if (item.reverse) {
-                holder.direction.text = holder.itemView.context.getString(R.string.speed_rev, item.speed)
-            }
-            else {
-                holder.direction.text = holder.itemView.context.getString(R.string.speed_fwd, item.speed)
-            }
-        }
-        else {
-            holder.direction.text = holder.itemView.context.getString(R.string.speed_stop)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty() || payloads.any { it !is Int }) {
+            onBindViewHolder(holder, position)
+        } else {
+            holder.bind(getItem(position), payloads.fold(0) { changes, payload -> changes or (payload as Int) })
         }
     }
 
-    override fun getItemCount(): Int = values.size
+    inner class ViewHolder(private val binding: FragmentLocoBinding) : RecyclerView.ViewHolder(binding.root) {
+        private var boundId: Long = RecyclerView.NO_ID
+        private var popupTargetId: Long = RecyclerView.NO_ID
 
-    inner class ViewHolder(binding: FragmentLocoBinding) : RecyclerView.ViewHolder(binding.root) {
-        val switch: Switch = binding.swAssigned
-        val slot: TextView = binding.itemSlot
-        val title: TextView = binding.itemTitle
-        val address: TextView = binding.itemAddr
-        val progress: ProgressBar = binding.progressBar
-        val direction: TextView = binding.itemDir
+        fun bind(item: LocoListItem, changes: Int) {
+            boundId = item.id
+            if (changes and LocoListItem.DETAILS != 0) {
+                binding.itemTitle.text = item.title
+                binding.itemAddr.text = itemView.context.getString(R.string.dcc_addr, item.address)
+            }
+            if (changes and LocoListItem.ASSIGNMENT != 0) {
+                itemView.alpha = if (item.slot > 0) 1F else 0.5F
+                binding.swAssigned.isChecked = item.slot > 0
+                binding.swAssigned.isEnabled = item.assignmentEnabled
+                binding.itemSlot.text = if (item.slot > 0) "#${item.slot}" else ""
+            }
+            if (changes and LocoListItem.MOVEMENT != 0) {
+                binding.progressBar.progress = item.progress
+                binding.itemDir.text = itemView.context.getString(
+                    when {
+                        item.speed <= 0 -> R.string.speed_stop
+                        item.reverse -> R.string.speed_rev
+                        else -> R.string.speed_fwd
+                    }, item.speed
+                )
+            }
+        }
 
         init {
             itemView.setOnClickListener {
-                val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
-                if (slot > 0) LocoCabActivity.start(it.context, slot)
+                val index = LocomotivesStore.getIndexById(boundId)
+                if (index >= 0) {
+                    val slot = LocomotivesStore.getSlot(index)
+                    if (slot > 0) LocoCabActivity.start(it.context, slot)
+                }
             }
 
             val popup = PopupMenu(itemView.context, itemView)
             popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener { menuItem ->
+                val index = LocomotivesStore.getIndexById(popupTargetId)
+                if (index < 0) return@setOnMenuItemClickListener false
                 when (menuItem.itemId) {
                     R.id.action_context_edit -> {
-                        LocomotiveDialog.storeIndex = bindingAdapterPosition
+                        LocomotiveDialog.storeIndex = index
                         LocomotiveDialog().show(fragmentManager, LocomotiveDialog.TAG)
                         true
                     }
                     R.id.action_context_delete -> {
-                        val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
+                        val slot = LocomotivesStore.getSlot(index)
                         if (slot > 0) {
                             CommandStation.stopLocomotive(slot)
                             CommandStation.unassignLoco(slot)
-                            LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                            LocomotivesStore.assignToSlot(index, 0)
                         }
-                        LocomotivesStore.remove(bindingAdapterPosition)
+                        val currentIndex = LocomotivesStore.getIndexById(popupTargetId)
+                        if (currentIndex >= 0) LocomotivesStore.remove(currentIndex)
                         true
                     }
                     else -> false
                 }
             }
-
             itemView.setOnLongClickListener {
+                popupTargetId = boundId
                 popup.show()
                 true
             }
 
-            switch.setOnCheckedChangeListener { sw, isChecked ->
-                if (sw.isPressed) {
-                    if (isChecked) {
-                        try {
-                            val slot = LocomotivesStore.assignToSlot(bindingAdapterPosition)
-                            CommandStation.stopLocomotive(slot)
-                        }
-                        catch (ex : LocomotivesStore.LocomotiveNoSlotsAvailableException) {
-                            Toast.makeText(sw.context, R.string.message_no_slots, Toast.LENGTH_SHORT).show()
-                            sw.isChecked = false
-                        }
-                        catch (ex : LocomotivesStore.LocomotiveAddressInUseException) {
-                            Toast.makeText(sw.context, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
-                            sw.isChecked = false
-                        }
-                    }
-                    else {
-                        val slot = LocomotivesStore.getSlot(bindingAdapterPosition)
+            // A programmatic rebind must never send commands, including while pressed.
+            binding.swAssigned.setOnClickListener {
+                val index = LocomotivesStore.getIndexById(boundId)
+                if (index < 0) return@setOnClickListener
+                if (binding.swAssigned.isChecked) {
+                    try {
+                        val slot = LocomotivesStore.assignToSlot(index)
                         CommandStation.stopLocomotive(slot)
-                        CommandStation.unassignLoco(slot)
-                        LocomotivesStore.assignToSlot(bindingAdapterPosition, 0)
+                    } catch (ex: LocomotivesStore.LocomotiveNoSlotsAvailableException) {
+                        Toast.makeText(it.context, R.string.message_no_slots, Toast.LENGTH_SHORT).show()
+                        binding.swAssigned.isChecked = false
+                    } catch (ex: LocomotivesStore.LocomotiveAddressInUseException) {
+                        Toast.makeText(it.context, R.string.message_address_in_use, Toast.LENGTH_SHORT).show()
+                        binding.swAssigned.isChecked = false
                     }
+                } else {
+                    val slot = LocomotivesStore.getSlot(index)
+                    CommandStation.stopLocomotive(slot)
+                    CommandStation.unassignLoco(slot)
+                    LocomotivesStore.assignToSlot(index, 0)
                 }
             }
         }
-
-        override fun toString(): String {
-            return super.toString() + " '" + title.text + "'"
-        }
     }
-
 }
