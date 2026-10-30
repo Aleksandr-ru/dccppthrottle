@@ -27,6 +27,7 @@ Detailed hardware setup guide in [English](https://aleksandr-ru.translate.goog/b
 ### Decoder helper: settings and mapping
 
 - ESU LokPilot 5
+- Modelldepo SmartWagon 2
 - Uhlenbrock IntelliDrive 2
 - Piko SmartDecoder XP 4.1
 - Piko SmartDecoder XP 5.1
