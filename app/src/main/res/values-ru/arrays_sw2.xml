@@ -29,7 +29,7 @@
         <item>0: Эффекты выключены. Continues current</item>
         <item>1: Continues с регулировкой яркости</item>
         <item>5: Плавное включение/выключение</item>
-        <item>55: Kюминесцентная лампа</item>
+        <item>55: Люминесцентная лампа</item>
     </string-array>
 
     <!-- Function mapping -->
