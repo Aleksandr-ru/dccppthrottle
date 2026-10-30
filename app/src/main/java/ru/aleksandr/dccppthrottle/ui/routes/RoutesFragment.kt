@@ -12,17 +12,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
 import ru.aleksandr.dccppthrottle.BuildConfig
+import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.databinding.FragmentRoutesBinding
 import ru.aleksandr.dccppthrottle.dialogs.RouteAddDialog
+import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RoutesFragment : Fragment() {
 
     private var _binding: FragmentRoutesBinding? = null
+    private var routeJob: Job? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,7 +55,7 @@ class RoutesFragment : Fragment() {
         }
 
         if (view is RecyclerView) {
-            val rvAdapter = RoutesRecyclerViewAdapter(parentFragmentManager)
+            val rvAdapter = RoutesRecyclerViewAdapter(::runRoute)
             RoutesStore.data.observe(viewLifecycleOwner) {
                 rvAdapter.replaceValues(it)
                 if (!view.isComputingLayout) {
@@ -71,7 +80,45 @@ class RoutesFragment : Fragment() {
         return root
     }
 
+    private fun runRoute(position: Int) {
+        if (!viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
+        val route = RoutesStore.data.value?.getOrNull(position) ?: return
+        // Keep this run independent of subsequent edits to the route's mutable list.
+        val accessories = route.accessories.map { it.copy() }
+        routeJob?.cancel()
+        routeJob = viewLifecycleOwner.lifecycleScope.launch {
+            val dialog = ProgressDialog(requireContext()).apply {
+                setTitle(route.title)
+                setMax(accessories.size)
+                setNegativeButton(android.R.string.cancel) { _, _ -> routeJob?.cancel() }
+            }
+            try {
+                dialog.show()
+                accessories.forEach { acc ->
+                    ensureActive()
+                    dialog.setMessage(acc.toString())
+                    CommandStation.setAccessoryState(acc.address, acc.isOn)
+                    dialog.incrementProgress()
+                    delay(acc.delay.toLong())
+                }
+            } finally {
+                dialog.dismiss()
+            }
+        }
+    }
+
+    override fun onPause() {
+        // ViewPager2 pauses this fragment when another tab becomes selected,
+        // even though its view and lifecycleScope may remain alive.
+        routeJob?.cancel()
+        routeJob = null
+        super.onPause()
+    }
+
     override fun onDestroyView() {
+        routeJob?.cancel()
+        routeJob = null
+        binding.listRoutes.adapter = null
         super.onDestroyView()
         _binding = null
     }

@@ -12,18 +12,14 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.*
-import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.RouteEditorActivity
 import ru.aleksandr.dccppthrottle.databinding.FragmentRouteListItemBinding
-import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RoutesRecyclerViewAdapter(
-    private val fragmentManager: FragmentManager
+    private val onRunRoute: (Int) -> Unit
 ) : RecyclerView.Adapter<RoutesRecyclerViewAdapter.ViewHolder>() {
     private var values: List<RoutesStore.RouteState> = listOf()
 
@@ -67,28 +63,9 @@ class RoutesRecyclerViewAdapter(
                 RouteEditorActivity.start(it.context, bindingAdapterPosition)
             }
 
-            button.setOnClickListener { btn ->
-                val title = RoutesStore.data.value!![bindingAdapterPosition].title
-                val accessories = RoutesStore.data.value!![bindingAdapterPosition].accessories
-                var job: Job? = null
-                val dialog = ProgressDialog(itemView.context).apply {
-                    setTitle(title)
-                    setMax(accessories.size)
-                    setNegativeButton(android.R.string.cancel) { _, _ -> job?.cancel() }
-                    show()
-                }
-
-                job = GlobalScope.launch {
-                    accessories.forEach { acc ->
-                        // java.lang.IllegalStateException: Cannot invoke setValue on a background thread
-                        // https://stackoverflow.com/a/60126585
-                        dialog.setMessage(acc.toString())
-                        dialog.incrementProgress()
-                        CommandStation.setAccessoryState(acc.address, acc.isOn)
-                        delay(acc.delay.toLong())
-                    }
-                    dialog.dismiss()
-                }
+            button.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) onRunRoute(position)
             }
 
             val popup = PopupMenu(itemView.context, itemView)
