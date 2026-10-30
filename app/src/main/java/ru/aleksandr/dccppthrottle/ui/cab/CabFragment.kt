@@ -8,10 +8,10 @@
 package ru.aleksandr.dccppthrottle.ui.cab
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.map
 import androidx.preference.PreferenceManager
@@ -35,6 +36,9 @@ class CabFragment : Fragment() {
     private var functionsPerRow = 4
     private var namedFunctionsOnly = false
     private val speedKeyStep = 5
+    private var speedSender: SpeedCommandThrottler? = null
+    private var speedTargetValid: (() -> Boolean)? = null
+    private var trackingSpeed = false
 
     private var slot: Int = 0
     private var minSpeed = 1
@@ -65,27 +69,39 @@ class CabFragment : Fragment() {
 
         progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(bar: SeekBar?, value: Int, fromUser: Boolean) {
-                renderSpeedLabel(view, SpeedScale.toSpeed(value, minSpeed, maxSpeed))
+                val speed = SpeedScale.toSpeed(value, minSpeed, maxSpeed)
+                renderSpeedLabel(view, speed)
+                if (fromUser) {
+                    // Accessibility/keyboard changes may have no touch start/stop callbacks.
+                    if (!trackingSpeed && speedTargetValid?.invoke() != true) beginSpeedUpdates()
+                    speedSender?.submit(speed)
+                }
             }
-            override fun onStartTrackingTouch(bar: SeekBar?) { }
+            override fun onStartTrackingTouch(bar: SeekBar?) {
+                trackingSpeed = true
+                beginSpeedUpdates()
+            }
             override fun onStopTrackingTouch(bar: SeekBar?) {
-                CommandStation.setLocomotiveSpeed(slot, SpeedScale.toSpeed(progressView.progress, minSpeed, maxSpeed))
+                trackingSpeed = false
+                speedSender?.flush(SpeedScale.toSpeed(progressView.progress, minSpeed, maxSpeed))
+                cancelSpeedUpdates()
             }
         })
 
-        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            (view as LockableScrollView).apply {
-                progressView.setOnTouchListener { _, ev ->
-                    when (ev?.action) {
-                        MotionEvent.ACTION_DOWN -> setScrollingEnabled(false)
-                        MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> setScrollingEnabled(true)
-                    }
-                    false
+        progressView.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> (view as? LockableScrollView)?.setScrollingEnabled(false)
+                MotionEvent.ACTION_UP -> (view as? LockableScrollView)?.setScrollingEnabled(true)
+                MotionEvent.ACTION_CANCEL -> {
+                    cancelSpeedUpdates()
+                    (view as? LockableScrollView)?.setScrollingEnabled(true)
                 }
             }
+            false
         }
 
         revToggle.setOnClickListener {
+            cancelPendingSpeedUpdates(parentFragmentManager, slot)
             CommandStation.setLocomotiveSpeed(slot, 0, revToggle.isChecked)
         }
 
@@ -96,6 +112,7 @@ class CabFragment : Fragment() {
                 progressView.isEnabled = state != null
                 revToggle.isEnabled = state != null
                 if (state == null) {
+                    cancelSpeedUpdates()
                     titleView.text = ""
                     addrView?.text = ""
                     progressView.progress = 0
@@ -106,15 +123,20 @@ class CabFragment : Fragment() {
                 }
 
                 val replaced = previous == null || state.id != previous.id
+                if (replaced || speedTargetValid?.invoke() == false) cancelSpeedUpdates()
                 if (replaced || state.title != previous?.title) titleView.text = state.title
                 if (replaced || state.address != previous?.address) addrView?.text = state.address.toString()
                 if (replaced || state.motion != previous?.motion) {
                     minSpeed = state.motion.minSpeed
                     maxSpeed = state.motion.maxSpeed
-                    if (revToggle.isChecked != state.motion.reverse) revToggle.isChecked = state.motion.reverse
-                    val progress = SpeedScale.toProgress(state.motion.speed, minSpeed, maxSpeed)
-                    if (progressView.progress != progress) progressView.progress = progress
-                    renderSpeedLabel(view, state.motion.speed)
+                    // Replies describe already sent intermediate speeds, not the finger's
+                    // current position. Keep the local preview while a valid drag is active.
+                    if (!trackingSpeed || speedTargetValid?.invoke() != true) {
+                        if (revToggle.isChecked != state.motion.reverse) revToggle.isChecked = state.motion.reverse
+                        val progress = SpeedScale.toProgress(state.motion.speed, minSpeed, maxSpeed)
+                        if (progressView.progress != progress) progressView.progress = progress
+                        renderSpeedLabel(view, state.motion.speed)
+                    }
                 }
                 if (replaced || state.functionNames != previous?.functionNames) {
                     updateFunctionLayout(tableLayout, state)
@@ -125,6 +147,38 @@ class CabFragment : Fragment() {
                     }
                 }
             }
+    }
+
+    private fun beginSpeedUpdates() {
+        cancelSpeedUpdates()
+        val loco = LocomotivesStore.getBySlot(slot) ?: return
+        val locoId = loco.id
+        val reverse = loco.reverse
+        val address = CommandStation.getAddress()
+        val valid = {
+            val current = LocomotivesStore.getBySlot(slot)
+            current?.id == locoId && current.reverse == reverse &&
+                CommandStation.isConnected() && CommandStation.getAddress() == address
+        }
+        speedTargetValid = valid
+        val handler = Handler(Looper.getMainLooper())
+        speedSender = SpeedCommandThrottler(
+            now = SystemClock::uptimeMillis,
+            schedule = { delay, action ->
+                val task = Runnable { action() }
+                handler.postDelayed(task, delay)
+                val cancel: () -> Unit = { handler.removeCallbacks(task) }
+                cancel
+            },
+            send = { CommandStation.setLocomotiveSpeed(slot, it) },
+            isValid = valid
+        )
+    }
+
+    private fun cancelSpeedUpdates() {
+        speedSender?.cancel()
+        speedSender = null
+        speedTargetValid = null
     }
 
     private fun renderSpeedLabel(view: View, speed: Int) {
@@ -210,7 +264,15 @@ class CabFragment : Fragment() {
         functionLayout = layout
     }
 
+    override fun onPause() {
+        cancelSpeedUpdates()
+        trackingSpeed = false
+        super.onPause()
+    }
+
     override fun onDestroyView() {
+        cancelSpeedUpdates()
+        trackingSpeed = false
         functionViews = emptyMap()
         functionLayout = null
         currentState = null
@@ -221,6 +283,7 @@ class CabFragment : Fragment() {
         val progressView = view?.findViewById<SeekBar>(R.id.seekBar)
         if (progressView != null && progressView.isEnabled &&
             (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            cancelSpeedUpdates()
             progressView.progress += if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) speedKeyStep else -speedKeyStep
             CommandStation.setLocomotiveSpeed(slot, SpeedScale.toSpeed(progressView.progress, minSpeed, maxSpeed))
             return true
@@ -231,6 +294,12 @@ class CabFragment : Fragment() {
     companion object {
         const val ARG_LAYOUT = "layout"
         const val ARG_SLOT = "slot"
+
+        internal fun cancelPendingSpeedUpdates(manager: FragmentManager, slot: Int? = null) {
+            manager.fragments.filterIsInstance<CabFragment>().forEach { cab ->
+                if (slot == null || cab.slot == slot) cab.cancelSpeedUpdates()
+            }
+        }
 
         @JvmStatic
         fun newInstance(layout: Int, slot: Int) = CabFragment().apply {

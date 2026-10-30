@@ -83,6 +83,7 @@ class LocoCabActivity : AwakeActivity(),
         return when (item.itemId) {
             R.id.action_stop -> {
                 Toast.makeText(this, R.string.message_stop_all, Toast.LENGTH_SHORT).show()
+                CabFragment.cancelPendingSpeedUpdates(supportFragmentManager)
                 CommandStation.emergencyStop()
                 true
             }
