@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import org.json.JSONArray
 import ru.aleksandr.dccppthrottle.cs.BluetoothConnection
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.cs.stationRequestError
 import ru.aleksandr.dccppthrottle.store.*
 import java.io.File
 
@@ -89,6 +90,7 @@ class ConnectActivity : AppCompatActivity() {
 
             val connection = BluetoothConnection(this)
             connection.setOnFailListener { ex ->
+                CommandStation.disconnect()
                 Log.w(TAG, ex)
                 Toast.makeText(this, R.string.message_connect_failed, Toast.LENGTH_SHORT).show()
 
@@ -291,7 +293,15 @@ class ConnectActivity : AppCompatActivity() {
         }
 
         CommandStation.setConnection(connection, deviceName)
-        CommandStation.getStatus {
+        CommandStation.getStatus(onError = { error ->
+            // A deliberate disconnect also cancels the status request.
+            if (CommandStation.isConnected()) {
+                Toast.makeText(this, stationRequestError(error), Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, ConnectActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                })
+            }
+        }) {
             if (!it.startsWith("DCC-EX")) {
                 Toast.makeText(this, R.string.message_cs_not_supported, Toast.LENGTH_LONG).show()
             }

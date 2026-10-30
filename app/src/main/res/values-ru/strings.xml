@@ -36,4 +36,8 @@
     <string name="label_sw2_mode_timer_x">Таймер режима (CV%d)</string>
     <string name="label_sw2_mode_timer_desc">Оопределяет интервалы между включениями/выключениями каналов. Для реалистичности интервалы будут иметь случайный разброс.</string>
 
+    <string name="message_request_timeout">Нет ответа на %1$s.</string>
+    <string name="message_request_disconnected">Соединение со станцией закрыто.</string>
+    <string name="message_request_cv_blocked">Программирование CV остановлено из-за отсутствия ответа. Подключитесь к станции заново.</string>
+    <string name="message_request_queue_full">Слишком много ожидающих запросов к станции.</string>
 </resources>

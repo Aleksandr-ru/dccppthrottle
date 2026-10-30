@@ -20,9 +20,11 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.cs.stationRequestError
 import ru.aleksandr.dccppthrottle.dialogs.ProgressDialog
 import ru.aleksandr.dccppthrottle.store.MockStore
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 open class DecoderFragment : Fragment() {
 
@@ -32,32 +34,44 @@ open class DecoderFragment : Fragment() {
         if (BuildConfig.DEBUG && !CommandStation.isConnected() && mock !== null) {
             val value = mock.invoke()
             Log.d(TAG, "Fake read CV $cv = $value")
-            Handler(Looper.getMainLooper()).postDelayed({
-                cont.resume(value)
-            }, 100)
-        }
-        else CommandStation.getCvProg(cv) { _, value ->
-            if (value < 0) {
-                val ex = Exception(getString(R.string.message_read_cv_error, cv))
-                cont.cancel(ex)
+            val handler = Handler(Looper.getMainLooper())
+            val task = Runnable { if (cont.isActive) cont.resume(value) }
+            handler.postDelayed(task, 100)
+            cont.invokeOnCancellation { handler.removeCallbacks(task) }
+        } else {
+            val request = CommandStation.getCvProg(cv, onError = { error ->
+                if (cont.isActive) cont.resumeWithException(Exception(
+                    context?.stationRequestError(error) ?: error.message, error
+                ))
+            }) { _, value ->
+                if (cont.isActive) {
+                    if (value < 0) cont.resumeWithException(Exception(getString(R.string.message_read_cv_error, cv)))
+                    else cont.resume(value)
+                }
             }
-            else cont.resume(value)
+            cont.invokeOnCancellation { request.cancel() }
         }
     }
 
     protected suspend fun writeCv(cv: Int, value: Int): Boolean = suspendCancellableCoroutine { cont ->
         if (BuildConfig.DEBUG && !CommandStation.isConnected()) {
             Log.d(TAG, "Fake write CV $cv = $value")
-            Handler(Looper.getMainLooper()).postDelayed({
-                cont.resume(true)
-            }, 200)
-        }
-        else CommandStation.setCvProg(cv, value) { _, value ->
-            if (value < 0) {
-                val ex = Exception(getString(R.string.message_write_cv_error, cv))
-                cont.cancel(ex)
+            val handler = Handler(Looper.getMainLooper())
+            val task = Runnable { if (cont.isActive) cont.resume(true) }
+            handler.postDelayed(task, 200)
+            cont.invokeOnCancellation { handler.removeCallbacks(task) }
+        } else {
+            val request = CommandStation.setCvProg(cv, value, onError = { error ->
+                if (cont.isActive) cont.resumeWithException(Exception(
+                    context?.stationRequestError(error) ?: error.message, error
+                ))
+            }) { _, result ->
+                if (cont.isActive) {
+                    if (result < 0) cont.resumeWithException(Exception(getString(R.string.message_write_cv_error, cv)))
+                    else cont.resume(true)
+                }
             }
-            else cont.resume(value >= 0)
+            cont.invokeOnCancellation { request.cancel() }
         }
     }
 

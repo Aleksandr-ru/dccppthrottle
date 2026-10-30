@@ -474,4 +474,8 @@
     <string name="filename_store" translatable="false">%s.json</string>
     <string name="filename_backup" translatable="false">dccppthrottle_%s.zip</string>
     <string name="filename_readme" translatable="false">README.txt</string>
+    <string name="message_request_timeout">No response to %1$s.</string>
+    <string name="message_request_disconnected">Command station disconnected.</string>
+    <string name="message_request_cv_blocked">CV programming stopped after a missing response. Reconnect to the command station.</string>
+    <string name="message_request_queue_full">Too many pending command station requests.</string>
 </resources>

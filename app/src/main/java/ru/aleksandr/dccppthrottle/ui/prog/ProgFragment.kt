@@ -16,10 +16,13 @@ import android.widget.*
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.cs.CommandStation
+import ru.aleksandr.dccppthrottle.cs.RequestHandle
+import ru.aleksandr.dccppthrottle.cs.stationRequestError
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class ProgFragment : Fragment() {
 
+    private var cvRequest: RequestHandle? = null
     private lateinit var viewBits: Array<ToggleButton>
     private val model by activityViewModels<ProgViewModel>()
 
@@ -80,7 +83,15 @@ class ProgFragment : Fragment() {
         val buttonWrite = view.findViewById<Button>(R.id.buttonWrite)
         buttonRead.setOnClickListener {
             viewCvNum.value?.let {
-                CommandStation.getCvProg(it) { cv, value ->
+                buttonRead.isEnabled = false
+                buttonWrite.isEnabled = false
+                cvRequest = CommandStation.getCvProg(it, onError = { error ->
+                    buttonRead.isEnabled = true
+                    buttonWrite.isEnabled = true
+                    Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
+                }) { cv, value ->
+                    buttonRead.isEnabled = true
+                    buttonWrite.isEnabled = true
                     val message = if (value >= 0) {
                         model.storeValue(cv, value)
                         if (viewCvNum.value == cv) viewCvVal.value = value
@@ -95,8 +106,16 @@ class ProgFragment : Fragment() {
             val cv = viewCvNum.value
             val value = viewCvVal.value
             if (cv != null && value != null) {
-                model.storeValue(cv, value)
-                CommandStation.setCvProg(cv, value) { cv, value ->
+                buttonRead.isEnabled = false
+                buttonWrite.isEnabled = false
+                cvRequest = CommandStation.setCvProg(cv, value, onError = { error ->
+                    buttonRead.isEnabled = true
+                    buttonWrite.isEnabled = true
+                    Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
+                }) { cv, value ->
+                    buttonRead.isEnabled = true
+                    buttonWrite.isEnabled = true
+                    if (value >= 0) model.storeValue(cv, value)
                     val stringId =
                         if (value < 0) R.string.message_write_cv_error
                         else R.string.message_write_cv_success
@@ -105,6 +124,12 @@ class ProgFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        cvRequest?.cancel()
+        cvRequest = null
+        super.onDestroyView()
     }
 
     private fun valueToBits(value: Int) {
