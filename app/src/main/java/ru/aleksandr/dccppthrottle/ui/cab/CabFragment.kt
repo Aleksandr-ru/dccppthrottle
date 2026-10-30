@@ -11,7 +11,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -37,7 +36,6 @@ class CabFragment : Fragment() {
     private var namedFunctionsOnly = false
     private val speedKeyStep = 5
     private var speedSender: SpeedCommandThrottler? = null
-    private var speedTargetValid: (() -> Boolean)? = null
     private var trackingSpeed = false
 
     private var slot: Int = 0
@@ -72,18 +70,20 @@ class CabFragment : Fragment() {
                 val speed = SpeedScale.toSpeed(value, minSpeed, maxSpeed)
                 renderSpeedLabel(view, speed)
                 if (fromUser) {
-                    // Accessibility/keyboard changes may have no touch start/stop callbacks.
-                    if (!trackingSpeed && speedTargetValid?.invoke() != true) beginSpeedUpdates()
-                    speedSender?.submit(speed)
+                    if (trackingSpeed) speedSender?.submit(speed)
+                    else CommandStation.setLocomotiveSpeed(slot, speed)
                 }
             }
             override fun onStartTrackingTouch(bar: SeekBar?) {
                 trackingSpeed = true
-                beginSpeedUpdates()
+                cancelSpeedUpdates()
+                speedSender = SpeedCommandThrottler(
+                    send = { CommandStation.setLocomotiveSpeed(slot, it) }
+                )
             }
             override fun onStopTrackingTouch(bar: SeekBar?) {
                 trackingSpeed = false
-                speedSender?.flush(SpeedScale.toSpeed(progressView.progress, minSpeed, maxSpeed))
+                speedSender?.finish(SpeedScale.toSpeed(progressView.progress, minSpeed, maxSpeed))
                 cancelSpeedUpdates()
             }
         })
@@ -123,7 +123,8 @@ class CabFragment : Fragment() {
                 }
 
                 val replaced = previous == null || state.id != previous.id
-                if (replaced || speedTargetValid?.invoke() == false) cancelSpeedUpdates()
+                if (replaced || state.address != previous?.address ||
+                    state.motion.reverse != previous.motion.reverse) cancelSpeedUpdates()
                 if (replaced || state.title != previous?.title) titleView.text = state.title
                 if (replaced || state.address != previous?.address) addrView?.text = state.address.toString()
                 if (replaced || state.motion != previous?.motion) {
@@ -131,7 +132,7 @@ class CabFragment : Fragment() {
                     maxSpeed = state.motion.maxSpeed
                     // Replies describe already sent intermediate speeds, not the finger's
                     // current position. Keep the local preview while a valid drag is active.
-                    if (!trackingSpeed || speedTargetValid?.invoke() != true) {
+                    if (!trackingSpeed || speedSender == null) {
                         if (revToggle.isChecked != state.motion.reverse) revToggle.isChecked = state.motion.reverse
                         val progress = SpeedScale.toProgress(state.motion.speed, minSpeed, maxSpeed)
                         if (progressView.progress != progress) progressView.progress = progress
@@ -149,36 +150,9 @@ class CabFragment : Fragment() {
             }
     }
 
-    private fun beginSpeedUpdates() {
-        cancelSpeedUpdates()
-        val loco = LocomotivesStore.getBySlot(slot) ?: return
-        val locoId = loco.id
-        val reverse = loco.reverse
-        val address = CommandStation.getAddress()
-        val valid = {
-            val current = LocomotivesStore.getBySlot(slot)
-            current?.id == locoId && current.reverse == reverse &&
-                CommandStation.isConnected() && CommandStation.getAddress() == address
-        }
-        speedTargetValid = valid
-        val handler = Handler(Looper.getMainLooper())
-        speedSender = SpeedCommandThrottler(
-            now = SystemClock::uptimeMillis,
-            schedule = { delay, action ->
-                val task = Runnable { action() }
-                handler.postDelayed(task, delay)
-                val cancel: () -> Unit = { handler.removeCallbacks(task) }
-                cancel
-            },
-            send = { CommandStation.setLocomotiveSpeed(slot, it) },
-            isValid = valid
-        )
-    }
-
     private fun cancelSpeedUpdates() {
         speedSender?.cancel()
         speedSender = null
-        speedTargetValid = null
     }
 
     private fun renderSpeedLabel(view: View, speed: Int) {
