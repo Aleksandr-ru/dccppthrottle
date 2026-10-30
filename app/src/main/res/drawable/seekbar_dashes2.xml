@@ -3,7 +3,7 @@
     android:width="200dp"
     android:viewportHeight="60"
     android:viewportWidth="200"
-    android:tint="@color/gray_400">
+    android:tint="?attr/colorControlNormal">
 
     <group
         android:scaleY="-1"

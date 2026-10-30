@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.color.MaterialColors
+import androidx.core.content.ContextCompat
 import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.store.ConsoleStore
 
@@ -31,9 +31,9 @@ class ConsoleRecyclerViewAdapter(
         val outgoing = line.tag == ConsoleStore.TAG_OUT
         holder.textView.apply {
             text = line.str
-            setTextColor(MaterialColors.getColor(this,
-                if (outgoing) com.google.android.material.R.attr.colorPrimaryVariant
-                else com.google.android.material.R.attr.colorSecondaryVariant
+            setTextColor(ContextCompat.getColor(context,
+                if (outgoing) R.color.console_outgoing
+                else R.color.console_incoming
             ))
             setCompoundDrawablesWithIntrinsicBounds(
                 if (outgoing) R.drawable.ic_arrow_north_east_24

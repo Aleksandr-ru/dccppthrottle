@@ -159,6 +159,7 @@ class SettingsActivity : AwakeActivity() {
         }
 
         override fun onSharedPreferenceChanged(pref: SharedPreferences?, key: String?) {
+            val keyTheme = getString(R.string.pref_key_theme)
             val keyScreenOn = getString(R.string.pref_key_screen_on)
             val keySortLocos = getString(R.string.pref_key_sort_locos)
             val keySortAcc = getString(R.string.pref_key_sort_acc)
@@ -167,6 +168,7 @@ class SettingsActivity : AwakeActivity() {
             val keyPower = getString(R.string.pref_key_power_startup)
             val keyJoin = getString(R.string.pref_key_join_startup)
             if (pref != null && key != null) when(key) {
+                keyTheme -> ThemePreference.apply(requireContext())
                 keyScreenOn -> {
                     val screenOn = pref.getBoolean(key, false)
                     val flag = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON

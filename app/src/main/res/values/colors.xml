@@ -9,6 +9,17 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_blue_400">#FF29B6F6</color>
     <color name="light_blue_600">#FF039BE5</color>
-    <color name="gray_400">#FFBDBDBD</color>
     <color name="gray_600">#FF757575</color>
+    <color name="app_background">#FFFAFAFA</color>
+    <color name="app_surface">#FFFFFFFF</color>
+    <color name="app_on_surface">#FF212121</color>
+    <color name="drawer_header_start">#FF4DB6AC</color>
+    <color name="drawer_header_center">#FF009688</color>
+    <color name="drawer_header_end">#FF00695C</color>
+    <color name="console_incoming">#FF00695C</color>
+    <color name="console_outgoing">#FF6200EE</color>
+    <color name="speed_track_start">#33000000</color>
+    <color name="speed_track_end">#11000000</color>
+    <color name="speed_thumb">@color/teal_700</color>
+    <color name="speed_thumb_marker">@color/black</color>
 </resources>

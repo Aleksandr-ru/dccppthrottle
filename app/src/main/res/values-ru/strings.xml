@@ -40,4 +40,5 @@
     <string name="message_request_disconnected">Соединение со станцией закрыто.</string>
     <string name="message_request_cv_blocked">Программирование CV остановлено из-за отсутствия ответа. Подключитесь к станции заново.</string>
     <string name="message_request_queue_full">Слишком много ожидающих запросов к станции.</string>
+    <string name="label_theme">Тема</string>
 </resources>

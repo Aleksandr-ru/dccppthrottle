@@ -4,6 +4,14 @@
 
     <PreferenceCategory android:title="@string/title_pref_general">
 
+        <ListPreference
+            app:title="@string/label_theme"
+            app:key="@string/pref_key_theme"
+            app:defaultValue="system"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreferenceCompat
             app:title="@string/label_keep_screen"
             app:summaryOff="@string/label_keep_screen_off"

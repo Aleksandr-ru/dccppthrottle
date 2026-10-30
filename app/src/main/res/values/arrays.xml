@@ -56,4 +56,14 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+    <string-array name="theme_entries">
+        <item>System default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string-array name="theme_values" translatable="false">
+        <item>system</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
 </resources>

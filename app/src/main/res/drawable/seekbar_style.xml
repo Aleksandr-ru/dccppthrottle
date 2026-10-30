@@ -7,9 +7,9 @@
             <corners android:radius="5dp" />
             <gradient
                 android:angle="270"
-                android:startColor="#33000000"
-                android:centerColor="#11000000"
-                android:endColor="#11000000"
+                android:startColor="@color/speed_track_start"
+                android:centerColor="@color/speed_track_end"
+                android:endColor="@color/speed_track_end"
                 android:centerY="0.2"
                 android:type="linear"
                 />
@@ -28,7 +28,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="16dp"/>
-                <solid android:color="@color/design_default_color_secondary"/>
+                <solid android:color="?attr/colorSecondary"/>
                 <corners android:radius="5dp"/>
             </shape>
         </clip>

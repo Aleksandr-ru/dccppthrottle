@@ -11,6 +11,9 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:colorBackground">@color/app_background</item>
+        <item name="colorSurface">@color/app_surface</item>
+        <item name="colorOnSurface">@color/app_on_surface</item>
     </style>
+    <style name="Theme.DCCppThrottle.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 </resources>

@@ -38,6 +38,7 @@ class LocoCabActivity : AwakeActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lastCv = savedInstanceState?.getInt("lastCv", 1) ?: 1
         setContentView(R.layout.activity_loco_cab)
 
         val slots = LocomotivesStore.getSlots()
@@ -72,6 +73,11 @@ class LocoCabActivity : AwakeActivity(),
             if (it.first) snackbar.dismiss()
             else snackbar.show()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("lastCv", lastCv)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="theme_entries">
+        <item>Как в системе</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
+    </string-array>
+</resources>

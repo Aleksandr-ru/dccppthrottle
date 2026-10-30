@@ -8,16 +8,14 @@
 package ru.aleksandr.dccppthrottle.view
 
 import android.content.Context
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Parcelable
+import android.util.SparseArray
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
 import androidx.core.widget.doAfterTextChanged
 import ru.aleksandr.dccppthrottle.R
@@ -139,16 +137,30 @@ class PlusMinusView : LinearLayout {
         super.setEnabled(enabled)
         children.forEach { it.isEnabled = enabled }
 
-        // https://stackoverflow.com/a/69704169
-        val plusDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_plus_24, null)
-        val minusDrawable = ResourcesCompat.getDrawable(resources, R.drawable.ic_minus_24, null)
-        if (enabled) {
-            plusButton.setImageDrawable(plusDrawable)
-            minusButton.setImageDrawable(minusDrawable)
-        }
-        else {
-            plusButton.setImageDrawable(convertToGrayscale(plusDrawable))
-            minusButton.setImageDrawable(convertToGrayscale(minusDrawable))
+    }
+
+    // Each instance contains children with the same IDs. Save the value on the
+    // parent so another PlusMinusView cannot overwrite it during restoration.
+    override fun dispatchSaveInstanceState(container: SparseArray<Parcelable>) {
+        dispatchFreezeSelfOnly(container)
+    }
+
+    override fun dispatchRestoreInstanceState(container: SparseArray<Parcelable>) {
+        dispatchThawSelfOnly(container)
+    }
+
+    override fun onSaveInstanceState(): Parcelable = Bundle().apply {
+        putParcelable("superState", super.onSaveInstanceState())
+        putBoolean("hasValue", value != null)
+        putInt("value", value ?: 0)
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state is Bundle) {
+            super.onRestoreInstanceState(state.getParcelable("superState"))
+            value = if (state.getBoolean("hasValue")) state.getInt("value") else null
+        } else {
+            super.onRestoreInstanceState(state)
         }
     }
 
@@ -160,9 +172,4 @@ class PlusMinusView : LinearLayout {
         onChangeListener?.invoke(_value)
     }
 
-    // https://stackoverflow.com/a/17112876
-    private fun convertToGrayscale(drawable: Drawable?) = drawable?.mutate()?.apply {
-        colorFilter = PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
-        alpha = 160
-    }
 }

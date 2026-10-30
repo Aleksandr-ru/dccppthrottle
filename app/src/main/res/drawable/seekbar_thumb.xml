@@ -3,7 +3,7 @@
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="10dp"/>
-            <solid android:color="@color/design_default_color_secondary_variant"/>
+            <solid android:color="@color/speed_thumb"/>
             <size
                 android:width="32dp"
                 android:height="80dp"/>
@@ -47,7 +47,7 @@
 <!--        android:left="13dp"-->
 <!--        android:right="18dp">-->
 <!--        <shape android:shape="rectangle">-->
-<!--            <solid android:color="@color/gray_400"/>-->
+<!--            <solid android:color="?attr/colorOnSecondary"/>-->
 <!--        </shape>-->
 <!--    </item>-->
 <!--    <item-->
@@ -56,7 +56,7 @@
 <!--        android:left="18dp"-->
 <!--        android:right="13dp">-->
 <!--        <shape android:shape="rectangle">-->
-<!--            <solid android:color="@color/gray_400"/>-->
+<!--            <solid android:color="?attr/colorOnSecondary"/>-->
 <!--        </shape>-->
 <!--    </item>-->
         <item
@@ -65,7 +65,7 @@
             android:left="16dp"
             android:right="15dp">
             <shape android:shape="rectangle">
-                <solid android:color="@color/gray_400"/>
+                <solid android:color="@color/speed_thumb_marker"/>
             </shape>
         </item>
 </layer-list>
