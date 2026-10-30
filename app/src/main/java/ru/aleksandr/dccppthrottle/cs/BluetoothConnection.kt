@@ -19,41 +19,16 @@ import android.util.Log
 import ru.aleksandr.dccppthrottle.BuildConfig
 import java.io.Closeable
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.util.concurrent.Executors
+import java.util.concurrent.RejectedExecutionException
 
 class BluetoothConnection(context: Context) : Closeable {
     private val TAG = javaClass.simpleName
-
-    private val handler = Handler(Looper.getMainLooper()) { msg ->
-        when (msg.what) {
-            MESSAGE_CONNECTED -> {
-                connectListener?.invoke()
-                true
-            }
-            MESSAGE_FAIL -> {
-                val exception = msg.obj as Throwable
-                failListener?.invoke(exception)
-                true
-            }
-            MESSAGE_READ -> {
-                val message = msg.obj.toString()
-                receiveListener?.invoke(message)
-                true
-            }
-            MESSAGE_WRITE -> {
-                val message = msg.obj.toString()
-                Log.i(TAG, "Sent: $message")
-                true
-            }
-            else -> throw BluetoothConnectionException("Unknown message type ${msg.what}")
-        }
-    }
-    private var connectThread: ConnectThread? = null
-    private var connectedThread: ConnectedThread? = null
-
-    private var btAdaper : BluetoothAdapter
-    private var address : String? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val lock = Any()
+    private var session: Session? = null
+    private var address: String? = null
+    private val btAdapter: BluetoothAdapter
 
     private var connectListener: (() -> Unit)? = null
     private var receiveListener: ((message: String) -> Unit)? = null
@@ -61,13 +36,13 @@ class BluetoothConnection(context: Context) : Closeable {
 
     init {
         val btManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
-        btAdaper = btManager.adapter
-        if (!btAdaper.isEnabled) {
+        btAdapter = btManager.adapter
+        if (!btAdapter.isEnabled) {
             throw BluetoothConnectionException("Bluetooth adapter disabled")
         }
     }
 
-    fun setOnConnectListener(listener : (() -> Unit)?) {
+    fun setOnConnectListener(listener: (() -> Unit)?) {
         connectListener = listener
     }
 
@@ -79,132 +54,157 @@ class BluetoothConnection(context: Context) : Closeable {
         failListener = listener
     }
 
-    fun getAddress() : String? {
-        return address
-    }
+    fun getAddress(): String? = synchronized(lock) { address }
 
     fun connect(mac: String) {
-        val device = btAdaper.getRemoteDevice(mac)
-        connectThread = ConnectThread(device)
-        connectThread!!.start()
-        address = mac
+        val device = btAdapter.getRemoteDevice(mac)
+        close()
+        synchronized(lock) {
+            val next = Session(device)
+            session = next
+            address = mac
+            next.connectThread.start()
+        }
     }
 
     override fun close() {
-        connectedThread?.cancel()
-        connectedThread = null
-        connectThread?.cancel()
-        connectThread = null
-        address = null
+        val previous = synchronized(lock) {
+            val previous = session
+            session = null
+            address = null
+            previous
+        }
+        previous?.cancel()
     }
 
     fun send(message: String) {
-        Handler(Looper.getMainLooper()).post {
-            connectedThread!!.write(message)
-        }
+        synchronized(lock) { session }?.send(message)
     }
 
-    @SuppressLint("MissingPermission")
-    private inner class ConnectThread(device: BluetoothDevice) : Thread() {
-        private val mmSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
-            val uuid = device.uuids.first().uuid
-            device.createRfcommSocketToServiceRecord(uuid)
+    private inner class Session(private val device: BluetoothDevice) {
+        private var socket: BluetoothSocket? = null
+        private var stopped = false
+        private var ready = false
+        private val writer = Executors.newSingleThreadExecutor { task ->
+            Thread(task, "DCC-Bluetooth-write")
         }
+        val connectThread = Thread({ connectSocket() }, "DCC-Bluetooth-connect")
+        private var reader: Thread? = null
 
-        override fun run() {
-            // btAdaper.cancelDiscovery() // Need BLUETOOTH ADMIN permission
-            mmSocket?.let { socket ->
-                try {
-                    socket.connect()
-                    handler.obtainMessage(MESSAGE_CONNECTED).sendToTarget()
-                }
-                catch (e: IOException) {
-                    if (BuildConfig.DEBUG) Log.e(TAG, "Connect failed", e)
-                    handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
-                    return@run
-                }
-
-                connectedThread = ConnectedThread(socket)
-                connectedThread!!.start()
+        // Check the session again on delivery: queued events from an old connection
+        // must not affect a newly connected station or report a deliberate close.
+        private fun postEvent(action: () -> Unit) {
+            handler.post {
+                val active = synchronized(lock) { session === this && !stopped }
+                if (active) action()
             }
         }
 
-        fun cancel() {
+        @SuppressLint("MissingPermission")
+        private fun connectSocket() {
             try {
-                mmSocket?.close()
-            }
-            catch (e : IOException) {
-                if (BuildConfig.DEBUG) Log.e(TAG, "Could not close the client socket", e)
-                handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
-            }
-        }
-    }
-
-    private inner class ConnectedThread(
-        private val mmSocket: BluetoothSocket
-    ) : Thread() {
-        private val mmInStream: InputStream = mmSocket.inputStream
-        private val mmOutStream: OutputStream = mmSocket.outputStream
-        private val mmBuffer: ByteArray = ByteArray(BUFFER_SIZE) // mmBuffer store for the stream
-
-        override fun run() {
-            var numBytes = 0
-
-            while (!interrupted()) {
-                try {
-                    if (mmInStream.available() > 0) {
-                        mmBuffer[numBytes] = mmInStream.read().toByte()
-                        if (mmBuffer[numBytes].toInt().toChar() == '\n') {
-                            val message = String(mmBuffer, 0, numBytes)
-                            if (BuildConfig.DEBUG) Log.i(TAG, "Got message: $message")
-                            handler.obtainMessage(MESSAGE_READ, message).sendToTarget()
-                            numBytes = 0
-                        } else numBytes++
+                val uuid = device.uuids?.firstOrNull()?.uuid
+                    ?: throw IOException("Bluetooth device has no service UUID")
+                val newSocket = device.createRfcommSocketToServiceRecord(uuid)
+                synchronized(lock) {
+                    if (stopped || session !== this) {
+                        closeSocket(newSocket)
+                        return
                     }
+                    socket = newSocket
                 }
-                catch (e: IOException) {
-                    if (BuildConfig.DEBUG) Log.i(TAG, "Input stream was disconnected", e)
-                    handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
-                    break
+                newSocket.connect()
+                val input = newSocket.inputStream
+                val output = newSocket.outputStream
+                synchronized(lock) {
+                    if (stopped || session !== this) return
+                    writeMessage = { message -> output.write(message.toByteArray(Charsets.UTF_8)) }
+                    ready = true
+                    reader = Thread({
+                        try {
+                            val buffer = ByteArray(BUFFER_SIZE)
+                            val lines = BluetoothLineBuffer(BUFFER_SIZE)
+                            while (!Thread.currentThread().isInterrupted) {
+                                val count = input.read(buffer)
+                                if (count < 0) throw IOException("Bluetooth input stream closed")
+                                lines.append(buffer, count) { message ->
+                                    if (BuildConfig.DEBUG) Log.i(TAG, "Got message: $message")
+                                    postEvent { receiveListener?.invoke(message) }
+                                }
+                            }
+                        } catch (e: IOException) {
+                            fail(e)
+                        }
+                    }, "DCC-Bluetooth-read")
+                    // Both streams and the write queue are ready before notifying the UI.
+                    postEvent { connectListener?.invoke() }
+                    reader!!.start()
                 }
-
-//                numBytes = try {
-//                    mmInStream.read(mmBuffer)
-//                }
-//                catch (e: IOException) {
-//                    Log.i(TAG, "Input stream was disconnected", e)
-//                    break
-//                }
-//
-//                val message = String(mmBuffer, 0, numBytes)
-//                Log.i(TAG, "Got message: $message")
-//                message.trim().split("\n").forEach {
-//                    handler.obtainMessage(MESSAGE_READ, it).sendToTarget()
-//                }
+            } catch (e: Exception) {
+                fail(e)
             }
         }
 
-        fun write(message: String) {
-            val buffer : ByteArray = message.toByteArray()
-            try {
-                mmOutStream.write(buffer)
-                handler.obtainMessage(MESSAGE_WRITE, message).sendToTarget()
+        private var writeMessage: ((String) -> Unit)? = null
+
+        fun send(message: String) {
+            synchronized(lock) {
+                if (stopped || session !== this || !ready) return
+                try {
+                    writer.execute {
+                        try {
+                            val write = synchronized(lock) {
+                                if (stopped || session !== this) null else writeMessage
+                            } ?: return@execute
+                            write(message)
+                            if (BuildConfig.DEBUG) Log.i(TAG, "Sent: $message")
+                        } catch (e: IOException) {
+                            fail(e)
+                        }
+                    }
+                } catch (_: RejectedExecutionException) {
+                    // The connection was closed while this send was being queued.
+                }
             }
-            catch (e: IOException) {
-                if (BuildConfig.DEBUG) Log.e(TAG, "Error occurred when sending data", e)
-                handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
+        }
+
+        private fun fail(ex: Throwable) {
+            synchronized(lock) {
+                if (stopped || session !== this) return
+                stopped = true
+                ready = false
+                address = null
+            }
+            releaseResources()
+            if (BuildConfig.DEBUG) Log.w(TAG, "Bluetooth connection failed", ex)
+            handler.post {
+                if (synchronized(lock) { session === this }) failListener?.invoke(ex)
             }
         }
 
         fun cancel() {
-            try {
-                interrupt()
-                mmSocket.close()
+            synchronized(lock) {
+                stopped = true
+                ready = false
             }
-            catch (e: IOException) {
-                if (BuildConfig.DEBUG) Log.e(TAG, "Could not close the connect socket", e)
-                handler.obtainMessage(MESSAGE_FAIL, e).sendToTarget()
-            }
+            releaseResources()
+        }
+
+        private fun releaseResources() {
+            writer.shutdownNow()
+            connectThread.interrupt()
+            reader?.interrupt()
+            // Closing the socket unblocks both connect() and read()/write().
+            val toClose = synchronized(lock) { socket }
+            toClose?.let { closeSocket(it) }
+        }
+    }
+
+    private fun closeSocket(socket: BluetoothSocket) {
+        try {
+            socket.close()
+        } catch (e: IOException) {
+            if (BuildConfig.DEBUG) Log.w(TAG, "Could not close Bluetooth socket", e)
         }
     }
 
@@ -212,10 +212,5 @@ class BluetoothConnection(context: Context) : Closeable {
 
     companion object {
         const val BUFFER_SIZE = 1024
-
-        const val MESSAGE_READ = 1
-        const val MESSAGE_WRITE = 2
-        const val MESSAGE_CONNECTED = 3
-        const val MESSAGE_FAIL = 4
     }
 }
