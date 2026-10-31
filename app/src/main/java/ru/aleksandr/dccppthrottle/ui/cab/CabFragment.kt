@@ -105,7 +105,7 @@ class CabFragment : Fragment() {
             CommandStation.setLocomotiveSpeed(slot, 0, revToggle.isChecked)
         }
 
-        LocomotivesStore.data.map { CabUiState.forSlot(it, slot) }.distinctUntilChanged()
+        LocomotivesStore.liveSlot(slot).map { loco -> loco?.let { CabUiState.from(it) } }.distinctUntilChanged()
             .observe(viewLifecycleOwner) { state ->
                 val previous = currentState
                 currentState = state

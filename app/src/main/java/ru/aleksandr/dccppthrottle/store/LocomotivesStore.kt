@@ -32,7 +32,8 @@ object LocomotivesStore : JsonStoreInterface {
 
     override var hasUnsavedData = false
 
-    fun liveSlot(slot : Int) : LiveData<LocomotiveState> = data.map { it.first { item -> item.slot == slot } }
+    fun liveSlot(slot: Int): LiveData<LocomotiveState?> =
+        data.map { list -> list.firstOrNull { it.slot == slot } }
 
     fun getSlots() : List<Int> = data.value!!.map { it.slot }.filter { it > 0 }
 

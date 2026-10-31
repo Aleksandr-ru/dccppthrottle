@@ -103,20 +103,20 @@ class LocomotiveUiStateTest {
     fun updatesToAnotherLocomotiveDoNotChangeCabSnapshot() {
         val first = loco(3, 1)
         val second = loco(4, 2)
-        val before = CabUiState.forSlot(listOf(first, second), 1)
+        val before = CabUiState.from(first)
         second.speed = 70
         second.functions[1] = true
         second.title = "Other train"
-        assertEquals(before, CabUiState.forSlot(listOf(first, second), 1))
+        assertEquals(before, CabUiState.from(first))
     }
 
     @Test
     fun cabFunctionDeltaContainsOnlyChangedButtonsAndKeepsOldSnapshot() {
         val loco = loco()
-        val before = CabUiState.forSlot(listOf(loco), 1)!!
+        val before = CabUiState.from(loco)
         loco.functions[5] = true
         loco.functions[28] = true
-        val after = CabUiState.forSlot(listOf(loco), 1)!!
+        val after = CabUiState.from(loco)
         assertEquals(listOf(5, 28), after.changedFunctions(before))
         assertEquals(before.motion, after.motion)
         assertEquals(before.functionNames, after.functionNames)
@@ -127,9 +127,9 @@ class LocomotiveUiStateTest {
     @Test
     fun cabSpeedChangesDoNotChangeFunctionLayoutOrButtons() {
         val loco = loco()
-        val before = CabUiState.forSlot(listOf(loco), 1)!!
+        val before = CabUiState.from(loco)
         loco.speed = 60
-        val after = CabUiState.forSlot(listOf(loco), 1)!!
+        val after = CabUiState.from(loco)
         assertNotEquals(before.motion, after.motion)
         assertEquals(before.functionNames, after.functionNames)
         assertTrue(after.changedFunctions(before).isEmpty())
@@ -138,9 +138,9 @@ class LocomotiveUiStateTest {
     @Test
     fun renamingFunctionChangesLayoutWithoutMutatingPreviousNames() {
         val loco = loco()
-        val before = CabUiState.forSlot(listOf(loco), 1)!!
+        val before = CabUiState.from(loco)
         loco.funcNames[2] = "Horn"
-        val after = CabUiState.forSlot(listOf(loco), 1)!!
+        val after = CabUiState.from(loco)
         assertEquals("", before.functionNames[2])
         assertEquals("Horn", after.functionNames[2])
         assertTrue(after.changedFunctions(before).isEmpty())
@@ -150,14 +150,9 @@ class LocomotiveUiStateTest {
     @Test
     fun changingResetTimerDoesNotRequireCabRendering() {
         val loco = loco()
-        val before = CabUiState.forSlot(listOf(loco), 1)
+        val before = CabUiState.from(loco)
         loco.funcReset[3] = 1500
-        assertEquals(before, CabUiState.forSlot(listOf(loco), 1))
-    }
-
-    @Test
-    fun missingSlotHasNoCabSnapshot() {
-        assertNull(CabUiState.forSlot(listOf(loco()), 2))
+        assertEquals(before, CabUiState.from(loco))
     }
 
     @Test

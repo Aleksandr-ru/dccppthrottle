@@ -20,14 +20,11 @@ internal data class CabUiState(
     }
 
     companion object {
-        fun forSlot(locos: List<LocomotiveState>, slot: Int): CabUiState? =
-            locos.firstOrNull { it.slot == slot }?.let {
-                CabUiState(
-                    it.id, it.toString(), it.address,
-                    CabMotion(it.speed, it.reverse, it.minSpeed, it.maxSpeed),
-                    it.funcNames.toList(), it.functions.toList()
-                )
-            }
+        fun from(loco: LocomotiveState): CabUiState = CabUiState(
+            loco.id, loco.toString(), loco.address,
+            CabMotion(loco.speed, loco.reverse, loco.minSpeed, loco.maxSpeed),
+            loco.funcNames.toList(), loco.functions.toList()
+        )
     }
 }
 
