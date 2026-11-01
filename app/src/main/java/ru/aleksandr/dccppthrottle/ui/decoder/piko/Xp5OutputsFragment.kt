@@ -46,10 +46,7 @@ class Xp5OutputsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp5OutputsViewModel>()
-    private lateinit var rvAdapter: Xp5OutputsRecyclerViewAdapter
-
-    private lateinit var emptyView: TextView
-    private lateinit var listView: RecyclerView
+    private var rvAdapter: Xp5OutputsRecyclerViewAdapter? = null
 
     companion object {
         fun newInstance() = Xp5OutputsFragment()
@@ -64,10 +61,8 @@ class Xp5OutputsFragment : DecoderFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(view) {
-            emptyView = findViewById(R.id.textEmpty)
-            listView = findViewById(R.id.rvOutputs)
-        }
+        val emptyView = view.findViewById<TextView>(R.id.textEmpty)
+        val listView = view.findViewById<RecyclerView>(R.id.rvOutputs)
 
         emptyView.setOnClickListener {
             readAllCVs()
@@ -108,6 +103,11 @@ class Xp5OutputsFragment : DecoderFragment() {
                     readAllCVs()
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        rvAdapter = null
+        super.onDestroyView()
     }
 
     private fun createEditRowDialog(): View {
@@ -260,7 +260,7 @@ class Xp5OutputsFragment : DecoderFragment() {
                         dialog.incrementProgress()
                     }
                 }
-                rvAdapter.notifyDataSetChanged()
+                rvAdapter?.notifyDataSetChanged()
                 model.setLoaded(true)
             }
             catch (e: Exception) {
@@ -270,7 +270,7 @@ class Xp5OutputsFragment : DecoderFragment() {
                 }
                 job?.cancel()
                 if (BuildConfig.DEBUG) {
-                    rvAdapter.notifyDataSetChanged()
+                    rvAdapter?.notifyDataSetChanged()
                     model.setLoaded(true)
                 }
             }
@@ -305,7 +305,7 @@ class Xp5OutputsFragment : DecoderFragment() {
                     model.setCvValue(rowIndex, ci, value)
                     dialog.incrementProgress()
                 }
-                rvAdapter.notifyItemChanged(rowIndex)
+                rvAdapter?.notifyItemChanged(rowIndex)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {

@@ -43,10 +43,7 @@ class Xp4MappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp4MappingViewModel>()
-    private lateinit var rvAdapter: Xp4MappingRecyclerViewAdapter
-
-    private lateinit var emptyView: TextView
-    private lateinit var listView: RecyclerView
+    private var rvAdapter: Xp4MappingRecyclerViewAdapter? = null
 
     companion object {
         fun newInstance() = Xp4MappingFragment()
@@ -63,10 +60,8 @@ class Xp4MappingFragment : DecoderFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(view) {
-            emptyView = findViewById(R.id.textEmpty)
-            listView = findViewById(R.id.rvMapping)
-        }
+        val emptyView = view.findViewById<TextView>(R.id.textEmpty)
+        val listView = view.findViewById<RecyclerView>(R.id.rvMapping)
 
         emptyView.setOnClickListener {
             showReloadDialog()
@@ -119,6 +114,11 @@ class Xp4MappingFragment : DecoderFragment() {
                     showReloadDialog()
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        rvAdapter = null
+        super.onDestroyView()
     }
 
     private fun showReloadDialog() = AlertDialog.Builder(context)
@@ -179,7 +179,7 @@ class Xp4MappingFragment : DecoderFragment() {
                         if (!untilBlank) dialog.incrementProgress()
                     }
 
-                    rvAdapter.notifyItemChanged(ri)
+                    rvAdapter?.notifyItemChanged(ri)
                     if (untilBlank && model.isBlank(ri)) break
                 }
                 model.setLoaded(true)
@@ -350,7 +350,7 @@ class Xp4MappingFragment : DecoderFragment() {
                     model.setCvValue(rowIndex, ci, value)
                     dialog.incrementProgress()
                 }
-                rvAdapter.notifyItemChanged(rowIndex)
+                rvAdapter?.notifyItemChanged(rowIndex)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
@@ -393,7 +393,7 @@ class Xp4MappingFragment : DecoderFragment() {
                     model.setCvValue(rowIndex, ci, value)
                     dialog.incrementProgress()
                 }
-                rvAdapter.notifyItemChanged(rowIndex)
+                rvAdapter?.notifyItemChanged(rowIndex)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {

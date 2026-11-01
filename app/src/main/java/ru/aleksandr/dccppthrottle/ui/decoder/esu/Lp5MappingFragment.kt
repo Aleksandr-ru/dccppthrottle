@@ -42,10 +42,7 @@ class Lp5MappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Lp5MappingViewModel>()
-    private lateinit var rvAdapter: Lp5MappingRecyclerViewAdapter
-
-    private lateinit var emptyView: TextView
-    private lateinit var listView: RecyclerView
+    private var rvAdapter: Lp5MappingRecyclerViewAdapter? = null
 
     companion object {
         fun newInstance() = Lp5MappingFragment()
@@ -62,10 +59,8 @@ class Lp5MappingFragment : DecoderFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(view) {
-            emptyView = findViewById(R.id.empty_view)
-            listView = findViewById(R.id.rv_lp5_mapping)
-        }
+        val emptyView = view.findViewById<TextView>(R.id.empty_view)
+        val listView = view.findViewById<RecyclerView>(R.id.rv_lp5_mapping)
 
         emptyView.setOnClickListener {
             showReloadDialog()
@@ -118,6 +113,11 @@ class Lp5MappingFragment : DecoderFragment() {
                     showReloadDialog()
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        rvAdapter = null
+        super.onDestroyView()
     }
 
     private fun showReloadDialog() = AlertDialog.Builder(context)
@@ -179,7 +179,7 @@ class Lp5MappingFragment : DecoderFragment() {
                         dialog.incrementProgress()
                     }
                 }
-                rvAdapter.notifyDataSetChanged()
+                rvAdapter?.notifyDataSetChanged()
                 model.setLoaded(true)
             }
             catch (e: Exception) {
@@ -239,7 +239,7 @@ class Lp5MappingFragment : DecoderFragment() {
                         )
                         model.setCvValue(ri, ci, value)
                     }
-                    rvAdapter.notifyItemChanged(ri)
+                    rvAdapter?.notifyItemChanged(ri)
                     if (model.isBlank(ri)) break
                 }
                 model.setLoaded(true)
@@ -376,7 +376,7 @@ class Lp5MappingFragment : DecoderFragment() {
                     model.setCvValue(rowIndex, ci, value)
                     dialog.incrementProgress()
                 }
-                rvAdapter.notifyItemChanged(rowIndex)
+                rvAdapter?.notifyItemChanged(rowIndex)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {
@@ -418,7 +418,7 @@ class Lp5MappingFragment : DecoderFragment() {
                     model.setCvValue(rowIndex, ci, value)
                     dialog.incrementProgress()
                 }
-                rvAdapter.notifyItemChanged(rowIndex)
+                rvAdapter?.notifyItemChanged(rowIndex)
             }
             catch (e: Exception) {
                 if (e !is CancellationException) {

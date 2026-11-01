@@ -29,11 +29,6 @@ class Xp5SimpleMappingFragment : DecoderFragment() {
 
     private val model by activityViewModels<Xp5SimpleMappingViewModel>()
 
-    private lateinit var emptyView: TextView
-    private lateinit var viewPager: ViewPager2
-    private lateinit var tabLayout: TabLayout
-    private lateinit var writeButton: Button
-
     companion object {
         fun newInstance() = Xp5SimpleMappingFragment()
     }
@@ -49,12 +44,10 @@ class Xp5SimpleMappingFragment : DecoderFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(view) {
-            emptyView = findViewById(R.id.empty_view)
-            viewPager = findViewById(R.id.pager)
-            tabLayout = findViewById(R.id.tabLayout)
-            writeButton = findViewById(R.id.buttonWrite)
-        }
+        val emptyView = view.findViewById<TextView>(R.id.empty_view)
+        val viewPager = view.findViewById<ViewPager2>(R.id.pager)
+        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+        val writeButton = view.findViewById<Button>(R.id.buttonWrite)
         
         viewPager.adapter = SlidePagerAdapter(this)
 

@@ -24,11 +24,6 @@ class Sw2OutputsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Sw2OutputsViewModel>()
-    private lateinit var rvAdapter: Sw2OutputsRecyclerViewAdapter
-
-    private lateinit var emptyView: TextView
-    private lateinit var listView: RecyclerView
-    private lateinit var writeButton: Button
 
     companion object {
         fun newInstance() = Sw2OutputsFragment()
@@ -43,17 +38,15 @@ class Sw2OutputsFragment : DecoderFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(view) {
-            emptyView = findViewById(R.id.textEmpty)
-            listView = findViewById(R.id.rvOutputs)
-            writeButton = findViewById(R.id.buttonWrite)
-        }
+        val emptyView = view.findViewById<TextView>(R.id.textEmpty)
+        val listView = view.findViewById<RecyclerView>(R.id.rvOutputs)
+        val writeButton = view.findViewById<Button>(R.id.buttonWrite)
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_MODELLDEPO)
         }
 
-        rvAdapter = Sw2OutputsRecyclerViewAdapter(model, viewLifecycleOwner)
+        val rvAdapter = Sw2OutputsRecyclerViewAdapter(model, viewLifecycleOwner)
         with(listView) {
             layoutManager = LinearLayoutManager(context)
             adapter = rvAdapter
