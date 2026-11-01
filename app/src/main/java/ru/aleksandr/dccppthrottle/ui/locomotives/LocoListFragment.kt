@@ -12,9 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.map
-import androidx.lifecycle.distinctUntilChanged
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListBinding as FragmentLocomotivesBinding
@@ -24,7 +23,6 @@ import ru.aleksandr.dccppthrottle.store.MockStore
 class LocoListFragment : Fragment() {
 
     private var _binding: FragmentLocomotivesBinding? = null
-    private var submitLatest: Runnable? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -51,37 +49,32 @@ class LocoListFragment : Fragment() {
         }
 
         val rvAdapter = LocoRecyclerViewAdapter(parentFragmentManager)
-        view.layoutManager = LinearLayoutManager(context)
-        view.adapter = rvAdapter
-        (view.itemAnimator as? androidx.recyclerview.widget.SimpleItemAnimator)?.supportsChangeAnimations = false
+        LocomotivesStore.data.observe(viewLifecycleOwner) {
+            rvAdapter.replaceValues(it)
+            if (!view.isComputingLayout) {
+                rvAdapter.notifyDataSetChanged()
+            }
 
-        var pendingRows: List<LocoListItem>? = null
-        val submit = Runnable {
-            val rows = pendingRows
-            pendingRows = null
-            if (_binding?.listLocos === view && rows != null) {
-                rvAdapter.submitList(rows)
-                view.visibility = if (rows.isEmpty()) View.GONE else View.VISIBLE
-                placeholder.visibility = if (rows.isEmpty()) View.VISIBLE else View.GONE
+            if (it.isEmpty()) {
+                view.visibility = View.GONE
+                placeholder.visibility = View.VISIBLE
+            }
+            else {
+                view.visibility = View.VISIBLE
+                placeholder.visibility = View.GONE
             }
         }
-        submitLatest = submit
-        LocomotivesStore.data.map { LocoListItem.snapshot(it) }.distinctUntilChanged()
-            .observe(viewLifecycleOwner) { rows ->
-                pendingRows = rows
-                // First insert and clear can dispatch synchronously in ListAdapter.
-                // Always submit outside RecyclerView's layout; coalesce to the latest snapshot.
-                view.removeCallbacks(submit)
-                view.post(submit)
-            }
+
+        with(view) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = rvAdapter
+        }
 
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        submitLatest?.let { binding.listLocos.removeCallbacks(it) }
-        submitLatest = null
         _binding = null
     }
 }

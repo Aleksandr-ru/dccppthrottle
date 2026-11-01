@@ -12,9 +12,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.concurrent.atomic.AtomicLong
-
-private val locomotiveIds = AtomicLong(0)
 
 object LocomotivesStore : JsonStoreInterface {
     const val SLOTS_COUNT = 12
@@ -49,8 +46,6 @@ object LocomotivesStore : JsonStoreInterface {
     fun getSlot(index : Int) : Int = data.value!![index].slot
     fun getAddress(index: Int) : Int = data.value!![index].address
     fun getSlotByAddress(addr : Int) : Int = data.value!!.firstOrNull { it.address == addr }?.slot ?: 0
-    fun getIndexById(id: Long): Int = data.value!!.indexOfFirst { it.id == id }
-
     fun getIndexBySlot(slot: Int) : Int = data.value!!.indexOfFirst { it.slot == slot }
 
     fun getBySlot(slot: Int) : LocomotiveState? = data.value?.firstOrNull { it.slot == slot }
@@ -82,7 +77,6 @@ object LocomotivesStore : JsonStoreInterface {
             if (slots.keys.any { it == newItem.slot }) throw LocomotiveSlotInUseException()
             if (slots.values.any { it == newItem.address }) throw LocomotiveAddressInUseException()
         }
-        newItem.id = _data.value!![index].id
         _data.postValue(sort(_data.value!!.also {
             it[index] = newItem
         }))
@@ -307,9 +301,6 @@ object LocomotivesStore : JsonStoreInterface {
         var minSpeed: Int = 1,
         var maxSpeed: Int = 100
     ) {
-        // Runtime UI identity: independent of editable address, slot and sort order.
-        var id: Long = locomotiveIds.getAndIncrement()
-            internal set
         val functions = BooleanArray(FUNCTIONS_COUNT)
         val funcNames = Array<String>(FUNCTIONS_COUNT) { "" }
         val funcReset = IntArray(FUNCTIONS_COUNT)
