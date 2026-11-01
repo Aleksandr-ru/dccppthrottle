@@ -15,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -98,7 +99,6 @@ class RouteEditorActivity : AwakeActivity() {
         itemTouchHelper.attachToRecyclerView(listView)
 
         val adapter = RouteEditorRecyclerViewAdapter(
-            supportFragmentManager,
             itemTouchHelper,
             getString(R.string.accessory_params),
             routeIndex
@@ -119,10 +119,16 @@ class RouteEditorActivity : AwakeActivity() {
         listView.adapter = adapter
 
         placeholder.setOnClickListener {
-            if (BuildConfig.DEBUG) for(i in 1..10)
-                RoutesStore.addAccessory(routeIndex, MockStore.randomRouteAccessory())
-            else
+            if (BuildConfig.DEBUG) {
+                if (AccessoriesStore.data.value.isNullOrEmpty()) {
+                    Toast.makeText(this, "Add accessories in the Accessories tab first", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+                for (i in 1..10)
+                    RoutesStore.addAccessory(routeIndex, MockStore.randomRouteAccessory())
+            } else {
                 addAccessoryDialog()
+            }
         }
     }
 
