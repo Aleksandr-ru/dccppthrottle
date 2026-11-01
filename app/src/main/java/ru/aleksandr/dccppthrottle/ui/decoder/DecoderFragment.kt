@@ -120,7 +120,9 @@ open class DecoderFragment : Fragment() {
                     model.setLoaded(true)
                 }
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -150,7 +152,9 @@ open class DecoderFragment : Fragment() {
                 job?.cancel()
                 model.setLoaded(false)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
         return job
     }

@@ -274,7 +274,9 @@ class Xp5OutputsFragment : DecoderFragment() {
                     model.setLoaded(true)
                 }
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -315,7 +317,9 @@ class Xp5OutputsFragment : DecoderFragment() {
                 job?.cancel()
                 model.setLoaded(false)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 }

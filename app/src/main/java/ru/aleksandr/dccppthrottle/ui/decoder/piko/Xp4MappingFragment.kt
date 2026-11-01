@@ -193,7 +193,9 @@ class Xp4MappingFragment : DecoderFragment() {
                 if (BuildConfig.DEBUG && untilBlank) model.setLoaded(true)
                 else snackbar = null
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
             snackbar?.show()
         }
     }
@@ -359,7 +361,9 @@ class Xp4MappingFragment : DecoderFragment() {
                 job?.cancel()
                 model.setLoaded(false)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -401,7 +405,9 @@ class Xp4MappingFragment : DecoderFragment() {
                 }
                 job?.cancel()
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 }

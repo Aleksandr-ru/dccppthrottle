@@ -189,7 +189,9 @@ class Lp5MappingFragment : DecoderFragment() {
                 }
                 job?.cancel()
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -252,7 +254,9 @@ class Lp5MappingFragment : DecoderFragment() {
                 job?.cancel()
                 if (BuildConfig.DEBUG) model.setLoaded(true)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -385,7 +389,9 @@ class Lp5MappingFragment : DecoderFragment() {
                 job?.cancel()
                 model.setLoaded(false)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -426,7 +432,9 @@ class Lp5MappingFragment : DecoderFragment() {
                 }
                 job?.cancel()
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 }

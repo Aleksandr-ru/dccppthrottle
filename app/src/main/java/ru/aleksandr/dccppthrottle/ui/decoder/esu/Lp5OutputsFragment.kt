@@ -257,7 +257,9 @@ class Lp5OutputsFragment : DecoderFragment() {
                     model.setLoaded(true)
                 }
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 
@@ -298,7 +300,9 @@ class Lp5OutputsFragment : DecoderFragment() {
                 job?.cancel()
                 model.setLoaded(false)
             }
-            dialog.dismiss()
+            finally {
+                dialog.dismiss()
+            }
         }
     }
 }
