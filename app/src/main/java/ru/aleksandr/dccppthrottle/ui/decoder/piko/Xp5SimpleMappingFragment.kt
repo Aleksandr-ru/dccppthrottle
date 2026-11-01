@@ -28,6 +28,7 @@ class Xp5SimpleMappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp5SimpleMappingViewModel>()
+    private var tabMediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance() = Xp5SimpleMappingFragment()
@@ -54,9 +55,9 @@ class Xp5SimpleMappingFragment : DecoderFragment() {
         val tabTitles = resources.getStringArray(R.array.xp5_simple_keys).toMutableList().also {
             it.add(0, getString(R.string.label_setup))
         }.toList()
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
-        }.attach()
+        }.also { it.attach() }
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_PIKO)
@@ -95,6 +96,12 @@ class Xp5SimpleMappingFragment : DecoderFragment() {
                     readModelCVs(model, MANUFACTURER_ID_PIKO)
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        tabMediator?.detach()
+        tabMediator = null
+        super.onDestroyView()
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {

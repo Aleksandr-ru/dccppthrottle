@@ -28,6 +28,7 @@ class Sw2MappingFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Sw2MappingViewModel>()
+    private var tabMediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance() = Sw2MappingFragment()
@@ -52,9 +53,9 @@ class Sw2MappingFragment : DecoderFragment() {
         viewPager.adapter = SlidePagerAdapter(this)
 
         val tabTitles = resources.getStringArray(R.array.sw2_mapping_keys)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
-        }.attach()
+        }.also { it.attach() }
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_MODELLDEPO)
@@ -93,6 +94,12 @@ class Sw2MappingFragment : DecoderFragment() {
                     readModelCVs(model, MANUFACTURER_ID_MODELLDEPO)
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        tabMediator?.detach()
+        tabMediator = null
+        super.onDestroyView()
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {

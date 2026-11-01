@@ -29,6 +29,7 @@ class Xp5SettingsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp5SettingsViewModel>()
+    private var tabMediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance() = Xp5SettingsFragment()
@@ -53,9 +54,9 @@ class Xp5SettingsFragment : DecoderFragment() {
         viewPager.adapter = SlidePagerAdapter(this)
 
         val tabTitles = resources.getStringArray(R.array.xp5_conf_tabs)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles.get(position)
-        }.attach()
+        }.also { it.attach() }
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_PIKO)
@@ -94,6 +95,12 @@ class Xp5SettingsFragment : DecoderFragment() {
                     readModelCVs(model, MANUFACTURER_ID_PIKO)
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        tabMediator?.detach()
+        tabMediator = null
+        super.onDestroyView()
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {

@@ -29,6 +29,7 @@ class Lp5SettingsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Lp5SettingsViewModel>()
+    private var tabMediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance() = Lp5SettingsFragment()
@@ -53,9 +54,9 @@ class Lp5SettingsFragment : DecoderFragment() {
         viewPager.adapter = SlidePagerAdapter(this)
 
         val tabTitles = resources.getStringArray(R.array.lp5_conf_tabs)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles.get(position)
-        }.attach()
+        }.also { it.attach() }
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_ESU)
@@ -94,6 +95,12 @@ class Lp5SettingsFragment : DecoderFragment() {
                     readModelCVs(model, MANUFACTURER_ID_ESU)
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        tabMediator?.detach()
+        tabMediator = null
+        super.onDestroyView()
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {

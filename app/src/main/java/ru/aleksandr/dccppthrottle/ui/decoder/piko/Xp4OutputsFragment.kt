@@ -29,6 +29,7 @@ class Xp4OutputsFragment : DecoderFragment() {
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp4OutputsViewModel>()
+    private var tabMediator: TabLayoutMediator? = null
 
     companion object {
         fun newInstance() = Xp4OutputsFragment()
@@ -53,9 +54,9 @@ class Xp4OutputsFragment : DecoderFragment() {
         viewPager.adapter = SlidePagerAdapter(this)
 
         val tabTitles = resources.getStringArray(R.array.xp4_output_tabs)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+        tabMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles.get(position)
-        }.attach()
+        }.also { it.attach() }
 
         emptyView.setOnClickListener {
             readModelCVs(model, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
@@ -94,6 +95,12 @@ class Xp4OutputsFragment : DecoderFragment() {
                     readModelCVs(model, MANUFACTURER_ID_PIKO, MANUFACTURER_ID_UHLENBROCK)
                 }.show()
         }
+    }
+
+    override fun onDestroyView() {
+        tabMediator?.detach()
+        tabMediator = null
+        super.onDestroyView()
     }
 
     private inner class SlidePagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
