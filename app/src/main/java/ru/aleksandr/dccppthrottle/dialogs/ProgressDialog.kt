@@ -12,16 +12,31 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.OrientationLock
 
 class ProgressDialog(context: Context) : AlertDialog(context) {
     private val progressView: ProgressBar
     private val messageView: TextView
+    private var orientationLock: OrientationLock? = null
+
+    override fun onStart() {
+        super.onStart()
+        if (orientationLock == null) orientationLock = OrientationLock.acquire(context)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        orientationLock?.release()
+        orientationLock = null
+    }
 
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null)
+        val view = FrameLayout(this.context)
+        LayoutInflater.from(this.context).inflate(R.layout.dialog_progress, view, true)
         with(view) {
             progressView = findViewById<ProgressBar>(R.id.progressBar).apply {
                 progress = 0

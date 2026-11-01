@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
+import ru.aleksandr.dccppthrottle.OrientationLock
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.cs.RequestHandle
 import ru.aleksandr.dccppthrottle.cs.stationRequestError
@@ -23,6 +24,7 @@ import ru.aleksandr.dccppthrottle.view.PlusMinusView
 class ProgFragment : Fragment() {
 
     private var cvRequest: RequestHandle? = null
+    private var orientationLock: OrientationLock? = null
     private lateinit var viewBits: Array<ToggleButton>
     private val model by activityViewModels<ProgViewModel>()
 
@@ -85,11 +87,14 @@ class ProgFragment : Fragment() {
             viewCvNum.value?.let {
                 buttonRead.isEnabled = false
                 buttonWrite.isEnabled = false
+                orientationLock = OrientationLock.acquire(requireActivity())
                 cvRequest = CommandStation.getCvProg(it, onError = { error ->
+                    releaseOrientationLock()
                     buttonRead.isEnabled = true
                     buttonWrite.isEnabled = true
                     Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
                 }) { cv, value ->
+                    releaseOrientationLock()
                     buttonRead.isEnabled = true
                     buttonWrite.isEnabled = true
                     val message = if (value >= 0) {
@@ -108,11 +113,14 @@ class ProgFragment : Fragment() {
             if (cv != null && value != null) {
                 buttonRead.isEnabled = false
                 buttonWrite.isEnabled = false
+                orientationLock = OrientationLock.acquire(requireActivity())
                 cvRequest = CommandStation.setCvProg(cv, value, onError = { error ->
+                    releaseOrientationLock()
                     buttonRead.isEnabled = true
                     buttonWrite.isEnabled = true
                     Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
                 }) { cv, value ->
+                    releaseOrientationLock()
                     buttonRead.isEnabled = true
                     buttonWrite.isEnabled = true
                     if (value >= 0) model.storeValue(cv, value)
@@ -129,7 +137,13 @@ class ProgFragment : Fragment() {
     override fun onDestroyView() {
         cvRequest?.cancel()
         cvRequest = null
+        releaseOrientationLock()
         super.onDestroyView()
+    }
+
+    private fun releaseOrientationLock() {
+        orientationLock?.release()
+        orientationLock = null
     }
 
     private fun valueToBits(value: Int) {
