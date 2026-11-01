@@ -36,6 +36,7 @@ import ru.aleksandr.dccppthrottle.view.PlusMinusView
 import kotlin.Exception
 
 class Lp5OutputsFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Lp5OutputsViewModel>()

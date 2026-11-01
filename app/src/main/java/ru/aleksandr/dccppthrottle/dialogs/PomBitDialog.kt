@@ -86,6 +86,7 @@ class PomBitDialog() : DialogFragment() {
     }
 
     companion object {
+        @Suppress("unused")
         const val TAG = "PomBitDialog"
         var cv = 0
     }

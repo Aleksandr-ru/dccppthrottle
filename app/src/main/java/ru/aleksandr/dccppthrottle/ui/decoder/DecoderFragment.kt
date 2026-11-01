@@ -28,6 +28,7 @@ import kotlin.coroutines.resumeWithException
 
 open class DecoderFragment : Fragment() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     protected suspend fun readCv(cv: Int, mock: (() -> Int)? = null): Int = suspendCancellableCoroutine { cont ->

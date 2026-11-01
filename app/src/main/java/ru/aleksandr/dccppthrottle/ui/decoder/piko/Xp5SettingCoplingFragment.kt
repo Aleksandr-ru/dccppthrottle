@@ -21,6 +21,7 @@ import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Xp5SettingCoplingFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Xp5SettingsViewModel>()
 

@@ -57,6 +57,7 @@ class SettingsActivity : AwakeActivity() {
     class SettingsFragment : PreferenceFragmentCompat(),
         SharedPreferences.OnSharedPreferenceChangeListener {
 
+        @Suppress("unused")
         private val TAG = javaClass.simpleName
         private val mimeTypeZip = "application/zip"
         private val storeList = listOf(LocomotivesStore, AccessoriesStore, RoutesStore)

@@ -17,6 +17,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 
 class Xp4SettingConfFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Xp4SettingsViewModel>()
 

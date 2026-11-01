@@ -19,6 +19,7 @@ import ru.aleksandr.dccppthrottle.view.ByteChipsView
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Xp4OutputEsavingFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Xp4OutputsViewModel>()
 

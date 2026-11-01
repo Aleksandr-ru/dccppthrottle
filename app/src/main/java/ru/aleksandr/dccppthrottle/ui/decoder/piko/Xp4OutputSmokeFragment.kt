@@ -22,6 +22,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Xp4OutputSmokeFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Xp4OutputsViewModel>()
 

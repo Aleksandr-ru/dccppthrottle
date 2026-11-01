@@ -19,6 +19,7 @@ import ru.aleksandr.dccppthrottle.R
 
 class ByteSwitchView : LinearLayout {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private var bits: List<SwitchCompat> = List(8) {

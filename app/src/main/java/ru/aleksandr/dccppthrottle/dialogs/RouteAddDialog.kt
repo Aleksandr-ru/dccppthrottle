@@ -54,6 +54,7 @@ class RouteAddDialog() : DialogFragment() {
     }
 
     companion object {
+        @Suppress("unused")
         const val TAG = "RouteDialog"
     }
 }

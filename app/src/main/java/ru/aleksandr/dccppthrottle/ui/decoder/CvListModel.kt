@@ -23,6 +23,7 @@ import ru.aleksandr.dccppthrottle.BuildConfig
 
 open class CvListModel(vararg cvs: Int): ViewModel() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val key = javaClass.simpleName
 

@@ -21,6 +21,7 @@ import ru.aleksandr.dccppthrottle.R
 
 class ByteChipsView : HorizontalScrollView {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private var chipsView: ChipGroup? = null

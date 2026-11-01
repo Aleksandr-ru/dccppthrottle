@@ -16,6 +16,7 @@ import ru.aleksandr.dccppthrottle.store.MainStore
 import ru.aleksandr.dccppthrottle.ui.prog.ProgFragment
 
 class ProgActivity : AwakeActivity() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -28,6 +28,7 @@ import ru.aleksandr.dccppthrottle.ui.cab.CabViewPagerAdapter
 
 class DualCabActivity : AwakeActivity() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {

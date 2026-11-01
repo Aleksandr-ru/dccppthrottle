@@ -22,6 +22,7 @@ class FunctionsRecyclerViewAdapter(
     private val resetValues: IntArray
 ) : RecyclerView.Adapter<FunctionsRecyclerViewAdapter.ViewHolder>() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     fun getNameValues() = nameValues

@@ -19,6 +19,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 
 class Sw2MappingKeyFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Sw2MappingViewModel>()
 

@@ -23,6 +23,7 @@ import ru.aleksandr.dccppthrottle.R
 
 class PlusMinusView : LinearLayout {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private var numberInput : EditText? = null

@@ -25,6 +25,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 
 
 class Sw2SettingsFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Sw2SettingsViewModel>()

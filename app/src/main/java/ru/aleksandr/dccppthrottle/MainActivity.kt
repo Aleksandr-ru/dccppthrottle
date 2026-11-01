@@ -36,6 +36,7 @@ import java.io.File
 
 class MainActivity : AwakeActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private lateinit var binding: ActivityMainBinding

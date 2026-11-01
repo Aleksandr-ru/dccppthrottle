@@ -23,6 +23,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.RejectedExecutionException
 
 class BluetoothConnection(context: Context) : Closeable {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val handler = Handler(Looper.getMainLooper())
     private val lock = Any()

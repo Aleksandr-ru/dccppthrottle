@@ -38,6 +38,7 @@ import java.io.File
 
 class ConnectActivity : AppCompatActivity() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val prefKeyLastMac by lazy { getString(R.string.pref_key_last_mac) }

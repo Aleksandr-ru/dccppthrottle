@@ -68,6 +68,7 @@ class PomValueDialog() : DialogFragment() {
     }
 
     companion object {
+        @Suppress("unused")
         const val TAG = "PomValueDialog"
         private val valuesMap: MutableMap<Int, Int> = mutableMapOf()
         var cv = 0

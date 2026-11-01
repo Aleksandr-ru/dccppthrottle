@@ -114,6 +114,7 @@ class LocomotiveDialog() : DialogFragment() {
     }
 
     companion object {
+        @Suppress("unused")
         const val TAG = "LocomotiveDialog"
         const val MIN_MAX_SPEED = 10
         const val MAX_MIN_SPEED = 90

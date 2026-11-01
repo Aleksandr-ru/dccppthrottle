@@ -25,6 +25,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 
 
 class Sw2MappingFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Sw2MappingViewModel>()

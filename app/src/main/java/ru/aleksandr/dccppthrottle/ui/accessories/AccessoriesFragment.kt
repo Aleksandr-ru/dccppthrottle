@@ -23,6 +23,7 @@ import ru.aleksandr.dccppthrottle.store.MockStore
 
 class AccessoriesFragment : Fragment() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private var _binding: FragmentAccessoriesBinding? = null

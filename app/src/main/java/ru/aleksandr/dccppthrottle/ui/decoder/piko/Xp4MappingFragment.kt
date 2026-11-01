@@ -40,6 +40,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 import kotlin.Exception
 
 class Xp4MappingFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp4MappingViewModel>()

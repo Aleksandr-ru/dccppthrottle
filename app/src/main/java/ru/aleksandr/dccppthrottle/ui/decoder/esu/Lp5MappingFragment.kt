@@ -39,6 +39,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 import kotlin.Exception
 
 class Lp5MappingFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Lp5MappingViewModel>()

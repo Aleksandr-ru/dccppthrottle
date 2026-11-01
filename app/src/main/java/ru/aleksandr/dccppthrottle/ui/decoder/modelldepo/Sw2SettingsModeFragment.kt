@@ -23,6 +23,7 @@ import ru.aleksandr.dccppthrottle.view.ByteSwitchView
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Sw2SettingsModeFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Sw2SettingsViewModel>()
 

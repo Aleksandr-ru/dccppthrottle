@@ -31,6 +31,7 @@ class LocoCabActivity : AwakeActivity(),
     PomValueDialog.PomValueDialogListener,
     PomBitDialog.PomBitDialogListener {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private var slot: Int = 0

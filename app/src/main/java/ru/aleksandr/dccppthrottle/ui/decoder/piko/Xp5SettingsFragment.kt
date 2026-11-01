@@ -26,6 +26,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.WipFragment
 
 
 class Xp5SettingsFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp5SettingsViewModel>()

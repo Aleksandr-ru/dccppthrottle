@@ -25,6 +25,7 @@ import ru.aleksandr.dccppthrottle.ui.decoder.DecoderFragment
 
 
 class Xp5SimpleMappingFragment : DecoderFragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
 
     private val model by activityViewModels<Xp5SimpleMappingViewModel>()

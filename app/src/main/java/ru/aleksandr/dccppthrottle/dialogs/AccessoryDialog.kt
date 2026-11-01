@@ -81,6 +81,7 @@ class AccessoryDialog () : DialogFragment() {
     }
 
     companion object {
+        @Suppress("unused")
         const val TAG = "AccessoryDialog"
         var storeIndex = -1
     }

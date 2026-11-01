@@ -17,6 +17,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Xp5SettingServoFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Xp5SettingsViewModel>()
 

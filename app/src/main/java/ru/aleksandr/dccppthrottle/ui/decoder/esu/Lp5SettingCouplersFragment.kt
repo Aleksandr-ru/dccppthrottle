@@ -18,6 +18,7 @@ import ru.aleksandr.dccppthrottle.R
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
 class Lp5SettingCouplersFragment() : Fragment() {
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private val model by activityViewModels<Lp5SettingsViewModel>()
 

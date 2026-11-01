@@ -18,6 +18,7 @@ import ru.aleksandr.dccppthrottle.ui.functions.FunctionsRecyclerViewAdapter
 
 class FunctionsActivity : AwakeActivity() {
 
+    @Suppress("unused")
     private val TAG = javaClass.simpleName
     private var slot: Int = 0
     private lateinit var adapter: FunctionsRecyclerViewAdapter
