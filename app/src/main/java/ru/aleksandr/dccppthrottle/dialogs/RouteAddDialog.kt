@@ -34,13 +34,13 @@ class RouteAddDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(R.string.title_dialog_route_add)
                 .setCancelable(true)
-                .setPositiveButton(android.R.string.ok) { dialog, id ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     if (!title.text.isNullOrBlank()) {
                         val route = RoutesStore.RouteState(title.text.toString())
                         RoutesStore.add(route)
                     }
                 }
-                .setNegativeButton(android.R.string.cancel) { dialog, id ->
+                .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                     dialog.cancel()
                 }
             dialog = builder.create()

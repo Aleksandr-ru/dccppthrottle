@@ -49,7 +49,7 @@ class PomBitDialog() : DialogFragment() {
             viewCv.value = cv
 
             val viewRadioGroup = view.findViewById<RadioGroup>(R.id.radioGroup)
-            val viewBits = Array<RadioButton>(8) { i ->
+            repeat(8) { i ->
                 val bit = layoutInflater.inflate(R.layout.bit_radio, viewRadioGroup, false) as RadioButton
                 viewRadioGroup.addView(bit, 0)
                 bit.apply {
@@ -67,7 +67,7 @@ class PomBitDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(R.string.title_dialog_pom_bit)
                 .setCancelable(true)
-                .setPositiveButton(R.string.action_write) { dialog, _ ->
+                .setPositiveButton(R.string.action_write) { _, _ ->
                     val newCv = viewCv.value!!
                     val newValue = if (viewValue.isChecked) 1 else 0
                     listener.onPomBitDialogResult(this, newCv, selectedBit!!, newValue)

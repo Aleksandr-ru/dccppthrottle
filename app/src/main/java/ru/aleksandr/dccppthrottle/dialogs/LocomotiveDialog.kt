@@ -85,7 +85,7 @@ class LocomotiveDialog() : DialogFragment() {
             builder.setView(view)
                 .setTitle(dialogTitle)
                 .setCancelable(true)
-                .setPositiveButton(android.R.string.ok) { dialog, id ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     if (storeIndex > -1) {
                         with(initial!!) {
                             address = pmAddr.value!!
