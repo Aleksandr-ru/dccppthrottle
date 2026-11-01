@@ -8,14 +8,16 @@
 package ru.aleksandr.dccppthrottle.ui.routes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
@@ -29,6 +31,8 @@ import ru.aleksandr.dccppthrottle.store.MockStore
 import ru.aleksandr.dccppthrottle.store.RoutesStore
 
 class RoutesFragment : Fragment() {
+    @Suppress("unused")
+    private val TAG = javaClass.simpleName
 
     private var _binding: FragmentRoutesBinding? = null
     private var routeJob: Job? = null
@@ -54,29 +58,27 @@ class RoutesFragment : Fragment() {
                 RouteAddDialog().show(parentFragmentManager, RouteAddDialog.TAG)
         }
 
-        if (view is RecyclerView) {
-            val rvAdapter = RoutesRecyclerViewAdapter(::runRoute)
-            RoutesStore.data.observe(viewLifecycleOwner) {
-                rvAdapter.replaceValues(it)
-                if (!view.isComputingLayout) {
-                    rvAdapter.notifyDataSetChanged()
-                }
-
-                if (it.isEmpty()) {
-                    view.visibility = View.GONE
-                    placeholder.visibility = View.VISIBLE
-                }
-                else {
-                    view.visibility = View.VISIBLE
-                    placeholder.visibility = View.GONE
-                }
-            }
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = rvAdapter
+        val rvAdapter = RoutesRecyclerViewAdapter(::runRoute)
+        RoutesStore.data.observe(viewLifecycleOwner) {
+            rvAdapter.replaceValues(it)
+            if (!view.isComputingLayout) {
+                rvAdapter.notifyDataSetChanged()
             }
 
+            if (it.isEmpty()) {
+                view.visibility = View.GONE
+                placeholder.visibility = View.VISIBLE
+            }
+            else {
+                view.visibility = View.VISIBLE
+                placeholder.visibility = View.GONE
+            }
         }
+        with(view) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = rvAdapter
+        }
+
         return root
     }
 
@@ -101,6 +103,11 @@ class RoutesFragment : Fragment() {
                     dialog.incrementProgress()
                     delay(acc.delay.toLong())
                 }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                if (BuildConfig.DEBUG) Log.w(TAG, e)
+                Toast.makeText(context, e.message ?: e.toString(), Toast.LENGTH_LONG).show()
             } finally {
                 dialog.dismiss()
             }
