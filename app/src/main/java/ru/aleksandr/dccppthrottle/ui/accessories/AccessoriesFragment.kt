@@ -57,29 +57,30 @@ class AccessoriesFragment : Fragment() {
             }
         }
 
-        if (view is RecyclerView) {
-            val rvAdapter = AccessoriesRecyclerViewAdapter(parentFragmentManager)
-            AccessoriesStore.data.observe(viewLifecycleOwner) {
-                rvAdapter.replaceValues(it)
-                if (!view.isComputingLayout) {
-                    rvAdapter.notifyDataSetChanged()
+        val rvAdapter = AccessoriesRecyclerViewAdapter(parentFragmentManager)
+        val updateList = object : Runnable {
+            override fun run() {
+                if (_binding?.listAccessories !== view) return
+                if (view.isComputingLayout) {
+                    view.post(this)
+                    return
                 }
-
-                if (it.isEmpty()) {
-                    view.visibility = View.GONE
-                    placeholder.visibility = View.VISIBLE
-                }
-                else {
-                    view.visibility = View.VISIBLE
-                    placeholder.visibility = View.GONE
-                }
+                val items = AccessoriesStore.data.value.orEmpty()
+                rvAdapter.replaceValues(items)
+                rvAdapter.notifyDataSetChanged()
+                view.visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
+                placeholder.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
             }
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = rvAdapter
-            }
-
         }
+        AccessoriesStore.data.observe(viewLifecycleOwner) {
+            view.removeCallbacks(updateList)
+            updateList.run()
+        }
+        with(view) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = rvAdapter
+        }
+
         return root
     }
 

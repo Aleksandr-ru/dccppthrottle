@@ -67,20 +67,18 @@ class AccessoriesRecyclerViewAdapter(
         val button: ToggleButton = binding.toggleButton
 
         init {
-            button.setOnCheckedChangeListener { btn, isChecked ->
-                if (btn.isPressed) {
-                    disabledButtons[bindingAdapterPosition] = true
-                    AccessoriesStore.getAddress(bindingAdapterPosition)?.let {
-                        CommandStation.setAccessoryState(it, isChecked)
-                    }
-                    val delay = AccessoriesStore.getDelay(bindingAdapterPosition)?.takeIf {
-                        it >= MIN_DELAY
-                    }
-                    Handler(Looper.getMainLooper()).postDelayed(
-                        getEnabler(bindingAdapterPosition),
-                        delay?.toLong() ?: MIN_DELAY
-                    )
+            button.setOnClickListener {
+                disabledButtons[bindingAdapterPosition] = true
+                AccessoriesStore.getAddress(bindingAdapterPosition)?.let {
+                    CommandStation.setAccessoryState(it, button.isChecked)
                 }
+                val delay = AccessoriesStore.getDelay(bindingAdapterPosition)?.takeIf {
+                    it >= MIN_DELAY
+                }
+                Handler(Looper.getMainLooper()).postDelayed(
+                    getEnabler(bindingAdapterPosition),
+                    delay?.toLong() ?: MIN_DELAY
+                )
             }
 
             val popup = PopupMenu(itemView.context, itemView)

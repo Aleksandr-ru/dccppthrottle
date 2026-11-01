@@ -22,7 +22,6 @@ import ru.aleksandr.dccppthrottle.store.RoutesStore
 import java.util.*
 
 class RouteEditorRecyclerViewAdapter(
-    private val fragmentManager: FragmentManager,
     private val itemTouchHelper: ItemTouchHelper,
     private val subtitleFormat: String,
     private val routeIndex: Int
@@ -89,11 +88,9 @@ class RouteEditorRecyclerViewAdapter(
                 true
             }
 
-            toggle.setOnCheckedChangeListener { btn, isChecked ->
-                if (btn.isPressed) {
-                    RoutesStore.toggleAccessory(routeIndex, bindingAdapterPosition, isChecked)
-                    notifyItemChanged(bindingAdapterPosition)
-                }
+            toggle.setOnClickListener {
+                RoutesStore.toggleAccessory(routeIndex, bindingAdapterPosition, toggle.isChecked)
+                notifyItemChanged(bindingAdapterPosition)
             }
 
             val popup = PopupMenu(itemView.context, itemView)

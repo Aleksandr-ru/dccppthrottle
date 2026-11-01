@@ -59,20 +59,23 @@ class RoutesFragment : Fragment() {
         }
 
         val rvAdapter = RoutesRecyclerViewAdapter(::runRoute)
-        RoutesStore.data.observe(viewLifecycleOwner) {
-            rvAdapter.replaceValues(it)
-            if (!view.isComputingLayout) {
+        val updateList = object : Runnable {
+            override fun run() {
+                if (_binding?.listRoutes !== view) return
+                if (view.isComputingLayout) {
+                    view.post(this)
+                    return
+                }
+                val items = RoutesStore.data.value.orEmpty()
+                rvAdapter.replaceValues(items)
                 rvAdapter.notifyDataSetChanged()
+                view.visibility = if (items.isEmpty()) View.GONE else View.VISIBLE
+                placeholder.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
             }
-
-            if (it.isEmpty()) {
-                view.visibility = View.GONE
-                placeholder.visibility = View.VISIBLE
-            }
-            else {
-                view.visibility = View.VISIBLE
-                placeholder.visibility = View.GONE
-            }
+        }
+        RoutesStore.data.observe(viewLifecycleOwner) {
+            view.removeCallbacks(updateList)
+            updateList.run()
         }
         with(view) {
             layoutManager = LinearLayoutManager(context)

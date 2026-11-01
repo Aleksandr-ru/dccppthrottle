@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.BuildConfig
 import ru.aleksandr.dccppthrottle.dialogs.LocomotiveDialog
 import ru.aleksandr.dccppthrottle.databinding.FragmentLocoListBinding as FragmentLocomotivesBinding
@@ -49,20 +48,23 @@ class LocoListFragment : Fragment() {
         }
 
         val rvAdapter = LocoRecyclerViewAdapter(parentFragmentManager)
-        LocomotivesStore.data.observe(viewLifecycleOwner) {
-            rvAdapter.replaceValues(it)
-            if (!view.isComputingLayout) {
+        val updateList = object : Runnable {
+            override fun run() {
+                if (_binding?.listLocos !== view) return
+                if (view.isComputingLayout) {
+                    view.post(this)
+                    return
+                }
+                val locos = LocomotivesStore.data.value.orEmpty()
+                rvAdapter.replaceValues(locos)
                 rvAdapter.notifyDataSetChanged()
+                view.visibility = if (locos.isEmpty()) View.GONE else View.VISIBLE
+                placeholder.visibility = if (locos.isEmpty()) View.VISIBLE else View.GONE
             }
-
-            if (it.isEmpty()) {
-                view.visibility = View.GONE
-                placeholder.visibility = View.VISIBLE
-            }
-            else {
-                view.visibility = View.VISIBLE
-                placeholder.visibility = View.GONE
-            }
+        }
+        LocomotivesStore.data.observe(viewLifecycleOwner) {
+            view.removeCallbacks(updateList)
+            updateList.run()
         }
 
         with(view) {
