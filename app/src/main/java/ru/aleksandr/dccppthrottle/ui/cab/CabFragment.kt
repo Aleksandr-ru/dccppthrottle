@@ -275,7 +275,7 @@ class CabFragment : Fragment() {
             }
             if (r >= named.size) {
                 repeat(F_PER_ROW - tableRow.childCount) {
-                    tableRow.addView(View(requireContext()).apply {
+                    tableRow.addView(View(context).apply {
                         visibility = View.INVISIBLE
                         layoutParams = TableRow.LayoutParams(
                             TableRow.LayoutParams.MATCH_PARENT, 0, 1F
