@@ -8,9 +8,10 @@
 package ru.aleksandr.dccppthrottle.ui.routes
 
 import android.view.LayoutInflater
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.PopupMenu
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
@@ -68,7 +69,10 @@ class RoutesRecyclerViewAdapter(
                 if (position != RecyclerView.NO_POSITION) onRunRoute(position)
             }
 
-            val popup = PopupMenu(itemView.context, itemView)
+            val popup = PopupMenu(
+                ContextThemeWrapper(itemView.context, R.style.Theme_DCCppThrottle_PopupOverlay),
+                itemView
+            )
             popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {

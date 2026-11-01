@@ -10,8 +10,9 @@ package ru.aleksandr.dccppthrottle.ui.accessories
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.PopupMenu
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
@@ -81,7 +82,10 @@ class AccessoriesRecyclerViewAdapter(
                 )
             }
 
-            val popup = PopupMenu(itemView.context, itemView)
+            val popup = PopupMenu(
+                ContextThemeWrapper(itemView.context, R.style.Theme_DCCppThrottle_PopupOverlay),
+                itemView
+            )
             popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener {
                 when (it.itemId) {

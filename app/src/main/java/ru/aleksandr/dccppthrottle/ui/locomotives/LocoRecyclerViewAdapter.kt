@@ -9,8 +9,9 @@ package ru.aleksandr.dccppthrottle.ui.locomotives
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.PopupMenu
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.Switch
 import android.widget.TextView
@@ -103,7 +104,10 @@ class LocoRecyclerViewAdapter(
                 if (slot > 0) LocoCabActivity.start(it.context, slot)
             }
 
-            val popup = PopupMenu(itemView.context, itemView)
+            val popup = PopupMenu(
+                ContextThemeWrapper(itemView.context, R.style.Theme_DCCppThrottle_PopupOverlay),
+                itemView
+            )
             popup.inflate(R.menu.list_item_menu)
             popup.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
