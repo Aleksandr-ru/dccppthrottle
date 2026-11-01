@@ -20,6 +20,7 @@
     <color name="console_outgoing">#FF6200EE</color>
     <color name="speed_track_start">#33000000</color>
     <color name="speed_track_end">#11000000</color>
+    <color name="speed_progress">@color/teal_200</color>
     <color name="speed_thumb">@color/teal_700</color>
     <color name="speed_thumb_marker">@color/black</color>
 </resources>

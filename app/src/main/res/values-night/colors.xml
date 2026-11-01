@@ -9,5 +9,6 @@
     <color name="console_outgoing">#FFBB86FC</color>
     <color name="speed_track_start">#FF757575</color>
     <color name="speed_track_end">#FF616161</color>
+    <color name="speed_progress">#FF02B1A6</color>
     <color name="speed_thumb_marker">@color/white</color>
 </resources>

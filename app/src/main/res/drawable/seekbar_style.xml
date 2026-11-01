@@ -28,7 +28,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <size android:height="16dp"/>
-                <solid android:color="?attr/colorSecondary"/>
+                <solid android:color="@color/speed_progress"/>
                 <corners android:radius="5dp"/>
             </shape>
         </clip>
