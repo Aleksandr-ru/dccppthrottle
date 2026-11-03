@@ -14,6 +14,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import ru.aleksandr.dccppthrottle.R
@@ -35,6 +37,44 @@ class Sw2OutputsRecyclerViewAdapter(
         val nightBrightnessView: PlusMinusView = binding.plusminusNightBrightness
         val fadeSpeedText: TextView = binding.textFadeSpeed
         val fadeSpeedView: PlusMinusView = binding.plusminusFadeSpeed
+
+        private val observations = mutableListOf<Pair<LiveData<Int>, Observer<Int>>>()
+        private var updatingViews = false
+        var effectSelection = AdapterView.INVALID_POSITION
+
+        fun observeCv(cv: Int, render: (Int) -> Unit) {
+            fun refresh() {
+                updatingViews = true
+                try {
+                    // A committed-value emission may arrive after an edited-value emission.
+                    render(model.getCvValue(cv))
+                } finally {
+                    updatingViews = false
+                }
+            }
+            refresh()
+            val liveValue = model.liveCvValue(cv)
+            val observer = Observer<Int> { refresh() }
+            observations.add(liveValue to observer)
+            liveValue.observe(lifecycleOwner, observer)
+        }
+
+        fun bindNumber(input: PlusMinusView, cv: Int) {
+            observeCv(cv) { input.value = it }
+            input.setOnChangeListener { value ->
+                if (!updatingViews && value != null) model.setCvValue(cv, value)
+            }
+        }
+
+        fun unbind() {
+            observations.forEach { (liveValue, observer) -> liveValue.removeObserver(observer) }
+            observations.clear()
+            effectView.onItemSelectedListener = null
+            dayBrightnessView.setOnChangeListener(null)
+            nightBrightnessView.setOnChangeListener(null)
+            fadeSpeedView.setOnChangeListener(null)
+            effectSelection = AdapterView.INVALID_POSITION
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -47,76 +87,54 @@ class Sw2OutputsRecyclerViewAdapter(
 
     override fun getItemCount() = 13
 
+    override fun onViewRecycled(holder: ViewHolder) {
+        holder.unbind()
+        super.onViewRecycled(holder)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.unbind()
         val context = holder.itemView.context
         val outputNames = context.resources.getStringArray(R.array.sw2_outputs)
         val effects = model.getEffectsMap(context)
-        with (holder) {
+        val effectValues = effects.keys.toList()
+        with(holder) {
             outputView.text = outputNames[position]
 
-            effectView.apply {
-                val cv = 30 + position
-                effectText.text = context.getString(R.string.label_sw2_effect_cv_x, cv)
-
-                adapter = ArrayAdapter(
-                    context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    effects.values.toTypedArray()
-                )
-
-                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val cvValue = effects.keys.elementAt(position)
-                        model.setCvValue(cv, cvValue)
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                        // do nothing
-                    }
+            val effectCv = 30 + position
+            effectText.text = context.getString(R.string.label_sw2_effect_cv_x, effectCv)
+            effectView.adapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_spinner_dropdown_item,
+                effects.values.toTypedArray()
+            )
+            observeCv(effectCv) {
+                effectSelection = effectValues.indexOf(it)
+                effectView.setSelection(effectSelection)
+            }
+            effectView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    // Spinner also reports selections made while rendering or rebinding.
+                    if (position != effectView.selectedItemPosition || position == effectSelection) return
+                    val cvValue = effectValues.getOrNull(position) ?: return
+                    effectSelection = position
+                    model.setCvValue(effectCv, cvValue)
                 }
 
-                model.liveCvValue(cv).observe(lifecycleOwner) {
-                    if (effects.containsKey(it)) {
-                        setSelection(effects.keys.indexOf(it))
-                    }
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             }
 
-            dayBrightnessView.apply {
-                val cv = 46 + position
-                dayRightnessText.text = context.getString(R.string.label_sw2_day_brightness_cv_x, cv)
+            val dayCv = 46 + position
+            dayRightnessText.text = context.getString(R.string.label_sw2_day_brightness_cv_x, dayCv)
+            bindNumber(dayBrightnessView, dayCv)
 
-                setOnChangeListener {
-                    if (it !== null) {
-                        model.setCvValue(cv, it)
-                    }
-                }
-                model.liveCvValue(cv).observe(lifecycleOwner) { value = it }
-            }
+            val nightCv = 62 + position
+            nightBrightnessText.text = context.getString(R.string.label_sw2_night_brightness_cv_x, nightCv)
+            bindNumber(nightBrightnessView, nightCv)
 
-            nightBrightnessView.apply {
-                val cv = 62 + position
-                nightBrightnessText.text = context.getString(R.string.label_sw2_night_brightness_cv_x, cv)
-
-                setOnChangeListener {
-                    if (it !== null) {
-                        model.setCvValue(cv, it)
-                    }
-                }
-                model.liveCvValue(cv).observe(lifecycleOwner) { value = it }
-            }
-
-            fadeSpeedView.apply {
-                val cv = 78 + position
-                fadeSpeedText.text = context.getString(R.string.label_sw2_fade_speed_cv_x, cv)
-
-                setOnChangeListener {
-                    if (it !== null) {
-                        model.setCvValue(cv, it)
-                    }
-                }
-                model.liveCvValue(cv).observe(lifecycleOwner) { value = it }
-            }
+            val fadeCv = 78 + position
+            fadeSpeedText.text = context.getString(R.string.label_sw2_fade_speed_cv_x, fadeCv)
+            bindNumber(fadeSpeedView, fadeCv)
         }
     }
 }
