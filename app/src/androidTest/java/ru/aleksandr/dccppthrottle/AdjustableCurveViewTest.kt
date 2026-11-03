@@ -72,6 +72,7 @@ class AdjustableCurveViewTest {
         assertEquals(255, view.maxValue)
         assertEquals(127, view.gridStep)
         assertEquals(0, view.smoothing)
+        assertEquals(7f * view.resources.displayMetrics.density, view.pointRadius, 0.01f)
         assertTrue(view.pointLabels.isEmpty())
         layout(view)
         assertEquals(600, view.measuredWidth)

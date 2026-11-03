@@ -107,6 +107,49 @@ class ProgrammingCurvesTest {
     }
 
     @Test
+    fun curveValuesSurviveRotationInBothDirections() {
+        ActivityScenario.launch(ProgActivity::class.java).use { scenario ->
+            fun rotate(orientation: Int, expected: Int) {
+                scenario.onActivity { it.requestedOrientation = orientation }
+                val deadline = SystemClock.uptimeMillis() + 10000
+                while (SystemClock.uptimeMillis() < deadline) {
+                    instrumentation.waitForIdleSync()
+                    var ready = false
+                    scenario.onActivity { ready = it.resources.configuration.orientation == expected }
+                    if (ready) return
+                    SystemClock.sleep(50)
+                }
+                fail("Orientation did not change to $expected")
+            }
+            rotate(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, Configuration.ORIENTATION_PORTRAIT)
+            for (tab in 1..2) {
+                select(scenario, tab)
+                val cv = if (tab == 1) 6 else 67
+                scenario.onActivity { input(screen(it, tab == 2), cv).value = 123 }
+                for ((orientation, expected) in listOf(
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE to Configuration.ORIENTATION_LANDSCAPE,
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT to Configuration.ORIENTATION_PORTRAIT
+                )) {
+                    rotate(orientation, expected)
+                    scenario.onActivity {
+                        assertEquals(tab, it.findViewById<ViewPager2>(R.id.progPager).currentItem)
+                        assertEquals(123, input(screen(it, tab == 2), cv).value)
+                        val graph = screen(it, tab == 2).findViewById<AdjustableCurveView>(R.id.curveGraph)
+                        val expectedRadius = if (tab == 2) it.resources.getDimension(R.dimen.extended_curve_point_radius)
+                            else 7f * it.resources.displayMetrics.density
+                        assertEquals(expectedRadius, graph.pointRadius, 0.01f)
+                        if (tab == 2) {
+                            val spacing = (graph.width - graph.paddingLeft - graph.paddingRight -
+                                2 * (graph.pointRadius + it.resources.displayMetrics.density)) / graph.points.lastIndex
+                            assertTrue("Extended curve markers must have a gap", 2 * graph.pointRadius < spacing)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     fun mockReadWriteIncludesAllValuesAndPreservesOtherCv29Bits() {
         assertFalse(CommandStation.isConnected())
         ActivityScenario.launch(ProgActivity::class.java).use { scenario ->

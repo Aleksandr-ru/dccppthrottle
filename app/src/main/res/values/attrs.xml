@@ -27,6 +27,7 @@
     </declare-styleable>
 
     <declare-styleable name="AdjustableCurveView">
+        <attr name="pointRadius" format="dimension" />
         <attr name="fitToContainerHeight" format="boolean" />
         <attr name="min" />
         <attr name="max" />

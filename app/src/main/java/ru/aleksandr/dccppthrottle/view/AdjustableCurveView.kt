@@ -83,7 +83,13 @@ class AdjustableCurveView @JvmOverloads constructor(
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val path = Path()
     private val density = resources.displayMetrics.density
-    private val markerRadius = 7f * density
+    /** Visible point radius in pixels; the touch target remains 24dp. */
+    var pointRadius = 7f * density
+        set(value) {
+            require(value.isFinite() && value > 0f) { "pointRadius must be positive and finite" }
+            field = value
+            invalidate()
+        }
     private val touchRadius = 24f * density
     private val textSize = 12f * resources.displayMetrics.scaledDensity
     private val axisTextSize = 10f * resources.displayMetrics.scaledDensity
@@ -117,6 +123,7 @@ class AdjustableCurveView @JvmOverloads constructor(
             if (labelsId != 0) pointLabels = resources.getStringArray(labelsId).toList()
             smoothing = attributes.getInt(R.styleable.AdjustableCurveView_smoothing, 0)
             fitToContainerHeight = attributes.getBoolean(R.styleable.AdjustableCurveView_fitToContainerHeight, false)
+            pointRadius = attributes.getDimension(R.styleable.AdjustableCurveView_pointRadius, pointRadius)
         } finally {
             attributes.recycle()
         }
@@ -157,7 +164,7 @@ class AdjustableCurveView @JvmOverloads constructor(
 
     private fun updatePlot() {
         paint.textSize = axisTextSize
-        val inset = markerRadius + density
+        val inset = pointRadius + density
         plot.set(
             paddingLeft + inset,
             paddingTop + max(inset, axisTextSize / 2),
@@ -219,7 +226,7 @@ class AdjustableCurveView @JvmOverloads constructor(
         }
         paint.style = Paint.Style.FILL
         values.forEachIndexed { i, value ->
-            canvas.drawCircle(x(i), y(value.toDouble()), markerRadius, paint)
+            canvas.drawCircle(x(i), y(value.toDouble()), pointRadius, paint)
         }
         if (selected in values.indices) drawValueLabel(canvas)
     }
@@ -233,8 +240,8 @@ class AdjustableCurveView @JvmOverloads constructor(
         val labelHeight = lineHeight * (if (pointLabel != null) 2 else 1) + 2 * gap
         val pointY = y(values[selected].toDouble())
         val left = (x(selected) - labelWidth / 2).coerceIn(0f, max(0f, width - labelWidth))
-        var top = pointY - markerRadius - valueLabelOffset - labelHeight
-        if (top < paddingTop) top = pointY + markerRadius + valueLabelOffset
+        var top = pointY - pointRadius - valueLabelOffset - labelHeight
+        if (top < paddingTop) top = pointY + pointRadius + valueLabelOffset
         val label = RectF(left, top, left + labelWidth, top + labelHeight)
         paint.color = accent
         canvas.drawRoundRect(label, gap, gap, paint)

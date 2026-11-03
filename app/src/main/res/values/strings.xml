@@ -438,7 +438,6 @@
     <string name="message_write_cv_error">Write CV %d error</string>
     <string name="message_write_cv_value">Writing CV %d = %d</string>
     <string name="message_write_cv_bit">Writing CV %d bit %d = %d</string>
-    <string name="message_prog_cv_progress">CV%1$d</string>
     <string name="message_press_to_disconnect">Press BACK again to disconnect</string>
     <string name="message_failed_load_locos">Failed to load locomotives list</string>
     <string name="message_failed_load_acc">Failed to load accessories list</string>

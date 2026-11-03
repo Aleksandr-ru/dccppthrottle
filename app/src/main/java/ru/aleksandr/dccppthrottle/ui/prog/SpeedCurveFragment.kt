@@ -34,6 +34,7 @@ class SpeedCurveFragment : ProgrammingFragment() {
         val pointCvs = SpeedCurveViewModel.pointCvs(extended)
         val dataCvs = SpeedCurveViewModel.dataCvs(extended)
         val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
+        if (extended) graph.pointRadius = resources.getDimension(R.dimen.extended_curve_point_radius)
         graph.pointLabels = pointCvs.map { getString(R.string.label_cv_x, it) }
         val mode = view.findViewById<SwitchMaterial>(R.id.curveMode)
         val smoothingToggle = view.findViewById<SwitchMaterial>(R.id.curveSmoothing)
@@ -144,23 +145,19 @@ class SpeedCurveFragment : ProgrammingFragment() {
             try {
                 if (write) {
                     // A fresh read is mandatory: preserve every CV29 bit except speed-table selection.
-                    dialog.setMessage(getString(R.string.message_prog_cv_progress, 29))
                     val cv29 = SpeedCurveViewModel.withSimpleEnabled(readProgrammingCv(29), useSimple)
                     dialog.incrementProgress()
                     for (cv in dataCvs) {
-                        dialog.setMessage(getString(R.string.message_prog_cv_progress, cv))
                         writeProgrammingCv(cv, snapshot.getValue(cv))
                         dialog.incrementProgress()
                     }
                     // Select the requested mode only after all curve values have been written.
-                    dialog.setMessage(getString(R.string.message_prog_cv_progress, 29))
                     writeProgrammingCv(29, cv29)
                     model.setValues(mapOf(29 to cv29))
                     dialog.incrementProgress()
                 } else {
                     val values = mutableMapOf<Int, Int>()
                     for (cv in readCvs) {
-                        dialog.setMessage(getString(R.string.message_prog_cv_progress, cv))
                         values[cv] = readProgrammingCv(cv)
                         dialog.incrementProgress()
                     }

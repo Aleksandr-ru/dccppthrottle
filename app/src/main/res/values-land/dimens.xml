@@ -1,3 +1,4 @@
 <resources>
+    <dimen name="extended_curve_point_radius">4dp</dimen>
     <dimen name="fab_margin">48dp</dimen>
 </resources>
