@@ -21,8 +21,6 @@ import ru.aleksandr.dccppthrottle.view.AdjustableCurveView
 import ru.aleksandr.dccppthrottle.view.LockableScrollView
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
-import ru.aleksandr.dccppthrottle.store.SpeedCurveStore
-
 class SpeedCurveFragment : ProgrammingFragment() {
     private val model by activityViewModels<SpeedCurveViewModel>()
     private val extended get() = arguments?.getBoolean("extended") ?: false
@@ -33,8 +31,8 @@ class SpeedCurveFragment : ProgrammingFragment() {
         inflater.inflate(R.layout.fragment_speed_curve, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val pointCvs = SpeedCurveStore.pointCvs(extended)
-        val dataCvs = SpeedCurveStore.dataCvs(extended)
+        val pointCvs = SpeedCurveViewModel.pointCvs(extended)
+        val dataCvs = SpeedCurveViewModel.dataCvs(extended)
         val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
         val mode = view.findViewById<SwitchMaterial>(R.id.curveMode)
         val smoothingToggle = view.findViewById<SwitchMaterial>(R.id.curveSmoothing)
@@ -129,10 +127,10 @@ class SpeedCurveFragment : ProgrammingFragment() {
 
     private fun transfer(write: Boolean) {
         if (model.busy.value == true) return
-        val dataCvs = SpeedCurveStore.dataCvs(extended)
+        val dataCvs = SpeedCurveViewModel.dataCvs(extended)
         val snapshot = model.values.value!!.toMap()
         val useSimple = model.simpleEnabled.value!!
-        val readCvs = SpeedCurveStore.readCvs(extended)
+        val readCvs = SpeedCurveViewModel.readCvs(extended)
         val dialog = ProgressDialog(requireContext()).apply {
             if (write) setTitle(R.string.title_dialog_writing_cvs)
             else setTitle(getString(R.string.title_dialog_reading_x_cvs, readCvs.size))
@@ -146,7 +144,7 @@ class SpeedCurveFragment : ProgrammingFragment() {
                 if (write) {
                     // A fresh read is mandatory: preserve every CV29 bit except speed-table selection.
                     dialog.setMessage(getString(R.string.message_prog_cv_progress, 29))
-                    val cv29 = SpeedCurveStore.withSimpleEnabled(readProgrammingCv(29), useSimple)
+                    val cv29 = SpeedCurveViewModel.withSimpleEnabled(readProgrammingCv(29), useSimple)
                     dialog.incrementProgress()
                     for (cv in dataCvs) {
                         dialog.setMessage(getString(R.string.message_prog_cv_progress, cv))

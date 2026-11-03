@@ -4,6 +4,8 @@ The programming activity has three tabs: **CV** (the original single-CV editor,
 selected by default), **Speed Curve**, and **Extended Curve**. The selected tab
 and curve edits survive activity recreation. Curve data and mode are kept in an
 activity-scoped `SpeedCurveViewModel` with `SavedStateHandle` persistence.
+The CV layout, initial UI values and CV29 bit helpers are defined inside that
+view model. `MockStore` initializes its simulated decoder independently.
 
 ## CV mapping
 

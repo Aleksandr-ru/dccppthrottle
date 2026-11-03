@@ -112,8 +112,8 @@ object MockStore {
 
     // A disconnected debug session behaves like one decoder: writes survive subsequent reads.
     private val programmingCvs = mutableMapOf<Int, Int>().apply {
-        putAll(SpeedCurveStore.defaults())
-        put(29, 6)
+        putAll(mapOf(2 to 0, 6 to 128, 5 to 255, 66 to 0, 95 to 0, 29 to 6))
+        (67..94).forEachIndexed { index, cv -> put(cv, (index + 1) * 255 / 28) }
     }
 
     fun programmingCvValue(cv: Int): Int = programmingCvs.getOrPut(cv) { randomByteCvValue() }
