@@ -27,6 +27,7 @@ class AdjustableCurveView @JvmOverloads constructor(
     private var minimum = 0
     private var maximum = 255
     private var values = emptyList<Int>()
+    private var labels = emptyList<String>()
     private var radius = 0
 
     /** Fill the parent's available height instead of deriving height from width. */
@@ -61,6 +62,14 @@ class AdjustableCurveView @JvmOverloads constructor(
             invalidate()
         }
 
+    /** Optional labels matched to [points] by index; missing or blank labels are hidden. */
+    var pointLabels: List<String>
+        get() = labels.toList()
+        set(value) {
+            labels = value.toList()
+            invalidate()
+        }
+
     var smoothing: Int
         get() = radius
         set(value) {
@@ -79,6 +88,7 @@ class AdjustableCurveView @JvmOverloads constructor(
     private val textSize = 12f * resources.displayMetrics.scaledDensity
     private val axisTextSize = 10f * resources.displayMetrics.scaledDensity
     private val gap = 6f * density
+    private val valueLabelOffset = 32f * density
     private val foreground = MaterialColors.getColor(
         this, com.google.android.material.R.attr.colorOnSurface, Color.DKGRAY
     )
@@ -103,6 +113,8 @@ class AdjustableCurveView @JvmOverloads constructor(
             gridStep = attributes.getInt(R.styleable.AdjustableCurveView_gridStep, 127)
             val pointsId = attributes.getResourceId(R.styleable.AdjustableCurveView_points, 0)
             if (pointsId != 0) points = resources.getIntArray(pointsId).toList()
+            val labelsId = attributes.getResourceId(R.styleable.AdjustableCurveView_pointLabels, 0)
+            if (labelsId != 0) pointLabels = resources.getStringArray(labelsId).toList()
             smoothing = attributes.getInt(R.styleable.AdjustableCurveView_smoothing, 0)
             fitToContainerHeight = attributes.getBoolean(R.styleable.AdjustableCurveView_fitToContainerHeight, false)
         } finally {
@@ -214,18 +226,27 @@ class AdjustableCurveView @JvmOverloads constructor(
 
     private fun drawValueLabel(canvas: Canvas) {
         val text = values[selected].toString()
+        val pointLabel = labels.getOrNull(selected)?.takeIf { it.isNotBlank() }
         paint.textSize = textSize
-        val labelWidth = paint.measureText(text) + 2 * gap
-        val labelHeight = paint.descent() - paint.ascent() + 2 * gap
+        val labelWidth = max(paint.measureText(text), pointLabel?.let { paint.measureText(it) } ?: 0f) + 2 * gap
+        val lineHeight = paint.fontSpacing
+        val labelHeight = lineHeight * (if (pointLabel != null) 2 else 1) + 2 * gap
         val pointY = y(values[selected].toDouble())
         val left = (x(selected) - labelWidth / 2).coerceIn(0f, max(0f, width - labelWidth))
-        var top = pointY - markerRadius - gap - labelHeight
-        if (top < paddingTop) top = pointY + markerRadius + gap
+        var top = pointY - markerRadius - valueLabelOffset - labelHeight
+        if (top < paddingTop) top = pointY + markerRadius + valueLabelOffset
         val label = RectF(left, top, left + labelWidth, top + labelHeight)
         paint.color = accent
         canvas.drawRoundRect(label, gap, gap, paint)
         paint.color = onAccent
-        canvas.drawText(text, label.left + gap, label.top + gap - paint.ascent(), paint)
+        paint.textAlign = Paint.Align.CENTER
+        var baseline = label.top + gap - paint.ascent()
+        if (pointLabel != null) {
+            canvas.drawText(pointLabel, label.centerX(), baseline, paint)
+            baseline += lineHeight
+        }
+        canvas.drawText(text, label.centerX(), baseline, paint)
+        paint.textAlign = Paint.Align.LEFT
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -314,6 +335,7 @@ class AdjustableCurveView @JvmOverloads constructor(
         putInt("max", maximum)
         putInt("gridStep", gridStep)
         putIntArray("points", values.toIntArray())
+        putStringArray("pointLabels", labels.toTypedArray())
         putInt("smoothing", smoothing)
     }
 
@@ -323,6 +345,7 @@ class AdjustableCurveView @JvmOverloads constructor(
             setValueRange(state.getInt("min"), state.getInt("max", 255))
             gridStep = state.getInt("gridStep", 127)
             points = state.getIntArray("points")?.toList() ?: emptyList()
+            pointLabels = state.getStringArray("pointLabels")?.toList() ?: emptyList()
             smoothing = state.getInt("smoothing")
         } else super.onRestoreInstanceState(state)
     }

@@ -34,6 +34,7 @@ class SpeedCurveFragment : ProgrammingFragment() {
         val pointCvs = SpeedCurveViewModel.pointCvs(extended)
         val dataCvs = SpeedCurveViewModel.dataCvs(extended)
         val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
+        graph.pointLabels = pointCvs.map { getString(R.string.label_cv_x, it) }
         val mode = view.findViewById<SwitchMaterial>(R.id.curveMode)
         val smoothingToggle = view.findViewById<SwitchMaterial>(R.id.curveSmoothing)
         smoothingToggle.visibility = if (extended) View.VISIBLE else View.GONE

@@ -79,6 +79,7 @@ class ProgrammingCurvesTest {
                 val view = screen(activity, false)
                 val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
                 assertEquals(3, graph.points.size)
+                assertEquals(listOf("CV2", "CV6", "CV5"), graph.pointLabels)
                 assertEquals(0, graph.smoothing)
                 input(view, 6).value = 80
                 assertEquals(80, graph.points[1])
@@ -144,6 +145,7 @@ class ProgrammingCurvesTest {
                 }
                 val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
                 assertEquals(28, graph.points.size)
+                assertEquals((67..94).map { "CV$it" }, graph.pointLabels)
                 assertEquals(8, graph.smoothing)
                 (67..94).forEach { input(view, it).value = it + 30 }
                 input(view, 66).value = 129

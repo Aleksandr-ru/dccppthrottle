@@ -72,6 +72,7 @@ class AdjustableCurveViewTest {
         assertEquals(255, view.maxValue)
         assertEquals(127, view.gridStep)
         assertEquals(0, view.smoothing)
+        assertTrue(view.pointLabels.isEmpty())
         layout(view)
         assertEquals(600, view.measuredWidth)
         assertEquals(600, view.measuredHeight)
@@ -84,6 +85,7 @@ class AdjustableCurveViewTest {
         view.id = R.id.plusminusCvValue
         view.setValueRange(10, 100)
         view.points = listOf(-10, 20, 50, 80, 500)
+        view.pointLabels = listOf("CV67", "CV68", "", "CV70", "CV71")
         view.smoothing = 10
         view.gridStep = 30
         assertEquals(listOf(10, 20, 50, 80, 100), view.points)
@@ -95,6 +97,7 @@ class AdjustableCurveViewTest {
         restored.setOnChangeListener { notifications++ }
         restored.restoreHierarchyState(state)
         assertEquals(view.points, restored.points)
+        assertEquals(view.pointLabels, restored.pointLabels)
         assertEquals(10, restored.minValue)
         assertEquals(100, restored.maxValue)
         assertEquals(30, restored.gridStep)
@@ -141,8 +144,57 @@ class AdjustableCurveViewTest {
     }
 
     @Test
+    fun dragBubbleAddsLabelLineOnlyForNonblankLabels() = inBothThemes { view ->
+        view.points = List(3) { 128 }
+        layout(view)
+        assertTrue(touch(view, MotionEvent.ACTION_DOWN, 300f, 300f))
+        fun render(): Bitmap = Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888).also {
+            view.draw(Canvas(it))
+        }
+        val numberOnly = render()
+        for (labels in listOf(listOf("CV2"), listOf("CV2", ""), listOf("CV2", "  "))) {
+            view.pointLabels = labels
+            val image = render()
+            assertTrue("Missing or blank labels must not add an empty line", numberOnly.sameAs(image))
+            image.recycle()
+        }
+        draw(view, "label-blank")
+        val labels = mutableListOf("CV2", "CV6", "CV5")
+        view.pointLabels = labels
+        labels[1] = "changed"
+        assertEquals("CV6", view.pointLabels[1])
+        val labeled = render()
+        val accent = com.google.android.material.color.MaterialColors.getColor(
+            view, com.google.android.material.R.attr.colorPrimary, android.graphics.Color.BLUE
+        )
+        fun bubbleHeight(bitmap: Bitmap): Int {
+            var top = bitmap.height
+            var bottom = -1
+            // The horizontal curve and markers are below this region.
+            val limit = (300f - 8f * view.resources.displayMetrics.density).toInt()
+            for (y in 0 until limit) for (x in 0 until bitmap.width) {
+                if (bitmap.getPixel(x, y) == accent) {
+                    top = minOf(top, y)
+                    bottom = maxOf(bottom, y)
+                }
+            }
+            assertTrue(bottom >= top)
+            return bottom - top + 1
+        }
+        val lineHeight = android.graphics.Paint().apply {
+            textSize = 12f * view.resources.displayMetrics.scaledDensity
+        }.fontSpacing
+        assertTrue(kotlin.math.abs(bubbleHeight(labeled) - bubbleHeight(numberOnly) - lineHeight) <= 2f)
+        draw(view, "label-cv")
+        touch(view, MotionEvent.ACTION_UP, 300f, 300f)
+        numberOnly.recycle()
+        labeled.recycle()
+    }
+
+    @Test
     fun draggingClampsValuesSmoothsNeighborsAndKeepsOppositeEndpointFixed() = inBothThemes { view ->
         view.points = List(5) { 128 }
+        view.pointLabels = (67..71).map { "CV$it" }
         view.smoothing = 2
         layout(view)
         var changes = emptyList<Int>()

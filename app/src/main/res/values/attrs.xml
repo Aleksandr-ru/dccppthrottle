@@ -32,6 +32,7 @@
         <attr name="max" />
         <attr name="gridStep" format="integer" />
         <attr name="points" format="reference" />
+        <attr name="pointLabels" format="reference" />
         <attr name="smoothing" format="integer" />
     </declare-styleable>
 </resources>

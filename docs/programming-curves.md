@@ -18,8 +18,10 @@ The mapping follows [NMRA S-9.2.2](https://www.nmra.org/sites/default/files/stan
 
 The two mode switches represent the same shared bit and are complementary.
 They edit local state; only **Write** programs the decoder. Graph points and
-numeric fields are integer byte values (`0..255`) and update each other. Trims
-are separate from the graph, grouped under **Directional speed trim** after the
+numeric fields are integer byte values (`0..255`) and update each other.
+The drag bubble shows the point's CV number above its current value: CV2/CV6/CV5
+for the simple curve and CV67–CV94 for the extended curve.
+Trims are separate from the graph, grouped under **Directional speed trim** after the
 28-step fields. Each trim field has a short description of its direction and
 scale (`value / 128`; zero disables trim, 128 leaves output unchanged).
 Extended Curve has an independent **Smoothing**

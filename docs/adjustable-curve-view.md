@@ -23,6 +23,7 @@ labels use 10sp text; the active marker's value bubble uses 12sp text.
 | `maxValue` | `max` | `255` | Maximum Y value; must exceed minimum |
 | `gridStep` | `gridStep` | `127` | Positive horizontal grid spacing, starting at the minimum |
 | `points` | `points` | Empty list | Integer values; XML references an `integer-array` |
+| `pointLabels` | `pointLabels` | Empty list | Optional labels by point index; XML references a `string-array` |
 | `smoothing` | `smoothing` | `0` | Neighbor radius, clamped to `0..floor(N/2)`; zero when `N <= 3` |
 | `fitToContainerHeight` | `fitToContainerHeight` | `false` | Use available container height instead of square sizing |
 
@@ -46,6 +47,7 @@ The example requires an `integer-array` resource named `speed_curve_points`.
 
 ```kotlin
 adjustableCurve.points = listOf(0, 40, 80, 120, 160, 200, 255)
+adjustableCurve.pointLabels = listOf("CV67", "CV68", "CV69", "CV70", "CV71", "CV72", "CV73")
 adjustableCurve.smoothing = 2
 adjustableCurve.setOnChangeListener { points ->
     // Receives the entire updated curve, including affected neighbors.
@@ -57,7 +59,7 @@ Callbacks report user changes only, not property assignments or state restoratio
 including cancellation and detachment, so hosts can lock a ScrollView or pager.
 When binding model updates back to the graph, assign `points` only if values differ:
 assigning them during a drag ends that drag.
-The control saves bounds, grid spacing, points and smoothing across recreation
+The control saves bounds, grid spacing, points, point labels and smoothing across recreation
 when it has a stable Android view ID. It uses the current theme's surface text,
 primary and on-primary colors. This control does not read or write decoder CVs.
 
@@ -67,8 +69,13 @@ Markers have equally spaced, fixed X coordinates. Empty lists draw axes and grid
 only; a single point is placed at the left edge. Dragging a marker changes its Y
 value, with a larger touch target than its visible circle. The initial finger
 offset is preserved. A value bubble is shown above the active point, or below
-when there is insufficient space at the top. A drag suppresses parent scrolling;
-releasing or cancelling it keeps the last edited values and releases scrolling.
+when there is insufficient space at the top. The bubble is separated from the
+marker edge by 32dp to keep it clear of a finger. A drag suppresses parent
+scrolling; releasing or cancelling it keeps the last edited values and releases scrolling.
+When `pointLabels` contains a nonblank label for the active index, the bubble
+shows it centered on a separate line above the number. A missing, empty or
+whitespace-only label uses the original single-line bubble with no blank row.
+Label lists are copied on assignment/retrieval and may be shorter than `points`.
 
 The curve uses monotone cubic Hermite interpolation: endpoint tangents equal the
 adjacent secant; interior tangents are the harmonic mean of neighboring secants
@@ -126,7 +133,8 @@ adb pull /sdcard/Android/data/ru.aleksandr.dccppthrottle/files/adjustable-curve-
 Use a JDK compatible with this project's Gradle version. Eleven JVM tests cover
 smooth deformation of flat and straight curves, radius limits, fixed endpoints,
 rounding, clipping and interpolation bounds.
-Four Android tests cover both light and dark themes, width-driven measurement,
+Five Android tests cover both light and dark themes, width-driven measurement,
+optional drag labels, single-line fallback for missing/blank labels,
 optional container-height sizing inside a padded ScrollView,
 clamping, state restoration, callbacks, dragging, cancellation, disabled input,
 empty/single-point data and rendering. The optional screenshot flag exports PNGs

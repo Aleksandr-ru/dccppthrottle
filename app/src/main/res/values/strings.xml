@@ -141,6 +141,7 @@
     <string name="label_sort_routes">Sort routes</string>
     <string name="label_speed_steps">Speed steps mode</string>
     <string name="label_cv_number">CV number</string>
+    <string name="label_cv_x">CV%1$d</string>
     <string name="label_cv_value">CV value</string>
     <string name="label_cv_value_bit">CV value bit</string>
     <string name="label_cv_value_bits">CV value bits</string>
