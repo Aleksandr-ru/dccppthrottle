@@ -15,6 +15,9 @@
     <string name="title_fragment_locomotives">Locomotives</string>
     <string name="title_fragment_accessories">Accessories</string>
     <string name="title_fragment_routes">Routes</string>
+    <string name="title_fragment_prog_cv">CV</string>
+    <string name="title_fragment_prog_speed_curve">Speed Curve</string>
+    <string name="title_fragment_prog_extended_curve">Extended Curve</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
@@ -62,6 +65,7 @@
     <string name="action_pom_value">Program CV value</string>
     <string name="action_pom_bit">Program CV bit</string>
     <string name="action_connect">Connect</string>
+    <string name="action_read">Read</string>
     <string name="action_read_value">Read value</string>
     <string name="action_write_value">Write value</string>
     <string name="action_write_changed">Write changed values</string>
@@ -160,6 +164,20 @@
     <string name="label_setup">Setup</string>
     <string name="label_time_x_sec">Time = %.3f seconds</string>
     <string name="label_time_from_to_sec_xx">Time from %.2f to %.2f seconds</string>
+
+    <!-- Programming -->
+    <string name="label_prog_simple_speed_curve_enable">Use Simple 3-Point Speed Curve</string>
+    <string name="label_prog_extended_speed_curve_enable">Use Custom 28-Step Speed Table</string>
+    <string name="label_prog_speed_curve_smoothing">Smoothing</string>
+    <string name="label_prog_cv2">CV2 — Start voltage</string>
+    <string name="label_prog_cv5">CV5 — Maximum voltage</string>
+    <string name="label_prog_cv6">CV6 — Mid voltage</string>
+    <string name="label_prog_speed_step_cv_xx">CV%1$d — Step %2$d</string>
+    <string name="label_prog_speed_trim">Directional speed trim</string>
+    <string name="label_prog_cv66">CV66 — Forward trim</string>
+    <string name="label_prog_cv66_desc">Scales motor output when moving forward: value / 128. 0 disables trim; 128 leaves output unchanged.</string>
+    <string name="label_prog_cv95">CV95 — Reverse trim</string>
+    <string name="label_prog_cv95_desc">Scales motor output when moving in reverse: value / 128. 0 disables trim; 128 leaves output unchanged.</string>
 
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
@@ -419,6 +437,7 @@
     <string name="message_write_cv_error">Write CV %d error</string>
     <string name="message_write_cv_value">Writing CV %d = %d</string>
     <string name="message_write_cv_bit">Writing CV %d bit %d = %d</string>
+    <string name="message_prog_cv_progress">CV%1$d</string>
     <string name="message_press_to_disconnect">Press BACK again to disconnect</string>
     <string name="message_failed_load_locos">Failed to load locomotives list</string>
     <string name="message_failed_load_acc">Failed to load accessories list</string>
@@ -480,20 +499,4 @@
     <string name="message_request_queue_full">Too many pending command station requests.</string>
     <string name="label_theme">Theme</string>
     <string name="pref_key_theme" translatable="false">theme</string>
-    <string name="programming_tab_cv">CV</string>
-    <string name="programming_tab_speed_curve">Speed Curve</string>
-    <string name="programming_tab_extended_curve">Extended Curve</string>
-    <string name="use_simple_speed_curve">Use Simple 3-Point Speed Curve</string>
-    <string name="use_extended_speed_curve">Use Custom 28-Step Speed Table</string>
-    <string name="curve_cv_start">CV2 — Start voltage</string>
-    <string name="curve_cv_mid">CV6 — Mid voltage</string>
-    <string name="curve_cv_max">CV5 — Maximum voltage</string>
-    <string name="curve_cv_forward">CV66 — Forward trim</string>
-    <string name="curve_cv_reverse">CV95 — Reverse trim</string>
-    <string name="curve_cv_step">CV%1$d — Step %2$d</string>
-    <string name="curve_read">Read</string>
-    <string name="curve_write">Write</string>
-    <string name="curve_read_success">Speed curve read.</string>
-    <string name="curve_write_success">Speed curve written.</string>
-    <string name="curve_cv_progress">CV%1$d</string>
 </resources>

@@ -150,7 +150,7 @@ class AdjustableCurveViewTest {
         val x = view.width - 8f * view.resources.displayMetrics.density
         assertTrue(touch(view, MotionEvent.ACTION_DOWN, x, 300f))
         assertTrue(touch(view, MotionEvent.ACTION_MOVE, x + 100f, -1000f))
-        assertEquals(listOf(128, 128, 170, 213, 255), view.points)
+        assertEquals(listOf(128, 128, 155, 228, 255), view.points)
         assertEquals(view.points, changes)
         // The value bubble at the top marker must also render without clipping errors.
         draw(view, "drag-top")
@@ -169,6 +169,17 @@ class AdjustableCurveViewTest {
         assertFalse(touch(view, MotionEvent.ACTION_DOWN, 300f, 300f))
         view.points = listOf(0, 40, 80, 120, 160, 200, 255)
         draw(view, "curve")
+        view.points = List(28) { 100 }
+        view.smoothing = 8
+        val inset = 8f * view.resources.displayMetrics.density
+        val plotHeight = view.height - 2 * inset
+        val x = inset + 14 * (view.width - 2 * inset) / 27
+        val y = view.height - inset - 100f / 255 * plotHeight
+        assertTrue(touch(view, MotionEvent.ACTION_DOWN, x, y))
+        assertTrue(touch(view, MotionEvent.ACTION_MOVE, x, y - 80f / 255 * plotHeight))
+        draw(view, "smooth-flat-drag")
+        assertTrue(touch(view, MotionEvent.ACTION_UP, x, y - 80f / 255 * plotHeight))
+        draw(view, "smooth-flat")
         val input = mutableListOf(100)
         view.points = input
         input[0] = 200

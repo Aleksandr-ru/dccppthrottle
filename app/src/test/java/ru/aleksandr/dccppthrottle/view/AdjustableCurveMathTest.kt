@@ -8,21 +8,21 @@ import ru.aleksandr.dccppthrottle.view.AdjustableCurveView.AdjustableCurveMath
 
 class AdjustableCurveMathTest {
     @Test
-    fun influenceDecaysLinearlyAndEndpointsStayFixed() {
+    fun displacementTapersSmoothlyAndEndpointsStayFixed() {
         assertEquals(
-            listOf(0, 50, 60, 90, 60, 50, 255),
+            listOf(0, 46, 64, 90, 64, 46, 255),
             AdjustableCurveMath.edit(listOf(0, 40, 40, 60, 40, 40, 255), 3, 90, 0, 255, 2)
         )
     }
 
     @Test
-    fun neighborsApproachTargetFromBothDirectionsWithoutOvershooting() {
+    fun neighborsFollowDisplacementPreservingTheOriginalShape() {
         assertEquals(
-            listOf(0, 87, 90, 93, 255),
+            listOf(0, 95, 90, 115, 255),
             AdjustableCurveMath.edit(listOf(0, 80, 60, 100, 255), 2, 90, 0, 255, 2)
         )
         assertEquals(
-            listOf(0, 73, 70, 73, 255),
+            listOf(0, 65, 70, 65, 255),
             AdjustableCurveMath.edit(listOf(0, 80, 100, 80, 255), 2, 70, 0, 255, 2)
         )
     }
@@ -31,7 +31,7 @@ class AdjustableCurveMathTest {
     fun noMovementPreservesAllValuesAndSmallMovementsHaveLimitedInfluence() {
         val initial = listOf(0, 20, 100, 180, 255)
         assertEquals(initial, AdjustableCurveMath.edit(initial, 2, 100, 0, 255, 2))
-        assertEquals(listOf(0, 21, 101, 179, 255), AdjustableCurveMath.edit(initial, 2, 101, 0, 255, 2))
+        assertEquals(listOf(0, 21, 101, 181, 255), AdjustableCurveMath.edit(initial, 2, 101, 0, 255, 2))
         // Every event uses the same baseline, so intermediate events do not accumulate rounding.
         AdjustableCurveMath.edit(initial, 2, 150, 0, 255, 2)
         assertEquals(initial, AdjustableCurveMath.edit(initial, 2, 100, 0, 255, 2))
@@ -47,7 +47,7 @@ class AdjustableCurveMathTest {
 
     @Test
     fun endpointsCanBeEditedDirectlyAndInfluenceInteriorPoints() {
-        assertEquals(listOf(60, 53, 47, 255), AdjustableCurveMath.edit(listOf(0, 40, 40, 255), 0, 60, 0, 255, 2))
+        assertEquals(listOf(60, 87, 53, 255), AdjustableCurveMath.edit(listOf(0, 40, 40, 255), 0, 60, 0, 255, 2))
         assertEquals(listOf(0, 40, 55, 90), AdjustableCurveMath.edit(listOf(0, 40, 40, 60), 3, 90, 0, 255, 1))
     }
 
@@ -63,8 +63,55 @@ class AdjustableCurveMathTest {
     fun roundingIsSymmetricAtHalfSteps() {
         assertEquals(1, AdjustableCurveMath.round(0.5))
         assertEquals(-1, AdjustableCurveMath.round(-0.5))
-        assertEquals(listOf(0, 11, 19, 255), AdjustableCurveMath.edit(listOf(0, 10, 20, 255), 1, 11, 0, 255, 1))
+        assertEquals(listOf(0, 11, 21, 255), AdjustableCurveMath.edit(listOf(0, 10, 20, 255), 1, 11, 0, 255, 1))
         assertEquals(listOf(0, 9, 19, 255), AdjustableCurveMath.edit(listOf(0, 10, 20, 255), 1, 9, 0, 255, 1))
+    }
+
+    @Test
+    fun pullingAFlatCurveMakesARoundedCrestWithSoftShoulders() {
+        val initial = List(29) { 100 }
+        val raised = AdjustableCurveMath.edit(initial, 14, 180, 0, 255, 8)
+        val lowered = AdjustableCurveMath.edit(initial, 14, 20, 0, 255, 8)
+        assertEquals(listOf(101, 106, 117, 132, 148, 163, 174, 179, 180,
+            179, 174, 163, 148, 132, 117, 106, 101), raised.subList(6, 23))
+        assertEquals(raised, raised.reversed())
+        assertEquals(initial.take(6), raised.take(6))
+        assertEquals(initial.takeLast(6), raised.takeLast(6))
+        raised.indices.forEach { assertEquals(200, raised[it] + lowered[it]) }
+        // Adjacent slopes change gradually, including the crest and both window boundaries.
+        for (i in 1 until raised.lastIndex) {
+            assertTrue(kotlin.math.abs(raised[i + 1] - 2 * raised[i] + raised[i - 1]) <= 6)
+        }
+        assertEquals(1, raised[14] - raised[13])
+        assertEquals(1, raised[6] - raised[5])
+    }
+
+    @Test
+    fun straightCurveRetainsGentleChangesOfSlopeAfterDragging() {
+        val initial = List(28) { it * 8 }
+        val edited = AdjustableCurveMath.edit(initial, 14, 192, 0, 255, 8)
+        assertEquals(192, edited[14])
+        assertEquals(initial.first(), edited.first())
+        assertEquals(initial.last(), edited.last())
+        for (i in 1 until edited.lastIndex) {
+            assertTrue(kotlin.math.abs(edited[i + 1] - 2 * edited[i] + edited[i - 1]) <= 6)
+        }
+    }
+
+    @Test
+    fun influenceTapersToNearbyFixedEndpointsAndValuesStayInRange() {
+        // The nearby endpoint shortens the left side of the smoothing window.
+        assertEquals(listOf(100, 140, 180, 175, 155, 125, 105, 100, 100, 100, 100, 100),
+            AdjustableCurveMath.edit(List(12) { 100 }, 2, 180, 0, 255, 4))
+        for (index in 0..27) {
+            for (target in listOf(0, 255)) {
+                val result = AdjustableCurveMath.edit(List(28) { 200 }, index, target, 0, 255, 14)
+                assertEquals(target, result[index])
+                assertTrue(result.all { it in 0..255 })
+                if (index != 0) assertEquals(200, result.first())
+                if (index != 27) assertEquals(200, result.last())
+            }
+        }
     }
 
     @Test

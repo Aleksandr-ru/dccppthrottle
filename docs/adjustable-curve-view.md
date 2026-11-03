@@ -84,22 +84,31 @@ from `b`, avoiding cumulative rounding and dependence on touch event frequency.
 For a neighbor `j` at distance `d = abs(j - i)` within `1..S`:
 
 ```text
-w = (S + 1 - d) / (S + 1)
-gap = v - b[j]
-movement = abs(v - b[i])
-change = round(sign(gap) * min(abs(gap), movement) * w)
+span = min(S + 1, i if j < i else N - 1 - i)
+t = d / span
+w = 1 - 10*t^3 + 15*t^4 - 6*t^5
+movement = v - b[i]
+change = round(movement * w)
 result[j] = clamp(b[j] + change, minValue, maxValue)
 ```
 
-Rounding is to the nearest integer, with half steps away from zero. Neighbors
-approach the selected value from either direction without passing it. Limiting
-influence by the selected marker's movement prevents jumps on small edits.
-Returning the selected marker to its starting value restores the whole snapshot.
-Points outside the radius and both endpoints stay unchanged. Endpoints can still
-be dragged directly and influence interior neighbors using the same formula.
+The selected marker receives `v` exactly. Neighbors follow its displacement in
+proportion to a quintic falloff. Its first and second derivatives are zero at
+both the selected point and the zero-influence boundary, giving a rounded crest
+and a gentle transition back to the original curve. The snapshot's existing
+shape is carried along with the deformation. Near an endpoint the window is
+shortened on that side so the displacement tapers to the fixed endpoint.
+Integer rounding and range clipping can still produce small steps or plateaus.
 
-With `S = 2`, neighbor weights are `2/3` and `1/3`. Moving the selected point by
-30 changes neighbors by at most 20 and 10 respectively.
+Rounding is to the nearest integer, with half steps away from zero. Returning the
+selected marker to its starting value restores the whole snapshot. Points outside
+the radius and both endpoints stay unchanged. Endpoints can still be dragged
+directly and influence interior neighbors using the same formula.
+
+With `S = 8`, moving a point on a flat curve from 100 to 180 produces neighboring
+values of 179, 174, 163, 148, 132, 117, 106 and 101 on each side. The next point
+remains at 100. No monotonic-speed restriction is imposed: intentional peaks and
+valleys remain editable.
 
 ## Verification
 
@@ -114,8 +123,9 @@ adb shell am instrument -w \
 adb pull /sdcard/Android/data/ru.aleksandr.dccppthrottle/files/adjustable-curve-review
 ```
 
-Use a JDK compatible with this project's Gradle version. Eight JVM tests cover
-neighbor attraction, radius limits, endpoints, rounding and interpolation bounds.
+Use a JDK compatible with this project's Gradle version. Eleven JVM tests cover
+smooth deformation of flat and straight curves, radius limits, fixed endpoints,
+rounding, clipping and interpolation bounds.
 Four Android tests cover both light and dark themes, width-driven measurement,
 optional container-height sizing inside a padded ScrollView,
 clamping, state restoration, callbacks, dragging, cancellation, disabled input,

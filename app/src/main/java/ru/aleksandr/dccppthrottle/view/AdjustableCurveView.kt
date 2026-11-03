@@ -342,7 +342,7 @@ class AdjustableCurveView @JvmOverloads constructor(
             require(index in initial.indices)
             val baseline = initial.map { it.coerceIn(minValue, maxValue) }
             val target = value.coerceIn(minValue, maxValue)
-            val movement = abs(target.toDouble() - baseline[index])
+            val movement = target.toDouble() - baseline[index]
             val radius = smoothingRadius(smoothing, baseline.size)
             return baseline.mapIndexed { neighbor, original ->
                 val distance = abs(neighbor - index)
@@ -350,9 +350,12 @@ class AdjustableCurveView @JvmOverloads constructor(
                     neighbor == index -> target
                     neighbor == 0 || neighbor == baseline.lastIndex || distance > radius -> original
                     else -> {
-                        val gap = target.toDouble() - original
-                        val weight = (radius + 1.0 - distance) / (radius + 1.0)
-                        val change = (sign(gap) * floor(min(abs(gap), movement) * weight + 0.5)).toLong()
+                        // Taper to the nearest fixed endpoint or the first unaffected point.
+                        val span = min(radius + 1, if (neighbor < index) index else baseline.lastIndex - index)
+                        val t = distance.toDouble() / span
+                        // Quintic falloff: zero first and second derivatives at both ends.
+                        val weight = (1.0 - t * t * t * (10.0 - 15.0 * t + 6.0 * t * t)).coerceIn(0.0, 1.0)
+                        val change = (sign(movement) * floor(abs(movement) * weight + 0.5)).toLong()
                         (original.toLong() + change).coerceIn(minValue.toLong(), maxValue.toLong()).toInt()
                     }
                 }

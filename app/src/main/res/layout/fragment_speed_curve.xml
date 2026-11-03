@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ru.aleksandr.dccppthrottle.view.LockableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/curveScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/text_margin">
+
+        <FrameLayout
+            android:id="@+id/curveGraphContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ru.aleksandr.dccppthrottle.view.AdjustableCurveView
+                android:id="@+id/curveGraph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:saveEnabled="false" />
+
+            <include layout="@layout/view_curve_smoothing_toggle" />
+        </FrameLayout>
+
+        <include layout="@layout/view_speed_curve_controls" />
+    </LinearLayout>
+</ru.aleksandr.dccppthrottle.view.LockableScrollView>
