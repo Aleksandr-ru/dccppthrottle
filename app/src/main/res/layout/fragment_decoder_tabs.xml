@@ -40,7 +40,9 @@
         android:id="@+id/buttonWrite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginTop="@dimen/text_margin"
         android:text="@string/action_write_changed" />
 
     <TextView
