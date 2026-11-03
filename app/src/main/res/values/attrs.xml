@@ -25,4 +25,12 @@
         <attr name="stringArray" />
         <attr name="android:enabled" />
     </declare-styleable>
+
+    <declare-styleable name="AdjustableCurveView">
+        <attr name="min" />
+        <attr name="max" />
+        <attr name="gridStep" format="integer" />
+        <attr name="points" format="reference" />
+        <attr name="smoothing" format="integer" />
+    </declare-styleable>
 </resources>

@@ -1,0 +1,144 @@
+package ru.aleksandr.dccppthrottle
+
+import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.os.Parcelable
+import android.util.SparseArray
+import android.view.ContextThemeWrapper
+import android.view.MotionEvent
+import android.view.View
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
+import org.junit.runner.RunWith
+import ru.aleksandr.dccppthrottle.view.AdjustableCurveView
+import java.io.File
+
+@RunWith(AndroidJUnit4::class)
+class AdjustableCurveViewTest {
+    private fun inBothThemes(check: (AdjustableCurveView) -> Unit) {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.runOnMainSync {
+            for (night in listOf(Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_YES)) {
+                val context = instrumentation.targetContext
+                val configuration = Configuration(context.resources.configuration).apply {
+                    uiMode = (uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or night
+                }
+                val themed = ContextThemeWrapper(
+                    context.createConfigurationContext(configuration), R.style.Theme_DCCppThrottle
+                )
+                check(AdjustableCurveView(themed))
+            }
+        }
+    }
+
+    private fun layout(view: AdjustableCurveView) {
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+    }
+
+    private fun touch(view: AdjustableCurveView, action: Int, x: Float, y: Float): Boolean {
+        val event = MotionEvent.obtain(0, 0, action, x, y, 0)
+        return try { view.onTouchEvent(event) } finally { event.recycle() }
+    }
+
+    private fun draw(view: AdjustableCurveView, name: String) {
+        val bitmap = Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(com.google.android.material.color.MaterialColors.getColor(
+            view, com.google.android.material.R.attr.colorSurface, android.graphics.Color.WHITE
+        ))
+        view.draw(canvas)
+        if (InstrumentationRegistry.getArguments().getString("curveScreenshots") == "true") {
+            val night = view.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val directory = File(view.context.getExternalFilesDir(null), "adjustable-curve-review").apply { mkdirs() }
+            File(directory, "$name-$night.png").outputStream().use {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            }
+        }
+        bitmap.recycle()
+    }
+
+    @Test
+    fun defaultsSquareMeasurementClampingAndStateRestoration() = inBothThemes { view ->
+        assertEquals(0, view.minValue)
+        assertEquals(255, view.maxValue)
+        assertEquals(127, view.gridStep)
+        assertEquals(0, view.smoothing)
+        layout(view)
+        assertEquals(600, view.measuredWidth)
+        assertEquals(600, view.measuredHeight)
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(700, View.MeasureSpec.AT_MOST),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        assertEquals(700, view.measuredWidth)
+        assertEquals(700, view.measuredHeight)
+        view.id = R.id.plusminusCvValue
+        view.setValueRange(10, 100)
+        view.points = listOf(-10, 20, 50, 80, 500)
+        view.smoothing = 10
+        view.gridStep = 30
+        assertEquals(listOf(10, 20, 50, 80, 100), view.points)
+        assertEquals(2, view.smoothing)
+        val state = SparseArray<Parcelable>()
+        view.saveHierarchyState(state)
+        val restored = AdjustableCurveView(view.context).apply { id = view.id }
+        var notifications = 0
+        restored.setOnChangeListener { notifications++ }
+        restored.restoreHierarchyState(state)
+        assertEquals(view.points, restored.points)
+        assertEquals(10, restored.minValue)
+        assertEquals(100, restored.maxValue)
+        assertEquals(30, restored.gridStep)
+        assertEquals(2, restored.smoothing)
+        assertEquals(0, notifications)
+    }
+
+    @Test
+    fun draggingClampsValuesSmoothsNeighborsAndKeepsOppositeEndpointFixed() = inBothThemes { view ->
+        view.points = List(5) { 128 }
+        view.smoothing = 2
+        layout(view)
+        var changes = emptyList<Int>()
+        view.setOnChangeListener { changes = it }
+        val x = view.width - 8f * view.resources.displayMetrics.density
+        assertTrue(touch(view, MotionEvent.ACTION_DOWN, x, 300f))
+        assertTrue(touch(view, MotionEvent.ACTION_MOVE, x + 100f, -1000f))
+        assertEquals(listOf(128, 128, 170, 213, 255), view.points)
+        assertEquals(view.points, changes)
+        // The value bubble at the top marker must also render without clipping errors.
+        draw(view, "drag-top")
+        touch(view, MotionEvent.ACTION_CANCEL, x, -1000f)
+        val before = view.points
+        assertFalse(touch(view, MotionEvent.ACTION_MOVE, x, 1000f))
+        assertEquals(before, view.points)
+        view.isEnabled = false
+        assertFalse(touch(view, MotionEvent.ACTION_DOWN, x, 0f))
+    }
+
+    @Test
+    fun emptyAndSinglePointCurvesCanBeDrawnAndValuesAreCopied() = inBothThemes { view ->
+        layout(view)
+        draw(view, "empty")
+        assertFalse(touch(view, MotionEvent.ACTION_DOWN, 300f, 300f))
+        view.points = listOf(0, 40, 80, 120, 160, 200, 255)
+        draw(view, "curve")
+        val input = mutableListOf(100)
+        view.points = input
+        input[0] = 200
+        assertEquals(listOf(100), view.points)
+        view.smoothing = 2
+        assertEquals(0, view.smoothing)
+        draw(view, "single")
+        view.setPadding(400, 400, 400, 400)
+        draw(view, "small")
+    }
+}
