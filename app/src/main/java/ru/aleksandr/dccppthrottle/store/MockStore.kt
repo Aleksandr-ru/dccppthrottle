@@ -110,6 +110,18 @@ object MockStore {
 
     fun randomByteCvValue(): Int = (0..255).random()
 
+    // A disconnected debug session behaves like one decoder: writes survive subsequent reads.
+    private val programmingCvs = mutableMapOf<Int, Int>().apply {
+        putAll(ru.aleksandr.dccppthrottle.ui.prog.SpeedCurveConfiguration.defaults())
+        put(29, 6)
+    }
+
+    fun programmingCvValue(cv: Int): Int = programmingCvs.getOrPut(cv) { randomByteCvValue() }
+
+    fun setProgrammingCvValue(cv: Int, value: Int) {
+        programmingCvs[cv] = value.coerceIn(0, 255)
+    }
+
     fun randomXp4MappingCvValue(): Int {
         return if ((1..10).random() > 8) {
             (0..255).random()

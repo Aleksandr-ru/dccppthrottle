@@ -13,7 +13,10 @@ import android.view.Menu
 import android.view.MenuItem
 import ru.aleksandr.dccppthrottle.cs.CommandStation
 import ru.aleksandr.dccppthrottle.store.MainStore
-import ru.aleksandr.dccppthrottle.ui.prog.ProgFragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import ru.aleksandr.dccppthrottle.ui.prog.ProgPagerAdapter
 
 class ProgActivity : AwakeActivity() {
     @Suppress("unused")
@@ -22,11 +25,19 @@ class ProgActivity : AwakeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prog)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ProgFragment.newInstance())
-                .commitNow()
-        }
+        val pager = findViewById<ViewPager2>(R.id.progPager)
+        pager.adapter = ProgPagerAdapter(this)
+        val titles = listOf(R.string.programming_tab_cv, R.string.programming_tab_speed_curve,
+            R.string.programming_tab_extended_curve)
+        TabLayoutMediator(findViewById<TabLayout>(R.id.progTabs), pager) { tab, position ->
+            tab.setText(titles[position])
+        }.attach()
+        pager.setCurrentItem(savedInstanceState?.getInt("programmingTab") ?: 0, false)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("programmingTab", findViewById<ViewPager2>(R.id.progPager).currentItem)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProgActivity" />
+    android:orientation="vertical"
+    tools:context=".ProgActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/progTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextAppearance="@style/TextAppearance.DCCppThrottle.ProgrammingTab" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/progPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

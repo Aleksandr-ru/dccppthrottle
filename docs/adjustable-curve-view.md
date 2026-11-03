@@ -3,6 +3,12 @@
 `ru.aleksandr.dccppthrottle.view.AdjustableCurveView` is a standalone integer curve
 editor. Its height follows its measured width; use `match_parent` width and
 `wrap_content` height. Parent height constraints take precedence when necessary.
+Set `app:fitToContainerHeight="true"` (Kotlin: `fitToContainerHeight = true`) to
+fill the available container height while retaining full width. This also uses
+the height hint supplied by a ScrollView, minus enclosing padding/margins.
+Without an available height hint the control falls back to a square. The option
+defaults to `false` and is layout configuration, not saved curve data, allowing
+portrait and landscape layouts to choose different sizing modes.
 The control respects padding and reserves room for markers. Y-axis labels sit
 inside the plotting area, to the right of the axis, without an external gutter.
 The minimum is at the lower left, X grows rightwards, and Y grows upwards.
@@ -18,6 +24,7 @@ labels use 10sp text; the active marker's value bubble uses 12sp text.
 | `gridStep` | `gridStep` | `127` | Positive horizontal grid spacing, starting at the minimum |
 | `points` | `points` | Empty list | Integer values; XML references an `integer-array` |
 | `smoothing` | `smoothing` | `0` | Neighbor radius, clamped to `0..floor(N/2)`; zero when `N <= 3` |
+| `fitToContainerHeight` | `fitToContainerHeight` | `false` | Use available container height instead of square sizing |
 
 `setValueRange(minValue, maxValue)` changes both bounds atomically. Assigning
 points or changing bounds clamps values to that range. Point lists are copied
@@ -46,6 +53,10 @@ adjustableCurve.setOnChangeListener { points ->
 ```
 
 Callbacks report user changes only, not property assignments or state restoration.
+`setOnDragStateChangeListener { dragging -> ... }` reports marker capture/release,
+including cancellation and detachment, so hosts can lock a ScrollView or pager.
+When binding model updates back to the graph, assign `points` only if values differ:
+assigning them during a drag ends that drag.
 The control saves bounds, grid spacing, points and smoothing across recreation
 when it has a stable Android view ID. It uses the current theme's surface text,
 primary and on-primary colors. This control does not read or write decoder CVs.
@@ -105,7 +116,8 @@ adb pull /sdcard/Android/data/ru.aleksandr.dccppthrottle/files/adjustable-curve-
 
 Use a JDK compatible with this project's Gradle version. Eight JVM tests cover
 neighbor attraction, radius limits, endpoints, rounding and interpolation bounds.
-Three Android tests cover both light and dark themes, width-driven measurement,
+Four Android tests cover both light and dark themes, width-driven measurement,
+optional container-height sizing inside a padded ScrollView,
 clamping, state restoration, callbacks, dragging, cancellation, disabled input,
 empty/single-point data and rendering. The optional screenshot flag exports PNGs
 for visual review; it does not enable pixel comparisons.

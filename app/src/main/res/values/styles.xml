@@ -1,4 +1,8 @@
 <resources>
+    <style name="TextAppearance.DCCppThrottle.ProgrammingTab" parent="TextAppearance.Design.Tab">
+        <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
+    </style>
 
     <style name="Widget.Theme.DCCppThrottle.PlusMinusView" parent="">
 <!--        <item name="android:background">@color/gray_400</item>-->

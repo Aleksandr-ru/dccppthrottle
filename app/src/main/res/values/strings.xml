@@ -480,4 +480,20 @@
     <string name="message_request_queue_full">Too many pending command station requests.</string>
     <string name="label_theme">Theme</string>
     <string name="pref_key_theme" translatable="false">theme</string>
+    <string name="programming_tab_cv">CV</string>
+    <string name="programming_tab_speed_curve">Speed Curve</string>
+    <string name="programming_tab_extended_curve">Extended Curve</string>
+    <string name="use_simple_speed_curve">Use Simple 3-Point Speed Curve</string>
+    <string name="use_extended_speed_curve">Use Custom 28-Step Speed Table</string>
+    <string name="curve_cv_start">CV2 — Start voltage</string>
+    <string name="curve_cv_mid">CV6 — Mid voltage</string>
+    <string name="curve_cv_max">CV5 — Maximum voltage</string>
+    <string name="curve_cv_forward">CV66 — Forward trim</string>
+    <string name="curve_cv_reverse">CV95 — Reverse trim</string>
+    <string name="curve_cv_step">CV%1$d — Step %2$d</string>
+    <string name="curve_read">Read</string>
+    <string name="curve_write">Write</string>
+    <string name="curve_read_success">Speed curve read.</string>
+    <string name="curve_write_success">Speed curve written.</string>
+    <string name="curve_cv_progress">CV%1$d</string>
 </resources>

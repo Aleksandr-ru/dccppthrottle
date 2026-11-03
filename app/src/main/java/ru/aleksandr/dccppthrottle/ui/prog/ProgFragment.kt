@@ -8,23 +8,21 @@
 package ru.aleksandr.dccppthrottle.ui.prog
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import androidx.fragment.app.activityViewModels
 import ru.aleksandr.dccppthrottle.R
-import ru.aleksandr.dccppthrottle.OrientationLock
-import ru.aleksandr.dccppthrottle.cs.CommandStation
-import ru.aleksandr.dccppthrottle.cs.RequestHandle
-import ru.aleksandr.dccppthrottle.cs.stationRequestError
 import ru.aleksandr.dccppthrottle.view.PlusMinusView
 
-class ProgFragment : Fragment() {
+class ProgFragment : ProgrammingFragment() {
 
-    private var cvRequest: RequestHandle? = null
-    private var orientationLock: OrientationLock? = null
+    private var cvRequest: Job? = null
     private lateinit var viewBits: Array<ToggleButton>
     private val model by activityViewModels<ProgViewModel>()
 
@@ -83,27 +81,33 @@ class ProgFragment : Fragment() {
 
         val buttonRead = view.findViewById<Button>(R.id.buttonRead)
         val buttonWrite = view.findViewById<Button>(R.id.buttonWrite)
+        fun request(action: suspend () -> Unit) {
+            if (cvRequest?.isActive == true) return
+            buttonRead.isEnabled = false
+            buttonWrite.isEnabled = false
+            cvRequest = viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    action()
+                } catch (error: CancellationException) {
+                    throw error
+                } catch (error: Exception) {
+                    Toast.makeText(context, error.message ?: error.toString(), Toast.LENGTH_LONG).show()
+                } finally {
+                    buttonRead.isEnabled = true
+                    buttonWrite.isEnabled = true
+                }
+            }
+        }
         buttonRead.setOnClickListener {
-            viewCvNum.value?.let {
-                buttonRead.isEnabled = false
-                buttonWrite.isEnabled = false
-                orientationLock = OrientationLock.acquire(requireActivity())
-                cvRequest = CommandStation.getCvProg(it, onError = { error ->
-                    releaseOrientationLock()
-                    buttonRead.isEnabled = true
-                    buttonWrite.isEnabled = true
-                    Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
-                }) { cv, value ->
-                    releaseOrientationLock()
-                    buttonRead.isEnabled = true
-                    buttonWrite.isEnabled = true
-                    val message = if (value >= 0) {
-                        model.storeValue(cv, value)
-                        if (viewCvNum.value == cv) viewCvVal.value = value
-                        getString(R.string.message_read_cv_value, cv, value)
+            viewCvNum.value?.let { cv ->
+                request {
+                    val value = readProgrammingCv(cv)
+                    model.storeValue(cv, value)
+                    if (viewCvNum.value == cv) {
+                        viewCvVal.value = value
+                        valueToBits(value)
                     }
-                    else getString(R.string.message_read_cv_error, cv)
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.message_read_cv_value, cv, value), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -111,24 +115,10 @@ class ProgFragment : Fragment() {
             val cv = viewCvNum.value
             val value = viewCvVal.value
             if (cv != null && value != null) {
-                buttonRead.isEnabled = false
-                buttonWrite.isEnabled = false
-                orientationLock = OrientationLock.acquire(requireActivity())
-                cvRequest = CommandStation.setCvProg(cv, value, onError = { error ->
-                    releaseOrientationLock()
-                    buttonRead.isEnabled = true
-                    buttonWrite.isEnabled = true
-                    Toast.makeText(context, requireContext().stationRequestError(error), Toast.LENGTH_LONG).show()
-                }) { cv, value ->
-                    releaseOrientationLock()
-                    buttonRead.isEnabled = true
-                    buttonWrite.isEnabled = true
-                    if (value >= 0) model.storeValue(cv, value)
-                    val stringId =
-                        if (value < 0) R.string.message_write_cv_error
-                        else R.string.message_write_cv_success
-                    val message = getString(stringId, cv)
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                request {
+                    writeProgrammingCv(cv, value)
+                    model.storeValue(cv, value)
+                    Toast.makeText(context, getString(R.string.message_write_cv_success, cv), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -137,13 +127,7 @@ class ProgFragment : Fragment() {
     override fun onDestroyView() {
         cvRequest?.cancel()
         cvRequest = null
-        releaseOrientationLock()
         super.onDestroyView()
-    }
-
-    private fun releaseOrientationLock() {
-        orientationLock?.release()
-        orientationLock = null
     }
 
     private fun valueToBits(value: Int) {

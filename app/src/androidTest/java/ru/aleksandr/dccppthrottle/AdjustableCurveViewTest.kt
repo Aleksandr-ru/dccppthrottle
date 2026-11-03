@@ -103,6 +103,44 @@ class AdjustableCurveViewTest {
     }
 
     @Test
+    fun optionalHeightFollowsContainerIncludingPaddedScrollViewport() = inBothThemes { view ->
+        assertFalse(view.fitToContainerHeight)
+        val width = View.MeasureSpec.makeMeasureSpec(600, View.MeasureSpec.EXACTLY)
+        val tallHeight = View.MeasureSpec.makeMeasureSpec(900, View.MeasureSpec.AT_MOST)
+        view.measure(width, tallHeight)
+        assertEquals(600, view.measuredHeight)
+        view.fitToContainerHeight = true
+        view.measure(width, tallHeight)
+        assertEquals(900, view.measuredHeight)
+        // With no height hint, keep the square fallback.
+        layout(view)
+        assertEquals(600, view.measuredHeight)
+
+        val content = android.widget.LinearLayout(view.context).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(10, 20, 30, 40)
+            addView(view, android.widget.LinearLayout.LayoutParams(-1, -2))
+        }
+        val scroll = android.widget.ScrollView(view.context).apply {
+            isFillViewport = true
+            setPadding(7, 11, 13, 17)
+            addView(content, android.widget.FrameLayout.LayoutParams(-1, -2))
+        }
+        fun measureScroll() {
+            scroll.measure(width, View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY))
+            scroll.layout(0, 0, scroll.measuredWidth, scroll.measuredHeight)
+        }
+        measureScroll()
+        assertEquals(540, view.measuredWidth)
+        assertEquals(212, view.measuredHeight)
+        assertFalse(scroll.canScrollVertically(1))
+        view.fitToContainerHeight = false
+        measureScroll()
+        assertEquals(540, view.measuredHeight)
+        assertTrue(scroll.canScrollVertically(1))
+    }
+
+    @Test
     fun draggingClampsValuesSmoothsNeighborsAndKeepsOppositeEndpointFixed() = inBothThemes { view ->
         view.points = List(5) { 128 }
         view.smoothing = 2

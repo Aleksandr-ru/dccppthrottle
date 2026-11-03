@@ -15,10 +15,12 @@ import androidx.core.graphics.ColorUtils
 import com.google.android.material.color.MaterialColors
 import ru.aleksandr.dccppthrottle.R
 import kotlin.math.abs
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.sign
 
-/** Square, width-driven editor. [points] are integer Y values; X positions are fixed. */
+/** Width-driven curve editor, square by default. [points] are integer Y values. */
 class AdjustableCurveView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -26,6 +28,14 @@ class AdjustableCurveView @JvmOverloads constructor(
     private var maximum = 255
     private var values = emptyList<Int>()
     private var radius = 0
+
+    /** Fill the parent's available height instead of deriving height from width. */
+    var fitToContainerHeight: Boolean = false
+        set(value) {
+            if (field == value) return
+            field = value
+            requestLayout()
+        }
 
     var minValue: Int
         get() = minimum
@@ -59,6 +69,7 @@ class AdjustableCurveView @JvmOverloads constructor(
         }
 
     private var onChangeListener: ((List<Int>) -> Unit)? = null
+    private var onDragStateChangeListener: ((Boolean) -> Unit)? = null
     private val plot = RectF()
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val path = Path()
@@ -93,6 +104,7 @@ class AdjustableCurveView @JvmOverloads constructor(
             val pointsId = attributes.getResourceId(R.styleable.AdjustableCurveView_points, 0)
             if (pointsId != 0) points = resources.getIntArray(pointsId).toList()
             smoothing = attributes.getInt(R.styleable.AdjustableCurveView_smoothing, 0)
+            fitToContainerHeight = attributes.getBoolean(R.styleable.AdjustableCurveView_fitToContainerHeight, false)
         } finally {
             attributes.recycle()
         }
@@ -114,12 +126,21 @@ class AdjustableCurveView @JvmOverloads constructor(
         onChangeListener = listener
     }
 
+    /** Lets a host suspend scrolling/paging only while a marker is being dragged. */
+    fun setOnDragStateChangeListener(listener: ((Boolean) -> Unit)?) {
+        onDragStateChangeListener = listener
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val desired = max(suggestedMinimumWidth, (240 * density).toInt())
         val width = if (MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.UNSPECIFIED) desired
             else MeasureSpec.getSize(widthMeasureSpec)
-        // Width determines height. A stricter parent height constraint still takes precedence.
-        setMeasuredDimension(width, resolveSize(width, heightMeasureSpec))
+        val availableHeight = MeasureSpec.getSize(heightMeasureSpec)
+        // ScrollView passes its viewport height as an UNSPECIFIED size hint. In fit mode
+        // use that hint too, so the curve cannot make its scroll container taller.
+        val height = if (fitToContainerHeight && availableHeight > 0) availableHeight
+            else resolveSize(width, heightMeasureSpec)
+        setMeasuredDimension(width, height)
     }
 
     private fun updatePlot() {
@@ -227,6 +248,7 @@ class AdjustableCurveView @JvmOverloads constructor(
                 dragOffset = event.y - y(values[selected].toDouble())
                 dragStart = values.toList()
                 parent?.requestDisallowInterceptTouchEvent(true)
+                onDragStateChangeListener?.invoke(true)
                 invalidate()
                 return true
             }
@@ -267,10 +289,12 @@ class AdjustableCurveView @JvmOverloads constructor(
     }
 
     private fun finishDrag() {
+        val wasDragging = selected >= 0
         selected = -1
         pointer = MotionEvent.INVALID_POINTER_ID
         dragStart = emptyList()
         parent?.requestDisallowInterceptTouchEvent(false)
+        if (wasDragging) onDragStateChangeListener?.invoke(false)
         invalidate()
     }
 
@@ -301,5 +325,56 @@ class AdjustableCurveView @JvmOverloads constructor(
             points = state.getIntArray("points")?.toList() ?: emptyList()
             smoothing = state.getInt("smoothing")
         } else super.onRestoreInstanceState(state)
+    }
+
+    /** Pure calculations shared by touch editing and tests. */
+    internal object AdjustableCurveMath {
+        fun smoothingRadius(requested: Int, count: Int): Int =
+            if (count <= 3) 0 else requested.coerceIn(0, count / 2)
+
+        // Round ties away from zero, including negative changes.
+        fun round(value: Double): Int = (sign(value) * floor(abs(value) + 0.5)).toInt()
+
+        fun edit(
+            initial: List<Int>, index: Int, value: Int, minValue: Int, maxValue: Int, smoothing: Int
+        ): List<Int> {
+            require(minValue < maxValue)
+            require(index in initial.indices)
+            val baseline = initial.map { it.coerceIn(minValue, maxValue) }
+            val target = value.coerceIn(minValue, maxValue)
+            val movement = abs(target.toDouble() - baseline[index])
+            val radius = smoothingRadius(smoothing, baseline.size)
+            return baseline.mapIndexed { neighbor, original ->
+                val distance = abs(neighbor - index)
+                when {
+                    neighbor == index -> target
+                    neighbor == 0 || neighbor == baseline.lastIndex || distance > radius -> original
+                    else -> {
+                        val gap = target.toDouble() - original
+                        val weight = (radius + 1.0 - distance) / (radius + 1.0)
+                        val change = (sign(gap) * floor(min(abs(gap), movement) * weight + 0.5)).toLong()
+                        (original.toLong() + change).coerceIn(minValue.toLong(), maxValue.toLong()).toInt()
+                    }
+                }
+            }
+        }
+
+        /** Slopes for equally spaced monotone cubic Hermite interpolation (x step = 1). */
+        fun tangents(values: List<Int>): DoubleArray {
+            if (values.size < 2) return DoubleArray(values.size)
+            val slopes = DoubleArray(values.size - 1) { values[it + 1].toDouble() - values[it] }
+            return DoubleArray(values.size) { index ->
+                when (index) {
+                    0 -> slopes.first()
+                    values.lastIndex -> slopes.last()
+                    else -> {
+                        val left = slopes[index - 1]
+                        val right = slopes[index]
+                        if (left == 0.0 || right == 0.0 || sign(left) != sign(right)) 0.0
+                        else 2.0 * left * right / (left + right)
+                    }
+                }
+            }
+        }
     }
 }
