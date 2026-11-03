@@ -112,7 +112,7 @@ object MockStore {
 
     // A disconnected debug session behaves like one decoder: writes survive subsequent reads.
     private val programmingCvs = mutableMapOf<Int, Int>().apply {
-        putAll(ru.aleksandr.dccppthrottle.ui.prog.SpeedCurveConfiguration.defaults())
+        putAll(SpeedCurveStore.defaults())
         put(29, 6)
     }
 

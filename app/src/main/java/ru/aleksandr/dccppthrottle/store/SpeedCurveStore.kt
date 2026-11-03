@@ -1,7 +1,7 @@
-package ru.aleksandr.dccppthrottle.ui.prog
+package ru.aleksandr.dccppthrottle.store
 
 /** NMRA S-9.2.2. Curve points are ordered by speed, not by CV number. */
-internal object SpeedCurveConfiguration {
+internal object SpeedCurveStore {
     const val CONFIGURATION_CV = 29
     private const val SPEED_TABLE_BIT = 1 shl 4
     val simplePoints = listOf(2, 6, 5)

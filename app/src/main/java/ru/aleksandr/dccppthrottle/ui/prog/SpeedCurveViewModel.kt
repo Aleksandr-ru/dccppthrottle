@@ -6,9 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
+import ru.aleksandr.dccppthrottle.store.SpeedCurveStore
+
 class SpeedCurveViewModel(private val savedState: SavedStateHandle) : ViewModel() {
     private val restored = savedState.get<Bundle>("curve")
-    private val _values = MutableLiveData(SpeedCurveConfiguration.defaults() +
+    private val _values = MutableLiveData(SpeedCurveStore.defaults() +
         (restored?.keySet()?.associate { it.toInt() to restored.getInt(it) } ?: emptyMap()))
     val values: LiveData<Map<Int, Int>> = _values
     private val _simpleEnabled = MutableLiveData(savedState.get<Boolean>("simpleEnabled") ?: true)
@@ -38,6 +40,6 @@ class SpeedCurveViewModel(private val savedState: SavedStateHandle) : ViewModel(
 
     fun applyRead(values: Map<Int, Int>) {
         setValues(values)
-        setSimpleEnabled(SpeedCurveConfiguration.simpleEnabled(values.getValue(29)))
+        setSimpleEnabled(SpeedCurveStore.simpleEnabled(values.getValue(29)))
     }
 }
