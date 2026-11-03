@@ -110,8 +110,7 @@
         <ru.aleksandr.dccppthrottle.view.ByteSwitchView
             android:id="@+id/byteModeBrightnessCv"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_margin"
             android:layout_gravity="center_horizontal"
             app:stringArray="@array/sw2_mode_brightness_bits"

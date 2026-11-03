@@ -29,7 +29,7 @@ class DecoderActivity : AwakeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_prog)
+        setContentView(R.layout.activity_decoder)
         val screen: Pair<Int, () -> Fragment> = when (intent.extras?.getInt(MENU_ID)) {
             R.id.action_lp5_mapping -> R.string.title_fragment_lp5_mapping to { Lp5MappingFragment.newInstance() }
             R.id.action_lp5_outputs -> R.string.title_fragment_lp5_outputs to { Lp5OutputsFragment.newInstance() }
