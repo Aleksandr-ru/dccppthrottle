@@ -22,8 +22,11 @@ numeric fields are integer byte values (`0..255`) and update each other.
 The drag bubble shows the point's CV number above its current value: CV2/CV6/CV5
 for the simple curve and CV67–CV94 for the extended curve.
 Trims are separate from the graph, grouped under **Directional speed trim** after the
-28-step fields. Each trim field has a short description of its direction and
-scale (`value / 128`; zero disables trim, 128 leaves output unchanged).
+28-step fields. A shared description below the section heading explains the
+directions and scale (`value / 128`; zero disables trim, 128 leaves output unchanged).
+Each trim row shows its resulting multiplier underneath, centered like the time
+readout in XP 4.1 Outputs configuration's Fade-in/fade-out tab. The readout updates
+when editing or reading CVs, rounded to two decimal places; zero displays a disabled trim.
 Extended Curve has an independent **Smoothing**
 switch overlaid at the graph's lower right, inset from the bottom and right edges.
 It is a sibling Android control, not part of `AdjustableCurveView`.

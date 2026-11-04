@@ -34,6 +34,12 @@
             android:text="@string/label_prog_speed_trim"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/label_prog_speed_trim_desc" />
+
         <LinearLayout
             android:id="@+id/curveTrimRows"
             android:layout_width="match_parent"

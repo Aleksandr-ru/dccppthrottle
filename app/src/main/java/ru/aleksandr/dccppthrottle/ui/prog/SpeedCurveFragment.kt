@@ -63,18 +63,23 @@ class SpeedCurveFragment : ProgrammingFragment() {
                 95 -> getString(R.string.label_prog_cv95)
                 else -> getString(R.string.label_prog_speed_step_cv_xx, cv, cv - 66)
             }
-            if (cv == 66 || cv == 95) {
-                row.findViewById<TextView>(R.id.curveCvDescription).apply {
-                    setText(if (cv == 66) R.string.label_prog_cv66_desc else R.string.label_prog_cv95_desc)
-                    visibility = View.VISIBLE
-                }
+            val multiplier = row.findViewById<TextView>(R.id.curveCvMultiplier).takeIf { cv == 66 || cv == 95 }
+            multiplier?.apply {
+                visibility = View.VISIBLE
             }
             parent.addView(row)
             row.findViewById<PlusMinusView>(R.id.curveCvInput).apply {
                 tag = cv
                 contentDescription = label.text
                 setOnChangeListener { value ->
-                    if (!rendering && value != null) model.setValues(mapOf(cv to value))
+                    if (value != null) {
+                        multiplier?.text = if (value == 0) {
+                            getString(R.string.label_prog_speed_trim_disabled)
+                        } else {
+                            getString(R.string.label_prog_speed_trim_factor, value / 128.0)
+                        }
+                        if (!rendering) model.setValues(mapOf(cv to value))
+                    }
                 }
             }
         }

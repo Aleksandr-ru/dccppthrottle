@@ -182,9 +182,9 @@ class ProgrammingCurvesTest {
                 assertEquals(2, trimRows.childCount)
                 assertEquals(View.VISIBLE, view.findViewById<View>(R.id.curveTrimSection).visibility)
                 for (i in 0 until trimRows.childCount) {
-                    val description = trimRows.getChildAt(i).findViewById<android.widget.TextView>(R.id.curveCvDescription)
-                    assertEquals(View.VISIBLE, description.visibility)
-                    assertTrue(description.text.isNotBlank())
+                    val multiplier = trimRows.getChildAt(i).findViewById<android.widget.TextView>(R.id.curveCvMultiplier)
+                    assertEquals(View.VISIBLE, multiplier.visibility)
+                    assertTrue(multiplier.text.isNotBlank())
                 }
                 val graph = view.findViewById<AdjustableCurveView>(R.id.curveGraph)
                 assertEquals(28, graph.points.size)

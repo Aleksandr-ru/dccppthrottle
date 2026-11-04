@@ -175,10 +175,11 @@
     <string name="label_prog_cv6">CV6 — Mid voltage</string>
     <string name="label_prog_speed_step_cv_xx">CV%1$d — Step %2$d</string>
     <string name="label_prog_speed_trim">Directional speed trim</string>
+    <string name="label_prog_speed_trim_desc">Scales motor voltage: value / 128. 0 disables trim.</string>
+    <string name="label_prog_speed_trim_factor">Factor = %.2f</string>
+    <string name="label_prog_speed_trim_disabled">Trim disabled</string>
     <string name="label_prog_cv66">CV66 — Forward trim</string>
-    <string name="label_prog_cv66_desc">Scales motor output when moving forward: value / 128. 0 disables trim; 128 leaves output unchanged.</string>
     <string name="label_prog_cv95">CV95 — Reverse trim</string>
-    <string name="label_prog_cv95_desc">Scales motor output when moving in reverse: value / 128. 0 disables trim; 128 leaves output unchanged.</string>
 
     <!-- ESU LokPilot5 -->
     <string name="label_lp5_control_cv_x">Control CV %s</string>
