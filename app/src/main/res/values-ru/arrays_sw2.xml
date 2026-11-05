@@ -26,8 +26,8 @@
 
     <string-array name="sw2_output_effects">
         <!-- format: <cv_value>: <name> -->
-        <item>0: Эффекты выключены. Continues current</item>
-        <item>1: Continues с регулировкой яркости</item>
+        <item>0: Эффекты выключены. Continuous current</item>
+        <item>1: Continuous с регулировкой яркости</item>
         <item>5: Плавное включение/выключение</item>
         <item>55: Люминесцентная лампа</item>
     </string-array>

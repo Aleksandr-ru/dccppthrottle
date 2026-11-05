@@ -28,7 +28,7 @@ class ProgActivity : AwakeActivity() {
         val pager = findViewById<ViewPager2>(R.id.progPager)
         pager.adapter = ProgPagerAdapter(this)
         val titles = listOf(R.string.title_fragment_prog_cv, R.string.title_fragment_prog_speed_curve,
-            R.string.title_fragment_prog_extended_curve)
+            R.string.title_fragment_prog_advanced_curve)
         TabLayoutMediator(findViewById<TabLayout>(R.id.progTabs), pager) { tab, position ->
             tab.setText(titles[position])
         }.attach()

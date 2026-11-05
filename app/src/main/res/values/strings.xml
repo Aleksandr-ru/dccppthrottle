@@ -17,7 +17,7 @@
     <string name="title_fragment_routes">Routes</string>
     <string name="title_fragment_prog_cv">CV</string>
     <string name="title_fragment_prog_speed_curve">Speed Curve</string>
-    <string name="title_fragment_prog_extended_curve">Extended Curve</string>
+    <string name="title_fragment_prog_advanced_curve">Advanced Curve</string>
     <string name="title_fragment_lp5_mapping">LokPilot 5 function mapping</string>
     <string name="title_fragment_lp5_outputs">LokPilot 5 outputs config</string>
     <string name="title_fragment_lp5_settings">LokPilot 5 settings</string>
@@ -73,7 +73,7 @@
     <string name="action_quit">Quit</string>
     <string name="action_turn_on">Turn ON</string>
     <string name="action_reload">Reload</string>
-    <string name="action_read_all">Real all</string>
+    <string name="action_read_all">Read all</string>
     <string name="action_read_until_blank">Read until blank</string>
     <string name="action_enable">Enable</string>
     <string name="action_shift">Shift</string>
@@ -167,8 +167,8 @@
     <string name="label_time_from_to_sec_xx">Time from %.2f to %.2f seconds</string>
 
     <!-- Programming -->
-    <string name="label_prog_simple_speed_curve_enable">Use Simple 3-Point Speed Curve</string>
-    <string name="label_prog_extended_speed_curve_enable">Use Custom 28-Step Speed Table</string>
+    <string name="label_prog_simple_speed_curve_enable">Use Simple 3-Point Speed Curve (CV29.4 = 0)</string>
+    <string name="label_prog_extended_speed_curve_enable">Use Custom 28-Step Speed Table (CV29.4 = 1)</string>
     <string name="label_prog_speed_curve_smoothing">Smoothing</string>
     <string name="label_prog_cv2">CV2 — Start voltage</string>
     <string name="label_prog_cv5">CV5 — Maximum voltage</string>
@@ -200,7 +200,7 @@
     <string name="label_lp5_cv248">In CV 248 the time of pushing is to be entered (The time the loco needs for pushing against the train).</string>
     <string name="label_lp5_tango">
         The time of removing should be higher than the time of pushing to make sure that the loco stops in a safe distance away from the train.
-        \nThe function output of the option „coupler“ needs to be configurated correctly to make the automatic decoupling work.
+        \nThe function output of the option „coupler“ needs to be configured correctly to make the automatic decoupling work.
     </string>
     <string name="label_lp5_shunting">Shunting Mode</string>
     <string name="label_lp5_cv101">The shunting mode reduces the speed (ex factory: to about 50%) for each speed step. Thus, you have smoother control of your locomotive in the lower speed ranges, which is important for shunting, particularly in the 14-speed-step mode. In CV 101 you can set the trim value or shunting mode.</string>
@@ -213,7 +213,7 @@
     <string name="label_xp4_dimming">Dimming the light and function outputs</string>
     <string name="label_xp4_dimming_desc">Light functions and function outputs A1 to A7 can be set to any desired level of dimming. These settings are stored in CVs 116 (light), 117 (A1) through 123 (A7).</string>
     <string name="label_xp4_dimming2">Secondary dimming of the lighting and function outputs</string>
-    <string name="label_xp4_dimming2_desc">The lighting and function outputs can be set to alternative dimming settings (for example, a high beam). The settings for the alternative dimming values are stored in CVs 150 to 157 for A0 to A7. This settings can be activated in extended function mapping (CV96 = 1).</string>
+    <string name="label_xp4_dimming2_desc">The lighting and function outputs can be set to alternative dimming settings (for example, a high beam). The settings for the alternative dimming values are stored in CVs 150 to 157 for A0 to A7. These settings can be activated in extended function mapping (CV96 = 1).</string>
     <string name="label_xp4_fading">Fade-in/fade-out option for lighting and function outputs</string>
     <string name="label_xp4_fading_desc">When the output is switched on or off, it will fade in or fade out softly.</string>
     <string name="label_xp4_cv186">CV186 is used to specify which output should control this option.</string>
@@ -325,7 +325,7 @@
     <string name="label_xp5_fading">Softly fade in and out light and function outputs</string>
     <string name="label_xp5_fading_desc">When the output is switched on or off, it fades in or out smoothly.</string>
     <string name="label_xp5_cv177">CV177 -> Fade-in time</string>
-    <string name="label_xp5_cv178">CV177 -> Fade-out time</string>
+    <string name="label_xp5_cv178">CV178 -> Fade-out time</string>
     <string name="label_xp5_fading_note">Which output should receive these blend functions is set using the flags in outputs configuration.</string>
     <string name="label_xp5_flashing">Flashing of the light and function outputs</string>
     <string name="label_xp5_flashing_desc">The locomotive decoder has four flashing generators that can be assigned to the outputs</string>
@@ -394,11 +394,11 @@
     <string name="label_xp5_simple_key_cv">The value written to CV %d in the function mapping determines the outputs that can be switched via a function key assigned to the CV.</string>
     <!-- Modelldepo SmartWagon2 -->
     <string name="label_sw2_key_x_on">Key %s is on</string>
-    <string name="label_sw2_mapping_key_desc">Enabled channels when this conditions</string>
+    <string name="label_sw2_mapping_key_desc">Enabled channels under these conditions</string>
     <string name="label_sw2_forward_cv_x">Forward (CV%d)</string>
     <string name="label_sw2_reverse_cv_x">Reverse (CV%d)</string>
     <string name="label_sw2_effect_cv_x">Lighting effect (CV%d)</string>
-    <string name="label_sw2_day_brightness_cv_x">Day (max) brightness (CV%d, ignored for \"Continues current\" effect)</string>
+    <string name="label_sw2_day_brightness_cv_x">Day (max) brightness (CV%d, ignored for \"Continuous current\" effect)</string>
     <string name="label_sw2_night_brightness_cv_x">Night brightness (CV%d, must be lower than day brightness)</string>
     <string name="label_sw2_fade_speed_cv_x">Fade in/out speed (CV%d)</string>
     <string name="label_sw2_cv_x">CV%d</string>

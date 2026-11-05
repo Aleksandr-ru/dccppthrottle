@@ -14,7 +14,7 @@
     <string name="label_sw2_forward_cv_x">Вперед (CV%d)</string>
     <string name="label_sw2_reverse_cv_x">Назад (CV%d)</string>
     <string name="label_sw2_effect_cv_x">Световой эффект (CV%d)</string>
-    <string name="label_sw2_day_brightness_cv_x">Дневаня (максимальная) яркость (CV%d, игнорируется для эффекта \"Continues current\")</string>
+    <string name="label_sw2_day_brightness_cv_x">Дневная (максимальная) яркость (CV%d, игнорируется для эффекта \"Continuous current\")</string>
     <string name="label_sw2_night_brightness_cv_x">Вечерняя яркость (CV%d, должно быть меньше значения для дневной яркости)</string>
     <string name="label_sw2_fade_speed_cv_x">Скорость изменения яркости (CV%d, только для эффекта \"Плавное включение/выключение\")</string>
     <string name="label_sw2_cv_x">CV%d</string>
@@ -34,7 +34,7 @@
     <string name="label_sw2_mode_num_ch_x">Количество каналов (CV%d)</string>
     <string name="label_sw2_mode_num_ch_desc">Количество каналов из числа управляемых этим режимом находящихся во включенном состоянии</string>
     <string name="label_sw2_mode_timer_x">Таймер режима (CV%d)</string>
-    <string name="label_sw2_mode_timer_desc">Оопределяет интервалы между включениями/выключениями каналов. Для реалистичности интервалы будут иметь случайный разброс.</string>
+    <string name="label_sw2_mode_timer_desc">Определяет интервалы между включениями/выключениями каналов. Для реалистичности интервалы будут иметь случайный разброс.</string>
 
     <string name="message_request_timeout">Нет ответа на %1$s.</string>
     <string name="message_request_disconnected">Соединение со станцией закрыто.</string>

@@ -1,7 +1,7 @@
 # Programming speed curves
 
 The programming activity has three tabs: **CV** (the original single-CV editor,
-selected by default), **Speed Curve**, and **Extended Curve**. The selected tab
+selected by default), **Speed Curve**, and **Advanced Curve**. The selected tab
 and curve edits survive activity recreation. Curve data and mode are kept in an
 activity-scoped `SpeedCurveViewModel` with `SavedStateHandle` persistence.
 The CV layout, initial UI values and CV29 bit helpers are defined inside that
@@ -14,7 +14,7 @@ The mapping follows [NMRA S-9.2.2](https://www.nmra.org/sites/default/files/stan
 | Tab | Graph points in X order | Additional CVs |
 | --- | --- | --- |
 | Speed Curve | CV2 (start), CV6 (mid), CV5 (maximum) | CV29 bit 4 cleared for simple mode |
-| Extended Curve | CV67–CV94 (28 steps) | CV66 forward trim, CV95 reverse trim, CV29 bit 4 set for custom mode |
+| Advanced Curve | CV67–CV94 (28 steps) | CV66 forward trim, CV95 reverse trim, CV29 bit 4 set for custom mode |
 
 The two mode switches represent the same shared bit and are complementary.
 They edit local state; only **Write** programs the decoder. Graph points and
@@ -27,7 +27,7 @@ directions and scale (`value / 128`; zero disables trim, 128 leaves output uncha
 Each trim row shows its resulting multiplier underneath, centered like the time
 readout in XP 4.1 Outputs configuration's Fade-in/fade-out tab. The readout updates
 when editing or reading CVs, rounded to two decimal places; zero displays a disabled trim.
-Extended Curve has an independent **Smoothing**
+Advanced Curve has an independent **Smoothing**
 switch overlaid at the graph's lower right, inset from the bottom and right edges.
 It is a sibling Android control, not part of `AdjustableCurveView`.
 Smoothing starts enabled (radius eight); disabling it sets the radius to zero.
@@ -92,5 +92,5 @@ read/write round trips, cancellation, the original CV tab and both layouts.
 The optional screenshot test captures all three tabs in portrait and landscape
 in both themes. Review PNGs in `/tmp/programming-curves-review`.
 In filenames, `theme-1` is light, `theme-2` is dark, `land-true` is landscape,
-and tabs `0`, `1`, `2` are CV, Speed Curve, Extended Curve respectively.
+and tabs `0`, `1`, `2` are CV, Speed Curve, Advanced Curve respectively.
 Physical decoder/command-station operation requires a hardware check.

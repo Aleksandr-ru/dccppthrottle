@@ -69,7 +69,7 @@ class ProgrammingCurvesTest {
         ActivityScenario.launch(ProgActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertEquals(0, activity.findViewById<ViewPager2>(R.id.progPager).currentItem)
-                assertEquals(listOf("CV", "Speed Curve", "Extended Curve"),
+                assertEquals(listOf("CV", "Speed Curve", "Advanced Curve"),
                     activity.findViewById<TabLayout>(R.id.progTabs).let { tabs ->
                         (0..2).map { tabs.getTabAt(it)?.text.toString() }
                     })
